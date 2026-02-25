@@ -1,0 +1,319 @@
+'use client'
+
+import { useEffect, useState, useCallback } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import {
+  ClipboardList,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  Banknote,
+  Timer,
+  Bell,
+  Eye,
+  Package,
+  Loader2,
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+type Period = 'today' | '7d' | '30d' | '90d' | 'custom'
+
+interface RecentOrder {
+  order_id: string
+  order_number: string
+  room_number: string
+  service_name: { ar: string; en: string }
+  total_amount: number
+  status: 'new' | 'in_progress' | 'completed' | 'cancelled'
+  created_at: string
+}
+
+interface DashboardStats {
+  totalOrders: number
+  newOrders: number
+  inProgress: number
+  completed: number
+  cancelled: number
+  totalRevenue: number
+  avgCompletionTime: number | null
+  currencySymbol: string
+  recentOrders: RecentOrder[]
+}
+
+const BADGE_CLASS: Record<string, string> = {
+  new: 'badge-new',
+  in_progress: 'badge-progress',
+  completed: 'badge-completed',
+  cancelled: 'badge-cancelled',
+}
+
+const STATUS_LABEL_KEY: Record<string, string> = {
+  new: 'new',
+  in_progress: 'inProgress',
+  completed: 'completed',
+  cancelled: 'cancelled',
+}
+
+export default function DashboardPage() {
+  const t = useTranslations('dashboard')
+  const to = useTranslations('orders')
+  const tc = useTranslations('common')
+  const locale = useLocale()
+  const router = useRouter()
+
+  const [stats, setStats] = useState<DashboardStats | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [period, setPeriod] = useState<Period>('today')
+  const [customFrom, setCustomFrom] = useState('')
+  const [customTo, setCustomTo] = useState('')
+
+  const fetchStats = useCallback(async () => {
+    if (period === 'custom' && (!customFrom || !customTo)) return
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({ period })
+      if (period === 'custom') {
+        params.set('dateFrom', customFrom)
+        params.set('dateTo', customTo)
+      }
+      const res = await fetch(`/api/dashboard/stats?${params.toString()}`)
+      const data = await res.json()
+      if (data.success) {
+        setStats(data.stats)
+      }
+    } catch (error) {
+      console.error('Failed to fetch stats:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [period, customFrom, customTo])
+
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
+
+  const periods: { key: Period; label: string }[] = [
+    { key: 'today', label: locale === 'ar' ? 'اليوم' : 'Today' },
+    { key: '7d', label: locale === 'ar' ? '7 أيام' : '7 Days' },
+    { key: '30d', label: locale === 'ar' ? '30 يوم' : '30 Days' },
+    { key: '90d', label: locale === 'ar' ? '90 يوم' : '90 Days' },
+    { key: 'custom', label: locale === 'ar' ? 'مخصص' : 'Custom' },
+  ]
+
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr)
+    return d.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
+  const statCards = stats
+    ? [
+      {
+        label: t('stats.totalOrders'),
+        value: stats.totalOrders,
+        icon: ClipboardList,
+        color: 'text-blue-600',
+        bg: 'bg-blue-50',
+      },
+      {
+        label: t('stats.newOrders'),
+        value: stats.newOrders,
+        icon: Bell,
+        color: 'text-blue-600',
+        bg: 'bg-blue-50',
+      },
+      {
+        label: t('stats.inProgress'),
+        value: stats.inProgress,
+        icon: Clock,
+        color: 'text-yellow-600',
+        bg: 'bg-yellow-50',
+      },
+      {
+        label: t('stats.completed'),
+        value: stats.completed,
+        icon: CheckCircle2,
+        color: 'text-green-600',
+        bg: 'bg-green-50',
+      },
+      {
+        label: t('stats.cancelled'),
+        value: stats.cancelled,
+        icon: XCircle,
+        color: 'text-red-600',
+        bg: 'bg-red-50',
+      },
+      {
+        label: t('stats.totalRevenue'),
+        value: `${stats.totalRevenue.toFixed(2)} ${stats.currencySymbol}`,
+        icon: Banknote,
+        color: 'text-emerald-600',
+        bg: 'bg-emerald-50',
+      },
+      {
+        label: t('stats.avgTime'),
+        value: stats.avgCompletionTime
+          ? `${Math.round(stats.avgCompletionTime)} ${t('stats.minutes')}`
+          : '—',
+        icon: Timer,
+        color: 'text-amber-600',
+        bg: 'bg-amber-50',
+      },
+    ]
+    : []
+
+  if (loading && !stats) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header + Period Filter */}
+      <div className="flex flex-wrap items-center gap-3">
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+
+        <div className="flex gap-1 rounded-xl bg-gray-100 p-1">
+          {periods.map((p) => (
+            <button
+              key={p.key}
+              onClick={() => setPeriod(p.key)}
+              className={cn(
+                'rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-200',
+                period === p.key
+                  ? 'bg-white text-primary-700 shadow'
+                  : 'text-gray-500 hover:text-gray-800'
+              )}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        {period === 'custom' && (
+          <>
+            <input
+              type="date"
+              value={customFrom}
+              onChange={(e) => setCustomFrom(e.target.value)}
+              className="input h-10 text-sm"
+            />
+            <span className="text-gray-400 text-sm">—</span>
+            <input
+              type="date"
+              value={customTo}
+              onChange={(e) => setCustomTo(e.target.value)}
+              className="input h-10 text-sm"
+            />
+          </>
+        )}
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+        {statCards.map((card, idx) => {
+          const Icon = card.icon
+          return (
+            <div key={idx} className="stat-card">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500">
+                  {card.label}
+                </span>
+                <div className={cn('rounded-lg p-2', card.bg)}>
+                  <Icon className={cn('h-4 w-4', card.color)} />
+                </div>
+              </div>
+              <span className="text-2xl font-bold text-gray-900">
+                {card.value}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Recent Orders */}
+      <div className="card p-0">
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+          <h2 className="text-lg font-semibold text-gray-900">
+            {t('recentOrders')}
+          </h2>
+          <button
+            onClick={() => router.push('/dashboard/orders')}
+            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+          >
+            {t('viewAll')}
+          </button>
+        </div>
+
+        {!stats?.recentOrders || stats.recentOrders.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+            <Package className="mb-3 h-12 w-12 text-gray-300" />
+            <p className="text-sm">{t('noRecentOrders')}</p>
+          </div>
+        ) : (
+          <div className="overflow-auto" style={{ maxHeight: '253px' }}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>{to('orderNumber')}</th>
+                  <th>{to('room')}</th>
+                  <th>{to('service')}</th>
+                  <th>{to('total')}</th>
+                  <th>{to('status')}</th>
+                  <th>{to('date')}</th>
+                  <th>{tc('actions')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.recentOrders.map((order) => (
+                  <tr key={order.order_id}>
+                    <td className="font-medium text-gray-900">
+                      #{order.order_number}
+                    </td>
+                    <td>{order.room_number}</td>
+                    <td>
+                      {locale === 'ar'
+                        ? order.service_name.ar
+                        : order.service_name.en}
+                    </td>
+                    <td className="font-medium">
+                      {order.total_amount.toFixed(2)}
+                    </td>
+                    <td>
+                      <span className={BADGE_CLASS[order.status]}>
+                        {to(STATUS_LABEL_KEY[order.status])}
+                      </span>
+                    </td>
+                    <td className="text-sm text-gray-500">
+                      {formatDate(order.created_at)}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          router.push(
+                            `/dashboard/orders/${order.order_id}`
+                          )
+                        }
+                        className="btn-ghost p-2"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
