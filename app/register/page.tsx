@@ -21,10 +21,12 @@ import {
   CheckCircle2,
   UserPlus,
   ArrowLeft,
+  X,
+  Check,
 } from 'lucide-react'
 import { registerSchema } from '@/lib/validations'
 import type { RegisterInput } from '@/lib/validations'
-import { cn, getPasswordStrength, TIMEZONES, CURRENCIES } from '@/lib/utils'
+import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function RegisterPage() {
@@ -36,11 +38,13 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
 
   const {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -54,12 +58,10 @@ export default function RegisterPage() {
       phone: '',
       password: '',
       confirmPassword: '',
-      agreeTerms: false as unknown as true,
     },
   })
 
-  const passwordValue = watch('password')
-  const strength = getPasswordStrength(passwordValue || '')
+  const passwordValue = watch('password') || ''
 
   const resolveValidation = (key: string) => {
     const map: Record<string, string> = {
@@ -75,36 +77,7 @@ export default function RegisterPage() {
     return map[key] || key
   }
 
-  const strengthColor = () => {
-    switch (strength.label) {
-      case 'weak':
-        return 'bg-red-500'
-      case 'medium':
-        return 'bg-yellow-500'
-      case 'strong':
-        return 'bg-green-500'
-      case 'veryStrong':
-        return 'bg-emerald-500'
-      default:
-        return 'bg-gray-200'
-    }
-  }
 
-  const strengthLabel = () => {
-    if (!passwordValue) return ''
-    switch (strength.label) {
-      case 'weak':
-        return t('weak')
-      case 'medium':
-        return t('medium')
-      case 'strong':
-        return t('strong')
-      case 'veryStrong':
-        return t('veryStrong')
-      default:
-        return ''
-    }
-  }
 
   const onSubmit = async (data: RegisterInput) => {
     setLoading(true)
@@ -117,11 +90,10 @@ export default function RegisterPage() {
       const result = await res.json()
 
       if (!res.ok) {
-        const errorKey = result.error as string
-        if (errorKey === 'EMAIL_TAKEN') {
-          toast.error(tv('emailTaken'))
+        if (result.message === 'emailTaken' || result.error === 'EMAIL_TAKEN') {
+          setError('email', { type: 'manual', message: tv('emailTaken') }, { shouldFocus: true })
         } else {
-          toast.error(result.message || tv('required'))
+          toast.error(tv('required'))
         }
         return
       }
@@ -369,26 +341,62 @@ export default function RegisterPage() {
                   </p>
                 )}
 
-                {/* Strength Meter */}
-                {passwordValue && (
-                  <div className="mt-2">
-                    <div className="mb-1 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">{t('passwordStrength')}</span>
-                      <span className="text-xs font-medium">{strengthLabel()}</span>
-                    </div>
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <div
-                          key={i}
-                          className={cn(
-                            'h-1.5 flex-1 rounded-full transition-colors duration-200',
-                            i <= strength.score ? strengthColor() : 'bg-gray-200'
-                          )}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Password Requirements Checklist */}
+                <div className="mt-3 space-y-2 rounded-lg bg-gray-50 p-3">
+                  <p className="text-sm font-semibold text-gray-900">{tv('pwdTitle')}</p>
+                  <ul className="space-y-1.5 text-sm">
+                    <li className="flex items-center gap-2">
+                      {passwordValue.length >= 8 ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={passwordValue.length >= 8 ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdLength')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[A-Z]/.test(passwordValue) ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[A-Z]/.test(passwordValue) ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdUppercase')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[a-z]/.test(passwordValue) ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[a-z]/.test(passwordValue) ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdLowercase')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[0-9]/.test(passwordValue) ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[0-9]/.test(passwordValue) ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdNumber')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[@#$%^&*!]/.test(passwordValue) ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[@#$%^&*!]/.test(passwordValue) ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdSpecial')}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               {/* Confirm Password */}
@@ -425,22 +433,7 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              {/* Terms */}
-              <div>
-                <label className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                    {...register('agreeTerms')}
-                  />
-                  <span className="text-sm text-gray-600">{t('agreeTerms')}</span>
-                </label>
-                {errors.agreeTerms && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {resolveValidation(errors.agreeTerms.message || '')}
-                  </p>
-                )}
-              </div>
+
             </div>
           </div>
 

@@ -84,7 +84,7 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
   let query = supabaseAdmin
     .from('orders')
     .select(
-      'order_id, order_number, room_id, service_id, total_amount, status, created_at, actual_time, rooms!inner(room_number), main_services!inner(service_name)'
+      'order_id, order_number, room_id, service_id, total_amount, status, created_at, accepted_at, completed_at, cancelled_at, actual_time, rooms!inner(room_number), main_services!inner(service_name)'
     )
     .eq('hotel_id', filters.hotelId)
     .gte('created_at', filters.dateFrom)
@@ -115,16 +115,33 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
   const completionRate =
     totalOrders > 0 ? Math.round((completed / totalOrders) * 100) : 0
 
-  // Average actual execution time (in minutes)
-  const completedWithTime = ordersList.filter(
-    (o) => o.status === 'completed' && o.actual_time != null
-  )
-  const avgCompletionTime =
-    completedWithTime.length > 0
-      ? Math.round(
-        completedWithTime.reduce((sum, o) => sum + (o.actual_time || 0), 0) /
-        completedWithTime.length
-      )
+  const acceptedOrders = ordersList.filter((o) => o.accepted_at != null && o.created_at != null)
+  let totalAcceptanceTime = 0
+  acceptedOrders.forEach((o) => {
+    const diff = new Date(o.accepted_at).getTime() - new Date(o.created_at).getTime()
+    totalAcceptanceTime += diff
+  })
+  const avgAcceptanceTime =
+    acceptedOrders.length > 0
+      ? Math.round(totalAcceptanceTime / acceptedOrders.length / 60000)
+      : null
+
+  const executedOrders = ordersList.filter((o) => o.accepted_at != null && (o.status === 'completed' || o.status === 'cancelled'))
+  let totalExecutionTime = 0
+  executedOrders.forEach((o) => {
+    if (o.actual_time != null) {
+      totalExecutionTime += o.actual_time * 60000
+    } else {
+      const endTime = o.status === 'completed' ? o.completed_at : o.cancelled_at
+      if (endTime) {
+        const diff = new Date(endTime).getTime() - new Date(o.accepted_at).getTime()
+        totalExecutionTime += diff
+      }
+    }
+  })
+  const avgExecutionTime =
+    executedOrders.length > 0
+      ? Math.round(totalExecutionTime / executedOrders.length / 60000)
       : null
 
   // Aggregate by day
@@ -193,7 +210,8 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
       inProgress,
       newOrders,
       completionRate,
-      avgCompletionTime,
+      avgAcceptanceTime,
+      avgExecutionTime,
     },
     dailyData,
     peakHoursData,

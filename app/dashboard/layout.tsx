@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import Sidebar from '@/components/layout/Sidebar'
 import TopBar from '@/components/layout/TopBar'
+import GlobalOrderNotifications from '@/components/dashboard/GlobalOrderNotifications'
 
 export default async function DashboardLayout({
   children,
@@ -29,6 +30,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <GlobalOrderNotifications hotelId={session.hotelId} />
       <Sidebar session={session} hotel={hotelData} />
 
       <div className="flex flex-1 flex-col overflow-hidden">

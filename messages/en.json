@@ -34,7 +34,11 @@
     "recommendedSize": "Recommended size",
     "maxValue": "Max",
     "singleItemOrder": "Only one item exists, order will remain 1",
-    "leaveEmptyToKeep": "Leave empty if you don't want to change it"
+    "leaveEmptyToKeep": "Leave empty if you don't want to change it",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "results": "results"
   },
   "landing": {
     "hero": {
@@ -180,6 +184,8 @@
       "cancelled": "Cancelled",
       "totalRevenue": "Total Revenue",
       "avgTime": "Avg. Completion Time",
+      "avgAcceptanceTime": "Avg. Acceptance Time",
+      "avgExecutionTime": "Avg. Execution Time",
       "minutes": "min"
     },
     "filters": {
@@ -243,7 +249,9 @@
     "unitPrice": "Unit Price",
     "subtotal": "Subtotal",
     "actualTime": "Actual Time",
-    "minutes": "min",
+    "acceptanceTime": "Acceptance Time",
+    "executionTime": "Execution Time",
+    "minutes": "minutes",
     "timeline": "Timeline",
     "orderCreated": "Order Created",
     "orderAccepted": "Order Accepted",
@@ -396,6 +404,8 @@
     "orderCount": "Order Count",
     "revenue": "Revenue",
     "avgTime": "Avg. Time",
+    "avgAcceptanceTime": "Avg. Acceptance Time",
+    "avgExecutionTime": "Avg. Execution Time",
     "minutes": "min",
     "orders": "Orders",
     "date": "Date",
@@ -433,6 +443,7 @@
     "emptyCart": "Cart is empty",
     "emptyCartDesc": "You haven't added any items yet",
     "itemsCount": "items",
+    "orderSummary": "Order Summary",
     "notes": "Notes",
     "notesPlaceholder": "Add special notes for your order (optional)...",
     "orderPlaced": "Your order has been placed!",
@@ -462,6 +473,12 @@
     "passwordMismatch": "Passwords do not match",
     "phoneInvalid": "Phone must be 7-15 digits",
     "emailTaken": "This email is already registered",
-    "usernameTaken": "This username is already taken"
+    "usernameTaken": "This username is already taken",
+    "pwdTitle": "Password requirements:",
+    "pwdLength": "At least 8 characters",
+    "pwdUppercase": "At least 1 uppercase letter",
+    "pwdLowercase": "At least 1 lowercase letter",
+    "pwdNumber": "At least 1 number",
+    "pwdSpecial": "At least 1 special character (e.g. @, #, !)"
   }
 }

@@ -157,4 +157,7 @@ export interface SessionPayload {
 export interface CartItem {
   item: Item
   quantity: number
+  serviceId?: string
+  serviceName?: { ar: string; en: string }
+  serviceDisplayOrder?: number
 }

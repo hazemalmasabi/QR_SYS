@@ -27,6 +27,8 @@ export async function GET(
         hotels!inner (
           hotel_id,
           hotel_name,
+          hotel_name_en,
+          hotel_logo_url,
           timezone,
           currency_code,
           currency_symbol
@@ -64,6 +66,8 @@ export async function GET(
       hotel: {
         hotel_id: hotel.hotel_id,
         hotel_name: hotel.hotel_name,
+        hotel_name_en: hotel.hotel_name_en,
+        hotel_logo_url: hotel.hotel_logo_url,
         timezone: hotel.timezone,
         currency_code: hotel.currency_code,
         currency_symbol: hotel.currency_symbol,

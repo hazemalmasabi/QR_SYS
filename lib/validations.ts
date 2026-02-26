@@ -16,7 +16,6 @@ export const registerSchema = z.object({
     .regex(/[0-9]/, 'passwordRequirements')
     .regex(/[@#$%^&*!]/, 'passwordRequirements'),
   confirmPassword: z.string(),
-  agreeTerms: z.literal(true, { errorMap: () => ({ message: 'required' }) }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'passwordMismatch',
   path: ['confirmPassword'],
@@ -84,7 +83,10 @@ export const itemSchema = z.object({
   descriptionAr: z.string().optional(),
   descriptionEn: z.string().optional(),
   isFree: z.boolean().default(false),
-  price: z.number().min(0, 'required'),
+  price: z.any().transform(v => {
+    const num = Number(v)
+    return isNaN(num) ? 0 : num
+  }),
   displayOrder: z.number().min(1).default(1),
 }).refine((data) => data.isFree || data.price > 0, {
   message: 'required',

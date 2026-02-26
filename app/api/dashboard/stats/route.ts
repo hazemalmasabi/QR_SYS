@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     // Build query — filter by role
     let query = supabaseAdmin
       .from('orders')
-      .select('order_id, status, total_amount, actual_time')
+      .select('order_id, status, total_amount, actual_time, created_at, accepted_at, completed_at, cancelled_at')
       .eq('hotel_id', session.hotelId)
       .gte('created_at', startDate.toISOString())
       .lte('created_at', endDate.toISOString())
@@ -90,15 +90,33 @@ export async function GET(request: NextRequest) {
       .filter((o) => o.status !== 'cancelled')
       .reduce((sum, o) => sum + (o.total_amount || 0), 0)
 
-    const completedWithTime = ordersList.filter(
-      (o) => o.status === 'completed' && o.actual_time != null
-    )
-    const avgCompletionTime =
-      completedWithTime.length > 0
-        ? completedWithTime.reduce(
-          (sum, o) => sum + (o.actual_time || 0),
-          0
-        ) / completedWithTime.length
+    const acceptedOrders = ordersList.filter((o) => o.accepted_at != null && o.created_at != null)
+    let totalAcceptanceTime = 0
+    acceptedOrders.forEach((o) => {
+      const diff = new Date(o.accepted_at).getTime() - new Date(o.created_at).getTime()
+      totalAcceptanceTime += diff
+    })
+    const avgAcceptanceTime =
+      acceptedOrders.length > 0
+        ? totalAcceptanceTime / acceptedOrders.length / 60000
+        : null
+
+    const executedOrders = ordersList.filter((o) => o.accepted_at != null && (o.status === 'completed' || o.status === 'cancelled'))
+    let totalExecutionTime = 0
+    executedOrders.forEach((o) => {
+      if (o.actual_time != null) {
+        totalExecutionTime += o.actual_time * 60000
+      } else {
+        const endTime = o.status === 'completed' ? o.completed_at : o.cancelled_at
+        if (endTime) {
+          const diff = new Date(endTime).getTime() - new Date(o.accepted_at).getTime()
+          totalExecutionTime += diff
+        }
+      }
+    })
+    const avgExecutionTime =
+      executedOrders.length > 0
+        ? totalExecutionTime / executedOrders.length / 60000
         : null
 
     // Fetch hotel currency symbol
@@ -160,7 +178,8 @@ export async function GET(request: NextRequest) {
         completed,
         cancelled,
         totalRevenue,
-        avgCompletionTime,
+        avgAcceptanceTime,
+        avgExecutionTime,
         currencySymbol: hotel?.currency_symbol || '$',
         recentOrders: formattedRecentOrders,
       },

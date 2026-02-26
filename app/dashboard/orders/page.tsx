@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import {
@@ -14,6 +14,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase/client'
 
 interface OrderRow {
   order_id: string
@@ -67,6 +68,7 @@ export default function OrdersPage() {
   const [serviceFilter, setServiceFilter] = useState('')
   const [services, setServices] = useState<ServiceOption[]>([])
   const [userRole, setUserRole] = useState<string>('')
+  const knownOrderIdsRef = useRef<Set<string>>(new Set())
 
   const limit = 25
   const totalPages = Math.ceil(total / limit)
@@ -145,6 +147,39 @@ export default function OrdersPage() {
   useEffect(() => {
     fetchOrders()
   }, [fetchOrders])
+
+  // Track known order IDs so we can detect new ones
+  useEffect(() => {
+    orders.forEach((o) => knownOrderIdsRef.current.add(o.order_id))
+  }, [orders])
+
+  // ── Supabase Realtime: listen for new orders for this hotel ──
+  useEffect(() => {
+    const channel = supabase
+      .channel('dashboard-new-orders')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'orders',
+        },
+        (payload) => {
+          const newOrder = payload.new as OrderRow
+          // Skip if we already know this order (e.g. from initial fetch)
+          if (knownOrderIdsRef.current.has(newOrder.order_id)) return
+          knownOrderIdsRef.current.add(newOrder.order_id)
+
+          // Refresh orders list
+          fetchOrders()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [locale, fetchOrders])
 
   // Reset page when filters change
   useEffect(() => {

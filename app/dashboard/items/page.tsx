@@ -138,7 +138,7 @@ export default function ItemsPage() {
     } finally {
       setLoading(false)
     }
-  }, [serviceFilter, subServiceFilter, tc])
+  }, [serviceFilter, subServiceFilter, tc, page])
 
   useEffect(() => {
     fetchSession()

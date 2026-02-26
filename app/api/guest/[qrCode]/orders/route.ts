@@ -52,11 +52,11 @@ export async function POST(
       .eq('hotel_id', mapping.hotel_id)
       .single()
 
-    // Validate items exist and are available, get server-side prices
+    // Validate items exist and are available, get server-side prices and parent service
     const itemIds = items.map((i: { item_id: string }) => i.item_id)
     const { data: dbItems, error: itemsError } = await supabaseAdmin
       .from('items')
-      .select('item_id, item_name, price, sub_service_id')
+      .select('item_id, item_name, price, is_free, sub_service_id, sub_services!inner(parent_service_id)')
       .in('item_id', itemIds)
       .eq('availability_status', 'available')
       .is('deleted_at', null)
@@ -68,46 +68,46 @@ export async function POST(
       )
     }
 
-    // Calculate total from server-side prices
-    const orderItems = items.map((clientItem: { item_id: string; quantity: number }) => {
+    // Group items by main service_id
+    type GroupedOrder = {
+      serviceId: string;
+      subServiceId: string;
+      orderItems: any[];
+      totalAmount: number;
+    }
+    const groupedOrders = new Map<string, GroupedOrder>()
+
+    for (const clientItem of items) {
       const dbItem = dbItems.find((di) => di.item_id === clientItem.item_id)!
+      // Extract service_id from the joined sub_services table
+      const serviceId = (dbItem.sub_services as any).parent_service_id
+
       const quantity = Math.max(1, Math.floor(clientItem.quantity))
-      return {
+      const unitPrice = dbItem.is_free ? 0 : dbItem.price
+      const orderItem = {
         item_id: dbItem.item_id,
         item_name: dbItem.item_name,
         quantity,
-        unit_price: dbItem.price,
-        total: dbItem.price * quantity,
+        unit_price: unitPrice,
+        total: unitPrice * quantity,
       }
-    })
 
-    const totalAmount = orderItems.reduce((sum: number, oi: { total: number }) => sum + oi.total, 0)
+      if (!groupedOrders.has(serviceId)) {
+        groupedOrders.set(serviceId, {
+          serviceId,
+          subServiceId: dbItem.sub_service_id, // Take first sub-service ID as representative if mixing
+          orderItems: [],
+          totalAmount: 0
+        })
+      }
 
-    // Resolve service_id and sub_service_id from the items' sub-service
-    const subServiceId = dbItems[0]?.sub_service_id || null
-    let serviceId: string | null = null
-
-    if (subServiceId) {
-      const { data: subService } = await supabaseAdmin
-        .from('sub_services')
-        .select('parent_service_id')
-        .eq('sub_service_id', subServiceId)
-        .single()
-
-      serviceId = subService?.parent_service_id || null
+      const group = groupedOrders.get(serviceId)!
+      group.orderItems.push(orderItem)
+      group.totalAmount += orderItem.total
     }
 
-    if (!serviceId) {
-      return NextResponse.json(
-        { success: false, message: 'invalidService' },
-        { status: 400 }
-      )
-    }
-
-    // Generate sequential order number (e.g. ORD-YYMMDD-XXX)
-    // 1. Get current date in hotel's timezone (assuming standard UTC+3 for SA for now, or just server date)
+    // Generate sequential order numbers based on today's date in local time
     const today = new Date()
-    // Convert to Saudi time (UTC+3) for standard local date
     const saudiTime = new Date(today.toLocaleString("en-US", { timeZone: "Asia/Riyadh" }))
 
     const yy = String(saudiTime.getFullYear()).slice(-2)
@@ -115,7 +115,6 @@ export async function POST(
     const dd = String(saudiTime.getDate()).padStart(2, '0')
     const datePrefix = `ORD-${yy}${mm}${dd}-`
 
-    // 2. Find the latest order for this hotel today
     const startOfDay = new Date(saudiTime.setHours(0, 0, 0, 0)).toISOString()
     const endOfDay = new Date(saudiTime.setHours(23, 59, 59, 999)).toISOString()
 
@@ -137,37 +136,47 @@ export async function POST(
       }
     }
 
-    const orderNumber = `${datePrefix}${String(sequence).padStart(3, '0')}`
+    const insertedOrders = []
 
-    // Insert into orders table
-    const { data: order, error: orderError } = await supabaseAdmin
-      .from('orders')
-      .insert({
-        order_number: orderNumber,
-        room_id: mapping.room_id,
-        hotel_id: mapping.hotel_id,
-        service_id: serviceId,
-        sub_service_id: subServiceId,
-        order_items: orderItems,
-        total_amount: totalAmount,
-        currency_code: hotel?.currency_code || 'SAR',
-        status: 'new',
-        notes: notes || null,
-      })
-      .select()
-      .single()
+    // Insert each grouped order independently
+    for (const group of Array.from(groupedOrders.values())) {
+      const orderNumber = `${datePrefix}${String(sequence).padStart(3, '0')}`
+      sequence++ // Increment for the next possible order in this loop
 
-    if (orderError) {
-      console.error('Order creation error:', orderError)
-      return NextResponse.json(
-        { success: false, message: 'orderCreationFailed' },
-        { status: 500 }
-      )
+      const serviceNotes = (notes && typeof notes === 'object') ? notes[group.serviceId] : notes
+
+      const { data: order, error: orderError } = await supabaseAdmin
+        .from('orders')
+        .insert({
+          order_number: orderNumber,
+          room_id: mapping.room_id,
+          hotel_id: mapping.hotel_id,
+          service_id: group.serviceId,
+          sub_service_id: group.subServiceId,
+          order_items: group.orderItems,
+          total_amount: group.totalAmount,
+          currency_code: hotel?.currency_code || 'SAR',
+          status: 'new',
+          notes: serviceNotes || null,
+        })
+        .select()
+        .single()
+
+      if (orderError) {
+        console.error('Order creation error for service', group.serviceId, ':', orderError)
+        // If an insert fails, we throw an error. In a more complete system we might use transactions,
+        // but Supabase JS doesn't support multiple inserts across tables natively as a transaction block easily without RPC.
+        // In our case we are just inserting multiple rows to the same table.
+        // We could use insert([...groups]), but we need sequential order numbers perfectly returned.
+        throw new Error('Partial order creation failure')
+      }
+
+      insertedOrders.push(order)
     }
 
     return NextResponse.json({
       success: true,
-      order,
+      orders: insertedOrders,
     }, { status: 201 })
   } catch (error) {
     console.error('Guest order creation error:', error)

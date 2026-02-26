@@ -16,6 +16,7 @@ import {
   Loader2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { supabase } from '@/lib/supabase/client'
 
 type Period = 'today' | '7d' | '30d' | '90d' | 'custom'
 
@@ -36,7 +37,8 @@ interface DashboardStats {
   completed: number
   cancelled: number
   totalRevenue: number
-  avgCompletionTime: number | null
+  avgAcceptanceTime: number | null
+  avgExecutionTime: number | null
   currencySymbol: string
   recentOrders: RecentOrder[]
 }
@@ -91,6 +93,25 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchStats()
+  }, [fetchStats])
+
+  // ── Supabase Realtime: Refresh stats if any order changes/added ──
+  useEffect(() => {
+    const channel = supabase
+      .channel('dashboard-stats-refresh')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        () => {
+          // Whenever an order is created or updated, refresh the stats
+          fetchStats()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [fetchStats])
 
   const periods: { key: Period; label: string }[] = [
@@ -156,13 +177,22 @@ export default function DashboardPage() {
         bg: 'bg-emerald-50',
       },
       {
-        label: t('stats.avgTime'),
-        value: stats.avgCompletionTime
-          ? `${Math.round(stats.avgCompletionTime)} ${t('stats.minutes')}`
+        label: t('stats.avgAcceptanceTime') || 'متوسط وقت القبول',
+        value: stats.avgAcceptanceTime !== null
+          ? `${Math.round(stats.avgAcceptanceTime)} ${t('stats.minutes')}`
           : '—',
         icon: Timer,
         color: 'text-amber-600',
         bg: 'bg-amber-50',
+      },
+      {
+        label: t('stats.avgExecutionTime') || 'متوسط وقت التنفيذ',
+        value: stats.avgExecutionTime !== null
+          ? `${Math.round(stats.avgExecutionTime)} ${t('stats.minutes')}`
+          : '—',
+        icon: Timer,
+        color: 'text-blue-600',
+        bg: 'bg-blue-50',
       },
     ]
     : []
@@ -218,22 +248,20 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
         {statCards.map((card, idx) => {
           const Icon = card.icon
           return (
-            <div key={idx} className="stat-card">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-gray-500">
-                  {card.label}
-                </span>
-                <div className={cn('rounded-lg p-2', card.bg)}>
-                  <Icon className={cn('h-4 w-4', card.color)} />
-                </div>
+            <div key={idx} className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow">
+              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words line-clamp-2 w-full px-1 mb-2 h-8 flex items-center justify-center">
+                {card.label}
+              </p>
+              <div className={cn('rounded-full p-2 mb-2', card.bg)}>
+                <Icon className={cn('h-5 w-5', card.color)} />
               </div>
-              <span className="text-2xl font-bold text-gray-900">
+              <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={card.value.toString()}>
                 {card.value}
-              </span>
+              </h3>
             </div>
           )
         })}

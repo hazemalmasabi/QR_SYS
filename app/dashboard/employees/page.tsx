@@ -74,7 +74,7 @@ export default function EmployeesPage() {
     } finally {
       setLoading(false)
     }
-  }, [roleFilter, serviceFilter, tc])
+  }, [roleFilter, serviceFilter, tc, page])
 
   const fetchServices = useCallback(async () => {
     try {

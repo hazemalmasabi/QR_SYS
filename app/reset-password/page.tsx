@@ -15,6 +15,9 @@ import {
   KeyRound,
   CheckCircle2,
   LogIn,
+  AlertTriangle,
+  Check,
+  X,
 } from 'lucide-react'
 import { cn, getPasswordStrength } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -50,6 +53,7 @@ export default function ResetPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
 
   const {
     register,
@@ -106,8 +110,12 @@ export default function ResetPasswordPage() {
   }
 
   const onSubmit = async (data: ResetPasswordInput) => {
+    setFormError(null)
+
     if (!token) {
-      toast.error(tv('required'))
+      const msg = tv('required')
+      setFormError(msg)
+      toast.error(msg)
       return
     }
 
@@ -124,10 +132,14 @@ export default function ResetPasswordPage() {
         toast.success(t('success'))
       } else {
         const result = await res.json()
-        toast.error(result.message || tv('required'))
+        const msg = result.message || tv('required')
+        setFormError(msg)
+        toast.error(msg)
       }
     } catch {
-      toast.error(tv('required'))
+      const msg = tv('required')
+      setFormError(msg)
+      toast.error(msg)
     } finally {
       setLoading(false)
     }
@@ -175,7 +187,7 @@ export default function ResetPasswordPage() {
                     type={showPassword ? 'text' : 'password'}
                     dir="ltr"
                     autoComplete="new-password"
-                    className={cn('input pe-10 ps-10', errors.password && 'input-error')}
+                    className={cn('input icon-input-both pe-10 ps-10', errors.password && 'input-error')}
                     {...register('password')}
                   />
                   <button
@@ -192,26 +204,62 @@ export default function ResetPasswordPage() {
                   </p>
                 )}
 
-                {/* Strength Meter */}
-                {passwordValue && (
-                  <div className="mt-2">
-                    <div className="mb-1 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">{tReg('passwordStrength')}</span>
-                      <span className="text-xs font-medium">{strengthLabel()}</span>
-                    </div>
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <div
-                          key={i}
-                          className={cn(
-                            'h-1.5 flex-1 rounded-full transition-colors duration-200',
-                            i <= strength.score ? strengthColor() : 'bg-gray-200'
-                          )}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Password Requirements Checklist */}
+                <div className="mt-3 space-y-2 rounded-lg bg-gray-50 p-3">
+                  <p className="text-sm font-semibold text-gray-900">{tv('pwdTitle')}</p>
+                  <ul className="space-y-1.5 text-sm">
+                    <li className="flex items-center gap-2">
+                      {passwordValue && passwordValue.length >= 8 ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={passwordValue && passwordValue.length >= 8 ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdLength')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[A-Z]/.test(passwordValue || '') ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[A-Z]/.test(passwordValue || '') ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdUppercase')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[a-z]/.test(passwordValue || '') ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[a-z]/.test(passwordValue || '') ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdLowercase')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[0-9]/.test(passwordValue || '') ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[0-9]/.test(passwordValue || '') ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdNumber')}
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      {/[@#$%^&*!]/.test(passwordValue || '') ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <X className="h-4 w-4 text-red-500" />
+                      )}
+                      <span className={/[@#$%^&*!]/.test(passwordValue || '') ? 'text-gray-900' : 'text-gray-500'}>
+                        {tv('pwdSpecial')}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               {/* Confirm Password */}
@@ -226,7 +274,7 @@ export default function ResetPasswordPage() {
                     type={showConfirmPassword ? 'text' : 'password'}
                     dir="ltr"
                     autoComplete="new-password"
-                    className={cn('input pe-10 ps-10', errors.confirmPassword && 'input-error')}
+                    className={cn('input icon-input-both pe-10 ps-10', errors.confirmPassword && 'input-error')}
                     {...register('confirmPassword')}
                   />
                   <button
@@ -247,6 +295,16 @@ export default function ResetPasswordPage() {
                   </p>
                 )}
               </div>
+
+              {/* Form Error */}
+              {formError && (
+                <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-600" />
+                    <p className="text-sm font-medium text-red-800">{formError}</p>
+                  </div>
+                </div>
+              )}
 
               {/* Submit */}
               <button

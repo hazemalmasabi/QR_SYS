@@ -50,7 +50,8 @@ interface OrdersSummary {
   inProgress: number
   newOrders: number
   completionRate: number
-  avgCompletionTime: number | null
+  avgAcceptanceTime: number | null
+  avgExecutionTime: number | null
 }
 
 interface DailyOrderData {
@@ -469,16 +470,22 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
   return (
     <div className="space-y-5">
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <SummaryCard icon={ClipboardList} label={t('totalOrders')} value={summary.totalOrders.toString()} color="blue" />
         <SummaryCard icon={CheckCircle2} label={t('completedOrders')} value={summary.completed.toString()} color="green" />
         <SummaryCard icon={XCircle} label={t('cancelledOrders')} value={summary.cancelled.toString()} color="red" />
         <SummaryCard icon={Target} label={t('completionRate')} value={`${summary.completionRate}%`} color="purple" />
         <SummaryCard
           icon={Timer}
-          label={t('avgTime')}
-          value={summary.avgCompletionTime != null ? `${summary.avgCompletionTime} ${t('minutes')}` : '—'}
+          label={t('avgAcceptanceTime') || 'متوسط وقت القبول'}
+          value={summary.avgAcceptanceTime != null ? `${summary.avgAcceptanceTime} ${t('minutes')}` : '—'}
           color="amber"
+        />
+        <SummaryCard
+          icon={Timer}
+          label={t('avgExecutionTime') || 'متوسط وقت التنفيذ'}
+          value={summary.avgExecutionTime != null ? `${summary.avgExecutionTime} ${t('minutes')}` : '—'}
+          color="blue"
         />
       </div>
 
@@ -844,14 +851,16 @@ function SummaryCard({
 }) {
   const colors = COLOR_MAP[color] || COLOR_MAP.blue
   return (
-    <div className="stat-card">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-gray-500">{label}</span>
-        <div className={cn('rounded-lg p-2', colors.bg)}>
-          <Icon className={cn('h-4 w-4', colors.icon)} />
-        </div>
+    <div className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow">
+      <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words line-clamp-2 w-full px-1 mb-2 h-8 flex items-center justify-center">
+        {label}
+      </p>
+      <div className={cn('rounded-full p-2 mb-2', colors.bg)}>
+        <Icon className={cn('h-5 w-5', colors.icon)} />
       </div>
-      <span className="mt-2 block text-xl font-bold text-gray-900 leading-tight">{value}</span>
-    </div>
+      <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={value}>
+        {value}
+      </h3>
+    </div >
   )
 }

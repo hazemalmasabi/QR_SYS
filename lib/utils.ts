@@ -5,6 +5,41 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+/**
+ * Returns true if the current hotel-local time is within [startTime, endTime].
+ * startTime / endTime are "HH:MM" strings (24-hour).
+ * Pass timezone = hotel timezone (e.g. 'Asia/Riyadh').
+ */
+export function isWithinServiceHours(
+  startTime: string,
+  endTime: string,
+  timezone: string = 'Asia/Riyadh'
+): boolean {
+  try {
+    // Get current time in hotel timezone as HH:MM
+    const now = new Date()
+    const timeStr = now.toLocaleTimeString('en-US', {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+    // Convert to minutes
+    const toMinutes = (t: string) => {
+      const [h, m] = t.split(':').map(Number)
+      return h * 60 + m
+    }
+    const current = toMinutes(timeStr)
+    const start = toMinutes(startTime)
+    const end = toMinutes(endTime)
+    // Handle overnight ranges (e.g. 22:00 - 02:00)
+    if (start <= end) return current >= start && current <= end
+    return current >= start || current <= end
+  } catch {
+    return true // fail open
+  }
+}
+
 export function formatCurrency(amount: number, currencyCode: string, currencySymbol: string): string {
   return `${amount.toFixed(2)} ${currencySymbol}`
 }

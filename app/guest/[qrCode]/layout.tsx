@@ -14,6 +14,8 @@ interface GuestInfo {
   hotel: {
     hotel_id: string
     hotel_name: string
+    hotel_name_en: string
+    hotel_logo_url: string
     timezone: string
     currency_code: string
     currency_symbol: string
@@ -33,8 +35,10 @@ export default function GuestLayout({
   const pathname = usePathname()
   const itemCount = useCartStore((s) => s.getItemCount())
   const [guestInfo, setGuestInfo] = useState<GuestInfo | null>(null)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   useEffect(() => {
+    setIsHydrated(true)
     fetch(`/api/guest/${qrCode}`)
       .then((res) => res.json())
       .then((data) => {
@@ -57,7 +61,7 @@ export default function GuestLayout({
       label: t('cart'),
       icon: ShoppingCart,
       isActive: pathname === `/guest/${qrCode}/cart`,
-      badge: itemCount > 0 ? itemCount : undefined,
+      badge: isHydrated && itemCount > 0 ? itemCount : undefined,
     },
     {
       href: `/guest/${qrCode}/orders`,
@@ -73,12 +77,24 @@ export default function GuestLayout({
       <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
         <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600 text-white">
-              <Hotel className="h-5 w-5" />
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white overflow-hidden">
+              {guestInfo?.hotel.hotel_logo_url ? (
+                <img
+                  src={guestInfo.hotel.hotel_logo_url}
+                  alt={guestInfo.hotel.hotel_name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Hotel className="h-5 w-5" />
+              )}
             </div>
             <div className="min-w-0">
               <h1 className="truncate text-sm font-semibold text-gray-900">
-                {guestInfo?.hotel.hotel_name || '...'}
+                {guestInfo
+                  ? (locale === 'en' && guestInfo.hotel.hotel_name_en
+                    ? guestInfo.hotel.hotel_name_en
+                    : guestInfo.hotel.hotel_name)
+                  : '...'}
               </h1>
               <p className="text-xs text-gray-500">
                 {t('room')}: {guestInfo?.room.room_number || '...'}

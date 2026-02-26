@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import {
   Loader2,
@@ -41,6 +42,7 @@ export default function SettingsPage() {
   const tc = useTranslations('common')
   const tv = useTranslations('validation')
   const locale = useLocale()
+  const router = useRouter()
 
   const [settings, setSettings] = useState<SettingsData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -582,6 +584,8 @@ export default function SettingsPage() {
       if (data.success) {
         toast.success(tc('success'))
         setSettings(data.settings)
+        // Reload the page to reflect new logo/name in sidebar
+        if (type === 'general') window.location.reload()
         // reset mapping if room types save succeeded
         if (type === 'room_types') {
           setRoomTypeMappings([])

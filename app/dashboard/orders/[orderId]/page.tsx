@@ -77,6 +77,23 @@ export default function OrderDetailPage() {
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [cancelReason, setCancelReason] = useState('')
   const [cancelError, setCancelError] = useState('')
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
+
+  const CANCEL_PRESETS = locale === 'ar'
+    ? [
+      'الضيف غيّر رأيه وقرر إلغاء الطلب',
+      'العنصر المطلوب غير متوفر حالياً',
+      'طال وقت الانتظار واعتذر الضيف',
+      'تم الطلب بالخطأ',
+      'الضيف غادر الغرفة',
+    ]
+    : [
+      'Guest changed their mind and cancelled',
+      'Requested item is currently unavailable',
+      'Guest cancelled due to long wait time',
+      'Order placed by mistake',
+      'Guest has left the room',
+    ]
 
   const fetchOrder = useCallback(async () => {
     setLoading(true)
@@ -132,11 +149,19 @@ export default function OrderDetailPage() {
   const handleComplete = () => handleStatusUpdate('completed')
 
   const handleCancelSubmit = () => {
-    if (!cancelReason.trim()) {
-      setCancelError(t('cancelReasonRequired'))
+    const finalReason = selectedPreset === 'other' ? cancelReason : (selectedPreset || cancelReason)
+    if (!finalReason.trim()) {
+      setCancelError(locale === 'ar' ? 'يرجى اختيار سبب الإلغاء' : 'Please select a cancellation reason')
       return
     }
-    handleStatusUpdate('cancelled', cancelReason)
+    handleStatusUpdate('cancelled', finalReason)
+  }
+
+  const resetCancelModal = () => {
+    setShowCancelModal(false)
+    setCancelReason('')
+    setCancelError('')
+    setSelectedPreset(null)
   }
 
   const getServiceName = (service: { service_name: { ar: string; en: string } }) => {
@@ -239,47 +264,6 @@ export default function OrderDetailPage() {
           </span>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2">
-          {order.status === 'new' && (
-            <button
-              onClick={handleAccept}
-              disabled={actionLoading}
-              className="btn-primary"
-            >
-              {actionLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <PlayCircle className="h-4 w-4" />
-              )}
-              {t('accept')}
-            </button>
-          )}
-          {order.status === 'in_progress' && (
-            <>
-              <button
-                onClick={handleComplete}
-                disabled={actionLoading}
-                className="btn-primary"
-              >
-                {actionLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <CheckCircle2 className="h-4 w-4" />
-                )}
-                {t('complete')}
-              </button>
-              <button
-                onClick={() => setShowCancelModal(true)}
-                disabled={actionLoading}
-                className="btn-danger"
-              >
-                <XCircle className="h-4 w-4" />
-                {t('cancelOrder')}
-              </button>
-            </>
-          )}
-        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -303,24 +287,27 @@ export default function OrderDetailPage() {
                   {getServiceName(order.main_services)}
                 </p>
               </div>
-              {order.handled_by && (
+
+              {order.accepted_at && (
                 <div>
-                  <p className="text-sm text-gray-500">{t('handledBy')}</p>
+                  <p className="text-sm text-gray-500">{t('acceptanceTime')}</p>
                   <div className="flex items-center gap-1.5">
-                    <User className="h-4 w-4 text-gray-400" />
+                    <Clock className="h-4 w-4 text-gray-400" />
                     <p className="font-medium text-gray-900">
-                      {order.employees?.full_name || order.handled_by}
+                      {Math.max(0, Math.round((new Date(order.accepted_at).getTime() - new Date(order.created_at).getTime()) / 60000))} {t('minutes')}
                     </p>
                   </div>
                 </div>
               )}
-              {order.actual_time !== null && (
+              {order.accepted_at && (order.status === 'completed' || order.status === 'cancelled') && (
                 <div>
-                  <p className="text-sm text-gray-500">{t('actualTime')}</p>
+                  <p className="text-sm text-gray-500">{t('executionTime')}</p>
                   <div className="flex items-center gap-1.5">
                     <Clock className="h-4 w-4 text-gray-400" />
                     <p className="font-medium text-gray-900">
-                      {order.actual_time} {t('minutes')}
+                      {order.actual_time !== null
+                        ? order.actual_time
+                        : Math.max(0, Math.round(((order.status === 'completed' ? new Date(order.completed_at!) : new Date(order.cancelled_at!)).getTime() - new Date(order.accepted_at).getTime()) / 60000))} {t('minutes')}
                     </p>
                   </div>
                 </div>
@@ -397,8 +384,51 @@ export default function OrderDetailPage() {
           )}
         </div>
 
-        {/* Right Column - Timeline */}
+        {/* Right Column - Timeline & Actions */}
         <div className="space-y-6">
+          {(order.status === 'new' || order.status === 'in_progress') && (
+            <div className="flex gap-3">
+              {order.status === 'new' && (
+                <button
+                  onClick={handleAccept}
+                  disabled={actionLoading}
+                  className="btn-primary flex-1 py-3 text-base shadow-sm"
+                >
+                  {actionLoading ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <PlayCircle className="h-5 w-5" />
+                  )}
+                  {t('accept')}
+                </button>
+              )}
+              {order.status === 'in_progress' && (
+                <>
+                  <button
+                    onClick={handleComplete}
+                    disabled={actionLoading}
+                    className="btn-primary flex-1 py-3 text-base shadow-sm"
+                  >
+                    {actionLoading ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <CheckCircle2 className="h-5 w-5" />
+                    )}
+                    {t('complete')}
+                  </button>
+                  <button
+                    onClick={() => setShowCancelModal(true)}
+                    disabled={actionLoading}
+                    className="btn-danger flex-1 py-3 text-base shadow-sm"
+                  >
+                    <XCircle className="h-5 w-5" />
+                    {t('cancelOrder')}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+
           <div className="card">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               {t('timeline')}
@@ -441,52 +471,83 @@ export default function OrderDetailPage() {
       {/* Cancel Modal */}
       {showCancelModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">
+          <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900">
                 {t('cancelOrder')}
               </h3>
-              <button
-                onClick={() => {
-                  setShowCancelModal(false)
-                  setCancelReason('')
-                  setCancelError('')
-                }}
-                className="btn-ghost p-1"
-              >
+              <button onClick={resetCancelModal} className="btn-ghost p-1">
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="mb-4">
-              <label className="label">{t('cancelReason')}</label>
-              <textarea
-                value={cancelReason}
-                onChange={(e) => {
-                  setCancelReason(e.target.value)
-                  if (cancelError) setCancelError('')
-                }}
-                rows={3}
-                className={cn('input resize-none', cancelError && 'input-error')}
-                placeholder={t('cancelReasonPlaceholder')}
-              />
-              {cancelError && (
-                <p className="mt-1 text-sm text-red-500">{cancelError}</p>
-              )}
-            </div>
-            <div className="flex justify-end gap-2">
+
+            {/* Preset reasons */}
+            <div className="px-6 py-4 space-y-2 max-h-72 overflow-y-auto">
+              <p className="text-sm font-medium text-gray-600 mb-3">
+                {locale === 'ar' ? 'اختر سبب الإلغاء:' : 'Select a cancellation reason:'}
+              </p>
+              {CANCEL_PRESETS.map((preset, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setSelectedPreset(preset)
+                    if (cancelError) setCancelError('')
+                  }}
+                  className={cn(
+                    'w-full text-start rounded-xl border px-4 py-3 text-sm transition-all',
+                    selectedPreset === preset
+                      ? 'border-red-400 bg-red-50 text-red-700 font-medium'
+                      : 'border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-300 hover:bg-gray-100'
+                  )}
+                >
+                  {preset}
+                </button>
+              ))}
+              {/* Other */}
               <button
                 onClick={() => {
-                  setShowCancelModal(false)
-                  setCancelReason('')
-                  setCancelError('')
+                  setSelectedPreset('other')
+                  if (cancelError) setCancelError('')
                 }}
-                className="btn-secondary"
+                className={cn(
+                  'w-full text-start rounded-xl border px-4 py-3 text-sm transition-all',
+                  selectedPreset === 'other'
+                    ? 'border-red-400 bg-red-50 text-red-700 font-medium'
+                    : 'border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-300 hover:bg-gray-100'
+                )}
               >
+                {locale === 'ar' ? '✏️ أخرى (اكتب السبب)' : '✏️ Other (type reason)'}
+              </button>
+
+              {/* Custom reason text area — only when Other selected */}
+              {selectedPreset === 'other' && (
+                <textarea
+                  value={cancelReason}
+                  onChange={(e) => {
+                    setCancelReason(e.target.value)
+                    if (cancelError) setCancelError('')
+                  }}
+                  rows={3}
+                  autoFocus
+                  className={cn('input resize-none mt-2', cancelError && 'input-error')}
+                  placeholder={locale === 'ar' ? 'اكتب سبب الإلغاء...' : 'Type cancellation reason...'}
+                />
+              )}
+
+              {cancelError && (
+                <p className="text-sm text-red-500">{cancelError}</p>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-2 px-6 py-4 border-t border-gray-100">
+              <button onClick={resetCancelModal} className="btn-secondary">
                 {tc('close')}
               </button>
               <button
                 onClick={handleCancelSubmit}
-                disabled={actionLoading}
+                disabled={actionLoading || !selectedPreset}
                 className="btn-danger"
               >
                 {actionLoading ? (

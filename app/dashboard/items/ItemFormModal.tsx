@@ -67,7 +67,7 @@ export default function ItemFormModal({
       descriptionAr: '',
       descriptionEn: '',
       isFree: false,
-      price: 0,
+      price: '' as unknown as number,
       displayOrder: 1,
     },
   })
@@ -166,7 +166,7 @@ export default function ItemFormModal({
         descriptionAr: '',
         descriptionEn: '',
         isFree: false,
-        price: 0,
+        price: '' as unknown as number,
         displayOrder: 1,
       })
       setSelectedServiceId('')
@@ -204,12 +204,17 @@ export default function ItemFormModal({
     }
   }, [selectedServiceId, fetchSubServices, setValue, item])
 
-  // When isFree changes, reset price to 0
+  // When isFree changes, handle price
   useEffect(() => {
     if (isFree) {
-      setValue('price', 0)
+      setValue('price', 0, { shouldValidate: true })
+    } else {
+      const currentPrice = watch('price')
+      if (currentPrice === 0) {
+        setValue('price', '' as unknown as number) // Clear it visually so user must type
+      }
     }
-  }, [isFree, setValue])
+  }, [isFree, setValue, watch])
 
   // Clamp display_order in real-time
   useEffect(() => {
@@ -484,10 +489,20 @@ export default function ItemFormModal({
               <input
                 type="number"
                 step="0.01"
-                {...register('price', { valueAsNumber: true })}
+                {...register('price', {
+                  valueAsNumber: true,
+                  onChange: (e) => {
+                    const val = e.target.value;
+                    if (!isFree && (val === '0' || val === '0.0' || val === '0.00')) {
+                      e.target.value = '';
+                      setValue('price', '' as unknown as number, { shouldValidate: true });
+                    }
+                  }
+                })}
                 className={cn('input', errors.price && 'border-red-500', isFree && 'opacity-50 cursor-not-allowed')}
-                min={0}
+                min={isFree ? 0 : 0.01}
                 disabled={isFree}
+                placeholder={isFree ? "0" : ""}
               />
               {errors.price && !isFree && (
                 <p className="mt-1 text-xs text-red-500">{t('priceRequired')}</p>

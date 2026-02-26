@@ -103,7 +103,7 @@ export default function SubServicesPage() {
     } finally {
       setLoading(false)
     }
-  }, [parentFilter, tc])
+  }, [parentFilter, tc, page])
 
   useEffect(() => {
     fetchSession()

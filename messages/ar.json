@@ -34,7 +34,11 @@
     "recommendedSize": "الحجم المقترح",
     "maxValue": "الحد الأقصى",
     "singleItemOrder": "يوجد عنصر واحد فقط، الترتيب سيبقى 1",
-    "leaveEmptyToKeep": "ابقه فارغ اذا لا تريد تغيره"
+    "leaveEmptyToKeep": "ابقه فارغ اذا لا تريد تغيره",
+    "showing": "عرض",
+    "to": "إلى",
+    "of": "من",
+    "results": "نتيجة"
   },
   "landing": {
     "hero": {
@@ -180,6 +184,8 @@
       "cancelled": "ملغاة",
       "totalRevenue": "إجمالي الإيرادات",
       "avgTime": "متوسط وقت التنفيذ",
+      "avgAcceptanceTime": "متوسط وقت القبول",
+      "avgExecutionTime": "متوسط وقت التنفيذ",
       "minutes": "دقيقة"
     },
     "filters": {
@@ -243,6 +249,8 @@
     "unitPrice": "سعر الوحدة",
     "subtotal": "المجموع الفرعي",
     "actualTime": "الوقت الفعلي",
+    "acceptanceTime": "مدة قبول الطلب",
+    "executionTime": "مدة التنفيذ",
     "minutes": "دقيقة",
     "timeline": "المخطط الزمني",
     "orderCreated": "تم إنشاء الطلب",
@@ -396,6 +404,8 @@
     "orderCount": "عدد الطلبات",
     "revenue": "الإيرادات",
     "avgTime": "متوسط الوقت",
+    "avgAcceptanceTime": "متوسط وقت القبول",
+    "avgExecutionTime": "متوسط وقت التنفيذ",
     "minutes": "دقيقة",
     "orders": "الطلبات",
     "date": "التاريخ",
@@ -433,6 +443,7 @@
     "emptyCart": "السلة فارغة",
     "emptyCartDesc": "لم تقم بإضافة أي أصناف بعد",
     "itemsCount": "أصناف",
+    "orderSummary": "ملخص الطلب",
     "notes": "ملاحظات",
     "notesPlaceholder": "أضف ملاحظات خاصة بطلبك (اختياري)...",
     "orderPlaced": "تم إرسال طلبك بنجاح!",
@@ -462,6 +473,12 @@
     "passwordMismatch": "كلمتا المرور غير متطابقتين",
     "phoneInvalid": "رقم الهاتف يجب أن يكون بين 7-15 رقم",
     "emailTaken": "هذا البريد مسجل مسبقاً",
-    "usernameTaken": "اسم المستخدم مستخدم مسبقاً"
+    "usernameTaken": "اسم المستخدم مستخدم مسبقاً",
+    "pwdTitle": "شروط كلمة المرور:",
+    "pwdLength": "8 أحرف على الأقل",
+    "pwdUppercase": "حرف كبير واحد على الأقل",
+    "pwdLowercase": "حرف صغير واحد على الأقل",
+    "pwdNumber": "رقم واحد على الأقل",
+    "pwdSpecial": "رمز واحد على الأقل (مثل @, #, !)"
   }
 }
