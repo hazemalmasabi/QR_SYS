@@ -320,7 +320,11 @@ export default function OrdersPage() {
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr key={order.order_id}>
+                  <tr
+                    key={order.order_id}
+                    onClick={() => router.push(`/dashboard/orders/${order.order_id}`)}
+                    className="cursor-pointer hover:bg-gray-50 transition-colors"
+                  >
                     <td className="font-medium text-gray-900">
                       #{order.order_number}
                     </td>
@@ -341,11 +345,14 @@ export default function OrdersPage() {
                     </td>
                     <td>
                       <button
-                        onClick={() => router.push(`/dashboard/orders/${order.order_id}`)}
-                        className="btn-ghost p-2"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/dashboard/orders/${order.order_id}`)
+                        }}
+                        className="btn-ghost p-2 text-gray-500 hover:text-primary-600"
                         title={t('viewOrder')}
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-5 w-6" />
                       </button>
                     </td>
                   </tr>

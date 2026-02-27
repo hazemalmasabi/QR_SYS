@@ -684,7 +684,7 @@ export default function SettingsPage() {
 
             {/* Hotel Name EN */}
             <div>
-              <label className="label">Hotel Name (English)</label>
+              <label className="label">{t('hotelNameEn')}</label>
               <input
                 type="text"
                 dir="ltr"

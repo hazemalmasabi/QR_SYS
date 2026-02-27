@@ -157,7 +157,7 @@ export default function RegisterPage() {
                 {/* Hotel Name (EN) */}
                 <div>
                   <label htmlFor="hotelNameEn" className="label">
-                    Hotel Name (English)
+                    {t('hotelNameEn')}
                   </label>
                   <div className="relative">
                     <Hotel className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />

@@ -8,6 +8,7 @@ import { ConciergeBell, ShoppingCart, ClipboardList, Hotel } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { Clock } from '@/components/Clock'
 
 interface GuestInfo {
   room: { room_id: string; room_number: string; room_type: string }
@@ -101,7 +102,10 @@ export default function GuestLayout({
               </p>
             </div>
           </div>
-          <LanguageSwitcher className="!py-1.5 !px-2.5 !text-xs" />
+          <div className="flex items-center gap-2">
+            <Clock />
+            <LanguageSwitcher className="!py-1.5 !px-2.5 !text-xs" />
+          </div>
         </div>
       </header>
 

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/supabase/client'
+import { Clock as ClockComponent } from '@/components/Clock'
 
 type Period = 'today' | '7d' | '30d' | '90d' | 'custom'
 
@@ -132,15 +133,8 @@ export default function DashboardPage() {
     })
   }
 
-  const statCards = stats
+  const statusCards = stats
     ? [
-      {
-        label: t('stats.totalOrders'),
-        value: stats.totalOrders,
-        icon: ClipboardList,
-        color: 'text-blue-600',
-        bg: 'bg-blue-50',
-      },
       {
         label: t('stats.newOrders'),
         value: stats.newOrders,
@@ -168,6 +162,17 @@ export default function DashboardPage() {
         icon: XCircle,
         color: 'text-red-600',
         bg: 'bg-red-50',
+      },
+    ] : []
+
+  const otherCards = stats
+    ? [
+      {
+        label: t('stats.totalOrders'),
+        value: stats.totalOrders,
+        icon: ClipboardList,
+        color: 'text-blue-600',
+        bg: 'bg-blue-50',
       },
       {
         label: t('stats.totalRevenue'),
@@ -245,18 +250,69 @@ export default function DashboardPage() {
             />
           </>
         )}
+
+        <div className="ms-auto flex items-center">
+          <ClockComponent className="px-5 py-2.5 rounded-2xl gap-3 shadow" iconClassName="w-5 h-5" />
+        </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-8">
-        {statCards.map((card, idx) => {
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-6">
+
+        {/* Total Orders (First Card) */}
+        {otherCards.length > 0 && (() => {
+          const card = otherCards[0]
           const Icon = card.icon
           return (
-            <div key={idx} className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow">
-              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words line-clamp-2 w-full px-1 mb-2 h-8 flex items-center justify-center">
+            <div className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow bg-white rounded-2xl border border-gray-100 shadow-sm">
+              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words w-full px-1 mb-2 h-10 flex items-center justify-center">
                 {card.label}
               </p>
-              <div className={cn('rounded-full p-2 mb-2', card.bg)}>
+              <div className={cn('rounded-full p-2.5 mb-2', card.bg)}>
+                <Icon className={cn('h-5 w-5', card.color)} />
+              </div>
+              <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={card.value.toString()}>
+                {card.value}
+              </h3>
+            </div>
+          )
+        })()}
+
+        {/* Grouped Status Cards (Spans 2 columns) */}
+        {stats && (
+          <div className="stat-card p-3 sm:p-4 hover:shadow-md transition-shadow col-span-2 flex flex-col justify-center h-full bg-white border border-gray-100 rounded-2xl shadow-sm">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-3 w-full">
+              {statusCards.map((card, idx) => {
+                const Icon = card.icon
+                return (
+                  <div key={idx} className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50 border border-gray-100/50 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center gap-2">
+                      <div className={cn('rounded-full p-1.5 shrink-0', card.bg)}>
+                        <Icon className={cn('h-4 w-4', card.color)} />
+                      </div>
+                      <p className="text-[10px] sm:text-xs font-semibold text-gray-600 leading-tight">
+                        {card.label}
+                      </p>
+                    </div>
+                    <h3 className="text-base font-bold text-gray-900" title={card.value.toString()}>
+                      {card.value}
+                    </h3>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Regular Metric Cards */}
+        {otherCards.slice(1).map((card, idx) => {
+          const Icon = card.icon
+          return (
+            <div key={idx} className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow bg-white rounded-2xl border border-gray-100 shadow-sm">
+              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words w-full px-1 mb-2 h-10 flex items-center justify-center">
+                {card.label}
+              </p>
+              <div className={cn('rounded-full p-2.5 mb-2', card.bg)}>
                 <Icon className={cn('h-5 w-5', card.color)} />
               </div>
               <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={card.value.toString()}>
@@ -302,7 +358,11 @@ export default function DashboardPage() {
               </thead>
               <tbody>
                 {stats.recentOrders.map((order) => (
-                  <tr key={order.order_id}>
+                  <tr
+                    key={order.order_id}
+                    onClick={() => router.push(`/dashboard/orders/${order.order_id}`)}
+                    className="cursor-pointer hover:bg-gray-50 transition-colors"
+                  >
                     <td className="font-medium text-gray-900">
                       #{order.order_number}
                     </td>
@@ -325,14 +385,13 @@ export default function DashboardPage() {
                     </td>
                     <td>
                       <button
-                        onClick={() =>
-                          router.push(
-                            `/dashboard/orders/${order.order_id}`
-                          )
-                        }
-                        className="btn-ghost p-2"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/dashboard/orders/${order.order_id}`)
+                        }}
+                        className="btn-ghost p-2 text-gray-500 hover:text-primary-600"
                       >
-                        <Eye className="h-4 w-4" />
+                        <Eye className="h-5 w-6" />
                       </button>
                     </td>
                   </tr>

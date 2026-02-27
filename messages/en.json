@@ -120,7 +120,7 @@
       "title": "Register New Hotel",
       "hotelInfo": "Hotel Information",
       "supervisorInfo": "Primary Supervisor Information",
-      "hotelName": "Hotel Name",
+      "hotelName": "Hotel Name (Arabic)",
       "hotelNameEn": "Hotel Name (English)",
       "timezone": "Timezone",
       "currency": "Currency",
@@ -356,7 +356,7 @@
   },
   "settings": {
     "title": "Hotel Settings",
-    "hotelName": "Hotel Name",
+    "hotelName": "Hotel Name (Arabic)",
     "hotelNameEn": "Hotel Name (English)",
     "timezone": "Timezone",
     "currency": "Currency",
