@@ -33,7 +33,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts'
-import { cn } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 
 type ReportTab = 'orders' | 'revenue'
 type QuickPeriod = '7d' | '30d' | '90d' | 'custom'
@@ -634,8 +634,8 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
     <div className="space-y-5">
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <SummaryCard icon={Banknote} label={t('totalRevenue')} value={`${summary.totalRevenue.toFixed(2)} ${currencySymbol}`} color="green" />
-        <SummaryCard icon={ReceiptText} label={t('avgOrderValue')} value={`${summary.avgOrderValue.toFixed(2)} ${currencySymbol}`} color="blue" />
+        <SummaryCard icon={Banknote} label={t('totalRevenue')} value={formatCurrency(summary.totalRevenue, '', currencySymbol)} color="green" />
+        <SummaryCard icon={ReceiptText} label={t('avgOrderValue')} value={formatCurrency(summary.avgOrderValue, '', currencySymbol)} color="blue" />
         <SummaryCard icon={ClipboardList} label={t('totalOrders')} value={summary.totalOrders.toString()} color="purple" />
       </div>
 
@@ -653,7 +653,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
                   <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" />
                   <Tooltip
                     labelFormatter={granularity === 'day' ? (val) => formatDate(val as string) : undefined}
-                    formatter={(value: number) => [`${value.toFixed(2)} ${currencySymbol}`, t('revenue')]}
+                    formatter={(value: number) => [formatCurrency(value, '', currencySymbol), t('revenue')]}
                     contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
                   />
                   <Line type="monotone" dataKey="revenue" name={t('revenue')} stroke="#22c55e" strokeWidth={2} dot={{ fill: '#22c55e', r: 3 }} activeDot={{ r: 5 }} />
@@ -680,7 +680,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
                         <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(v: number) => `${v.toFixed(2)} ${currencySymbol}`} />
+                    <Tooltip formatter={(v: number) => formatCurrency(v as number, '', currencySymbol)} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -691,7 +691,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
                       <div className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
                       <span className="text-gray-600 truncate">{isRTL ? s.serviceName.ar : s.serviceName.en}</span>
                     </div>
-                    <span className="shrink-0 font-semibold text-gray-900">{s.revenue.toFixed(0)} {currencySymbol}</span>
+                    <span className="shrink-0 font-semibold text-gray-900">{formatCurrency(s.revenue, '', currencySymbol)}</span>
                   </div>
                 ))}
               </div>
@@ -744,7 +744,7 @@ function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesRepo
                 <p className="text-sm text-gray-500">{svc.orderCount} {isRTL ? 'طلب' : 'orders'}</p>
                 <div className="mt-2 flex items-center gap-3 text-xs">
                   <span className="text-green-600 font-medium">{svc.completionRate}% {isRTL ? 'إتمام' : 'completion'}</span>
-                  <span className="text-gray-500">{svc.revenue.toFixed(0)} {currencySymbol}</span>
+                  <span className="text-gray-500">{formatCurrency(svc.revenue, '', currencySymbol)}</span>
                 </div>
               </div>
             </div>

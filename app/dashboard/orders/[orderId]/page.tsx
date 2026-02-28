@@ -15,7 +15,7 @@ import {
   User,
   X,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 
 interface OrderDetail {
   order_id: string
@@ -339,9 +339,9 @@ export default function OrderDetailPage() {
                         {getItemName(item.item_name)}
                       </td>
                       <td>{item.quantity}</td>
-                      <td>{item.unit_price.toFixed(2)}</td>
+                      <td>{formatCurrency(item.unit_price, '', order.currency_code)}</td>
                       <td className="font-medium">
-                        {item.total.toFixed(2)}
+                        {formatCurrency(item.total, '', order.currency_code)}
                       </td>
                     </tr>
                   ))}
@@ -355,7 +355,7 @@ export default function OrderDetailPage() {
                       {t('total')}
                     </td>
                     <td className="font-bold text-primary-600">
-                      {order.total_amount.toFixed(2)} {order.currency_code}
+                      {formatCurrency(order.total_amount, '', order.currency_code)}
                     </td>
                   </tr>
                 </tfoot>

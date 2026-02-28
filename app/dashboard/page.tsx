@@ -15,7 +15,7 @@ import {
   Package,
   Loader2,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, formatCurrency } from '@/lib/utils'
 import { supabase } from '@/lib/supabase/client'
 import { Clock as ClockComponent } from '@/components/Clock'
 
@@ -176,7 +176,7 @@ export default function DashboardPage() {
       },
       {
         label: t('stats.totalRevenue'),
-        value: `${stats.totalRevenue.toFixed(2)} ${stats.currencySymbol}`,
+        value: formatCurrency(stats.totalRevenue, '', stats.currencySymbol),
         icon: Banknote,
         color: 'text-emerald-600',
         bg: 'bg-emerald-50',
@@ -373,7 +373,7 @@ export default function DashboardPage() {
                         : order.service_name.en}
                     </td>
                     <td className="font-medium">
-                      {order.total_amount.toFixed(2)}
+                      {formatCurrency(order.total_amount, '', stats.currencySymbol)}
                     </td>
                     <td>
                       <span className={BADGE_CLASS[order.status]}>

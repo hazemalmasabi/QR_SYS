@@ -18,12 +18,16 @@ import {
   Image as ImageIcon,
   Eye,
   EyeOff,
-  Check
+  Check,
+  Globe,
+  Info,
+  Coins
 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { toast } from 'sonner'
 import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
 import type { RoomType } from '@/types'
+import { SearchableSelect } from '@/components/ui/SearchableSelect'
 
 interface SettingsData {
   hotel_name: string
@@ -78,6 +82,14 @@ export default function SettingsPage() {
   const [timezone, setTimezone] = useState('')
   const [currencyCode, setCurrencyCode] = useState('')
 
+  // Custom Timezone states
+  const [customTzSign, setCustomTzSign] = useState<'+' | '-'>('+')
+  const [customTzHours, setCustomTzHours] = useState('00')
+  const [customTzMinutes, setCustomTzMinutes] = useState('00')
+  const [isTimezoneVerified, setIsTimezoneVerified] = useState(false)
+  const [verificationMessage, setVerificationMessage] = useState<string | null>(null)
+  const [matchingTimezones, setMatchingTimezones] = useState<{ value: string, label: any }[]>([])
+
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
   const [barcodePreviewLang, setBarcodePreviewLang] = useState<'ar' | 'en' | 'both'>(locale as 'ar' | 'en' | 'both')
   const [barcodePreviewDataUrl, setBarcodePreviewDataUrl] = useState<string | null>(null)
@@ -100,6 +112,32 @@ export default function SettingsPage() {
   const [replacementType, setReplacementType] = useState('')
   const [roomTypeMappings, setRoomTypeMappings] = useState<{ oldCode: string, newCode: string }[]>([])
 
+  const getOffsetMinutes = (offsetStr: string) => {
+    if (offsetStr === 'GMT' || offsetStr === 'UTC') return 0;
+    const match = offsetStr.match(/GMT([+-])(\d+)(?::(\d+))?/);
+    if (!match) return 0;
+    const sign = match[1] === '+' ? 1 : -1;
+    const hours = parseInt(match[2], 10) || 0;
+    const mins = parseInt(match[3], 10) || 0;
+    return sign * (hours * 60 + mins);
+  }
+
+  const handleVerifyTimezone = () => {
+    const userOffsetMinutes = ((customTzSign || '+') === '+' ? 1 : -1) * (parseInt(customTzHours || '00', 10) * 60 + parseInt(customTzMinutes || '00', 10))
+    const matches = TIMEZONES.filter(tz => getOffsetMinutes(tz.offset) === userOffsetMinutes)
+
+    setErrors(prev => ({ ...prev, timezone: false }))
+    setIsTimezoneVerified(true)
+
+    if (matches.length > 0) {
+      setMatchingTimezones(matches)
+      setVerificationMessage(locale === 'ar' ? 'تنبيه: يوجد دول مطابقة لنطاقك الزمني، "يجب" اختيار إحداها من القائمة بالأسفل للاستمرار.' : 'Alert: Matching timezones found, you "must" select one from the list below to continue.')
+    } else {
+      setMatchingTimezones([])
+      setVerificationMessage(locale === 'ar' ? 'تم التحقق بنجاح لعدم وجود دول مطابقة، سيتم اعتماد توقيتك.' : 'Successfully verified: No matching countries found, your custom offset will be used.')
+    }
+  }
+
   // Email Change Confirmation Modal
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
 
@@ -119,7 +157,22 @@ export default function SettingsPage() {
         setHotelLogoUrl(data.settings.hotel_logo_url || '')
         setBarcodeTextAr(data.settings.barcode_text_ar || '')
         setBarcodeTextEn(data.settings.barcode_text_en || '')
-        setTimezone(data.settings.timezone)
+
+        const tzValue = data.settings.timezone
+        setTimezone(tzValue)
+
+        // If the timezone is a custom GMT offset, try to parse it
+        if (tzValue.startsWith('GMT') && tzValue.includes(':')) {
+          const match = tzValue.match(/GMT([+-])(\d+):(\d+)/)
+          if (match) {
+            setCustomTzSign(match[1] as '+' | '-')
+            setCustomTzHours(match[2].padStart(2, '0'))
+            setCustomTzMinutes(match[3].padStart(2, '0'))
+            setIsTimezoneVerified(true)
+            setTimezone('OTHER')
+          }
+        }
+
         setCurrencyCode(data.settings.currency_code)
         setRoomTypes(data.settings.room_types || [])
       }
@@ -167,6 +220,15 @@ export default function SettingsPage() {
     setBarcodeTextEn(settings.barcode_text_en || '')
     setTimezone(settings.timezone)
     setCurrencyCode(settings.currency_code)
+
+    // Reset custom timezone states
+    setCustomTzSign('+')
+    setCustomTzHours('00')
+    setCustomTzMinutes('00')
+    setIsTimezoneVerified(false)
+    setVerificationMessage(null)
+    setMatchingTimezones([])
+
     setErrors({})
     setBarcodePreviewDataUrl(null)
   }
@@ -518,12 +580,28 @@ export default function SettingsPage() {
       setErrors({})
 
       const currency = CURRENCIES.find((c) => c.code === currencyCode)
+
+      let finalTimezone = timezone
+      if (finalTimezone === 'OTHER') {
+        if (!isTimezoneVerified) {
+          setErrors(prev => ({ ...prev, timezone: true }))
+          toast.error(locale === 'ar' ? 'يرجى التحقق من التوقيت أولاً' : 'Please verify timezone first')
+          return
+        }
+        if (matchingTimezones.length > 0) {
+          setErrors(prev => ({ ...prev, timezone: true }))
+          toast.error(locale === 'ar' ? 'يوجد دول مطابقة لنطاقك الزمني، يرجى اختيار إحداها للاستمرار' : 'Matching countries found, please select one to continue')
+          return
+        }
+        finalTimezone = `GMT${customTzSign}${customTzHours}:${customTzMinutes}`
+      }
+
       payload = {
         hotel_name: hotelName.trim(),
         hotel_name_en: hotelNameEn.trim(),
-        timezone,
+        timezone: finalTimezone,
         currency_code: currencyCode,
-        currency_symbol: currency?.symbol || currencyCode,
+        currency_symbol: currency?.symbol || (currencyCode === 'OTHER' ? '' : currencyCode),
         hotel_logo_url: hotelLogoUrl,
         barcode_text_ar: barcodeTextAr.trim(),
         barcode_text_en: barcodeTextEn.trim(),
@@ -703,45 +781,214 @@ export default function SettingsPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {/* Timezone */}
             <div>
-              <label className="label">{t('timezone')}</label>
-              <select
-                value={timezone}
-                onChange={(e) => {
-                  setTimezone(e.target.value)
-                  if (errors.timezone) setErrors({ ...errors, timezone: false })
-                }}
-                className={cn('input', errors.timezone && 'input-error')}
-              >
-                <option value="">---</option>
-                {TIMEZONES.map((tz) => (
-                  <option key={tz.value} value={tz.value}>
-                    {locale === 'ar' ? tz.label.ar : tz.label.en} ({tz.value})
-                  </option>
-                ))}
-              </select>
-              {errors.timezone && <p className="mt-1 text-xs text-red-500">{tv('required')}</p>}
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="label mb-0">{t('timezone')}</label>
+                <div className="group relative">
+                  <Info className="h-4 w-4 text-gray-400 cursor-help" />
+                  <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
+                    {locale === 'ar' ? 'هذا الحقل لتحديد توقيت الفندق المحلي. إذا لم تجد توقيتك في القائمة، يمكنك اختيار "أخرى" وتحديد فرق التوقيت يدوياً.' : 'This field is to set the local hotel timezone. If you cannot find yours, select "Other" to set the GMT offset manually.'}
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <Globe className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 z-10 text-gray-400" />
+                <SearchableSelect
+                  options={TIMEZONES}
+                  value={timezone}
+                  onChange={(v) => {
+                    setTimezone(v)
+                    if (errors.timezone) setErrors({ ...errors, timezone: false })
+                    if (v === 'OTHER') {
+                      setIsTimezoneVerified(false)
+                      setMatchingTimezones([])
+                      setVerificationMessage(null)
+                    }
+                  }}
+                  locale={locale}
+                  placeholder={locale === 'ar' ? 'اختر التوقيت الزمني...' : 'Select timezone...'}
+                  searchPlaceholder={locale === 'ar' ? 'ابحث عن مدينة أو توقيت...' : 'Search city or timezone...'}
+                  noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                  error={!!errors.timezone}
+                  hasIcon={true}
+                  showOtherOption={true}
+                  otherLabel={locale === 'ar' ? 'أخرى (تحديد مخصص)' : 'Other (Custom Offset)'}
+                />
+              </div>
             </div>
 
             {/* Currency */}
             <div>
-              <label className="label">{t('currency')}</label>
-              <select
-                value={currencyCode}
-                onChange={(e) => {
-                  handleCurrencyChange(e.target.value)
-                  if (errors.currencyCode) setErrors({ ...errors, currencyCode: false })
-                }}
-                className={cn('input', errors.currencyCode && 'input-error')}
-              >
-                <option value="">---</option>
-                {CURRENCIES.map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {locale === 'ar' ? c.label.ar : c.label.en} ({c.symbol})
-                  </option>
-                ))}
-              </select>
-              {errors.currencyCode && <p className="mt-1 text-xs text-red-500">{tv('required')}</p>}
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="label mb-0">{t('currency')}</label>
+                <div className="group relative">
+                  <Info className="h-4 w-4 text-gray-400 cursor-help" />
+                  <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
+                    {locale === 'ar' ? 'حدد عملة الفندق لإظهارها بجانب طلبات الغرف. يمكنك اختيار "أخرى" لعرض المبالغ كأرقام فقط بدون رمز بجانبها.' : 'Determine your hotel currency for room orders. Select "Other" to show amounts purely as numbers.'}
+                  </div>
+                </div>
+              </div>
+              <div className="relative">
+                <Coins className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 z-10 text-gray-400" />
+                <SearchableSelect
+                  options={CURRENCIES.map(c => ({ value: c.code, label: c.label }))}
+                  value={currencyCode}
+                  onChange={(v) => {
+                    setCurrencyCode(v)
+                    if (errors.currencyCode) setErrors({ ...errors, currencyCode: false })
+                  }}
+                  locale={locale}
+                  placeholder={locale === 'ar' ? 'اختر العملة...' : 'Select currency...'}
+                  searchPlaceholder={locale === 'ar' ? 'ابحث عن عملة...' : 'Search currency...'}
+                  noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                  error={!!errors.currencyCode}
+                  hasIcon={true}
+                  showOtherOption={true}
+                  otherLabel={locale === 'ar' ? 'أخرى (بدون رمز)' : 'Other (No Symbol)'}
+                />
+              </div>
             </div>
+
+            {/* Custom Timezone Configuration - Spans both columns if OTHER is selected */}
+            {timezone === 'OTHER' && (
+              <div className="sm:col-span-2">
+                <div className={cn(
+                  "flex flex-col gap-3 p-4 rounded-lg border transition-all",
+                  errors.timezone ? "border-red-300 bg-red-50/30 ring-1 ring-red-100" : "bg-gray-50 border-gray-200"
+                )}>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-sm font-semibold text-gray-700">
+                          {locale === 'ar' ? 'نطاق جرينتش المخصص:' : 'Custom GMT Offset:'}
+                        </span>
+                        <span className="text-xs text-gray-500 font-medium leading-relaxed max-w-[200px]">
+                          {locale === 'ar' ? 'حدد التوقيت بدقة للمقارنة بخط غرينتش' : 'Set the exact time relative to GMT'}
+                        </span>
+                      </div>
+
+                      <div className="flex items-end justify-between sm:justify-end w-full sm:w-auto gap-1 sm:gap-2" dir="ltr">
+                        <div className="flex items-center pb-2 shrink-0">
+                          <span className="text-sm font-bold text-gray-400">GMT</span>
+                        </div>
+                        <div className="flex flex-col gap-1 shrink-0">
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'إشارة' : '+ / -'}</span>
+                          <select
+                            value={customTzSign}
+                            className={cn(
+                              "input py-2 px-0 text-sm text-center bg-white appearance-none w-[44px]",
+                              (errors.timezone && !isTimezoneVerified) && "border-red-400 ring-red-100"
+                            )}
+                            onChange={(e) => {
+                              setCustomTzSign(e.target.value as '+' | '-');
+                              setIsTimezoneVerified(false);
+                              setVerificationMessage(null);
+                              if (errors.timezone) setErrors(prev => ({ ...prev, timezone: false }));
+                            }}
+                          >
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                          </select>
+                        </div>
+                        <div className="flex flex-col gap-1 shrink-0">
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'ساعات' : 'HH'}</span>
+                          <select
+                            value={customTzHours}
+                            className={cn(
+                              "input py-2 px-0 text-sm text-center bg-white appearance-none w-[60px]",
+                              (errors.timezone && !isTimezoneVerified) && "border-red-400 ring-red-100"
+                            )}
+                            onChange={(e) => {
+                              setCustomTzHours(e.target.value);
+                              setIsTimezoneVerified(false);
+                              setVerificationMessage(null);
+                              if (errors.timezone) setErrors(prev => ({ ...prev, timezone: false }));
+                            }}
+                          >
+                            {Array.from({ length: 15 }, (_, i) => String(i).padStart(2, '0')).map(h => (
+                              <option key={h} value={h}>{h}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex flex-col items-center justify-end pb-2 shrink-0">
+                          <span className="font-bold text-gray-400">:</span>
+                        </div>
+                        <div className="flex flex-col gap-1 shrink-0">
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'دقائق' : 'MM'}</span>
+                          <select
+                            value={customTzMinutes}
+                            className={cn(
+                              "input py-2 px-0 text-sm text-center bg-white appearance-none w-[60px]",
+                              (errors.timezone && !isTimezoneVerified) && "border-red-400 ring-red-100"
+                            )}
+                            onChange={(e) => {
+                              setCustomTzMinutes(e.target.value);
+                              setIsTimezoneVerified(false);
+                              setVerificationMessage(null);
+                              if (errors.timezone) setErrors(prev => ({ ...prev, timezone: false }));
+                            }}
+                          >
+                            {['00', '15', '30', '45'].map(m => (
+                              <option key={m} value={m}>{m}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end border-t border-gray-200 pt-3">
+                      <button
+                        type="button"
+                        onClick={handleVerifyTimezone}
+                        disabled={isTimezoneVerified}
+                        className={cn(
+                          "inline-flex shrink-0 w-full sm:w-auto items-center justify-center rounded-md text-sm font-medium border px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all",
+                          isTimezoneVerified
+                            ? "bg-green-50 border-green-200 text-green-700 focus:ring-green-500"
+                            : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500"
+                        )}
+                      >
+                        {isTimezoneVerified
+                          ? (locale === 'ar' ? 'تم التحقق بنجاح' : 'Verified Successfully')
+                          : (locale === 'ar' ? 'التحقق والمقارنة' : 'Verify Timezone')
+                        }
+                      </button>
+                    </div>
+                  </div>
+
+                  {verificationMessage && (
+                    <div className="mt-1 p-3 bg-blue-50 border-l-4 border-blue-400 text-blue-800 text-sm rounded-r-md">
+                      {verificationMessage}
+                    </div>
+                  )}
+
+                  {isTimezoneVerified && matchingTimezones.length > 0 && (
+                    <div className="mt-1 pt-1">
+                      <select
+                        className={cn(
+                          "input w-full bg-white text-sm",
+                          errors.timezone ? "border-red-500 ring-1 ring-red-100" : "border-blue-400 ring-1 ring-blue-100"
+                        )}
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            setTimezone(e.target.value)
+                            setMatchingTimezones([])
+                            setVerificationMessage(null)
+                            if (errors.timezone) setErrors(prev => ({ ...prev, timezone: false }));
+                          }
+                        }}
+                      >
+                        <option value="">{locale === 'ar' ? '--- اختر دولة مطابقة (إجباري) ---' : '--- Select a matching country (Required) ---'}</option>
+                        {matchingTimezones.map(tz => (
+                          <option key={tz.value} value={tz.value}>
+                            {typeof tz.label === 'string' ? tz.label : tz.label[locale as 'ar' | 'en']}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Barcode & Logo Settings */}

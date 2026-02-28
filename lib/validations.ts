@@ -4,7 +4,7 @@ export const registerSchema = z.object({
   hotelName: z.string().min(3, 'min3').max(100, 'max100'),
   hotelNameEn: z.string().min(3, 'min3').max(100, 'max100'),
   timezone: z.string().min(1, 'required'),
-  currencyCode: z.string().length(3, 'required'),
+  currencyCode: z.string().min(1, 'required'),
   fullName: z.string().min(3, 'min3').max(100, 'max100'),
   email: z.string().email('invalidEmail'),
   phone: z.string().regex(/^[0-9]{7,15}$/, 'phoneInvalid'),
