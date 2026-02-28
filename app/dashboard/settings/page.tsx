@@ -28,6 +28,7 @@ import { toast } from 'sonner'
 import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
 import type { RoomType } from '@/types'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
+import { Clock } from '@/components/Clock'
 
 interface SettingsData {
   hotel_name: string
@@ -782,7 +783,14 @@ export default function SettingsPage() {
             {/* Timezone */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="label mb-0">{t('timezone')}</label>
+                <div className="flex items-center gap-2">
+                  <label className="label mb-0">{t('timezone')}</label>
+                  <Clock
+                    timezone={timezone === 'OTHER' ? `GMT${customTzSign}${customTzHours}:${customTzMinutes}` : timezone}
+                    className="!py-0.5 !px-2 !bg-primary-50 !border-primary-100 !shadow-none !rounded-md"
+                    iconClassName="!w-3 !h-3"
+                  />
+                </div>
                 <div className="group relative">
                   <Info className="h-4 w-4 text-gray-400 cursor-help" />
                   <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">

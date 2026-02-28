@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Clock as ClockIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, getAdjustedDate } from '@/lib/utils'
 
-export function Clock({ className, iconClassName }: { className?: string; iconClassName?: string }) {
+export function Clock({ className, iconClassName, timezone }: { className?: string; iconClassName?: string; timezone?: string }) {
     const [time, setTime] = useState<string>('')
     const [mounted, setMounted] = useState(false)
 
@@ -13,20 +13,29 @@ export function Clock({ className, iconClassName }: { className?: string; iconCl
 
         const updateClock = () => {
             const now = new Date()
-            // Use 24-hour format
-            const formatted = now.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            })
-            setTime(formatted)
+
+            if (timezone && timezone.startsWith('GMT')) {
+                const adjusted = getAdjustedDate(now, timezone)
+                const h = String(adjusted.getHours()).padStart(2, '0')
+                const m = String(adjusted.getMinutes()).padStart(2, '0')
+                setTime(`${h}:${m}`)
+            } else {
+                // Use 24-hour format with IANA timezone if provided
+                const formatted = now.toLocaleTimeString('en-US', {
+                    timeZone: timezone || undefined,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                })
+                setTime(formatted)
+            }
         }
 
         updateClock()
-        const interval = setInterval(updateClock, 60000) // Update every minute
+        const interval = setInterval(updateClock, 10000) // Update every 10 seconds for better responsiveness in settings
 
         return () => clearInterval(interval)
-    }, [])
+    }, [timezone])
 
     if (!mounted) {
         // Return empty space or a skeleton to prevent hydration mismatch

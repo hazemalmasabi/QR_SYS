@@ -119,10 +119,10 @@ export async function GET(request: NextRequest) {
         ? totalExecutionTime / executedOrders.length / 60000
         : null
 
-    // Fetch hotel currency symbol
+    // Fetch hotel currency symbol and timezone
     const { data: hotel } = await supabaseAdmin
       .from('hotels')
-      .select('currency_symbol')
+      .select('currency_symbol, timezone')
       .eq('hotel_id', session.hotelId)
       .single()
 
@@ -181,6 +181,7 @@ export async function GET(request: NextRequest) {
         avgAcceptanceTime,
         avgExecutionTime,
         currencySymbol: hotel?.currency_symbol || '$',
+        timezone: hotel?.timezone || 'Asia/Riyadh',
         recentOrders: formattedRecentOrders,
       },
     })

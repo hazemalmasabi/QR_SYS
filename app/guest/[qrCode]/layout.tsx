@@ -103,7 +103,7 @@ export default function GuestLayout({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Clock />
+            <Clock timezone={guestInfo?.hotel.timezone} />
             <LanguageSwitcher className="!py-1.5 !px-2.5 !text-xs" />
           </div>
         </div>

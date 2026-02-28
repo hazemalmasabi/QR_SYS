@@ -53,11 +53,11 @@ export async function GET(request: Request) {
 
     switch (type) {
       case 'orders':
-        return await getOrdersReport(baseFilters, currencySymbol)
+        return await getOrdersReport(baseFilters, currencySymbol, hotel?.timezone || 'Asia/Riyadh')
       case 'revenue':
-        return await getRevenueReport(baseFilters, currencySymbol)
+        return await getRevenueReport(baseFilters, currencySymbol, hotel?.timezone || 'Asia/Riyadh')
       case 'services':
-        return await getServicesReport(baseFilters, currencySymbol)
+        return await getServicesReport(baseFilters, currencySymbol, hotel?.timezone || 'Asia/Riyadh')
       default:
         return NextResponse.json(
           { success: false, message: 'invalid type' },
@@ -80,7 +80,7 @@ interface BaseFilters {
   serviceId: string | null
 }
 
-async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
+async function getOrdersReport(filters: BaseFilters, currencySymbol: string, timezone: string) {
   let query = supabaseAdmin
     .from('orders')
     .select(
@@ -144,28 +144,35 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
       ? Math.round(totalExecutionTime / executedOrders.length / 60000)
       : null
 
-  // Aggregate by day
+  // Aggregate by day (timezone-aware)
   const byDay: Record<string, { date: string; total: number; completed: number; cancelled: number; newOrders: number; inProgress: number }> = {}
   for (const order of ordersList) {
-    const day = order.created_at.split('T')[0]
-    if (!byDay[day]) {
-      byDay[day] = { date: day, total: 0, completed: 0, cancelled: 0, newOrders: 0, inProgress: 0 }
+    const day = new Date(order.created_at).toLocaleDateString('en-US', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' })
+    const [m, d, y] = day.split('/')
+    const formattedDay = `${y}-${m}-${d}`
+
+    if (!byDay[formattedDay]) {
+      byDay[formattedDay] = { date: formattedDay, total: 0, completed: 0, cancelled: 0, newOrders: 0, inProgress: 0 }
     }
-    byDay[day].total++
-    if (order.status === 'completed') byDay[day].completed++
-    if (order.status === 'cancelled') byDay[day].cancelled++
-    if (order.status === 'new') byDay[day].newOrders++
-    if (order.status === 'in_progress') byDay[day].inProgress++
+    byDay[formattedDay].total++
+    if (order.status === 'completed') byDay[formattedDay].completed++
+    if (order.status === 'cancelled') byDay[formattedDay].cancelled++
+    if (order.status === 'new') byDay[formattedDay].newOrders++
+    if (order.status === 'in_progress') byDay[formattedDay].inProgress++
   }
 
   const dailyData = Object.values(byDay).sort((a, b) =>
     a.date.localeCompare(b.date)
   )
 
-  // Peak hours: count orders per hour (0-23)
+  // Peak hours: count orders per hour (0-23) in the target timezone
   const hourCounts: number[] = Array(24).fill(0)
   for (const order of ordersList) {
-    const hour = new Date(order.created_at).getHours()
+    const hour = parseInt(new Date(order.created_at).toLocaleTimeString('en-US', {
+      timeZone: timezone,
+      hour12: false,
+      hour: '2-digit'
+    }), 10)
     hourCounts[hour]++
   }
   const peakHoursData = hourCounts.map((count, hour) => ({
@@ -218,10 +225,11 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string) {
     cancellationByService,
     orders: ordersList,
     currencySymbol,
+    timezone
   })
 }
 
-async function getRevenueReport(filters: BaseFilters, currencySymbol: string) {
+async function getRevenueReport(filters: BaseFilters, currencySymbol: string, timezone: string) {
   let query = supabaseAdmin
     .from('orders')
     .select(
@@ -256,15 +264,18 @@ async function getRevenueReport(filters: BaseFilters, currencySymbol: string) {
   const avgOrderValue =
     ordersList.length > 0 ? totalRevenue / ordersList.length : 0
 
-  // Aggregate revenue by day
+  // Aggregate revenue by day (timezone-aware)
   const byDay: Record<string, { date: string; revenue: number; orders: number }> = {}
   for (const order of ordersList) {
-    const day = order.created_at.split('T')[0]
-    if (!byDay[day]) {
-      byDay[day] = { date: day, revenue: 0, orders: 0 }
+    const day = new Date(order.created_at).toLocaleDateString('en-US', { timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit' })
+    const [m, d, y] = day.split('/')
+    const formattedDay = `${y}-${m}-${d}`
+
+    if (!byDay[formattedDay]) {
+      byDay[formattedDay] = { date: formattedDay, revenue: 0, orders: 0 }
     }
-    byDay[day].revenue += order.total_amount || 0
-    byDay[day].orders++
+    byDay[formattedDay].revenue += order.total_amount || 0
+    byDay[formattedDay].orders++
   }
 
   const dailyData = Object.values(byDay).sort((a, b) =>
@@ -327,10 +338,11 @@ async function getRevenueReport(filters: BaseFilters, currencySymbol: string) {
     topServices,
     topRooms,
     currencySymbol,
+    timezone
   })
 }
 
-async function getServicesReport(filters: BaseFilters, currencySymbol: string) {
+async function getServicesReport(filters: BaseFilters, currencySymbol: string, timezone: string) {
   let query = supabaseAdmin
     .from('orders')
     .select(
@@ -421,5 +433,6 @@ async function getServicesReport(filters: BaseFilters, currencySymbol: string) {
     type: 'services',
     servicesData,
     currencySymbol,
+    timezone
   })
 }

@@ -43,7 +43,14 @@ export async function GET(
       )
     }
 
-    return NextResponse.json({ success: true, order })
+    // Fetch hotel timezone
+    const { data: hotel } = await supabaseAdmin
+      .from('hotels')
+      .select('timezone')
+      .eq('hotel_id', session.hotelId)
+      .single()
+
+    return NextResponse.json({ success: true, order, timezone: hotel?.timezone || 'Asia/Riyadh' })
   } catch (error) {
     console.error('Order detail error:', error)
     return NextResponse.json(

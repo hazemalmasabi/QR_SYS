@@ -15,7 +15,7 @@ import {
   User,
   X,
 } from 'lucide-react'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency, formatDateTime, formatTime } from '@/lib/utils'
 
 interface OrderDetail {
   order_id: string
@@ -72,6 +72,7 @@ export default function OrderDetailPage() {
   const orderId = params.orderId as string
 
   const [order, setOrder] = useState<OrderDetail | null>(null)
+  const [timezone, setTimezone] = useState('Asia/Riyadh')
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
   const [showCancelModal, setShowCancelModal] = useState(false)
@@ -102,6 +103,7 @@ export default function OrderDetailPage() {
       const data = await res.json()
       if (data.success) {
         setOrder(data.order)
+        if (data.timezone) setTimezone(data.timezone)
       }
     } catch {
       console.error('Failed to fetch order')
@@ -172,16 +174,7 @@ export default function OrderDetailPage() {
     return locale === 'ar' ? name.ar : name.en
   }
 
-  const formatDT = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
+  // Removed local formatDT to use global helpers
 
   if (loading) {
     return (
@@ -456,7 +449,7 @@ export default function OrderDetailPage() {
                       </p>
                       {event.time && (
                         <p className="mt-0.5 text-sm text-gray-500">
-                          {formatDT(event.time)}
+                          {formatDateTime(event.time, timezone, locale)}
                         </p>
                       )}
                     </div>

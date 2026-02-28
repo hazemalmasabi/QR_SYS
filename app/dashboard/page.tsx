@@ -14,8 +14,9 @@ import {
   Eye,
   Package,
   Loader2,
+  Calendar,
 } from 'lucide-react'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency, formatDateTime } from '@/lib/utils'
 import { supabase } from '@/lib/supabase/client'
 import { Clock as ClockComponent } from '@/components/Clock'
 
@@ -41,6 +42,7 @@ interface DashboardStats {
   avgAcceptanceTime: number | null
   avgExecutionTime: number | null
   currencySymbol: string
+  timezone: string
   recentOrders: RecentOrder[]
 }
 
@@ -123,15 +125,7 @@ export default function DashboardPage() {
     { key: 'custom', label: locale === 'ar' ? 'مخصص' : 'Custom' },
   ]
 
-  const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
+  // Removed local formatDate function to use global formatDateTime
 
   const statusCards = stats
     ? [
@@ -234,21 +228,46 @@ export default function DashboardPage() {
         </div>
 
         {period === 'custom' && (
-          <>
-            <input
-              type="date"
-              value={customFrom}
-              onChange={(e) => setCustomFrom(e.target.value)}
-              className="input h-10 text-sm"
-            />
-            <span className="text-gray-400 text-sm">—</span>
-            <input
-              type="date"
-              value={customTo}
-              onChange={(e) => setCustomTo(e.target.value)}
-              className="input h-10 text-sm"
-            />
-          </>
+          <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-600">
+                {locale === 'ar' ? 'من' : 'From'}
+              </span>
+              <div className="relative">
+                <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="date"
+                  value={customFrom}
+                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    setCustomFrom(val)
+                    if (val && customTo && val > customTo) {
+                      setCustomTo(val)
+                    }
+                  }}
+                  className="input icon-input input-with-icon ps-10 h-10 text-sm w-[150px]"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-600">
+                {locale === 'ar' ? 'إلى' : 'To'}
+              </span>
+              <div className="relative">
+                <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="date"
+                  value={customTo}
+                  min={customFrom}
+                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => setCustomTo(e.target.value)}
+                  className="input icon-input input-with-icon ps-10 h-10 text-sm w-[150px]"
+                />
+              </div>
+            </div>
+          </div>
         )}
 
         <div className="ms-auto flex items-center">
@@ -381,7 +400,7 @@ export default function DashboardPage() {
                       </span>
                     </td>
                     <td className="text-sm text-gray-500">
-                      {formatDate(order.created_at)}
+                      {stats ? formatDateTime(order.created_at, stats.timezone, locale) : '—'}
                     </td>
                     <td>
                       <button

@@ -6,9 +6,41 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Parsing GMT offsets like "GMT+03:00" or "GMT-05:30"
+ */
+function getOffsetMinutes(offsetStr: string): number {
+  if (!offsetStr || offsetStr === 'GMT' || offsetStr === 'UTC') return 0
+  const match = offsetStr.match(/GMT([+-])(\d+)(?::(\d+))?/)
+  if (!match) return 0
+  const sign = match[1] === '+' ? 1 : -1
+  const hours = parseInt(match[2], 10) || 0
+  const mins = parseInt(match[3], 10) || 0
+  return sign * (hours * 60 + mins)
+}
+
+/**
+ * Returns a Date object adjusted to the target timezone/offset
+ */
+export function getAdjustedDate(date: string | Date, timezone: string): Date {
+  const d = new Date(date)
+  if (!timezone) return d
+
+  // If it's a GMT offset
+  if (timezone.startsWith('GMT')) {
+    const offsetMinutes = getOffsetMinutes(timezone)
+    const utc = d.getTime() + (d.getTimezoneOffset() * 60000)
+    return new Date(utc + (offsetMinutes * 60000))
+  }
+
+  // If it's an IANA name, we can't easily "get a Date object" for that zone in JS 
+  // that behaves like local time, but we can use string formatting.
+  return d
+}
+
+/**
  * Returns true if the current hotel-local time is within [startTime, endTime].
  * startTime / endTime are "HH:MM" strings (24-hour).
- * Pass timezone = hotel timezone (e.g. 'Asia/Riyadh').
+ * Pass timezone = hotel timezone (e.g. 'Asia/Riyadh' or 'GMT+03:00').
  */
 export function isWithinServiceHours(
   startTime: string,
@@ -16,14 +48,22 @@ export function isWithinServiceHours(
   timezone: string = 'Asia/Riyadh'
 ): boolean {
   try {
-    // Get current time in hotel timezone as HH:MM
     const now = new Date()
-    const timeStr = now.toLocaleTimeString('en-US', {
-      timeZone: timezone,
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    })
+    let timeStr = ''
+
+    if (timezone && timezone.startsWith('GMT')) {
+      const adjusted = getAdjustedDate(now, timezone)
+      const h = String(adjusted.getHours()).padStart(2, '0')
+      const m = String(adjusted.getMinutes()).padStart(2, '0')
+      timeStr = `${h}:${m}`
+    } else {
+      timeStr = now.toLocaleTimeString('en-US', {
+        timeZone: timezone || 'Asia/Riyadh',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+    }
     // Convert to minutes
     const toMinutes = (t: string) => {
       const [h, m] = t.split(':').map(Number)
@@ -49,21 +89,37 @@ export function formatCurrency(amount: number, currencyCode: string, currencySym
 
 export function formatDate(date: string | Date, timezone: string, locale: string = 'ar'): string {
   const d = new Date(date)
-  return d.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-    timeZone: timezone,
+  const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  })
+  }
+
+  if (timezone && !timezone.startsWith('GMT')) {
+    options.timeZone = timezone
+  }
+
+  // If GMT, we use the adjusted date but format it in the local (browser) zone 
+  // because we've already "shifted" the hours to match.
+  const targetDate = (timezone && timezone.startsWith('GMT')) ? getAdjustedDate(d, timezone) : d
+
+  return targetDate.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', options)
 }
 
 export function formatTime(date: string | Date, timezone: string, locale: string = 'ar'): string {
   const d = new Date(date)
-  return d.toLocaleTimeString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-    timeZone: timezone,
+  const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit',
     minute: '2-digit',
-  })
+  }
+
+  if (timezone && !timezone.startsWith('GMT')) {
+    options.timeZone = timezone
+  }
+
+  const targetDate = (timezone && timezone.startsWith('GMT')) ? getAdjustedDate(d, timezone) : d
+
+  return targetDate.toLocaleTimeString(locale === 'ar' ? 'ar-SA' : 'en-US', options)
 }
 
 export function formatDateTime(date: string | Date, timezone: string, locale: string = 'ar'): string {

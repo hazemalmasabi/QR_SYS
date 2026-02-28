@@ -13,7 +13,7 @@ import {
   Package,
   Loader2,
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, formatDate, formatTime, formatCurrency } from '@/lib/utils'
 import { supabase } from '@/lib/supabase/client'
 
 interface OrderRow {
@@ -58,6 +58,7 @@ export default function OrdersPage() {
   const router = useRouter()
 
   const [orders, setOrders] = useState<OrderRow[]>([])
+  const [timezone, setTimezone] = useState('Asia/Riyadh')
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -136,6 +137,7 @@ export default function OrdersPage() {
       if (data.success) {
         setOrders(data.orders)
         setTotal(data.total)
+        if (data.timezone) setTimezone(data.timezone)
       }
     } catch {
       console.error('Failed to fetch orders')
@@ -194,22 +196,7 @@ export default function OrdersPage() {
     return items.reduce((sum, item) => sum + item.quantity, 0)
   }
 
-  const formatOrderDate = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  }
-
-  const formatOrderTime = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleTimeString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
+  // Removed local formatOrderDate and formatOrderTime to use global helpers
 
   return (
     <div className="space-y-6">
@@ -332,7 +319,7 @@ export default function OrdersPage() {
                     <td>{getServiceName(order.main_services)}</td>
                     <td>{getItemsCount(order.order_items)}</td>
                     <td className="font-medium">
-                      {order.total_amount.toFixed(2)}
+                      {formatCurrency(order.total_amount, order.currency_code, '')}
                     </td>
                     <td>
                       <span className={BADGE_CLASS[order.status]}>
@@ -340,8 +327,8 @@ export default function OrdersPage() {
                       </span>
                     </td>
                     <td className="text-gray-500">
-                      <div className="text-sm">{formatOrderDate(order.created_at)}</div>
-                      <div className="text-xs text-gray-400">{formatOrderTime(order.created_at)}</div>
+                      <div className="text-sm">{formatDate(order.created_at, timezone, locale)}</div>
+                      <div className="text-xs text-gray-400">{formatTime(order.created_at, timezone, locale)}</div>
                     </td>
                     <td>
                       <button

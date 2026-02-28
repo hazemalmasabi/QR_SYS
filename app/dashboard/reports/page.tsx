@@ -33,7 +33,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency, formatDate as formatDateHelper, formatDateTime } from '@/lib/utils'
 
 type ReportTab = 'orders' | 'revenue'
 type QuickPeriod = '7d' | '30d' | '90d' | 'custom'
@@ -176,6 +176,7 @@ export default function ReportsPage() {
   const [topServices, setTopServices] = useState<TopServiceRevenue[]>([])
   const [topRooms, setTopRooms] = useState<TopRoom[]>([])
   const [currencySymbol, setCurrencySymbol] = useState('$')
+  const [timezone, setTimezone] = useState('Asia/Riyadh')
 
 
   useEffect(() => {
@@ -204,6 +205,7 @@ export default function ReportsPage() {
       if (!data.success) return
 
       if (data.currencySymbol) setCurrencySymbol(data.currencySymbol)
+      if (data.timezone) setTimezone(data.timezone)
 
       switch (data.type) {
         case 'orders':
@@ -240,13 +242,12 @@ export default function ReportsPage() {
   }
 
   const formatDate = (dateStr: string) => {
-    const d = new Date(dateStr + 'T00:00:00')
-    return d.toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', { month: 'short', day: 'numeric' })
+    // For chart X-axis (daily data is already YYYY-MM-DD from API)
+    return formatDateHelper(dateStr, timezone, locale).split(' ').slice(0, 2).join(' ')
   }
 
   const formatFullDate = (dateStr: string) => {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    return formatDateHelper(dateStr, timezone, locale)
   }
 
   const getServiceName = (svc: { service_name: { ar: string; en: string } }) =>
@@ -314,27 +315,46 @@ export default function ReportsPage() {
         </div>
 
         {quickPeriod === 'custom' && (
-          <>
-            <div className="relative">
-              <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="date"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                className="input icon-input input-with-icon ps-10 h-10 text-sm"
-              />
+          <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-600">
+                {locale === 'ar' ? 'من' : 'From'}
+              </span>
+              <div className="relative">
+                <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="date"
+                  value={dateFrom}
+                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => {
+                    const val = e.target.value
+                    setDateFrom(val)
+                    if (val && dateTo && val > dateTo) {
+                      setDateTo(val)
+                    }
+                  }}
+                  className="input icon-input input-with-icon ps-10 h-10 text-sm w-[150px]"
+                />
+              </div>
             </div>
-            <span className="text-gray-400 text-sm">—</span>
-            <div className="relative">
-              <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="date"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                className="input icon-input input-with-icon ps-10 h-10 text-sm"
-              />
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-600">
+                {locale === 'ar' ? 'إلى' : 'To'}
+              </span>
+              <div className="relative">
+                <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="date"
+                  value={dateTo}
+                  min={dateFrom}
+                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="input icon-input input-with-icon ps-10 h-10 text-sm w-[150px]"
+                />
+              </div>
             </div>
-          </>
+          </div>
         )}
 
         {services.length > 0 && (
@@ -377,6 +397,7 @@ export default function ReportsPage() {
               formatDate={formatDate}
               formatFullDate={formatFullDate}
               getServiceName={getServiceName}
+              timezone={timezone}
             />
           )}
           {activeTab === 'revenue' && (
@@ -387,8 +408,11 @@ export default function ReportsPage() {
               topRooms={topRooms}
               currencySymbol={currencySymbol}
               t={t}
+              locale={locale}
               isRTL={isRTL}
               formatDate={formatDate}
+              getServiceName={getServiceName}
+              timezone={timezone}
             />
           )}
 
@@ -415,9 +439,10 @@ interface OrdersReportProps {
   formatDate: (d: string) => string
   formatFullDate: (d: string) => string
   getServiceName: (svc: { service_name: { ar: string; en: string } }) => string
+  timezone: string
 }
 
-function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, orders: _orders, currencySymbol: _currencySymbol, t, isRTL, formatDate }: OrdersReportProps) {
+function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, orders: _orders, currencySymbol: _currencySymbol, t, locale, isRTL, formatDate, timezone }: OrdersReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Determine grouping based on number of days in dailyData
@@ -451,7 +476,7 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
       if (!buckets[key]) {
         const label = granularity === 'week'
           ? formatDate(key)
-          : new Date(key + '-01T00:00:00').toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', { month: 'short', year: 'numeric' })
+          : formatDateHelper(key + '-01', timezone, locale).split(' ').slice(1).join(' ')
         buckets[key] = { label, total: 0, completed: 0, cancelled: 0, newOrders: 0, inProgress: 0 }
       }
       buckets[key].total += d.total
@@ -580,9 +605,12 @@ interface RevenueReportProps {
   t: ReturnType<typeof useTranslations<'reports'>>
   isRTL: boolean
   formatDate: (d: string) => string
+  getServiceName: (svc: { service_name: { ar: string; en: string } }) => string
+  timezone: string
+  locale: string
 }
 
-function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, currencySymbol, t, isRTL, formatDate }: RevenueReportProps) {
+function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, currencySymbol, t, isRTL, formatDate, timezone, locale, getServiceName }: RevenueReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Dynamic grouping same as orders chart
@@ -614,7 +642,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
       if (!buckets[key]) {
         const label = granularity === 'week'
           ? formatDate(key)
-          : new Date(key + '-01T00:00:00').toLocaleDateString(isRTL ? 'ar-SA' : 'en-US', { month: 'short', year: 'numeric' })
+          : formatDateHelper(key + '-01', timezone, locale).split(' ').slice(1).join(' ')
         buckets[key] = { label, revenue: 0, orders: 0 }
       }
       buckets[key].revenue += d.revenue

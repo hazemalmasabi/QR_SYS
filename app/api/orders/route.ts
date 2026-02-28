@@ -61,6 +61,13 @@ export async function GET(request: Request) {
       query = query.eq('service_id', serviceId)
     }
 
+    // Fetch hotel timezone
+    const { data: hotel } = await supabaseAdmin
+      .from('hotels')
+      .select('timezone')
+      .eq('hotel_id', session.hotelId)
+      .single()
+
     // Apply pagination
     query = query.range(offset, offset + limit - 1)
 
@@ -78,6 +85,7 @@ export async function GET(request: Request) {
       success: true,
       orders: orders || [],
       total: count || 0,
+      timezone: hotel?.timezone || 'Asia/Riyadh',
       page,
     })
   } catch (error) {
