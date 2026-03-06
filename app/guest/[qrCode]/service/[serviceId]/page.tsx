@@ -18,8 +18,8 @@ interface SubServiceWithItems extends Omit<SubService, 'availability_type' | 'st
 
 interface ServiceInfo {
   service_id: string
-  service_name: { ar: string; en: string }
-  description: { ar: string; en: string }
+  service_name: Record<string, string>
+  description: Record<string, string>
   image_url: string | null
   availability_type?: string
   start_time?: string
@@ -134,8 +134,8 @@ export default function ServiceMenuPage({
     )
   }
 
-  const serviceName = locale === 'ar' ? service.service_name.ar : service.service_name.en
-  const serviceDesc = locale === 'ar' ? service.description.ar : service.description.en
+  const serviceName = service.service_name[locale] || service.service_name.en || service.service_name.ar || ''
+  const serviceDesc = service.description[locale] || service.description.en || service.description.ar || ''
   const itemCount = getItemCount()
   const total = getTotal()
   const currencySymbol = guestInfo?.hotel.currency_symbol || ''
@@ -232,8 +232,8 @@ export default function ServiceMenuPage({
               return aIsOpen ? -1 : 1
             })
             .map((sub) => {
-              const subName = locale === 'ar' ? sub.sub_service_name.ar : sub.sub_service_name.en
-              const subDesc = sub.description ? (locale === 'ar' ? sub.description.ar : sub.description.en) : null
+              const subName = sub.sub_service_name[locale] || sub.sub_service_name.en || sub.sub_service_name.ar || ''
+              const subDesc = sub.description ? (sub.description[locale] || sub.description.en || sub.description.ar || '') : null
               const isExpanded = expandedSections.has(sub.sub_service_id)
 
               // Sub-service description logic
@@ -349,8 +349,8 @@ export default function ServiceMenuPage({
                   {isExpanded && (
                     <div className="border-t border-gray-100">
                       {sub.items.map((item, idx) => {
-                        const itemName = locale === 'ar' ? item.item_name.ar : item.item_name.en
-                        const itemDesc = locale === 'ar' ? item.description.ar : item.description.en
+                        const itemName = item.item_name[locale] || item.item_name.en || item.item_name.ar || ''
+                        const itemDesc = item.description ? (item.description[locale] || item.description.en || item.description.ar || '') : null
                         const qty = getCartQuantity(item.item_id)
                         const isItemAvailable = item.availability_status === 'available'
 

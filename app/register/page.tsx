@@ -25,12 +25,15 @@ import {
   ArrowLeft,
   X,
   Check,
+  ChevronDown,
 } from 'lucide-react'
 import { registerSchema } from '@/lib/validations'
 import type { RegisterInput } from '@/lib/validations'
 import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { SUPPORTED_LANGUAGES, getLanguageName } from '@/lib/languages'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
+import MultilingualInput from '@/components/MultilingualInput'
 
 interface FormRegisterInput extends RegisterInput {
   customTzSign?: '+' | '-'
@@ -64,8 +67,9 @@ export default function RegisterPage() {
   } = useForm<FormRegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      hotelName: '',
       hotelNameEn: '',
+      hotelNameSecondary: '',
+      languageSecondary: locale === 'en' ? 'none' : locale,
       timezone: '',
       currencyCode: '',
       fullName: '',
@@ -84,6 +88,9 @@ export default function RegisterPage() {
   const customSign = watch('customTzSign')
   const customHrs = watch('customTzHours')
   const customMins = watch('customTzMinutes')
+  const languageSecondary = watch('languageSecondary')
+  const hotelNameEn = watch('hotelNameEn') || ''
+  const hotelNameSecondary = watch('hotelNameSecondary') || ''
 
   const getOffsetMinutes = (offsetStr: string) => {
     if (offsetStr === 'GMT' || offsetStr === 'UTC') return 0;
@@ -104,10 +111,10 @@ export default function RegisterPage() {
 
     if (matches.length > 0) {
       setMatchingTimezones(matches)
-      setVerificationMessage(locale === 'ar' ? 'تنبيه: يوجد دول مطابقة لنطاقك الزمني، "يجب" اختيار إحداها من القائمة بالأسفل للاستمرار.' : 'Alert: Matching timezones found, you "must" select one from the list below to continue.')
+      setVerificationMessage(t('tzMatchingFound'))
     } else {
       setMatchingTimezones([])
-      setVerificationMessage(locale === 'ar' ? 'تم التحقق بنجاح لعدم وجود دول مطابقة، سيتم اعتماد توقيتك.' : 'Successfully verified: No matching countries found, your custom offset will be used.')
+      setVerificationMessage(t('tzNoMatching'))
     }
   }
 
@@ -121,8 +128,8 @@ export default function RegisterPage() {
       passwordRequirements: tv('passwordRequirements'),
       passwordMismatch: tv('passwordMismatch'),
       phoneInvalid: tv('phoneInvalid'),
-      verificationRequired: locale === 'ar' ? 'يرجى التحقق من التوقيت' : 'Verification required',
-      matchRequired: locale === 'ar' ? 'يجب اختيار دولة مطابقة' : 'Must select a match',
+      verificationRequired: t('verificationRequired'),
+      matchRequired: t('matchRequired'),
     }
     return map[key] || key
   }
@@ -152,15 +159,15 @@ export default function RegisterPage() {
       let finalTimezone = data.timezone;
       if (finalTimezone === 'OTHER') {
         if (!isTimezoneVerified) {
-          setError('timezone', { type: 'manual', message: locale === 'ar' ? 'يرجى التحقق من التوقيت أولاً' : 'Please verify timezone first' })
-          toast.error(locale === 'ar' ? 'يرجى التحقق من التوقيت الزمني المخصص' : 'Please verify your custom timezone offset')
+          setError('timezone', { type: 'manual', message: t('tzVerifyFirst') })
+          toast.error(t('tzVerifyCustomOffset'))
           setLoading(false)
           return
         }
 
         if (matchingTimezones.length > 0) {
-          setError('timezone', { type: 'manual', message: locale === 'ar' ? 'يجب اختيار دولة مطابقة' : 'Must select a matching country' })
-          toast.error(locale === 'ar' ? 'يوجد دول مطابقة لنطاقك الزمني، يرجى اختيار إحداها للاستمرار' : 'Matching countries found, please select one to continue')
+          setError('timezone', { type: 'manual', message: t('tzMustSelectMatching') })
+          toast.error(t('tzPleaseSelectMatching'))
           setLoading(false)
           return
         }
@@ -191,7 +198,7 @@ export default function RegisterPage() {
 
       router.push(`/verify-email?email=${encodeURIComponent(data.email)}`)
     } catch (err) {
-      toast.error(locale === 'ar' ? 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً' : 'An unexpected error occurred, please try again later')
+      toast.error(t('unexpectedError'))
     } finally {
       setLoading(false)
     }
@@ -204,7 +211,7 @@ export default function RegisterPage() {
           <ArrowLeft className="h-4 w-4" />
           {locale === 'ar' ? 'الرئيسية' : 'Home'}
         </Link>
-        <LanguageSwitcher />
+        <LanguageSwitcher variant="dropdown" />
       </div>
 
       <div className="w-full max-w-lg">
@@ -217,56 +224,76 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Hotel Info Section */}
           <div className="card mb-4">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
-              <Hotel className="h-5 w-5 text-primary-600" />
-              {t('hotelInfo')}
-            </h2>
+            <div className="mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                  <Hotel className="h-5 w-5 text-primary-600" />
+                  {t('hotelInfo')}
+                </h2>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {/* Hotel Name (AR) */}
-                <div>
-                  <label htmlFor="hotelName" className="label">
-                    {t('hotelName')}
-                  </label>
-                  <div className="relative">
-                    <Hotel className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input
-                      id="hotelName"
-                      type="text"
-                      className={cn('input icon-input ps-10', errors.hotelName && 'input-error')}
-                      {...register('hotelName')}
-                    />
+                {/* Secondary Language Selection */}
+                <div className="flex flex-col gap-1.5 self-start sm:self-auto min-w-[180px]">
+                  <div className="flex items-center justify-between gap-2">
+                    <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                      {locale === 'ar' ? 'اللغة الثانية' : locale === 'fr' ? 'Langue secondaire' : 'Secondary Language'}
+                    </label>
+                    <div className="group relative">
+                      <Info className="h-3.5 w-3.5 text-gray-400 cursor-help" />
+                      <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
+                        {locale === 'ar'
+                          ? 'اختر لغة إضافية لعرضها للنزلاء في قائمة الخدمات. سيطلب منك إدخال أسماء الخدمات والأصناف بهذه اللغة أيضاً.'
+                          : locale === 'fr'
+                            ? 'Sélectionnez une langue supplémentaire à afficher aux clients dans le menu des services.'
+                            : 'Select an additional language to show to guests. You will be asked to enter content in this language as well.'}
+                      </div>
+                    </div>
                   </div>
-                  {errors.hotelName && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {resolveValidation(errors.hotelName.message || '')}
-                    </p>
-                  )}
-                </div>
-
-                {/* Hotel Name (EN) */}
-                <div>
-                  <label htmlFor="hotelNameEn" className="label">
-                    {t('hotelNameEn')}
-                  </label>
                   <div className="relative">
-                    <Hotel className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input
-                      id="hotelNameEn"
-                      type="text"
-                      dir="ltr"
-                      className={cn('input icon-input ps-10', errors.hotelNameEn && 'input-error')}
-                      {...register('hotelNameEn')}
-                    />
+                    <Globe className="pointer-events-none absolute start-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
+                    <select
+                      {...register('languageSecondary')}
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 ps-8 pe-3 py-1.5 text-xs font-semibold text-gray-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-all appearance-none"
+                      onChange={(e) => {
+                        const val = e.target.value
+                        setValue('languageSecondary', val)
+                        if (val === 'none') {
+                          setValue('hotelNameSecondary', '')
+                          clearErrors('hotelNameSecondary')
+                        }
+                      }}
+                    >
+                      <option value="none">{locale === 'ar' ? 'بدون لغة ثانية' : 'No secondary language'}</option>
+                      {SUPPORTED_LANGUAGES.filter(lang => lang.code !== 'en').map(lang => (
+                        <option key={lang.code} value={lang.code}>
+                          {getLanguageName(lang.code, locale)}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute end-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
                   </div>
-                  {errors.hotelNameEn && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {resolveValidation(errors.hotelNameEn.message || '')}
-                    </p>
-                  )}
                 </div>
               </div>
+            </div>
+
+            <div className="space-y-6">
+              {/* Multilingual Hotel Name */}
+              <MultilingualInput
+                label={locale === 'ar' ? 'اسم الفندق' : 'Hotel Name'}
+                translations={{ en: hotelNameEn, [languageSecondary]: hotelNameSecondary }}
+                onChange={(vals) => {
+                  setValue('hotelNameEn', vals.en, { shouldValidate: true })
+                  if (languageSecondary !== 'none') {
+                    setValue('hotelNameSecondary', vals[languageSecondary] || '', { shouldValidate: true })
+                  }
+                }}
+                secondaryLocale={languageSecondary === 'none' ? undefined : languageSecondary}
+                availableLocales={languageSecondary === 'none' ? ['en'] : SUPPORTED_LANGUAGES.map(l => l.code)}
+                errorEn={errors.hotelNameEn && resolveValidation(errors.hotelNameEn.message || '')}
+                errorSecondary={errors.hotelNameSecondary && resolveValidation(errors.hotelNameSecondary.message || '')}
+                maxLength={100}
+                placeholderEn="e.g. Grand Plaza Hotel"
+                placeholderSecondary={languageSecondary === 'ar' ? 'أدخل اسم الفندق بالعربية' : languageSecondary === 'fr' ? 'ex: Grand Plaza Hôtel' : ''}
+              />
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {/* Timezone */}
@@ -278,7 +305,7 @@ export default function RegisterPage() {
                     <div className="group relative">
                       <Info className="h-4 w-4 text-gray-400 cursor-help" />
                       <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                        {locale === 'ar' ? 'هذا الحقل لتحديد توقيت الفندق المحلي. إذا لم تجد توقيتك في القائمة، يمكنك اختيار "أخرى" وتحديد فرق التوقيت مقارنة بخط جرينتش يدوياً.' : 'This field is to set the local hotel timezone. If you cannot find yours, select "Other" to set the GMT offset manually.'}
+                        {t('timezoneTooltip')}
                       </div>
                     </div>
                   </div>
@@ -328,7 +355,7 @@ export default function RegisterPage() {
                     <div className="group relative">
                       <Info className="h-4 w-4 text-gray-400 cursor-help" />
                       <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                        {locale === 'ar' ? 'حدد عملة الفندق لإظهارها بجانب طلبات الغرف. يمكنك اختيار "أخرى" لعرض المبالغ كأرقام فقط بدون رمز بجانبها.' : 'Determine your hotel currency for room orders. Select "Other" to show amounts purely as numbers.'}
+                        {t('currencyTooltip')}
                       </div>
                     </div>
                   </div>
@@ -372,10 +399,10 @@ export default function RegisterPage() {
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                           <div className="flex flex-col gap-1">
                             <span className="text-sm font-semibold text-gray-700">
-                              {locale === 'ar' ? 'نطاق جرينتش المخصص:' : 'Custom GMT Offset:'}
+                              {t('customGmtOffset')}
                             </span>
                             <span className="text-xs text-gray-500 font-medium leading-relaxed max-w-[200px]">
-                              {locale === 'ar' ? 'حدد التوقيت بدقة للمقارنة بخط غرينتش' : 'Set the exact time relative to GMT'}
+                              {t('exactTimeTarget')}
                             </span>
                           </div>
 
@@ -384,7 +411,7 @@ export default function RegisterPage() {
                               <span className="text-sm font-bold text-gray-400">GMT</span>
                             </div>
                             <div className="flex flex-col gap-1 shrink-0">
-                              <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'إشارة' : '+ / -'}</span>
+                              <span className="text-[10px] text-center text-gray-500 font-medium">{t('sign')}</span>
                               <select
                                 {...register('customTzSign')}
                                 className={cn(
@@ -403,7 +430,7 @@ export default function RegisterPage() {
                               </select>
                             </div>
                             <div className="flex flex-col gap-1 shrink-0">
-                              <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'ساعات' : 'HH'}</span>
+                              <span className="text-[10px] text-center text-gray-500 font-medium">{t('hoursBtn')}</span>
                               <select
                                 {...register('customTzHours')}
                                 className={cn(
@@ -426,7 +453,7 @@ export default function RegisterPage() {
                               <span className="font-bold text-gray-400">:</span>
                             </div>
                             <div className="flex flex-col gap-1 shrink-0">
-                              <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'دقائق' : 'MM'}</span>
+                              <span className="text-[10px] text-center text-gray-500 font-medium">{t('minutesBtn')}</span>
                               <select
                                 {...register('customTzMinutes')}
                                 className={cn(
@@ -460,10 +487,7 @@ export default function RegisterPage() {
                                 : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500"
                             )}
                           >
-                            {isTimezoneVerified
-                              ? (locale === 'ar' ? 'تم التحقق بنجاح' : 'Verified Successfully')
-                              : (locale === 'ar' ? 'التحقق والمقارنة' : 'Verify Timezone')
-                            }
+                            {isTimezoneVerified ? t('tzVerifiedSuccess') : t('tzVerifyBtn')}
                           </button>
                         </div>
                       </div>
@@ -490,7 +514,7 @@ export default function RegisterPage() {
                               }
                             }}
                           >
-                            <option value="">{locale === 'ar' ? '--- اختر دولة مطابقة (إجباري) ---' : '--- Select a matching country (Required) ---'}</option>
+                            <option value="">{t('tzSelectMatching')}</option>
                             {matchingTimezones.map(tz => (
                               <option key={tz.value} value={tz.value}>
                                 {typeof tz.label === 'string' ? tz.label : tz.label[locale as 'ar' | 'en']}

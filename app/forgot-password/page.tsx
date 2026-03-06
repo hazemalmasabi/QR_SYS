@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
           <ArrowLeft className="h-4 w-4" />
           {locale === 'ar' ? 'الرئيسية' : 'Home'}
         </Link>
-        <LanguageSwitcher />
+        <LanguageSwitcher variant="dropdown" />
       </div>
 
       <div className="w-full max-w-md">
@@ -101,9 +101,7 @@ export default function ForgotPasswordPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Admin only notice */}
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                {locale === 'ar'
-                  ? '⚠️ هذه الخدمة مخصصة فقط للمشرفين الرئيسيين للفنادق. اذا كنت موظفاً أو مشرفًا تواصل مع مدير فندقك.'
-                  : '⚠️ This service is only for hotel super admins. If you are an employee or supervisor, contact your hotel manager.'}
+                {t('adminWarning')}
               </div>
               {/* Email */}
               <div>

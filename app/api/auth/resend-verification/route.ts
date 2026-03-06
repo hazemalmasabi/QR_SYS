@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import { sendEmail, getVerificationEmailHtml } from '@/lib/email'
+import { sendEmail, getVerificationEmailHtml, getVerificationEmailSubject } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     const emailHtml = getVerificationEmailHtml(employee.full_name, verifyUrl, lang || 'ar')
     const emailSent = await sendEmail({
       to: email,
-      subject: 'تأكيد البريد الإلكتروني - Email Verification',
+      subject: getVerificationEmailSubject(lang || 'ar'),
       html: emailHtml,
     })
 

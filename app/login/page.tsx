@@ -81,7 +81,7 @@ export default function LoginPage() {
           <ArrowLeft className="h-4 w-4" />
           {locale === 'ar' ? 'الرئيسية' : 'Home'}
         </Link>
-        <LanguageSwitcher />
+        <LanguageSwitcher variant="dropdown" />
       </div>
 
       <div className="w-full max-w-md">

@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { registerSchema } from '@/lib/validations'
-import { sendEmail, getVerificationEmailHtml } from '@/lib/email'
+import { sendEmail, getVerificationEmailHtml, getVerificationEmailSubject } from '@/lib/email'
 import { CURRENCIES } from '@/lib/utils'
 
 export async function POST(request: Request) {
@@ -18,7 +18,17 @@ export async function POST(request: Request) {
       )
     }
 
-    const { hotelName, hotelNameEn, timezone, currencyCode, fullName, email, phone, password } = parsed.data
+    const {
+      hotelNameEn,
+      hotelNameSecondary,
+      languageSecondary,
+      timezone,
+      currencyCode,
+      fullName,
+      email,
+      phone,
+      password
+    } = parsed.data
 
     // Check if email is already taken
     const { data: existingEmployee } = await supabaseAdmin
@@ -43,8 +53,14 @@ export async function POST(request: Request) {
     const { data: hotel, error: hotelError } = await supabaseAdmin
       .from('hotels')
       .insert({
-        hotel_name: hotelName,
-        hotel_name_en: hotelNameEn,
+        hotel_name: languageSecondary === 'ar' ? hotelNameSecondary : '', // Keep base hotel_name for core reference
+        hotel_name_translations: languageSecondary === 'none' ? {
+          en: hotelNameEn
+        } : {
+          en: hotelNameEn,
+          [languageSecondary]: hotelNameSecondary
+        },
+        language_secondary: languageSecondary,
         timezone,
         currency_code: currencyCode,
         currency_symbol: currencySymbol,
@@ -110,7 +126,7 @@ export async function POST(request: Request) {
     const emailHtml = getVerificationEmailHtml(fullName, verifyUrl, lang)
     const emailSent = await sendEmail({
       to: email,
-      subject: 'تأكيد البريد الإلكتروني - Email Verification',
+      subject: getVerificationEmailSubject(lang),
       html: emailHtml,
     })
 

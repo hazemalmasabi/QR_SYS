@@ -14,7 +14,7 @@ export async function GET() {
 
     const { data: hotel, error } = await supabaseAdmin
       .from('hotels')
-      .select('hotel_name, hotel_name_en, hotel_logo_url, barcode_text_ar, barcode_text_en, timezone, currency_code, currency_symbol, room_types')
+      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
       .eq('hotel_id', session.hotelId)
       .single()
 
@@ -45,6 +45,7 @@ export async function GET() {
     if (hotel.room_types && Array.isArray(hotel.room_types)) {
       hotel.room_types = hotel.room_types.map((rt: any) => ({
         ...rt,
+        name: rt.name || {},
         original_code: rt.code,
         rooms_count: roomCounts[rt.code] || 0
       }))
@@ -79,42 +80,39 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json()
-    const { hotel_name, hotel_name_en, hotel_logo_url, barcode_text_ar, barcode_text_en, timezone, currency_code, currency_symbol, room_types, room_type_mappings } = body
+    const {
+      hotel_name,
+      hotel_name_translations,
+      hotel_logo_url,
+      barcode_text_translations,
+      language_secondary,
+      timezone,
+      currency_code,
+      currency_symbol,
+      room_types,
+      room_type_mappings
+    } = body
 
     const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString(),
     }
 
-    if (hotel_name !== undefined) {
-      if (!hotel_name || typeof hotel_name !== 'string' || hotel_name.trim().length < 2) {
-        return NextResponse.json(
-          { success: false, message: 'invalidHotelName' },
-          { status: 400 }
-        )
-      }
-      updateData.hotel_name = hotel_name.trim()
-    }
-
-    if (hotel_name_en !== undefined) {
-      if (!hotel_name_en || typeof hotel_name_en !== 'string' || hotel_name_en.trim().length < 2) {
-        return NextResponse.json(
-          { success: false, message: 'invalidHotelNameEn' },
-          { status: 400 }
-        )
-      }
-      updateData.hotel_name_en = hotel_name_en.trim()
+    if (hotel_name_translations !== undefined) {
+      updateData.hotel_name_translations = hotel_name_translations
+      // Keep ar in sync if it is in translations for base field
+      if (hotel_name_translations.ar) updateData.hotel_name = hotel_name_translations.ar
     }
 
     if (hotel_logo_url !== undefined) {
       updateData.hotel_logo_url = hotel_logo_url
     }
 
-    if (barcode_text_ar !== undefined) {
-      updateData.barcode_text_ar = barcode_text_ar
+    if (barcode_text_translations !== undefined) {
+      updateData.barcode_text_translations = barcode_text_translations
     }
 
-    if (barcode_text_en !== undefined) {
-      updateData.barcode_text_en = barcode_text_en
+    if (language_secondary !== undefined) {
+      updateData.language_secondary = language_secondary
     }
 
     if (timezone !== undefined) {
@@ -157,14 +155,14 @@ export async function PATCH(request: Request) {
 
       // Validate each room type
       for (const rt of room_types) {
-        if (
-          !rt.code ||
-          typeof rt.code !== 'string' ||
-          !rt.name_ar ||
-          typeof rt.name_ar !== 'string' ||
-          !rt.name_en ||
-          typeof rt.name_en !== 'string'
-        ) {
+        if (!rt.code || typeof rt.code !== 'string') {
+          return NextResponse.json(
+            { success: false, message: 'invalidRoomTypes' },
+            { status: 400 }
+          )
+        }
+
+        if (!rt.name || typeof rt.name !== 'object' || !rt.name.en) {
           return NextResponse.json(
             { success: false, message: 'invalidRoomTypes' },
             { status: 400 }
@@ -175,8 +173,7 @@ export async function PATCH(request: Request) {
       // Clean out original_code before saving since it's just for frontend tracking
       const cleanRoomTypes = room_types.map((rt: any) => ({
         code: rt.code,
-        name_ar: rt.name_ar,
-        name_en: rt.name_en
+        name: rt.name
       }))
 
       updateData.room_types = cleanRoomTypes
@@ -207,7 +204,7 @@ export async function PATCH(request: Request) {
       .from('hotels')
       .update(updateData)
       .eq('hotel_id', session.hotelId)
-      .select('hotel_name, hotel_name_en, hotel_logo_url, barcode_text_ar, barcode_text_en, timezone, currency_code, currency_symbol, room_types')
+      .select('hotel_name, hotel_name_en, hotel_name_translations, hotel_logo_url, barcode_text_ar, barcode_text_en, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
       .single()
 
     if (error) {

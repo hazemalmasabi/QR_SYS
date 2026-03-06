@@ -7,10 +7,10 @@ import type { SessionPayload } from '@/types'
 interface TopBarProps {
   session: SessionPayload
   hotelName: string
-  hotelNameEn?: string
+  hotelNameTranslations?: Record<string, string>
 }
 
-export default function TopBar({ session, hotelName, hotelNameEn }: TopBarProps) {
+export default function TopBar({ session, hotelName, hotelNameTranslations }: TopBarProps) {
   const { toggle } = useSidebarStore()
 
   return (

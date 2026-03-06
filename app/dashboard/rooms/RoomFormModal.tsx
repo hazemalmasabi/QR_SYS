@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { X, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Room, RoomType } from '@/types'
@@ -36,6 +36,7 @@ export default function RoomFormModal({
   const t = useTranslations('rooms')
   const tc = useTranslations('common')
   const tv = useTranslations('validation')
+  const locale = useLocale()
 
   const [form, setForm] = useState<FormData>({
     roomNumber: '',
@@ -172,11 +173,14 @@ export default function RoomFormModal({
               className={cn('input', errors.roomType && 'input-error')}
             >
               <option value="">--</option>
-              {roomTypes.map((rt) => (
-                <option key={rt.code} value={rt.code}>
-                  {rt.name_en} / {rt.name_ar}
-                </option>
-              ))}
+              {roomTypes.map((rt) => {
+                const displayName = rt.name?.[locale] || rt.name?.en || rt.code
+                return (
+                  <option key={rt.code} value={rt.code}>
+                    {displayName}
+                  </option>
+                )
+              })}
             </select>
             {errors.roomType && (
               <p className="mt-1 text-xs text-red-500">{tv('required')}</p>

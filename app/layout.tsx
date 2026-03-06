@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { Toaster } from 'sonner'
+import { getLanguageDirection } from '@/lib/languages'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -48,7 +49,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale()
   const messages = await getMessages()
-  const dir = locale === 'ar' ? 'rtl' : 'ltr'
+  const dir = getLanguageDirection(locale)
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>

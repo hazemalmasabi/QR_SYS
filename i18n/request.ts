@@ -1,4 +1,5 @@
 import { getRequestConfig } from 'next-intl/server'
+// Trigger cache invalidation for Turbopack
 import { cookies } from 'next/headers'
 import { defaultLocale } from './config'
 

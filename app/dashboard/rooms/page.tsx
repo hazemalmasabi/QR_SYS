@@ -48,8 +48,7 @@ export default function RoomsPage() {
 
   // QR Settings
   const [hotelLogoUrl, setHotelLogoUrl] = useState<string | null>(null)
-  const [barcodeTextAr, setBarcodeTextAr] = useState<string | null>(null)
-  const [barcodeTextEn, setBarcodeTextEn] = useState<string | null>(null)
+  const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
   const [qrLanguage, setQrLanguage] = useState<'ar' | 'en' | 'both'>(locale as 'ar' | 'en' | 'both')
   const fetchRooms = useCallback(async () => {
     setLoading(true)
@@ -83,8 +82,7 @@ export default function RoomsPage() {
           setRoomTypes(data.settings.room_types)
         }
         setHotelLogoUrl(data.settings.hotel_logo_url || null)
-        setBarcodeTextAr(data.settings.barcode_text_ar || null)
-        setBarcodeTextEn(data.settings.barcode_text_en || null)
+        setBarcodeTextTranslations(data.settings.barcode_text_translations || {})
       }
     } catch {
       // silently fail
@@ -193,12 +191,12 @@ export default function RoomsPage() {
       let customTextAr = ''
       let customTextEn = ''
       if (qrLanguage === 'both') {
-        customTextAr = barcodeTextAr || ''
-        customTextEn = barcodeTextEn || ''
+        customTextAr = barcodeTextTranslations.ar || ''
+        customTextEn = barcodeTextTranslations.en || ''
       } else if (qrLanguage === 'ar') {
-        customTextAr = barcodeTextAr || ''
+        customTextAr = barcodeTextTranslations.ar || ''
       } else {
-        customTextEn = barcodeTextEn || ''
+        customTextEn = barcodeTextTranslations.en || ''
       }
 
       // Dimensions
@@ -286,9 +284,9 @@ export default function RoomsPage() {
       ctx.font = 'bold 32px system-ui'
       ctx.fillStyle = '#111827' // gray-900
       if (qrLanguage === 'both') {
-        ctx.fillText(`غرفة ${room.room_number} | Room ${room.room_number}`, canvas.width / 2, currentY)
+        ctx.fillText(t('roomQrBoth', { number: room.room_number }), canvas.width / 2, currentY)
       } else {
-        ctx.fillText(qrLanguage === 'ar' ? `غرفة ${room.room_number}` : `Room ${room.room_number}`, canvas.width / 2, currentY)
+        ctx.fillText(t('roomQr', { number: room.room_number }), canvas.width / 2, currentY)
       }
       currentY += 40
 
@@ -332,7 +330,7 @@ export default function RoomsPage() {
   const getRoomTypeName = (code: string) => {
     const rt = roomTypes.find((r) => r.code === code)
     if (!rt) return code
-    return locale === 'ar' ? rt.name_ar : rt.name_en
+    return rt.name?.[locale] || rt.name?.en || code
   }
 
   const floors = [...new Set(rooms.map((r) => r.floor_number).filter((f): f is number => f !== null))].sort(
@@ -401,7 +399,7 @@ export default function RoomsPage() {
             <option value="">{t('type')} ({tc('all')})</option>
             {roomTypes.map((rt) => (
               <option key={rt.code} value={rt.code}>
-                {locale === 'ar' ? rt.name_ar : rt.name_en}
+                {rt.name?.[locale] || rt.name?.en || rt.code}
               </option>
             ))}
           </select>
@@ -624,24 +622,22 @@ export default function RoomsPage() {
               </div>
 
               <div className="flex flex-col items-center gap-2 w-full pt-2">
-                {(qrLanguage === 'ar' || qrLanguage === 'both') && barcodeTextAr && (
-                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextAr}</span>
+                {(qrLanguage === 'ar' || qrLanguage === 'both') && barcodeTextTranslations.ar && (
+                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.ar}</span>
                 )}
 
                 {qrLanguage === 'both' ? (
                   <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
-                    <span dir="rtl">غرفة {selectedRoom.room_number}</span>
-                    <span className="text-gray-300 font-light">|</span>
-                    <span dir="ltr">Room {selectedRoom.room_number}</span>
+                    <span>{t('roomQrBoth', { number: selectedRoom.room_number })}</span>
                   </div>
                 ) : (
                   <p className="text-xl font-bold text-gray-900 text-center">
-                    {qrLanguage === 'ar' ? `غرفة ${selectedRoom.room_number}` : `Room ${selectedRoom.room_number}`}
+                    {t('roomQr', { number: selectedRoom.room_number })}
                   </p>
                 )}
 
-                {(qrLanguage === 'en' || qrLanguage === 'both') && barcodeTextEn && (
-                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextEn}</span>
+                {(qrLanguage === 'en' || qrLanguage === 'both') && barcodeTextTranslations.en && (
+                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
                 )}
               </div>
             </div>

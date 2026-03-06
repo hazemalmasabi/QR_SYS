@@ -176,10 +176,10 @@ export async function POST(request: Request) {
 
     const insertData = {
       sub_service_id: data.subServiceId,
-      item_name: { ar: data.itemNameAr, en: data.itemNameEn },
-      description: {
-        ar: data.descriptionAr || '',
+      item_name: body.itemName || { en: data.itemNameEn, ar: data.itemNameSecondary },
+      description: body.description || {
         en: data.descriptionEn || '',
+        ar: data.descriptionSecondary || '',
       },
       image_url: body.imageUrl || null,
       price: data.isFree ? 0 : data.price,

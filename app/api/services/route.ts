@@ -144,10 +144,10 @@ export async function POST(request: Request) {
 
     const insertData = {
       hotel_id: session.hotelId,
-      service_name: { ar: data.serviceNameAr, en: data.serviceNameEn },
-      description: {
-        ar: data.descriptionAr || '',
+      service_name: body.serviceName || { en: data.serviceNameEn, ar: data.serviceNameSecondary }, // fallback to secondary as ar for safety
+      description: body.description || {
         en: data.descriptionEn || '',
+        ar: data.descriptionSecondary || '',
       },
       image_url: body.imageUrl || null,
       availability_type: data.availabilityType,

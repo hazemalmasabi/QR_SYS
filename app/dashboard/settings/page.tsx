@@ -21,26 +21,31 @@ import {
   Check,
   Globe,
   Info,
-  Coins
+  Coins,
+  Hotel as HotelIcon,
+  History,
 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { toast } from 'sonner'
 import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
-import type { RoomType } from '@/types'
+import { SUPPORTED_LANGUAGES, getLanguageName } from '@/lib/languages'
+import type { Hotel, RoomType } from '@/types'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
 import { Clock } from '@/components/Clock'
 
 interface SettingsData {
   hotel_name: string
-  hotel_name_en?: string
+  hotel_name_translations?: Record<string, string>
   hotel_logo_url?: string
-  barcode_text_ar?: string
-  barcode_text_en?: string
+  barcode_text_translations?: Record<string, string>
+  language_secondary: string
   timezone: string
   currency_code: string
   currency_symbol: string
   room_types: RoomType[]
 }
+
+import MultilingualInput from '@/components/MultilingualInput'
 
 export default function SettingsPage() {
   const t = useTranslations('settings')
@@ -51,7 +56,7 @@ export default function SettingsPage() {
 
   const [settings, setSettings] = useState<SettingsData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [errors, setErrors] = useState<Record<string, boolean>>({})
+  const [errors, setErrors] = useState<Record<string, any>>({})
 
   // Tabs state
   const [activeTab, setActiveTab] = useState<'hotel' | 'rooms' | 'profile'>('hotel')
@@ -75,11 +80,10 @@ export default function SettingsPage() {
   }
 
   // Form state
-  const [hotelName, setHotelName] = useState('')
-  const [hotelNameEn, setHotelNameEn] = useState('')
+  const [hotelNameTranslations, setHotelNameTranslations] = useState<Record<string, string>>({})
   const [hotelLogoUrl, setHotelLogoUrl] = useState('')
-  const [barcodeTextAr, setBarcodeTextAr] = useState('')
-  const [barcodeTextEn, setBarcodeTextEn] = useState('')
+  const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
+  const [languageSecondary, setLanguageSecondary] = useState('ar')
   const [timezone, setTimezone] = useState('')
   const [currencyCode, setCurrencyCode] = useState('')
 
@@ -95,7 +99,7 @@ export default function SettingsPage() {
   const [barcodePreviewLang, setBarcodePreviewLang] = useState<'ar' | 'en' | 'both'>(locale as 'ar' | 'en' | 'both')
   const [barcodePreviewDataUrl, setBarcodePreviewDataUrl] = useState<string | null>(null)
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([])
-  const [roomTypesErrors, setRoomTypesErrors] = useState<Array<{ code?: boolean, name_ar?: boolean, name_en?: boolean }>>([])
+  const [roomTypesErrors, setRoomTypesErrors] = useState<Array<{ code?: boolean, nameSec?: boolean, nameEn?: boolean }>>([])
 
   // Which row is currently being edited. If null, none. If 'new', it's a completely new row.
   const [editingRow, setEditingRow] = useState<number | 'new' | null>(null)
@@ -153,11 +157,10 @@ export default function SettingsPage() {
       const data = await resSettings.json()
       if (data.success) {
         setSettings(data.settings)
-        setHotelName(data.settings.hotel_name)
-        setHotelNameEn(data.settings.hotel_name_en || '')
+        setHotelNameTranslations(data.settings.hotel_name_translations || { ar: data.settings.hotel_name || '', en: '' })
         setHotelLogoUrl(data.settings.hotel_logo_url || '')
-        setBarcodeTextAr(data.settings.barcode_text_ar || '')
-        setBarcodeTextEn(data.settings.barcode_text_en || '')
+        setBarcodeTextTranslations(data.settings.barcode_text_translations || { ar: data.settings.barcode_text_ar || '', en: data.settings.barcode_text_en || '' })
+        setLanguageSecondary(data.settings.language_secondary || 'ar')
 
         const tzValue = data.settings.timezone
         setTimezone(tzValue)
@@ -175,7 +178,6 @@ export default function SettingsPage() {
         }
 
         setCurrencyCode(data.settings.currency_code)
-        setRoomTypes(data.settings.room_types || [])
       }
 
       const dataProfile = await resProfile.json()
@@ -203,22 +205,20 @@ export default function SettingsPage() {
   }
 
   const hasHotelChanges = settings ? (
-    hotelName !== settings.hotel_name ||
-    hotelNameEn !== (settings.hotel_name_en || '') ||
+    JSON.stringify(hotelNameTranslations) !== JSON.stringify(settings.hotel_name_translations || { ar: settings.hotel_name || '', en: '' }) ||
     timezone !== settings.timezone ||
     currencyCode !== settings.currency_code ||
     hotelLogoUrl !== (settings.hotel_logo_url || '') ||
-    barcodeTextAr !== (settings.barcode_text_ar || '') ||
-    barcodeTextEn !== (settings.barcode_text_en || '')
+    JSON.stringify(barcodeTextTranslations) !== JSON.stringify(settings.barcode_text_translations || { ar: '', en: '' }) ||
+    languageSecondary !== (settings.language_secondary || 'ar')
   ) : false
 
   const handleCancelGeneral = () => {
     if (!settings) return;
-    setHotelName(settings.hotel_name)
-    setHotelNameEn(settings.hotel_name_en || '')
+    setHotelNameTranslations(settings.hotel_name_translations || { ar: settings.hotel_name || '', en: '' })
     setHotelLogoUrl(settings.hotel_logo_url || '')
-    setBarcodeTextAr(settings.barcode_text_ar || '')
-    setBarcodeTextEn(settings.barcode_text_en || '')
+    setBarcodeTextTranslations(settings.barcode_text_translations || { ar: '', en: '' })
+    setLanguageSecondary(settings.language_secondary || 'ar')
     setTimezone(settings.timezone)
     setCurrencyCode(settings.currency_code)
 
@@ -293,7 +293,13 @@ export default function SettingsPage() {
       toast.error('الرجاء حفظ أو إلغاء التعديل الحالي أولاً')
       return
     }
-    const newRoomType = { code: '', name_ar: '', name_en: '' }
+    const newRoomType: RoomType = {
+      code: '',
+      name: {
+        en: '',
+        ...(languageSecondary !== 'none' ? { [languageSecondary]: '' } : {})
+      }
+    }
     setRoomTypes([...roomTypes, newRoomType])
     setEditingRow(roomTypes.length) // The new row is at the end of the array
     setEditedRoomType({ ...newRoomType })
@@ -327,14 +333,23 @@ export default function SettingsPage() {
     }
 
     // If it was a newly added row and never saved, remove it from the array
-    if (!roomTypes[index].original_code && !roomTypes[index].code && !roomTypes[index].name_ar && !roomTypes[index].name_en) {
+    if (!roomTypes[index].original_code && !roomTypes[index].code) {
       setRoomTypes(roomTypes.filter((_, i) => i !== index))
     }
   }
 
-  const updateEditedRoomType = (field: keyof RoomType, value: string) => {
+  const updateEditedRoomType = (field: keyof RoomType, value: any) => {
     if (editedRoomType) {
       setEditedRoomType({ ...editedRoomType, [field]: value })
+    }
+  }
+
+  const handleUpdateRowName = (lang: string, value: string) => {
+    if (editedRoomType) {
+      setEditedRoomType({
+        ...editedRoomType,
+        name: { ...(editedRoomType.name || {}), [lang]: value }
+      })
     }
   }
 
@@ -342,17 +357,19 @@ export default function SettingsPage() {
   const saveRow = async (index: number) => {
     if (!editedRoomType) return;
 
-    // Validate
+    const secondaryLang = languageSecondary !== 'none' ? languageSecondary : 'ar'
     const hasErrorCode = !editedRoomType.code.trim()
-    const hasErrorNameAr = !editedRoomType.name_ar.trim()
-    const hasErrorNameEn = !editedRoomType.name_en.trim()
+    const hasErrorNameSec = languageSecondary !== 'none'
+      ? !(editedRoomType.name?.[secondaryLang]?.trim())
+      : false
+    const hasErrorNameEn = !(editedRoomType.name?.en?.trim())
 
-    if (hasErrorCode || hasErrorNameAr || hasErrorNameEn) {
+    if (hasErrorCode || hasErrorNameSec || hasErrorNameEn) {
       const newErrs = [...roomTypesErrors]
       newErrs[index] = {
         code: hasErrorCode,
-        name_ar: hasErrorNameAr,
-        name_en: hasErrorNameEn
+        nameSec: hasErrorNameSec,
+        nameEn: hasErrorNameEn
       }
       setRoomTypesErrors(newErrs)
       toast.error(tv('required'))
@@ -381,11 +398,12 @@ export default function SettingsPage() {
 
     // Save locally first
     const updatedRoomTypes = [...roomTypes]
+    // Fill legacy fields for backward compatibility safely
+    const finalName = editedRoomType.name || {}
     updatedRoomTypes[index] = {
       ...editedRoomType,
       code: editedRoomType.code.trim().toUpperCase(),
-      name_ar: editedRoomType.name_ar.trim(),
-      name_en: editedRoomType.name_en.trim()
+      name: finalName
     }
 
     setRoomTypes(updatedRoomTypes)
@@ -398,8 +416,7 @@ export default function SettingsPage() {
       const payload = {
         room_types: updatedRoomTypes.map((rt) => ({
           code: rt.code.trim().toUpperCase(),
-          name_ar: rt.name_ar.trim(),
-          name_en: rt.name_en.trim(),
+          name: rt.name
         })),
         room_type_mappings: newMappings
       }
@@ -567,10 +584,31 @@ export default function SettingsPage() {
     let payload: any = {}
 
     if (type === 'general') {
-      const newErrors: Record<string, boolean> = {}
+      const newErrors: Record<string, any> = {}
 
-      if (!hotelName.trim()) newErrors.hotelName = true
-      if (!hotelNameEn.trim()) newErrors.hotelNameEn = true
+      if (!hotelNameTranslations.en?.trim()) {
+        const msg = locale === 'ar' ? 'اسم الفندق بالإنجليزي مطلوب' : locale === 'fr' ? 'Le nom de l hôtel en anglais est requis' : 'Hotel name in English is required'
+        newErrors.hotelNameEn = msg
+        toast.error(msg)
+      } else if (hotelNameTranslations.en.trim().length < 3) {
+        const msg = locale === 'ar' ? 'اسم الفندق يجب أن يكون 3 أحرف على الأقل' : locale === 'fr' ? 'Le nom de l hôtel doit comporter au moins 3 caractères' : 'Hotel name must be at least 3 characters'
+        newErrors.hotelNameEn = msg
+        toast.error(msg)
+      }
+
+      if (languageSecondary !== 'none') {
+        const langName = languageSecondary === 'ar' ? (locale === 'ar' ? 'العربية' : 'Arabic') : (locale === 'ar' ? 'الفرنسية' : 'French')
+        if (!hotelNameTranslations[languageSecondary]?.trim()) {
+          const msg = locale === 'ar' ? `اسم الفندق ب${langName} مطلوب` : `Hotel name in ${langName} is required`
+          newErrors.hotelNameSecondary = msg
+          toast.error(msg)
+        } else if (hotelNameTranslations[languageSecondary].trim().length < 3) {
+          const msg = locale === 'ar' ? 'اسم الفندق يجب أن يكون 3 أحرف على الأقل' : locale === 'fr' ? 'Le nom de l hôtel doit comporter au moins 3 caractères' : 'Hotel name must be at least 3 characters'
+          newErrors.hotelNameSecondary = msg
+          toast.error(msg)
+        }
+      }
+
       if (!timezone) newErrors.timezone = true
       if (!currencyCode) newErrors.currencyCode = true
 
@@ -597,15 +635,29 @@ export default function SettingsPage() {
         finalTimezone = `GMT${customTzSign}${customTzHours}:${customTzMinutes}`
       }
 
+      const cleanHotelNameTranslations: Record<string, string> = {
+        ...(settings?.hotel_name_translations || {})
+      }
+      cleanHotelNameTranslations.en = hotelNameTranslations.en
+
+      const cleanBarcodeTextTranslations: Record<string, string> = {
+        ...(settings?.barcode_text_translations || {})
+      }
+      cleanBarcodeTextTranslations.en = barcodeTextTranslations.en || ''
+
+      if (languageSecondary !== 'none') {
+        cleanHotelNameTranslations[languageSecondary] = hotelNameTranslations[languageSecondary]
+        cleanBarcodeTextTranslations[languageSecondary] = barcodeTextTranslations[languageSecondary] || ''
+      }
+
       payload = {
-        hotel_name: hotelName.trim(),
-        hotel_name_en: hotelNameEn.trim(),
+        hotel_name_translations: cleanHotelNameTranslations,
         timezone: finalTimezone,
         currency_code: currencyCode,
         currency_symbol: currency?.symbol || (currencyCode === 'OTHER' ? '' : currencyCode),
         hotel_logo_url: hotelLogoUrl,
-        barcode_text_ar: barcodeTextAr.trim(),
-        barcode_text_en: barcodeTextEn.trim(),
+        barcode_text_translations: cleanBarcodeTextTranslations,
+        language_secondary: languageSecondary,
       }
       setSavingGeneral(true)
     } else if (type === 'room_types') {
@@ -613,12 +665,12 @@ export default function SettingsPage() {
       // For row-level saving, use saveRow()
       const newRoomTypesErrors = roomTypes.map((rt) => ({
         code: !rt.code.trim(),
-        name_ar: !rt.name_ar.trim(),
-        name_en: !rt.name_en.trim(),
+        nameSec: languageSecondary !== 'none' ? !(rt.name?.[languageSecondary] || '').trim() : false,
+        nameEn: !(rt.name?.en || '').trim(),
       }))
 
       const hasRoomTypeError = newRoomTypesErrors.some(
-        (err) => err.code || err.name_ar || err.name_en
+        (err) => err.code || err.nameSec || err.nameEn
       )
 
       if (hasRoomTypeError) {
@@ -642,11 +694,17 @@ export default function SettingsPage() {
       }
 
       payload = {
-        room_types: roomTypes.map((rt) => ({
-          code: rt.code.trim().toUpperCase(),
-          name_ar: rt.name_ar.trim(),
-          name_en: rt.name_en.trim(),
-        })),
+        room_types: roomTypes.map((rt) => {
+          const finalName = { ...(rt.name || {}) }
+          finalName.en = (rt.name?.en || '').trim()
+          if (languageSecondary !== 'none') {
+            finalName[languageSecondary] = (rt.name?.[languageSecondary] || '').trim()
+          }
+          return {
+            code: rt.code.trim().toUpperCase(),
+            name: finalName
+          }
+        }),
         room_type_mappings: roomTypeMappings // send mapping array to backend
       }
       setSavingRooms(true)
@@ -664,7 +722,24 @@ export default function SettingsPage() {
         toast.success(tc('success'))
         setSettings(data.settings)
         // Reload the page to reflect new logo/name in sidebar
-        if (type === 'general') window.location.reload()
+        if (type === 'general') {
+          let needsLocaleChange = false;
+          let nextLocale = locale;
+
+          if (locale !== 'en' && locale !== languageSecondary) {
+            needsLocaleChange = true;
+            nextLocale = languageSecondary === 'none' ? 'en' : languageSecondary;
+          }
+
+          if (needsLocaleChange) {
+            await fetch('/api/set-locale', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ locale: nextLocale }),
+            });
+          }
+          window.location.reload()
+        }
         // reset mapping if room types save succeeded
         if (type === 'room_types') {
           setRoomTypeMappings([])
@@ -743,40 +818,63 @@ export default function SettingsPage() {
 
       {/* General Settings */}
       {activeTab === 'hotel' && (
-        <div className="card space-y-5">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {/* Hotel Name */}
-            <div>
-              <label className="label">{t('hotelName')}</label>
-              <input
-                type="text"
-                value={hotelName}
-                onChange={(e) => {
-                  setHotelName(e.target.value)
-                  if (errors.hotelName) setErrors({ ...errors, hotelName: false })
-                }}
-                className={cn('input', errors.hotelName && 'input-error')}
-                maxLength={100}
-              />
-              {errors.hotelName && <p className="mt-1 text-xs text-red-500">{tv('required')}</p>}
-            </div>
+        <div className="card space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-6">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+              <HotelIcon className="h-5 w-5 text-primary-600" />
+              {locale === 'ar' ? 'معلومات الفندق' : 'Hotel Information'}
+            </h2>
 
-            {/* Hotel Name EN */}
-            <div>
-              <label className="label">{t('hotelNameEn')}</label>
-              <input
-                type="text"
-                dir="ltr"
-                value={hotelNameEn}
+            {/* Secondary Language Selection */}
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <Globe className="h-4 w-4 text-gray-400" />
+              <select
+                value={languageSecondary}
                 onChange={(e) => {
-                  setHotelNameEn(e.target.value)
-                  if (errors.hotelNameEn) setErrors({ ...errors, hotelNameEn: false })
+                  const val = e.target.value
+
+                  if (languageSecondary !== 'none' && settings) {
+                    setHotelNameTranslations(prev => ({
+                      ...prev,
+                      [languageSecondary]: settings.hotel_name_translations?.[languageSecondary] || ''
+                    }))
+                    setBarcodeTextTranslations(prev => ({
+                      ...prev,
+                      [languageSecondary]: settings.barcode_text_translations?.[languageSecondary] || ''
+                    }))
+                  }
+
+                  setLanguageSecondary(val)
                 }}
-                className={cn('input', errors.hotelNameEn && 'input-error')}
-                maxLength={100}
-              />
-              {errors.hotelNameEn && <p className="mt-1 text-xs text-red-500">{tv('required')}</p>}
+                className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-all"
+              >
+                <option value="none">{locale === 'ar' ? 'بدون لغة ثانية' : 'No secondary language'}</option>
+                {SUPPORTED_LANGUAGES.filter(lang => lang.code !== 'en').map(lang => (
+                  <option key={lang.code} value={lang.code}>
+                    {getLanguageName(lang.code, locale)}
+                  </option>
+                ))}
+              </select>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6">
+            <MultilingualInput
+              label={locale === 'ar' ? 'اسم الفندق' : 'Hotel Name'}
+              translations={hotelNameTranslations}
+              onChange={(newVals) => {
+                setHotelNameTranslations(newVals)
+                if (errors.hotelNameEn || errors.hotelNameSecondary) {
+                  setErrors(prev => ({ ...prev, hotelNameEn: null, hotelNameSecondary: null }))
+                }
+              }}
+              secondaryLocale={languageSecondary === 'none' ? undefined : languageSecondary}
+              availableLocales={languageSecondary === 'none' ? ['en'] : SUPPORTED_LANGUAGES.map(l => l.code)}
+              placeholderEn="Enter hotel name in English"
+              placeholderSecondary={languageSecondary === 'ar' ? 'أدخل اسم الفندق بالعربية' : languageSecondary === 'fr' ? 'Entrez le nom de l hotel en français' : ''}
+              errorEn={errors.hotelNameEn}
+              errorSecondary={errors.hotelNameSecondary}
+            />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -794,7 +892,11 @@ export default function SettingsPage() {
                 <div className="group relative">
                   <Info className="h-4 w-4 text-gray-400 cursor-help" />
                   <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                    {locale === 'ar' ? 'هذا الحقل لتحديد توقيت الفندق المحلي. إذا لم تجد توقيتك في القائمة، يمكنك اختيار "أخرى" وتحديد فرق التوقيت يدوياً.' : 'This field is to set the local hotel timezone. If you cannot find yours, select "Other" to set the GMT offset manually.'}
+                    {locale === 'ar'
+                      ? 'هذا الحقل لتحديد توقيت الفندق المحلي. إذا لم تجد توقيتك في القائمة، يمكنك اختيار "أخرى" وتحديد فرق التوقيت يدوياً.'
+                      : locale === 'fr'
+                        ? 'Ce champ permet de définir le fuseau horaire local de l hôtel. Si vous ne trouvez pas le vôtre, sélectionnez "Autre" pour définir le décalage GMT manuellement.'
+                        : 'This field is to set the local hotel timezone. If you cannot find yours, select "Other" to set the GMT offset manually.'}
                   </div>
                 </div>
               </div>
@@ -831,7 +933,11 @@ export default function SettingsPage() {
                 <div className="group relative">
                   <Info className="h-4 w-4 text-gray-400 cursor-help" />
                   <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                    {locale === 'ar' ? 'حدد عملة الفندق لإظهارها بجانب طلبات الغرف. يمكنك اختيار "أخرى" لعرض المبالغ كأرقام فقط بدون رمز بجانبها.' : 'Determine your hotel currency for room orders. Select "Other" to show amounts purely as numbers.'}
+                    {locale === 'ar'
+                      ? 'حدد عملة الفندق لإظهارها بجانب طلبات الغرف. يمكنك اختيار "أخرى" لعرض المبالغ كأرقام فقط بدون رمز بجانبها.'
+                      : locale === 'fr'
+                        ? 'Déterminez la devise de votre hôtel pour les commandes de chambres. Sélectionnez "Autre" pour afficher les montants uniquement sous forme de chiffres.'
+                        : 'Determine your hotel currency for room orders. Select "Other" to show amounts purely as numbers.'}
                   </div>
                 </div>
               </div>
@@ -999,20 +1105,29 @@ export default function SettingsPage() {
             )}
           </div>
 
-          {/* Barcode & Logo Settings */}
-          <div className="pt-6 border-t border-gray-100">
-            <h3 className="text-md font-semibold text-gray-900 mb-4">{locale === 'ar' ? 'عرض الباركود (اختياري)' : 'Barcode Display (Optional)'}</h3>
+          <div className="grid grid-cols-1 gap-6 pt-6 border-t border-gray-100">
+            <MultilingualInput
+              label={locale === 'ar' ? 'نص الباركود (اختياري)' : 'Barcode Text (Optional)'}
+              translations={barcodeTextTranslations}
+              onChange={setBarcodeTextTranslations}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              maxLength={100}
+              placeholderEn="e.g. Scan for Room Service"
+              placeholderSecondary={languageSecondary === 'ar' ? 'مثال: امسح لطلب الخدمة' : 'ex: Scannez pour le service'}
+            />
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {/* Logo Upload */}
               <div className="space-y-2">
-                <label className="label">{locale === 'ar' ? 'شعار الفندق' : 'Hotel Logo'}</label>
+                <label className="label">{locale === 'ar' ? 'شعار الفندق (اختياري)' : 'Hotel Logo (Optional)'}</label>
                 <div className="flex items-center gap-4">
                   {hotelLogoUrl ? (
                     <div className="relative h-16 w-16 rounded-xl border border-gray-200 overflow-hidden bg-white">
                       <img src={hotelLogoUrl} alt="Logo" className="object-contain w-full h-full p-2" />
                       <button
                         onClick={() => setHotelLogoUrl('')}
-                        className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 border-2 border-white"
+                        className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 border-2 border-white shadow-sm"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -1022,8 +1137,8 @@ export default function SettingsPage() {
                       <ImageIcon className="h-6 w-6 text-gray-400" />
                     </div>
                   )}
-                  <label className="cursor-pointer btn-secondary py-2 px-3 flex-shrink-0">
-                    {isUploadingLogo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  <label className="cursor-pointer btn-secondary py-2 px-3 flex-shrink-0 text-xs">
+                    {isUploadingLogo ? <Loader2 className="w-4 h-4 animate-spin text-primary-600" /> : <Upload className="w-4 h-4 text-primary-600" />}
                     {locale === 'ar' ? 'رفع شعار' : 'Upload Logo'}
                     <input
                       type="file"
@@ -1034,33 +1149,6 @@ export default function SettingsPage() {
                     />
                   </label>
                 </div>
-              </div>
-
-              {/* Barcode Text AR */}
-              <div>
-                <label className="label">{locale === 'ar' ? 'نص الباركود (عربي)' : 'Barcode Text (Arabic)'}</label>
-                <input
-                  type="text"
-                  value={barcodeTextAr}
-                  onChange={(e) => setBarcodeTextAr(e.target.value)}
-                  className="input"
-                  placeholder={locale === 'ar' ? 'مثال: امسح الباركود للطلب' : 'e.g., Scan to order'}
-                  maxLength={100}
-                />
-              </div>
-
-              {/* Barcode Text EN */}
-              <div>
-                <label className="label">{locale === 'ar' ? 'نص الباركود (إنجليزي)' : 'Barcode Text (English)'}</label>
-                <input
-                  type="text"
-                  dir="ltr"
-                  value={barcodeTextEn}
-                  onChange={(e) => setBarcodeTextEn(e.target.value)}
-                  className="input"
-                  placeholder="e.g., Scan to order"
-                  maxLength={100}
-                />
               </div>
             </div>
 
@@ -1109,13 +1197,20 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="flex flex-col items-center gap-2 w-full pt-2">
-                      {(barcodePreviewLang === 'ar' || barcodePreviewLang === 'both') && barcodeTextAr && (
-                        <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextAr}</span>
+                      {(barcodePreviewLang === languageSecondary || barcodePreviewLang === 'both') && barcodeTextTranslations[languageSecondary] && (
+                        <span
+                          className="text-sm font-medium text-gray-500 text-center"
+                          dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}
+                        >
+                          {barcodeTextTranslations[languageSecondary]}
+                        </span>
                       )}
 
                       {barcodePreviewLang === 'both' ? (
                         <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
-                          <span dir="rtl">غرفة 1</span>
+                          <span dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
+                            {languageSecondary === 'ar' ? 'غرفة 1' : 'Room 1'}
+                          </span>
                           <span className="text-gray-300 font-light">|</span>
                           <span dir="ltr">Room 1</span>
                         </div>
@@ -1125,8 +1220,8 @@ export default function SettingsPage() {
                         </p>
                       )}
 
-                      {(barcodePreviewLang === 'en' || barcodePreviewLang === 'both') && barcodeTextEn && (
-                        <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextEn}</span>
+                      {(barcodePreviewLang === 'en' || barcodePreviewLang === 'both') && barcodeTextTranslations.en && (
+                        <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
                       )}
                     </div>
                   </div>
@@ -1175,13 +1270,18 @@ export default function SettingsPage() {
             <p className="py-8 text-center text-gray-400">{tc('noData')}</p>
           ) : (
             <div className="space-y-3">
-              <div className="hidden grid-cols-[1fr_2fr_2fr_150px_auto] gap-3 sm:grid px-3 items-center">
+              <div className={cn(
+                "hidden gap-3 sm:grid px-3 items-center",
+                languageSecondary === 'none' ? "sm:grid-cols-[1fr_2fr_150px_auto]" : "sm:grid-cols-[1fr_2fr_2fr_150px_auto]"
+              )}>
                 <span className="text-xs font-medium text-gray-500">
                   {t('typeCode')}
                 </span>
-                <span className="text-xs font-medium text-gray-500">
-                  {t('typeNameAr')}
-                </span>
+                {languageSecondary !== 'none' && (
+                  <span className="text-xs font-medium text-gray-500">
+                    {languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}
+                  </span>
+                )}
                 <span className="text-xs font-medium text-gray-500">
                   {t('typeNameEn')}
                 </span>
@@ -1199,7 +1299,8 @@ export default function SettingsPage() {
                   <div
                     key={index}
                     className={cn(
-                      "grid grid-cols-1 gap-3 rounded-lg border p-4 sm:grid-cols-[1fr_2fr_2fr_150px_auto] sm:items-center sm:p-3 transition-colors",
+                      "grid grid-cols-1 gap-3 rounded-lg border p-4 sm:items-center sm:p-3 transition-colors",
+                      languageSecondary === 'none' ? "sm:grid-cols-[1fr_2fr_150px_auto]" : "sm:grid-cols-[1fr_2fr_2fr_150px_auto]",
                       isEditing ? "border-primary-200 bg-primary-50/30" : "border-gray-200 hover:border-gray-300"
                     )}
                   >
@@ -1226,45 +1327,47 @@ export default function SettingsPage() {
                             <p className="mt-1 text-xs text-red-500">{tv('required')}</p>
                           )}
                         </div>
-                        <div>
-                          <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{t('typeNameAr')}</label>
-                          <input
-                            type="text"
-                            value={currentData.name_ar}
-                            onChange={(e) => {
-                              updateEditedRoomType('name_ar', e.target.value)
-                              if (roomTypesErrors[index]?.name_ar) {
-                                const newErrs = [...roomTypesErrors]
-                                newErrs[index] = { ...newErrs[index], name_ar: false }
-                                setRoomTypesErrors(newErrs)
-                              }
-                            }}
-                            className={cn('input', roomTypesErrors[index]?.name_ar && 'input-error')}
-                            placeholder="عادية"
-                            maxLength={50}
-                          />
-                          {roomTypesErrors[index]?.name_ar && (
-                            <p className="mt-1 text-xs text-red-500">{tv('required')}</p>
-                          )}
-                        </div>
+                        {languageSecondary !== 'none' && (
+                          <div>
+                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}</label>
+                            <input
+                              type="text"
+                              value={currentData.name?.[languageSecondary] || ''}
+                              onChange={(e) => {
+                                handleUpdateRowName(languageSecondary, e.target.value)
+                                if (roomTypesErrors[index]?.nameSec) {
+                                  const newErrs = [...roomTypesErrors]
+                                  newErrs[index] = { ...newErrs[index], nameSec: false }
+                                  setRoomTypesErrors(newErrs)
+                                }
+                              }}
+                              className={cn('input', roomTypesErrors[index]?.nameSec && 'input-error')}
+                              placeholder={languageSecondary === 'ar' ? 'عادية' : ''}
+                              maxLength={50}
+                            />
+                            {roomTypesErrors[index]?.nameSec && (
+                              <p className="mt-1 text-xs text-red-500">{tv('required')}</p>
+                            )}
+                          </div>
+                        )}
                         <div>
                           <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{t('typeNameEn')}</label>
                           <input
                             type="text"
-                            value={currentData.name_en}
+                            value={currentData.name?.en ?? ''}
                             onChange={(e) => {
-                              updateEditedRoomType('name_en', e.target.value)
-                              if (roomTypesErrors[index]?.name_en) {
+                              handleUpdateRowName('en', e.target.value)
+                              if (roomTypesErrors[index]?.nameEn) {
                                 const newErrs = [...roomTypesErrors]
-                                newErrs[index] = { ...newErrs[index], name_en: false }
+                                newErrs[index] = { ...newErrs[index], nameEn: false }
                                 setRoomTypesErrors(newErrs)
                               }
                             }}
-                            className={cn('input', roomTypesErrors[index]?.name_en && 'input-error')}
+                            className={cn('input', roomTypesErrors[index]?.nameEn && 'input-error')}
                             placeholder="Standard"
                             maxLength={50}
                           />
-                          {roomTypesErrors[index]?.name_en && (
+                          {roomTypesErrors[index]?.nameEn && (
                             <p className="mt-1 text-xs text-red-500">{tv('required')}</p>
                           )}
                         </div>
@@ -1275,13 +1378,17 @@ export default function SettingsPage() {
                           <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{t('typeCode')}</label>
                           <span className="block text-sm font-medium text-gray-900 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100">{rt.code}</span>
                         </div>
-                        <div>
-                          <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{t('typeNameAr')}</label>
-                          <span className="block text-sm text-gray-700 sm:py-2">{rt.name_ar}</span>
-                        </div>
+                        {languageSecondary !== 'none' && (
+                          <div>
+                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}</label>
+                            <span className="block text-sm text-gray-700 sm:py-2">
+                              {rt.name?.[languageSecondary] || <span className="text-gray-400 italic">{locale === 'ar' ? 'غير مترجم' : locale === 'fr' ? 'Non traduit' : 'Not translated'}</span>}
+                            </span>
+                          </div>
+                        )}
                         <div>
                           <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{t('typeNameEn')}</label>
-                          <span className="block text-sm text-gray-700 sm:py-2">{rt.name_en}</span>
+                          <span className="block text-sm text-gray-700 sm:py-2">{rt.name?.en}</span>
                         </div>
                       </>
                     )}
@@ -1510,7 +1617,7 @@ export default function SettingsPage() {
                       .filter((rt) => rt.code.trim() !== '') // Must be a valid existing code
                       .map((rt) => (
                         <option key={rt.code} value={rt.code}>
-                          {rt.name_en} / {rt.name_ar} ({rt.code})
+                          {rt.name?.en} / {rt.name?.ar} ({rt.code})
                         </option>
                       ))}
                   </select>

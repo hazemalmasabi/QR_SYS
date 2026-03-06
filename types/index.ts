@@ -1,10 +1,9 @@
 export interface Hotel {
   hotel_id: string
   hotel_name: string
-  hotel_name_en?: string
+  hotel_name_translations?: Record<string, string>
   hotel_logo_url?: string
-  barcode_text_ar?: string
-  barcode_text_en?: string
+  barcode_text_translations?: Record<string, string>
   timezone: string
   currency_code: string
   currency_symbol: string
@@ -16,8 +15,7 @@ export interface Hotel {
 
 export interface RoomType {
   code: string
-  name_ar: string
-  name_en: string
+  name: Record<string, string>
   original_code?: string
   rooms_count?: number
 }
@@ -57,8 +55,8 @@ export interface Room {
 export interface MainService {
   service_id: string
   hotel_id: string
-  service_name: { ar: string; en: string }
-  description: { ar: string; en: string }
+  service_name: Record<string, string>
+  description: Record<string, string>
   image_url: string | null
   availability_type: '24/7' | 'scheduled'
   start_time: string | null
@@ -76,8 +74,8 @@ export interface MainService {
 export interface SubService {
   sub_service_id: string
   parent_service_id: string
-  sub_service_name: { ar: string; en: string }
-  description: { ar: string; en: string } | null
+  sub_service_name: Record<string, string>
+  description: Record<string, string> | null
   image_url: string | null
   display_order: number
   availability_type: 'always' | 'scheduled'
@@ -92,8 +90,8 @@ export interface SubService {
 export interface Item {
   item_id: string
   sub_service_id: string
-  item_name: { ar: string; en: string }
-  description: { ar: string; en: string }
+  item_name: Record<string, string>
+  description: Record<string, string>
   image_url: string | null
   price: number
   is_free: boolean
@@ -106,7 +104,7 @@ export interface Item {
 
 export interface OrderItem {
   item_id: string
-  item_name: { ar: string; en: string }
+  item_name: Record<string, string>
   quantity: number
   unit_price: number
   total: number
@@ -158,6 +156,6 @@ export interface CartItem {
   item: Item
   quantity: number
   serviceId?: string
-  serviceName?: { ar: string; en: string }
+  serviceName?: Record<string, string>
   serviceDisplayOrder?: number
 }

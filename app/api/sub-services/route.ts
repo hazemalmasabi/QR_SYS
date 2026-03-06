@@ -171,10 +171,10 @@ export async function POST(request: Request) {
 
     const insertData = {
       parent_service_id: data.parentServiceId,
-      sub_service_name: { ar: data.subServiceNameAr, en: data.subServiceNameEn },
-      description: data.descriptionAr || data.descriptionEn
-        ? { ar: data.descriptionAr || '', en: data.descriptionEn || '' }
-        : null,
+      sub_service_name: body.subServiceName || { en: data.subServiceNameEn, ar: data.subServiceNameSecondary },
+      description: body.description || (data.descriptionEn || data.descriptionSecondary
+        ? { en: data.descriptionEn || '', ar: data.descriptionSecondary || '' }
+        : null),
       image_url: body.imageUrl || null,
       availability_type: data.availabilityType,
       start_time: data.availabilityType === 'scheduled' ? data.startTime || null : null,

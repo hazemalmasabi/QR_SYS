@@ -10,6 +10,7 @@ import { mainServiceSchema } from '@/lib/validations'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import type { MainService } from '@/types'
+import MultilingualInput from '@/components/MultilingualInput'
 
 interface ServiceFormModalProps {
   open: boolean
@@ -19,10 +20,10 @@ interface ServiceFormModalProps {
 }
 
 interface FormData {
-  serviceNameAr: string
   serviceNameEn: string
-  descriptionAr?: string
+  serviceNameSecondary: string
   descriptionEn?: string
+  descriptionSecondary?: string
   availabilityType: '24/7' | 'scheduled'
   startTime?: string
   endTime?: string
@@ -42,6 +43,9 @@ export default function ServiceFormModal({
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
+  const [serviceNameTranslations, setServiceNameTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
 
   const {
     register,
@@ -53,10 +57,10 @@ export default function ServiceFormModal({
   } = useForm<FormData>({
     resolver: zodResolver(mainServiceSchema),
     defaultValues: {
-      serviceNameAr: '',
       serviceNameEn: '',
-      descriptionAr: '',
+      serviceNameSecondary: '',
       descriptionEn: '',
+      descriptionSecondary: '',
       availabilityType: '24/7',
       displayOrder: 1,
     },
@@ -65,30 +69,45 @@ export default function ServiceFormModal({
   const availabilityType = watch('availabilityType')
   const displayOrder = watch('displayOrder')
 
-  // Fetch total services count when modal opens
+  // Fetch hotel settings and total services count when modal opens
   useEffect(() => {
     if (!open) return
-    const fetchCount = async () => {
+    const fetchCountAndSettings = async () => {
       try {
-        const res = await fetch('/api/services')
-        const data = await res.json()
-        if (data.success) {
-          setTotalCount(data.services?.length || 0)
+        const [servicesRes, settingsRes] = await Promise.all([
+          fetch('/api/services'),
+          fetch('/api/settings')
+        ])
+
+        const servicesData = await servicesRes.json()
+        if (servicesData.success) {
+          setTotalCount(servicesData.services?.length || 0)
+        }
+
+        const settingsData = await settingsRes.json()
+        if (settingsData.success) {
+          setLanguageSecondary(settingsData.settings.language_secondary || 'ar')
         }
       } catch {
         // silently fail
       }
     }
-    fetchCount()
+    fetchCountAndSettings()
   }, [open])
 
   useEffect(() => {
     if (service) {
+      const nameTrans = service.service_name || { ar: '', en: '' }
+      const descTrans = service.description || { ar: '', en: '' }
+
+      setServiceNameTranslations(nameTrans)
+      setDescriptionTranslations(descTrans)
+
       reset({
-        serviceNameAr: service.service_name.ar,
-        serviceNameEn: service.service_name.en,
-        descriptionAr: service.description?.ar || '',
-        descriptionEn: service.description?.en || '',
+        serviceNameEn: nameTrans.en || '',
+        serviceNameSecondary: nameTrans[languageSecondary] || '',
+        descriptionEn: descTrans.en || '',
+        descriptionSecondary: descTrans[languageSecondary] || '',
         availabilityType: service.availability_type,
         startTime: service.start_time || '',
         endTime: service.end_time || '',
@@ -96,17 +115,19 @@ export default function ServiceFormModal({
       })
       setImageUrl(service.image_url || null)
     } else {
+      setServiceNameTranslations({ en: '', ar: '', fr: '' })
+      setDescriptionTranslations({ en: '', ar: '', fr: '' })
       reset({
-        serviceNameAr: '',
         serviceNameEn: '',
-        descriptionAr: '',
+        serviceNameSecondary: '',
         descriptionEn: '',
+        descriptionSecondary: '',
         availabilityType: '24/7',
         displayOrder: totalCount + 1,
       })
       setImageUrl(null)
     }
-  }, [service, reset, open, totalCount])
+  }, [service, reset, open, totalCount, languageSecondary])
 
   // Clamp display_order in real-time
   useEffect(() => {
@@ -169,6 +190,8 @@ export default function ServiceFormModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
+          serviceName: serviceNameTranslations,
+          description: descriptionTranslations,
           imageUrl: imageUrl || null,
         }),
       })
@@ -271,58 +294,40 @@ export default function ServiceFormModal({
             </div>
           </div>
 
-          {/* Service Name */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">{t('serviceNameAr')}</label>
-              <input
-                {...register('serviceNameAr')}
-                className={cn('input', errors.serviceNameAr && 'border-red-500')}
-                dir="rtl"
-              />
-              {errors.serviceNameAr && (
-                <p className="mt-1 text-xs text-red-500">{tc(errors.serviceNameAr?.message || 'required')}</p>
-              )}
-            </div>
-            <div>
-              <label className="label">{t('serviceNameEn')}</label>
-              <input
-                {...register('serviceNameEn')}
-                className={cn('input', errors.serviceNameEn && 'border-red-500')}
-                dir="ltr"
-              />
-              {errors.serviceNameEn && (
-                <p className="mt-1 text-xs text-red-500">{tc(errors.serviceNameEn?.message || 'required')}</p>
-              )}
-            </div>
-          </div>
+          {/* Service Name & Description */}
+          <div className="space-y-6">
+            <MultilingualInput
+              label={t('serviceName')}
+              translations={serviceNameTranslations}
+              onChange={(val) => {
+                setServiceNameTranslations(val)
+                setValue('serviceNameEn', val.en)
+                setValue('serviceNameSecondary', val[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              placeholderEn={t('serviceNameEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('serviceNameAr') : 'Nom du service'}
+              errorEn={errors.serviceNameEn?.message ? tc(errors.serviceNameEn.message) : undefined}
+              errorSecondary={errors.serviceNameSecondary?.message ? tc(errors.serviceNameSecondary.message) : undefined}
+            />
 
-          {/* Description */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">
-                {t('descriptionAr')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionAr')}
-                className="input min-h-[80px] resize-y"
-                dir="rtl"
-                rows={3}
-              />
-            </div>
-            <div>
-              <label className="label">
-                {t('descriptionEn')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionEn')}
-                className="input min-h-[80px] resize-y"
-                dir="ltr"
-                rows={3}
-              />
-            </div>
+            <MultilingualInput
+              label={t('description')}
+              translations={descriptionTranslations}
+              onChange={(val) => {
+                setDescriptionTranslations(val)
+                setValue('descriptionEn', val.en)
+                setValue('descriptionSecondary', val[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              type="textarea"
+              placeholderEn={t('descriptionEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('descriptionAr') : 'Description du service'}
+              errorEn={errors.descriptionEn?.message ? tc(errors.descriptionEn.message) : undefined}
+              errorSecondary={errors.descriptionSecondary?.message ? tc(errors.descriptionSecondary.message) : undefined}
+            />
           </div>
 
           {/* Availability Type */}

@@ -10,6 +10,7 @@ import { subServiceSchema } from '@/lib/validations'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import type { SubService, MainService } from '@/types'
+import MultilingualInput from '@/components/MultilingualInput'
 
 interface SubServiceFormModalProps {
   open: boolean
@@ -21,10 +22,10 @@ interface SubServiceFormModalProps {
 
 interface FormData {
   parentServiceId: string
-  subServiceNameAr: string
   subServiceNameEn: string
-  descriptionAr?: string
+  subServiceNameSecondary: string
   descriptionEn?: string
+  descriptionSecondary?: string
   availabilityType: 'always' | 'scheduled'
   startTime?: string
   endTime?: string
@@ -48,9 +49,12 @@ export default function SubServiceFormModal({
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
+  const [subServiceNameTranslations, setSubServiceNameTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
 
-  const getName = (name: { ar: string; en: string }) =>
-    locale === 'ar' ? name.ar : name.en
+  const getName = (name: Record<string, string>) =>
+    name[locale] || name.en || ''
 
   const {
     register,
@@ -63,10 +67,10 @@ export default function SubServiceFormModal({
     resolver: zodResolver(subServiceSchema),
     defaultValues: {
       parentServiceId: '',
-      subServiceNameAr: '',
       subServiceNameEn: '',
-      descriptionAr: '',
+      subServiceNameSecondary: '',
       descriptionEn: '',
+      descriptionSecondary: '',
       availabilityType: 'always',
       displayOrder: 1,
     },
@@ -76,12 +80,19 @@ export default function SubServiceFormModal({
   const displayOrder = watch('displayOrder')
   const parentServiceId = watch('parentServiceId')
 
-  // Fetch count of sub-services for the selected parent
+  // Fetch hotel settings and count of sub-services for the selected parent
   useEffect(() => {
     if (!open) return
-    const fetchCount = async () => {
+    const fetchData = async () => {
       try {
         const parentId = subService?.parent_service_id || parentServiceId
+
+        const settingsRes = await fetch('/api/settings')
+        const settingsData = await settingsRes.json()
+        if (settingsData.success) {
+          setLanguageSecondary(settingsData.settings.language_secondary || 'ar')
+        }
+
         if (!parentId) {
           setTotalCount(0)
           return
@@ -97,17 +108,23 @@ export default function SubServiceFormModal({
         // silently fail
       }
     }
-    fetchCount()
+    fetchData()
   }, [open, parentServiceId, subService])
 
   useEffect(() => {
     if (subService) {
+      const nameTrans = subService.sub_service_name || { ar: '', en: '' }
+      const descTrans = subService.description || { ar: '', en: '' }
+
+      setSubServiceNameTranslations(nameTrans)
+      setDescriptionTranslations(descTrans)
+
       reset({
         parentServiceId: subService.parent_service_id,
-        subServiceNameAr: subService.sub_service_name.ar,
-        subServiceNameEn: subService.sub_service_name.en,
-        descriptionAr: subService.description?.ar || '',
-        descriptionEn: subService.description?.en || '',
+        subServiceNameEn: nameTrans.en || '',
+        subServiceNameSecondary: (nameTrans as any)[languageSecondary] || '',
+        descriptionEn: descTrans.en || '',
+        descriptionSecondary: (descTrans as any)[languageSecondary] || '',
         availabilityType: subService.availability_type,
         startTime: subService.start_time || '',
         endTime: subService.end_time || '',
@@ -115,18 +132,20 @@ export default function SubServiceFormModal({
       })
       setImageUrl(subService.image_url || null)
     } else {
+      setSubServiceNameTranslations({ en: '', ar: '', fr: '' })
+      setDescriptionTranslations({ en: '', ar: '', fr: '' })
       reset({
-        parentServiceId: '',
-        subServiceNameAr: '',
+        parentServiceId: parentServiceId || '',
         subServiceNameEn: '',
-        descriptionAr: '',
+        subServiceNameSecondary: '',
         descriptionEn: '',
+        descriptionSecondary: '',
         availabilityType: 'always',
-        displayOrder: 1,
+        displayOrder: totalCount + 1,
       })
       setImageUrl(null)
     }
-  }, [subService, reset, open])
+  }, [subService, reset, open, totalCount, languageSecondary, parentServiceId])
 
   // Update display_order when totalCount changes for new items
   useEffect(() => {
@@ -203,6 +222,8 @@ export default function SubServiceFormModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
+          subServiceName: subServiceNameTranslations,
+          description: descriptionTranslations,
           imageUrl: imageUrl || null,
         }),
       })
@@ -326,62 +347,40 @@ export default function SubServiceFormModal({
             )}
           </div>
 
-          {/* Sub Service Name */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">{t('subServiceNameAr')}</label>
-              <input
-                {...register('subServiceNameAr')}
-                className={cn('input', errors.subServiceNameAr && 'border-red-500')}
-                dir="rtl"
-              />
-              {errors.subServiceNameAr && (
-                <p className="mt-1 text-xs text-red-500">
-                  {tc(errors.subServiceNameAr?.message || 'required')}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="label">{t('subServiceNameEn')}</label>
-              <input
-                {...register('subServiceNameEn')}
-                className={cn('input', errors.subServiceNameEn && 'border-red-500')}
-                dir="ltr"
-              />
-              {errors.subServiceNameEn && (
-                <p className="mt-1 text-xs text-red-500">
-                  {tc(errors.subServiceNameEn?.message || 'required')}
-                </p>
-              )}
-            </div>
-          </div>
+          {/* Name & Description */}
+          <div className="space-y-6">
+            <MultilingualInput
+              label={t('subServiceName')}
+              translations={subServiceNameTranslations}
+              onChange={(val) => {
+                setSubServiceNameTranslations(val)
+                setValue('subServiceNameEn', val.en)
+                setValue('subServiceNameSecondary', (val as any)[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              placeholderEn={t('subServiceNameEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('subServiceNameAr') : 'Nom du sous-service'}
+              errorEn={errors.subServiceNameEn?.message ? tc(errors.subServiceNameEn.message) : undefined}
+              errorSecondary={errors.subServiceNameSecondary?.message ? tc(errors.subServiceNameSecondary.message) : undefined}
+            />
 
-          {/* Description */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">
-                {t('descriptionAr')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionAr')}
-                className="input min-h-[80px] resize-y"
-                dir="rtl"
-                rows={3}
-              />
-            </div>
-            <div>
-              <label className="label">
-                {t('descriptionEn')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionEn')}
-                className="input min-h-[80px] resize-y"
-                dir="ltr"
-                rows={3}
-              />
-            </div>
+            <MultilingualInput
+              label={t('description')}
+              translations={descriptionTranslations}
+              onChange={(val) => {
+                setDescriptionTranslations(val)
+                setValue('descriptionEn', val.en)
+                setValue('descriptionSecondary', (val as any)[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              type="textarea"
+              placeholderEn={t('descriptionEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('descriptionAr') : 'Description du sous-service'}
+              errorEn={errors.descriptionEn?.message ? tc(errors.descriptionEn.message) : undefined}
+              errorSecondary={errors.descriptionSecondary?.message ? tc(errors.descriptionSecondary.message) : undefined}
+            />
           </div>
 
           {/* Availability Type */}

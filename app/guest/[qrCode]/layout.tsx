@@ -15,11 +15,12 @@ interface GuestInfo {
   hotel: {
     hotel_id: string
     hotel_name: string
-    hotel_name_en: string
     hotel_logo_url: string
     timezone: string
     currency_code: string
     currency_symbol: string
+    language_secondary: string
+    hotel_name_translations: Record<string, string>
   }
 }
 
@@ -92,9 +93,9 @@ export default function GuestLayout({
             <div className="min-w-0">
               <h1 className="truncate text-sm font-semibold text-gray-900">
                 {guestInfo
-                  ? (locale === 'en' && guestInfo.hotel.hotel_name_en
-                    ? guestInfo.hotel.hotel_name_en
-                    : guestInfo.hotel.hotel_name)
+                  ? (guestInfo.hotel.hotel_name_translations?.[locale] ||
+                    guestInfo.hotel.hotel_name_translations?.en ||
+                    guestInfo.hotel.hotel_name)
                   : '...'}
               </h1>
               <p className="text-xs text-gray-500">
@@ -104,7 +105,14 @@ export default function GuestLayout({
           </div>
           <div className="flex items-center gap-2">
             <Clock timezone={guestInfo?.hotel.timezone} />
-            <LanguageSwitcher className="!py-1.5 !px-2.5 !text-xs" />
+            {guestInfo ? (
+              <LanguageSwitcher
+                className="!py-1.5 !px-2.5 !text-xs"
+                secondaryLocale={guestInfo.hotel.language_secondary}
+              />
+            ) : (
+              <div className="h-8 w-20 animate-pulse rounded-lg bg-gray-200" />
+            )}
           </div>
         </div>
       </header>

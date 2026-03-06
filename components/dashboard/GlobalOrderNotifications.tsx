@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { supabase } from '@/lib/supabase/client'
 import {
     playNotificationSound,
@@ -10,7 +10,8 @@ import {
 } from '@/lib/hooks/use-order-notifications'
 
 export default function GlobalOrderNotifications({ hotelId }: { hotelId: string }) {
-    const locale = useLocale()
+    const t = useTranslations('notifications')
+    console.log('Reload translations v2')
     const [newOrderToast, setNewOrderToast] = useState<string | null>(null)
     const knownOrderIdsRef = useRef<Set<string>>(new Set())
 
@@ -38,11 +39,10 @@ export default function GlobalOrderNotifications({ hotelId }: { hotelId: string 
                     if (knownOrderIdsRef.current.has(newOrder.order_id)) return
                     knownOrderIdsRef.current.add(newOrder.order_id)
 
-                    // Sound + notification
                     playNotificationSound('new_order')
 
-                    const title = locale === 'ar' ? '🔔 طلب جديد!' : '🔔 New Order!'
-                    const body = locale === 'ar' ? 'يوجد طلب جديد بانتظار المراجعة' : 'A new order is waiting for review'
+                    const title = t('newOrderTitle')
+                    const body = t('newOrderBody')
                     showBrowserNotification(title, body)
 
                     setNewOrderToast(body)
@@ -54,7 +54,7 @@ export default function GlobalOrderNotifications({ hotelId }: { hotelId: string 
         return () => {
             supabase.removeChannel(channel)
         }
-    }, [hotelId, locale])
+    }, [hotelId, t])
 
     // 2. Reminder every 2 minutes for unhandled orders
     useEffect(() => {
@@ -64,10 +64,8 @@ export default function GlobalOrderNotifications({ hotelId }: { hotelId: string 
                 const data = await res.json()
                 if (data.success && data.total > 0) {
                     playNotificationSound('new_order')
-                    const title = locale === 'ar' ? 'تذكير: طلبات معلقة' : 'Reminder: Pending Orders'
-                    const body = locale === 'ar'
-                        ? `لديك ${data.total} طلب جديد بانتظار المعالجة!`
-                        : `You have ${data.total} new orders waiting to be processed!`
+                    const title = t('reminderTitle')
+                    const body = t('reminderBody', { count: data.total })
 
                     showBrowserNotification(title, body)
                     setNewOrderToast(body)
@@ -79,7 +77,7 @@ export default function GlobalOrderNotifications({ hotelId }: { hotelId: string 
         }, 2 * 60 * 1000) // 2 minutes
 
         return () => clearInterval(interval)
-    }, [locale])
+    }, [t])
 
     if (!newOrderToast) return null
 

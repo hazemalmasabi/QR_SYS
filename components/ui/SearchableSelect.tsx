@@ -55,7 +55,9 @@ export function SearchableSelect({
     }, [])
 
     const filteredOptions = options.filter((opt) => {
-        const labelStr = typeof opt.label === 'string' ? opt.label : opt.label[locale as 'ar' | 'en']
+        const labelStr = typeof opt.label === 'string'
+            ? opt.label
+            : (opt.label[locale as 'ar' | 'en'] || (opt.label as any).en || '')
         return labelStr.toLowerCase().includes(search.toLowerCase()) || opt.value.toLowerCase().includes(search.toLowerCase())
     })
 
@@ -114,7 +116,9 @@ export function SearchableSelect({
                         </div>
                     ) : (
                         displayOptions.map((opt) => {
-                            const labelStr = typeof opt.label === 'string' ? opt.label : opt.label[locale as 'ar' | 'en']
+                            const labelStr = typeof opt.label === 'string'
+                                ? opt.label
+                                : (opt.label[locale as 'ar' | 'en'] || (opt.label as any).en || '')
                             const isSelected = value === opt.value
                             return (
                                 <div

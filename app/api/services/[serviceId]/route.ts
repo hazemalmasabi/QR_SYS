@@ -162,10 +162,10 @@ export async function PUT(
     data.displayOrder = newOrder
 
     const updateData = {
-      service_name: { ar: data.serviceNameAr, en: data.serviceNameEn },
-      description: {
-        ar: data.descriptionAr || '',
+      service_name: body.serviceName || { en: data.serviceNameEn, ar: data.serviceNameSecondary },
+      description: body.description || {
         en: data.descriptionEn || '',
+        ar: data.descriptionSecondary || '',
       },
       image_url: body.imageUrl || null,
       availability_type: data.availabilityType,

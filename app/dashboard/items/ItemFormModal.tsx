@@ -10,6 +10,7 @@ import { itemSchema } from '@/lib/validations'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import type { Item, MainService, SubService } from '@/types'
+import MultilingualInput from '@/components/MultilingualInput'
 
 interface ItemFormModalProps {
   open: boolean
@@ -21,10 +22,10 @@ interface ItemFormModalProps {
 
 interface FormData {
   subServiceId: string
-  itemNameAr: string
   itemNameEn: string
-  descriptionAr?: string
+  itemNameSecondary: string
   descriptionEn?: string
+  descriptionSecondary?: string
   isFree: boolean
   price: number
   displayOrder: number
@@ -50,6 +51,9 @@ export default function ItemFormModal({
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
+  const [itemNameTranslations, setItemNameTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
 
   const {
     register,
@@ -62,10 +66,10 @@ export default function ItemFormModal({
     resolver: zodResolver(itemSchema),
     defaultValues: {
       subServiceId: '',
-      itemNameAr: '',
       itemNameEn: '',
-      descriptionAr: '',
+      itemNameSecondary: '',
       descriptionEn: '',
+      descriptionSecondary: '',
       isFree: false,
       price: '' as unknown as number,
       displayOrder: 1,
@@ -76,8 +80,8 @@ export default function ItemFormModal({
   const subServiceId = watch('subServiceId')
   const isFree = watch('isFree')
 
-  const getName = (name: { ar: string; en: string }) =>
-    locale === 'ar' ? name.ar : name.en
+  const getName = (name: Record<string, string>) =>
+    name[locale] || name.en || name.ar || ''
 
   const fetchSubServices = useCallback(async (serviceId: string) => {
     if (!serviceId) {
@@ -101,11 +105,17 @@ export default function ItemFormModal({
     }
   }, [])
 
-  // Fetch count of items for the selected sub-service
+  // Fetch hotel settings and count of items for the selected sub-service
   useEffect(() => {
     if (!open) return
-    const fetchCount = async () => {
+    const fetchData = async () => {
       try {
+        const settingsRes = await fetch('/api/settings')
+        const settingsData = await settingsRes.json()
+        if (settingsData.success) {
+          setLanguageSecondary(settingsData.settings.language_secondary || 'ar')
+        }
+
         const sid = item?.sub_service_id || subServiceId
         if (!sid) {
           setTotalCount(0)
@@ -120,19 +130,25 @@ export default function ItemFormModal({
         // silently fail
       }
     }
-    fetchCount()
+    fetchData()
   }, [open, subServiceId, item])
 
   useEffect(() => {
     if (!open) return
 
     if (item) {
+      const nameTrans = item.item_name || { ar: '', en: '' }
+      const descTrans = item.description || { ar: '', en: '' }
+
+      setItemNameTranslations(nameTrans)
+      setDescriptionTranslations(descTrans)
+
       reset({
         subServiceId: item.sub_service_id,
-        itemNameAr: item.item_name.ar,
-        itemNameEn: item.item_name.en,
-        descriptionAr: item.description?.ar || '',
-        descriptionEn: item.description?.en || '',
+        itemNameEn: nameTrans.en || '',
+        itemNameSecondary: (nameTrans as any)[languageSecondary] || '',
+        descriptionEn: descTrans.en || '',
+        descriptionSecondary: (descTrans as any)[languageSecondary] || '',
         isFree: item.is_free || false,
         price: item.price,
         displayOrder: item.display_order || 1,
@@ -159,15 +175,17 @@ export default function ItemFormModal({
       }
       findParent()
     } else {
+      setItemNameTranslations({ en: '', ar: '', fr: '' })
+      setDescriptionTranslations({ en: '', ar: '', fr: '' })
       reset({
         subServiceId: '',
-        itemNameAr: '',
         itemNameEn: '',
-        descriptionAr: '',
+        itemNameSecondary: '',
         descriptionEn: '',
+        descriptionSecondary: '',
         isFree: false,
         price: '' as unknown as number,
-        displayOrder: 1,
+        displayOrder: totalCount + 1,
       })
       setSelectedServiceId('')
       setSubServices([])
@@ -275,6 +293,8 @@ export default function ItemFormModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
+          itemName: itemNameTranslations,
+          description: descriptionTranslations,
           price: data.isFree ? 0 : data.price,
           imageUrl: imageUrl || null,
         }),
@@ -424,62 +444,40 @@ export default function ItemFormModal({
             )}
           </div>
 
-          {/* Item Name */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">{t('itemNameAr')}</label>
-              <input
-                {...register('itemNameAr')}
-                className={cn('input', errors.itemNameAr && 'border-red-500')}
-                dir="rtl"
-              />
-              {errors.itemNameAr && (
-                <p className="mt-1 text-xs text-red-500">
-                  {tc(errors.itemNameAr?.message || 'required')}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="label">{t('itemNameEn')}</label>
-              <input
-                {...register('itemNameEn')}
-                className={cn('input', errors.itemNameEn && 'border-red-500')}
-                dir="ltr"
-              />
-              {errors.itemNameEn && (
-                <p className="mt-1 text-xs text-red-500">
-                  {tc(errors.itemNameEn?.message || 'required')}
-                </p>
-              )}
-            </div>
-          </div>
+          {/* Name & Description */}
+          <div className="space-y-6">
+            <MultilingualInput
+              label={t('itemName')}
+              translations={itemNameTranslations}
+              onChange={(val) => {
+                setItemNameTranslations(val)
+                setValue('itemNameEn', val.en)
+                setValue('itemNameSecondary', (val as any)[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              placeholderEn={t('itemNameEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('itemNameAr') : 'Nom de l\'article'}
+              errorEn={errors.itemNameEn?.message ? tc(errors.itemNameEn.message) : undefined}
+              errorSecondary={errors.itemNameSecondary?.message ? tc(errors.itemNameSecondary.message) : undefined}
+            />
 
-          {/* Description */}
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="label">
-                {t('descriptionAr')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionAr')}
-                className="input min-h-[80px] resize-y"
-                dir="rtl"
-                rows={3}
-              />
-            </div>
-            <div>
-              <label className="label">
-                {t('descriptionEn')}
-                <span className="text-gray-400 ms-1">({tc('optional')})</span>
-              </label>
-              <textarea
-                {...register('descriptionEn')}
-                className="input min-h-[80px] resize-y"
-                dir="ltr"
-                rows={3}
-              />
-            </div>
+            <MultilingualInput
+              label={t('description')}
+              translations={descriptionTranslations}
+              onChange={(val) => {
+                setDescriptionTranslations(val)
+                setValue('descriptionEn', val.en)
+                setValue('descriptionSecondary', (val as any)[languageSecondary] || '')
+              }}
+              secondaryLocale={languageSecondary}
+              availableLocales={['en', 'ar', 'fr']}
+              type="textarea"
+              placeholderEn={t('descriptionEn')}
+              placeholderSecondary={languageSecondary === 'ar' ? t('descriptionAr') : 'Description de l\'article'}
+              errorEn={errors.descriptionEn?.message ? tc(errors.descriptionEn.message) : undefined}
+              errorSecondary={errors.descriptionSecondary?.message ? tc(errors.descriptionSecondary.message) : undefined}
+            />
           </div>
 
           {/* Free checkbox + Price */}

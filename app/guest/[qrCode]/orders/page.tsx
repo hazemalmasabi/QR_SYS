@@ -36,7 +36,7 @@ interface GuestInfo {
 }
 
 type OrderWithService = Order & {
-  main_services?: { service_name: { ar: string; en: string } }
+  main_services?: { service_name: Record<string, string> }
 }
 
 const statusConfig = {
@@ -140,17 +140,19 @@ export default function GuestOrdersPage({
           fetchOrders()
 
           // Notification
-          const statusLabels: Record<string, { ar: string; en: string }> = {
-            in_progress: { ar: 'قيد التنفيذ', en: 'In Progress' },
-            completed: { ar: 'مكتمل ✅', en: 'Completed ✅' },
-            cancelled: { ar: 'ملغى ❌', en: 'Cancelled ❌' },
+          const statusLabels: Record<string, Record<string, string>> = {
+            in_progress: { ar: 'قيد التنفيذ', en: 'In Progress', fr: 'En cours' },
+            completed: { ar: 'مكتمل ✅', en: 'Completed ✅', fr: 'Terminée ✅' },
+            cancelled: { ar: 'ملغى ❌', en: 'Cancelled ❌', fr: 'Annulée ❌' },
           }
           const label = statusLabels[updated.status]
           if (label) {
-            const title = locale === 'ar' ? 'تحديث طلبك' : 'Order Update'
+            const title = t('orderStatus')
             const body = locale === 'ar'
               ? `طلبك #${updated.order_number} أصبح: ${label.ar}`
-              : `Order #${updated.order_number} is now: ${label.en}`
+              : locale === 'fr'
+                ? `Votre commande #${updated.order_number} est maintenant: ${label.fr}`
+                : `Order #${updated.order_number} is now: ${label.en}`
             showBrowserNotification(title, body)
           }
         }
@@ -217,7 +219,7 @@ export default function GuestOrdersPage({
     const config = statusConfig[order.status]
     const StatusIcon = config.icon
     const serviceName = order.main_services?.service_name
-      ? locale === 'ar' ? order.main_services.service_name.ar : order.main_services.service_name.en
+      ? (order.main_services.service_name[locale] || order.main_services.service_name.en || order.main_services.service_name.ar || '')
       : ''
 
     const isNotesExpanded = expandedNotes.has(order.order_id)
@@ -255,7 +257,7 @@ export default function GuestOrdersPage({
           {/* Items — each on its own line */}
           <div className="space-y-1">
             {order.order_items.map((oi, idx) => {
-              const name = locale === 'ar' ? oi.item_name.ar : oi.item_name.en
+              const name = (oi.item_name as any)[locale] || (oi.item_name as any).en || (oi.item_name as any).ar || ''
               return (
                 <div key={idx} className="flex items-center justify-between text-sm">
                   <span className="text-gray-700">{name}</span>

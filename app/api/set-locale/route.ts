@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { locale } = body
 
-    if (!locale || !['ar', 'en'].includes(locale)) {
+    if (!locale || !['ar', 'en', 'fr'].includes(locale)) {
       return NextResponse.json(
         { success: false, message: 'invalidLocale' },
         { status: 400 }

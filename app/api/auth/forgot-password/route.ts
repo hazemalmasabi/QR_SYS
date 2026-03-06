@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import { sendEmail, getPasswordResetEmailHtml } from '@/lib/email'
+import { sendEmail, getPasswordResetEmailHtml, getPasswordResetEmailSubject } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     const emailHtml = getPasswordResetEmailHtml(employee.full_name, resetUrl, lang || 'ar')
     const emailSent = await sendEmail({
       to: email,
-      subject: 'إعادة تعيين كلمة المرور - Password Reset',
+      subject: getPasswordResetEmailSubject(lang || 'ar'),
       html: emailHtml,
     })
 

@@ -27,11 +27,12 @@ export async function GET(
         hotels!inner (
           hotel_id,
           hotel_name,
-          hotel_name_en,
           hotel_logo_url,
           timezone,
           currency_code,
-          currency_symbol
+          currency_symbol,
+          language_secondary,
+          hotel_name_translations
         )
       `)
       .eq('qr_code_id', qrCode)
@@ -66,11 +67,12 @@ export async function GET(
       hotel: {
         hotel_id: hotel.hotel_id,
         hotel_name: hotel.hotel_name,
-        hotel_name_en: hotel.hotel_name_en,
         hotel_logo_url: hotel.hotel_logo_url,
         timezone: hotel.timezone,
         currency_code: hotel.currency_code,
         currency_symbol: hotel.currency_symbol,
+        language_secondary: hotel.language_secondary || 'ar',
+        hotel_name_translations: hotel.hotel_name_translations || { ar: hotel.hotel_name }
       },
     })
   } catch (error) {

@@ -36,6 +36,7 @@ export default function ServicesPage() {
   const [editingService, setEditingService] = useState<MainService | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
 
   const fetchSession = useCallback(async () => {
     try {
@@ -65,9 +66,22 @@ export default function ServicesPage() {
     }
   }, [tc, page])
 
+  const fetchSecondaryLanguage = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settings')
+      const data = await res.json()
+      if (data.success) {
+        setLanguageSecondary(data.settings.language_secondary || 'ar')
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
+
   useEffect(() => {
     fetchSession()
-  }, [fetchSession])
+    fetchSecondaryLanguage()
+  }, [fetchSession, fetchSecondaryLanguage])
 
   useEffect(() => {
     fetchServices()
@@ -127,8 +141,8 @@ export default function ServicesPage() {
     setModalOpen(true)
   }
 
-  const getName = (name: { ar: string; en: string }) =>
-    locale === 'ar' ? name.ar : name.en
+  const getName = (name: Record<string, string>) =>
+    name[locale] || name.en || ''
 
   return (
     <div className="space-y-6">
@@ -196,7 +210,7 @@ export default function ServicesPage() {
                   {getName(service.service_name)}
                 </h3>
                 <p className="text-xs text-gray-400 line-clamp-1">
-                  {locale === 'ar' ? service.service_name.en : service.service_name.ar}
+                  {locale === 'en' ? (service.service_name[languageSecondary] || '') : (service.service_name.en || '')}
                 </p>
                 {/* Availability time */}
                 <div className="mt-1.5 flex items-center gap-1 text-[11px] text-gray-500">

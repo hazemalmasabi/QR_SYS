@@ -70,14 +70,16 @@ interface SidebarProps {
   session: SessionPayload
   hotel: {
     hotel_name: string
-    hotel_name_en: string
+    hotel_name_translations?: Record<string, string>
     hotel_logo_url: string
+    language_secondary: string
   }
 }
 
 export default function Sidebar({ session, hotel }: SidebarProps) {
   const t = useTranslations('sidebar')
   const te = useTranslations('employees')
+  const td = useTranslations('dashboard')
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
@@ -105,13 +107,12 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
     return pathname.startsWith(href)
   }
 
-  // Hotel name based on locale
   const displayHotelName =
-    locale === 'en' && hotel.hotel_name_en ? hotel.hotel_name_en : hotel.hotel_name
+    hotel.hotel_name_translations?.[locale] || hotel.hotel_name_translations?.en || hotel.hotel_name
 
   // Role label
   const roleLabel = session.isPrimarySupervisor
-    ? (locale === 'ar' ? 'المشرف الرئيسي' : 'Primary Supervisor')
+    ? te('primarySupervisor')
     : session.role === 'hotel_supervisor'
       ? te('hotelSupervisor')
       : session.role === 'service_supervisor'
@@ -194,14 +195,18 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
           {isOpen && (
             <div className="w-full rounded-lg bg-gray-50 px-2 py-2 text-center" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
               <p className="text-xs text-gray-500">
-                {locale === 'ar' ? 'مرحباً،' : 'Welcome,'}{' '}
+                {td('welcome')}{locale === 'ar' ? '،' : ','}{' '}
                 <span className="font-medium text-gray-800">{session.fullName}</span>
               </p>
               <div className="mt-1 flex items-center justify-center gap-1">
                 {session.isPrimarySupervisor && (
                   <Shield className="h-3 w-3 text-amber-500" />
                 )}
-                <span className="text-xs font-medium text-primary-600">{roleLabel}</span>
+                <span className="text-xs font-medium text-primary-600">
+                  {session.isPrimarySupervisor
+                    ? te('primarySupervisor')
+                    : roleLabel}
+                </span>
               </div>
             </div>
           )}
@@ -247,7 +252,7 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
           {isOpen ? (
             <div className="flex items-center gap-1">
               <div className="flex-1">
-                <LanguageSwitcher compact={false} />
+                <LanguageSwitcher compact={false} secondaryLocale={hotel.language_secondary} />
               </div>
               <button
                 onClick={handleLogout}
@@ -260,7 +265,7 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
-              <LanguageSwitcher compact={true} />
+              <LanguageSwitcher compact={true} secondaryLocale={hotel.language_secondary} />
               <button
                 onClick={handleLogout}
                 className="flex items-center justify-center rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50"

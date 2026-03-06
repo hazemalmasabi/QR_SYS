@@ -49,6 +49,7 @@ export default function SubServicesPage() {
   const [editingSubService, setEditingSubService] = useState<SubService | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
 
   const fetchSession = useCallback(async () => {
     try {
@@ -105,10 +106,23 @@ export default function SubServicesPage() {
     }
   }, [parentFilter, tc, page])
 
+  const fetchSecondaryLanguage = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settings')
+      const data = await res.json()
+      if (data.success) {
+        setLanguageSecondary(data.settings.language_secondary || 'ar')
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
+
   useEffect(() => {
     fetchSession()
     fetchServices()
-  }, [fetchSession, fetchServices])
+    fetchSecondaryLanguage()
+  }, [fetchSession, fetchServices, fetchSecondaryLanguage])
 
   useEffect(() => {
     fetchSubServices()
@@ -172,8 +186,8 @@ export default function SubServicesPage() {
     setModalOpen(true)
   }
 
-  const getName = (name: { ar: string; en: string }) =>
-    locale === 'ar' ? name.ar : name.en
+  const getName = (name: Record<string, string>) =>
+    name[locale] || name.en || name.ar || ''
 
   const getParentName = (sub: SubServiceWithParent) => {
     if (sub.main_services) {
@@ -269,7 +283,9 @@ export default function SubServicesPage() {
                   {getName(sub.sub_service_name)}
                 </h3>
                 <p className="text-xs text-gray-400 line-clamp-1">
-                  {locale === 'ar' ? sub.sub_service_name.en : sub.sub_service_name.ar}
+                  {locale === 'en'
+                    ? (sub.sub_service_name[languageSecondary] || sub.sub_service_name.ar || '')
+                    : (sub.sub_service_name.en || '')}
                 </p>
                 {/* Parent service */}
                 <p className="mt-1 text-[11px] text-gray-500 line-clamp-1">

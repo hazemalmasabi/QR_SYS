@@ -7,7 +7,7 @@ interface CartState {
   addItem: (
     item: Item,
     serviceId?: string,
-    serviceName?: { ar: string; en: string },
+    serviceName?: Record<string, string>,
     serviceDisplayOrder?: number
   ) => void
   removeItem: (itemId: string) => void
@@ -25,7 +25,7 @@ export const useCartStore = create<CartState>()(
       addItem: (
         item: Item,
         serviceId?: string,
-        serviceName?: { ar: string; en: string },
+        serviceName?: Record<string, string>,
         serviceDisplayOrder?: number
       ) => {
         set((state) => {

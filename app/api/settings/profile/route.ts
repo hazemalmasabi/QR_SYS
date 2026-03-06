@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { getSession, destroySession } from '@/lib/auth'
-import { sendEmail, getVerificationEmailHtml } from '@/lib/email'
+import { sendEmail, getVerificationEmailHtml, getVerificationEmailSubject } from '@/lib/email'
 
 export async function GET(request: Request) {
     try {
@@ -129,7 +129,7 @@ export async function PATCH(request: Request) {
 
             const emailSent = await sendEmail({
                 to: email,
-                subject: 'تأكيد تغيير البريد الإلكتروني | Confirm Email Change',
+                subject: getVerificationEmailSubject(lang),
                 html,
             })
 

@@ -1,8 +1,9 @@
 import { z } from 'zod'
 
 export const registerSchema = z.object({
-  hotelName: z.string().min(3, 'min3').max(100, 'max100'),
   hotelNameEn: z.string().min(3, 'min3').max(100, 'max100'),
+  hotelNameSecondary: z.string().max(100, 'max100').optional().or(z.literal('')),
+  languageSecondary: z.string().min(1, 'required'),
   timezone: z.string().min(1, 'required'),
   currencyCode: z.string().min(1, 'required'),
   fullName: z.string().min(3, 'min3').max(100, 'max100'),
@@ -19,6 +20,14 @@ export const registerSchema = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
   message: 'passwordMismatch',
   path: ['confirmPassword'],
+}).refine((data) => {
+  if (data.languageSecondary !== 'none') {
+    return (data.hotelNameSecondary || '').trim().length >= 3;
+  }
+  return true;
+}, {
+  message: 'min3',
+  path: ['hotelNameSecondary'],
 })
 
 export const loginEmailSchema = z.object({
@@ -54,10 +63,10 @@ export const roomSchema = z.object({
 })
 
 export const mainServiceSchema = z.object({
-  serviceNameAr: z.string().min(1, 'required'),
   serviceNameEn: z.string().min(1, 'required'),
-  descriptionAr: z.string().optional(),
+  serviceNameSecondary: z.string().min(1, 'required'),
   descriptionEn: z.string().optional(),
+  descriptionSecondary: z.string().optional(),
   availabilityType: z.enum(['24/7', 'scheduled']),
   startTime: z.string().optional(),
   endTime: z.string().optional(),
@@ -66,10 +75,10 @@ export const mainServiceSchema = z.object({
 
 export const subServiceSchema = z.object({
   parentServiceId: z.string().min(1, 'required'),
-  subServiceNameAr: z.string().min(1, 'required'),
   subServiceNameEn: z.string().min(1, 'required'),
-  descriptionAr: z.string().optional(),
+  subServiceNameSecondary: z.string().min(1, 'required'),
   descriptionEn: z.string().optional(),
+  descriptionSecondary: z.string().optional(),
   availabilityType: z.enum(['always', 'scheduled']),
   startTime: z.string().optional(),
   endTime: z.string().optional(),
@@ -78,10 +87,10 @@ export const subServiceSchema = z.object({
 
 export const itemSchema = z.object({
   subServiceId: z.string().min(1, 'required'),
-  itemNameAr: z.string().min(1, 'required'),
   itemNameEn: z.string().min(1, 'required'),
-  descriptionAr: z.string().optional(),
+  itemNameSecondary: z.string().min(1, 'required'),
   descriptionEn: z.string().optional(),
+  descriptionSecondary: z.string().optional(),
   isFree: z.boolean().default(false),
   price: z.any().transform(v => {
     const num = Number(v)

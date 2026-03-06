@@ -56,9 +56,10 @@ export default function ItemsPage() {
   const [editingItem, setEditingItem] = useState<Item | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
 
   const getName = useCallback(
-    (name: { ar: string; en: string }) => (locale === 'ar' ? name.ar : name.en),
+    (name: Record<string, string>) => name[locale] || name.en || name.ar || '',
     [locale]
   )
 
@@ -140,10 +141,23 @@ export default function ItemsPage() {
     }
   }, [serviceFilter, subServiceFilter, tc, page])
 
+  const fetchSecondaryLanguage = useCallback(async () => {
+    try {
+      const res = await fetch('/api/settings')
+      const data = await res.json()
+      if (data.success) {
+        setLanguageSecondary(data.settings.language_secondary || 'ar')
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
+
   useEffect(() => {
     fetchSession()
     fetchServices()
-  }, [fetchSession, fetchServices])
+    fetchSecondaryLanguage()
+  }, [fetchSession, fetchServices, fetchSecondaryLanguage])
 
   useEffect(() => {
     fetchSubServicesForFilter()
@@ -297,8 +311,8 @@ export default function ItemsPage() {
             <thead>
               <tr>
                 <th>{ts('image')}</th>
-                <th>{t('itemNameAr')}</th>
                 <th>{t('itemNameEn')}</th>
+                <th>{t('itemNameSecondary')}</th>
                 <th>{t('subService')}</th>
                 <th>{t('price')}</th>
                 <th>#</th>
@@ -322,11 +336,11 @@ export default function ItemsPage() {
                       </div>
                     )}
                   </td>
-                  <td className="font-medium text-gray-900" dir="rtl">
-                    {item.item_name.ar}
-                  </td>
                   <td className="font-medium text-gray-900" dir="ltr">
                     {item.item_name.en}
+                  </td>
+                  <td className="font-medium text-gray-900" dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
+                    {item.item_name[languageSecondary] || item.item_name.ar || ''}
                   </td>
                   <td>
                     <div className="text-sm">

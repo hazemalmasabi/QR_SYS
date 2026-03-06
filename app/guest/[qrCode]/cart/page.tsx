@@ -80,7 +80,7 @@ export default function CartPage({
     acc[sId].items.push(ci)
     acc[sId].subtotal += (ci.item.is_free ? 0 : ci.item.price) * ci.quantity
     return acc
-  }, {} as Record<string, { name: { ar: string; en: string }; displayOrder: number; items: typeof items; subtotal: number }>)
+  }, {} as Record<string, { name: Record<string, string>; displayOrder: number; items: typeof items; subtotal: number }>)
 
   // Sort groups by display order
   const sortedServiceIds = Object.keys(groupedItemsMap).sort(
@@ -159,7 +159,7 @@ export default function CartPage({
       <div className="space-y-8">
         {sortedServiceIds.map((serviceId) => {
           const group = groupedItemsMap[serviceId]
-          const serviceName = locale === 'ar' ? group.name.ar : group.name.en
+          const serviceName = group.name[locale] || group.name.en || group.name.ar || ''
 
           return (
             <div key={serviceId} className="space-y-4">
@@ -173,8 +173,8 @@ export default function CartPage({
               <div className="space-y-3 px-1">
                 {group.items.map((cartItem) => {
                   const item = cartItem.item
-                  const itemName = locale === 'ar' ? item.item_name.ar : item.item_name.en
-                  const itemUnit = (item as any).unit ? (locale === 'ar' ? (item as any).unit.ar : (item as any).unit.en) : ''
+                  const itemName = item.item_name[locale] || item.item_name.en || item.item_name.ar || ''
+                  const itemUnit = (item as any).unit ? ((item as any).unit[locale] || (item as any).unit.en || (item as any).unit.ar || '') : ''
                   const subtotal = (item.is_free ? 0 : item.price) * cartItem.quantity
 
                   return (
@@ -262,7 +262,9 @@ export default function CartPage({
             const group = groupedItemsMap[sId]
             return (
               <div key={sId} className="flex items-center justify-between text-sm">
-                <span className="text-gray-500 font-medium">{locale === 'ar' ? group.name.ar : group.name.en}</span>
+                <span className="text-gray-500 font-medium">
+                  {group.name[locale] || group.name.en || group.name.ar || ''}
+                </span>
                 <span className="text-gray-900 font-black">{formatCurrency(group.subtotal, '', currencySymbol)}</span>
               </div>
             )

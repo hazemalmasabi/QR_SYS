@@ -13,11 +13,12 @@ interface GuestInfo {
   hotel: {
     hotel_id: string
     hotel_name: string
-    hotel_name_en: string
     hotel_logo_url: string
     timezone: string
     currency_code: string
     currency_symbol: string
+    language_secondary: string
+    hotel_name_translations: Record<string, string>
   }
 }
 
@@ -130,8 +131,8 @@ export default function GuestPage({
               return aIsOpen ? -1 : 1
             })
             .map((service) => {
-              const name = locale === 'ar' ? service.service_name.ar : service.service_name.en
-              const desc = locale === 'ar' ? service.description.ar : service.description.en
+              const name = service.service_name[locale] || service.service_name.en || service.service_name.ar || ''
+              const desc = service.description[locale] || service.description.en || service.description.ar || ''
               const timezone = guestInfo?.hotel.timezone || 'Asia/Riyadh'
 
               const isScheduled = service.availability_type === 'scheduled' && service.start_time && service.end_time

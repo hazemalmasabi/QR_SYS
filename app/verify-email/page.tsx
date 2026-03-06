@@ -60,7 +60,7 @@ export default function VerifyEmailPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-8">
       <div className="absolute top-4 end-4">
-        <LanguageSwitcher />
+        <LanguageSwitcher variant="dropdown" />
       </div>
 
       <div className="w-full max-w-md text-center">

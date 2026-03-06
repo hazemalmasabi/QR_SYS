@@ -31,11 +31,38 @@ export async function sendEmail({ to, subject, html }: SendEmailParams): Promise
   }
 }
 
+import ar from '../messages/ar.json'
+import en from '../messages/en.json'
+import fr from '../messages/fr.json'
+
+const dicts: Record<string, any> = { ar, en, fr }
+
+function getTranslations(lang: string) {
+  // Fallback to english if the requested language dictionary doesn't exist
+  return dicts[lang] || dicts['en']
+}
+
+export function getVerificationEmailSubject(lang: string = 'ar'): string {
+  const t = getTranslations(lang).email.verify
+  return t.subject
+}
+
+export function getPasswordResetEmailSubject(lang: string = 'ar'): string {
+  const t = getTranslations(lang).email.reset
+  return t.subject
+}
+
 export function getVerificationEmailHtml(name: string, verifyUrl: string, lang: string = 'ar'): string {
-  const isAr = lang === 'ar'
+  const t = getTranslations(lang).email.verify
+  const isAr = lang === 'ar' || lang === 'ur' || lang === 'fa' // basic RTL check, though ideally we'd pass dir
+  // Let's use the central registry for direction if possible
+  // Since email is a pure function and Node might not like importing from languages if it has client code,
+  // we can use a quick robust check.
+  const dir = (lang === 'ar') ? 'rtl' : 'ltr'
+
   return `
 <!DOCTYPE html>
-<html dir="${isAr ? 'rtl' : 'ltr'}" lang="${lang}">
+<html dir="${dir}" lang="${lang}">
 <head>
   <meta charset="UTF-8">
   <style>
@@ -51,24 +78,24 @@ export function getVerificationEmailHtml(name: string, verifyUrl: string, lang: 
     .footer { padding: 20px 30px; text-align: center; background-color: #f9fafb; color: #6b7280; font-size: 13px; border-top: 1px solid #e5e7eb; }
   </style>
 </head>
-<body dir="${isAr ? 'rtl' : 'ltr'}" style="direction: ${isAr ? 'rtl' : 'ltr'}; text-align: ${isAr ? 'right' : 'left'};">
-  <div class="wrapper" dir="${isAr ? 'rtl' : 'ltr'}">
-    <div class="container" style="text-align: ${isAr ? 'right' : 'left'};">
+<body dir="${dir}" style="direction: ${dir}; text-align: ${dir === 'rtl' ? 'right' : 'left'};">
+  <div class="wrapper" dir="${dir}">
+    <div class="container" style="text-align: ${dir === 'rtl' ? 'right' : 'left'};">
       <div class="header">
-        <h1>${isAr ? 'نظام إدارة الخدمات الفندقية' : 'Hotel Services Management System'}</h1>
+        <h1>${t.appName}</h1>
       </div>
       <div class="content">
-        <h2 style="color: #111827; font-size: 20px; margin-top: 0; margin-bottom: 24px;">${isAr ? 'تأكيد حسابك' : 'Verify Your Account'}</h2>
-        <p>${isAr ? `مرحباً <strong>${name}</strong>،` : `Hello <strong>${name}</strong>,`}</p>
-        <p>${isAr ? 'شكراً لانضمامك واستخدام نظامنا. يرجى النقر على الزر أدناه لتأكيد عنوان بريدك الإلكتروني والبدء في إدارة فندقك:' : 'Thank you for joining our system. Please click the button below to verify your email address and start managing your hotel:'}</p>
+        <h2 style="color: #111827; font-size: 20px; margin-top: 0; margin-bottom: 24px;">${t.title}</h2>
+        <p>${t.hello.replace('{name}', name)}</p>
+        <p>${t.desc}</p>
         <div class="btn-container">
-          <a href="${verifyUrl}" class="button">${isAr ? 'تأكيد الحساب' : 'Verify Account'}</a>
+          <a href="${verifyUrl}" class="button">${t.btn}</a>
         </div>
-        <p style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">${isAr ? 'ملاحظة: هذا الرابط صالح لمدة 24 ساعة فقط.' : 'Note: This link is valid for 24 hours only.'}</p>
-        <p style="font-size: 14px; color: #6b7280;">${isAr ? 'إذا لم تقم بإنشاء هذا الحساب، يمكنك تجاهل هذه الرسالة بأمان.' : 'If you did not create this account, you can safely ignore this email.'}</p>
+        <p style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">${t.note}</p>
+        <p style="font-size: 14px; color: #6b7280;">${t.ignore}</p>
       </div>
       <div class="footer" style="text-align: center;">
-        <p>&copy; ${new Date().getFullYear()} ${isAr ? 'نظام إدارة الخدمات الفندقية. جميع الحقوق محفوظة.' : 'Hotel Services Management System. All rights reserved.'}</p>
+        <p>&copy; ${new Date().getFullYear()} ${t.copyright}</p>
       </div>
     </div>
   </div>
@@ -77,10 +104,12 @@ export function getVerificationEmailHtml(name: string, verifyUrl: string, lang: 
 }
 
 export function getPasswordResetEmailHtml(name: string, resetUrl: string, lang: string = 'ar'): string {
-  const isAr = lang === 'ar'
+  const t = getTranslations(lang).email.reset
+  const dir = (lang === 'ar') ? 'rtl' : 'ltr'
+
   return `
 <!DOCTYPE html>
-<html dir="${isAr ? 'rtl' : 'ltr'}" lang="${lang}">
+<html dir="${dir}" lang="${lang}">
 <head>
   <meta charset="UTF-8">
   <style>
@@ -96,24 +125,24 @@ export function getPasswordResetEmailHtml(name: string, resetUrl: string, lang: 
     .footer { padding: 20px 30px; text-align: center; background-color: #f9fafb; color: #6b7280; font-size: 13px; border-top: 1px solid #e5e7eb; }
   </style>
 </head>
-<body dir="${isAr ? 'rtl' : 'ltr'}" style="direction: ${isAr ? 'rtl' : 'ltr'}; text-align: ${isAr ? 'right' : 'left'};">
-  <div class="wrapper" dir="${isAr ? 'rtl' : 'ltr'}">
-    <div class="container" style="text-align: ${isAr ? 'right' : 'left'};">
+<body dir="${dir}" style="direction: ${dir}; text-align: ${dir === 'rtl' ? 'right' : 'left'};">
+  <div class="wrapper" dir="${dir}">
+    <div class="container" style="text-align: ${dir === 'rtl' ? 'right' : 'left'};">
       <div class="header">
-        <h1>${isAr ? 'نظام إدارة الخدمات الفندقية' : 'Hotel Services Management System'}</h1>
+        <h1>${t.appName}</h1>
       </div>
       <div class="content">
-        <h2 style="color: #111827; font-size: 20px; margin-top: 0; margin-bottom: 24px;">${isAr ? 'إعادة تعيين كلمة المرور' : 'Password Reset Request'}</h2>
-        <p>${isAr ? `مرحباً <strong>${name}</strong>،` : `Hello <strong>${name}</strong>,`}</p>
-        <p>${isAr ? 'لقد تلقينا طلباً لإعادة تعيين كلمة المرور الخاصة بحسابك في النظام. يمكنك القيام بذلك عن طريق النقر على الزر أدناه:' : 'We received a request to reset your password. You can do this by clicking the button below:'}</p>
+        <h2 style="color: #111827; font-size: 20px; margin-top: 0; margin-bottom: 24px;">${t.title}</h2>
+        <p>${t.hello.replace('{name}', name)}</p>
+        <p>${t.desc}</p>
         <div class="btn-container">
-          <a href="${resetUrl}" class="button">${isAr ? 'تغيير كلمة المرور' : 'Reset Password'}</a>
+          <a href="${resetUrl}" class="button">${t.btn}</a>
         </div>
-        <p style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">${isAr ? 'هذا الرابط صالح لمدة ساعة واحدة فقط.' : 'This link is valid for 1 hour only.'}</p>
-        <p style="font-size: 14px; color: #6b7280;">${isAr ? 'إذا لم تقم بطلب إعادة التعيين، يرجى تجاهل هذه الرسالة، وستبقى كلمة المرور الحالية بدون تغيير.' : 'If you did not request a password reset, please ignore this email and your password will remain unchanged.'}</p>
+        <p style="font-size: 14px; color: #6b7280; margin-bottom: 8px;">${t.note}</p>
+        <p style="font-size: 14px; color: #6b7280;">${t.ignore}</p>
       </div>
       <div class="footer" style="text-align: center;">
-        <p>&copy; ${new Date().getFullYear()} ${isAr ? 'نظام إدارة الخدمات الفندقية. جميع الحقوق محفوظة.' : 'Hotel Services Management System. All rights reserved.'}</p>
+        <p>&copy; ${new Date().getFullYear()} ${t.copyright}</p>
       </div>
     </div>
   </div>

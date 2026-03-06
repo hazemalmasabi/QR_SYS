@@ -1,3 +1,5 @@
-export const locales = ['ar', 'en'] as const
-export type Locale = (typeof locales)[number]
-export const defaultLocale: Locale = 'en'
+import { locales as registryLocales, type Locale as RegistryLocale, defaultLocale as registryDefault } from '@/lib/languages';
+
+export const locales = registryLocales;
+export type Locale = RegistryLocale;
+export const defaultLocale: Locale = registryDefault;
