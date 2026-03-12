@@ -49,7 +49,8 @@ export default function RoomsPage() {
   // QR Settings
   const [hotelLogoUrl, setHotelLogoUrl] = useState<string | null>(null)
   const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
-  const [qrLanguage, setQrLanguage] = useState<'ar' | 'en' | 'both'>(locale as 'ar' | 'en' | 'both')
+  const [languageSecondary, setLanguageSecondary] = useState<string>('none')
+  const [qrLanguage, setQrLanguage] = useState<string>(locale === 'en' ? 'en' : 'en') // will be updated in fetch
   const fetchRooms = useCallback(async () => {
     setLoading(true)
     try {
@@ -83,6 +84,14 @@ export default function RoomsPage() {
         }
         setHotelLogoUrl(data.settings.hotel_logo_url || null)
         setBarcodeTextTranslations(data.settings.barcode_text_translations || {})
+        const sec = data.settings.language_secondary || 'none'
+        setLanguageSecondary(sec)
+        // Set initial QR language based on availability
+        if (sec !== 'none' && locale !== 'en') {
+          setQrLanguage(sec)
+        } else {
+          setQrLanguage('en')
+        }
       }
     } catch {
       // silently fail
@@ -103,7 +112,7 @@ export default function RoomsPage() {
         try {
           const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
           const url = new URL(`${appUrl}/guest/${selectedRoom.qr_code}`)
-          url.searchParams.set('lang', qrLanguage === 'both' ? 'ar' : qrLanguage)
+          url.searchParams.set('lang', qrLanguage === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : qrLanguage)
           const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
           setSelectedQR(qrDataUrl)
         } catch {
@@ -180,39 +189,38 @@ export default function RoomsPage() {
     try {
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
       const url = new URL(`${appUrl}/guest/${room.qr_code}`)
-      url.searchParams.set('lang', qrLanguage === 'both' ? 'ar' : qrLanguage)
+      url.searchParams.set('lang', qrLanguage === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : qrLanguage)
       const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
 
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
       if (!ctx) throw new Error('Could not get canvas context')
 
-      // Determine text content based on selected language
-      let customTextAr = ''
-      let customTextEn = ''
-      if (qrLanguage === 'both') {
-        customTextAr = barcodeTextTranslations.ar || ''
-        customTextEn = barcodeTextTranslations.en || ''
-      } else if (qrLanguage === 'ar') {
-        customTextAr = barcodeTextTranslations.ar || ''
-      } else {
-        customTextEn = barcodeTextTranslations.en || ''
-      }
-
       // Dimensions
       const QR_SIZE = 400
       const PADDING = 40
       const HEADER_HEIGHT = PADDING
 
-      const TEXT_GAP_AR = customTextAr ? 35 : 0
+      // Determine text content based on selected language
+      let customTextSec = ''
+      let customTextEn = ''
+      if (qrLanguage === 'both') {
+        customTextSec = barcodeTextTranslations[languageSecondary] || ''
+        customTextEn = barcodeTextTranslations.en || ''
+      } else if (qrLanguage === 'en') {
+        customTextEn = barcodeTextTranslations.en || ''
+      } else {
+        customTextSec = barcodeTextTranslations[languageSecondary] || ''
+      }
+
+      const TEXT_GAP_SEC = customTextSec ? 35 : 0
       const TEXT_GAP_EN = customTextEn ? 35 : 0
-      const FOOTER_HEIGHT = 80 + TEXT_GAP_AR + TEXT_GAP_EN
+      const FOOTER_HEIGHT = 80 + TEXT_GAP_SEC + TEXT_GAP_EN
 
       canvas.width = QR_SIZE + PADDING * 2
       canvas.height = HEADER_HEIGHT + QR_SIZE + FOOTER_HEIGHT
 
       // Draw background
-      // Shadow and border effect - simplified to just a white bg with rounded rectangle
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -220,15 +228,12 @@ export default function RoomsPage() {
       await new Promise<void>((resolve, reject) => {
         const img = new Image()
         img.onload = () => {
-          // Draw a subtle border around QR
           ctx.shadowColor = 'rgba(0, 0, 0, 0.05)'
           ctx.shadowBlur = 10
           ctx.fillStyle = '#ffffff'
           ctx.beginPath()
           ctx.roundRect(PADDING - 10, HEADER_HEIGHT - 10, QR_SIZE + 20, QR_SIZE + 20, 20)
           ctx.fill()
-
-          // Restore shadow for image
           ctx.shadowColor = 'transparent'
           ctx.shadowBlur = 0
           ctx.drawImage(img, PADDING, HEADER_HEIGHT, QR_SIZE, QR_SIZE)
@@ -247,14 +252,10 @@ export default function RoomsPage() {
             const logoSize = QR_SIZE * 0.22
             const cx = PADDING + QR_SIZE / 2
             const cy = HEADER_HEIGHT + QR_SIZE / 2
-
-            // Draw white background
             ctx.fillStyle = '#ffffff'
             ctx.beginPath()
             ctx.roundRect(cx - logoSize / 2 - 6, cy - logoSize / 2 - 6, logoSize + 12, logoSize + 12, 12)
             ctx.fill()
-
-            // Draw image
             let w = img.width
             let h = img.height
             if (w > h) {
@@ -274,19 +275,29 @@ export default function RoomsPage() {
       let currentY = HEADER_HEIGHT + QR_SIZE + 40
       ctx.textAlign = 'center'
 
-      if (customTextAr) {
+      if (customTextSec) {
         ctx.font = '500 24px system-ui'
-        ctx.fillStyle = '#6b7280' // gray-500
-        ctx.fillText(customTextAr, canvas.width / 2, currentY)
+        ctx.fillStyle = '#6b7280'
+        ctx.fillText(customTextSec, canvas.width / 2, currentY)
         currentY += 35
       }
 
       ctx.font = 'bold 32px system-ui'
-      ctx.fillStyle = '#111827' // gray-900
+      ctx.fillStyle = '#111827'
+
+      const roomLabels: Record<string, string> = {
+        ar: 'غرفة',
+        en: 'Room',
+        fr: 'Chambre',
+        es: 'Habitación'
+      }
+
       if (qrLanguage === 'both') {
-        ctx.fillText(t('roomQrBoth', { number: room.room_number }), canvas.width / 2, currentY)
+        const roomTextSec = roomLabels[languageSecondary] || roomLabels.en
+        ctx.fillText(`${roomTextSec} ${room.room_number} | Room ${room.room_number}`, canvas.width / 2, currentY)
       } else {
-        ctx.fillText(t('roomQr', { number: room.room_number }), canvas.width / 2, currentY)
+        const roomText = qrLanguage === 'en' ? `Room ${room.room_number}` : `${roomLabels[languageSecondary] || roomLabels.en} ${room.room_number}`
+        ctx.fillText(roomText, canvas.width / 2, currentY)
       }
       currentY += 40
 
@@ -436,7 +447,7 @@ export default function RoomsPage() {
                   <td className="font-medium text-gray-900">
                     {room.room_number}
                   </td>
-                  <td>{room.floor_number ?? '\u2014'}</td>
+                  <td>{room.floor_number ?? tc('none')}</td>
                   <td>{getRoomTypeName(room.room_type)}</td>
                   <td>
                     <span
@@ -478,7 +489,7 @@ export default function RoomsPage() {
                     )}
                   </td>
                   <td className="max-w-[200px] truncate text-gray-500">
-                    {room.notes || '\u2014'}
+                    {room.notes || tc('none')}
                   </td>
                   <td>
                     <div className="flex items-center gap-1">
@@ -537,13 +548,13 @@ export default function RoomsPage() {
               </p>
             </div>
             <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label={tc('pagination')}>
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
                   className="relative inline-flex items-center rounded-s-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">{tc('previous')}</span>
                   {locale === 'ar' ? (
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -558,7 +569,7 @@ export default function RoomsPage() {
                   disabled={page === totalPages}
                   className="relative inline-flex items-center rounded-e-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">{tc('next')}</span>
                   {locale === 'ar' ? (
                     <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -596,12 +607,16 @@ export default function RoomsPage() {
               </h3>
               <select
                 value={qrLanguage}
-                onChange={(e) => setQrLanguage(e.target.value as 'ar' | 'en' | 'both')}
+                onChange={(e) => setQrLanguage(e.target.value)}
                 className="input py-1 px-2 text-sm !w-fit min-w-[100px]"
               >
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="both">كلاهما / Both</option>
+                <option value="en">{tc('language_en')}</option>
+                {languageSecondary !== 'none' && (
+                  <>
+                    <option value={languageSecondary}>{tc(`language_${languageSecondary}` as any)}</option>
+                    <option value="both">{t('qrLanguageBoth')}</option>
+                  </>
+                )}
               </select>
             </div>
 
@@ -622,17 +637,21 @@ export default function RoomsPage() {
               </div>
 
               <div className="flex flex-col items-center gap-2 w-full pt-2">
-                {(qrLanguage === 'ar' || qrLanguage === 'both') && barcodeTextTranslations.ar && (
-                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.ar}</span>
+                {(qrLanguage === languageSecondary || qrLanguage === 'both') && barcodeTextTranslations[languageSecondary] && (
+                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations[languageSecondary]}</span>
                 )}
 
                 {qrLanguage === 'both' ? (
                   <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
-                    <span>{t('roomQrBoth', { number: selectedRoom.room_number })}</span>
+                    <span dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
+                      {languageSecondary === 'ar' ? `غرفة ${selectedRoom.room_number}` : (languageSecondary === 'fr' ? `Chambre ${selectedRoom.room_number}` : (languageSecondary === 'es' ? `Habitación ${selectedRoom.room_number}` : `Room ${selectedRoom.room_number}`))}
+                    </span>
+                    <span className="text-gray-300 font-light mx-1">|</span>
+                    <span dir="ltr">Room {selectedRoom.room_number}</span>
                   </div>
                 ) : (
                   <p className="text-xl font-bold text-gray-900 text-center">
-                    {t('roomQr', { number: selectedRoom.room_number })}
+                    {qrLanguage === 'en' ? `Room ${selectedRoom.room_number}` : (languageSecondary === 'ar' ? `غرفة ${selectedRoom.room_number}` : (languageSecondary === 'fr' ? `Chambre ${selectedRoom.room_number}` : (languageSecondary === 'es' ? `Habitación ${selectedRoom.room_number}` : `Room ${selectedRoom.room_number}`)))}
                   </p>
                 )}
 

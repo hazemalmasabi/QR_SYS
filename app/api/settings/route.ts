@@ -204,7 +204,7 @@ export async function PATCH(request: Request) {
       .from('hotels')
       .update(updateData)
       .eq('hotel_id', session.hotelId)
-      .select('hotel_name, hotel_name_en, hotel_name_translations, hotel_logo_url, barcode_text_ar, barcode_text_en, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
+      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
       .single()
 
     if (error) {

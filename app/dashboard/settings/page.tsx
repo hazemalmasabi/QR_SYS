@@ -21,9 +21,10 @@ import {
   Check,
   Globe,
   Info,
-  Coins,
   Hotel as HotelIcon,
+  Coins,
   History,
+  AlertTriangle,
 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { toast } from 'sonner'
@@ -32,6 +33,7 @@ import { SUPPORTED_LANGUAGES, getLanguageName } from '@/lib/languages'
 import type { Hotel, RoomType } from '@/types'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
 import { Clock } from '@/components/Clock'
+import { useTranslationCounts } from '@/components/Providers/TranslationProvider'
 
 interface SettingsData {
   hotel_name: string
@@ -53,8 +55,9 @@ export default function SettingsPage() {
   const tv = useTranslations('validation')
   const locale = useLocale()
   const router = useRouter()
+  const { counts, refreshCounts } = useTranslationCounts()
 
-  const [settings, setSettings] = useState<SettingsData | null>(null)
+  const [settings, setSettings] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState<Record<string, any>>({})
 
@@ -96,7 +99,7 @@ export default function SettingsPage() {
   const [matchingTimezones, setMatchingTimezones] = useState<{ value: string, label: any }[]>([])
 
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
-  const [barcodePreviewLang, setBarcodePreviewLang] = useState<'ar' | 'en' | 'both'>(locale as 'ar' | 'en' | 'both')
+  const [barcodePreviewLang, setBarcodePreviewLang] = useState<string>(locale === 'en' ? 'en' : (languageSecondary !== 'none' ? languageSecondary : 'en'))
   const [barcodePreviewDataUrl, setBarcodePreviewDataUrl] = useState<string | null>(null)
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([])
   const [roomTypesErrors, setRoomTypesErrors] = useState<Array<{ code?: boolean, nameSec?: boolean, nameEn?: boolean }>>([])
@@ -136,10 +139,10 @@ export default function SettingsPage() {
 
     if (matches.length > 0) {
       setMatchingTimezones(matches)
-      setVerificationMessage(locale === 'ar' ? 'تنبيه: يوجد دول مطابقة لنطاقك الزمني، "يجب" اختيار إحداها من القائمة بالأسفل للاستمرار.' : 'Alert: Matching timezones found, you "must" select one from the list below to continue.')
+      setVerificationMessage(t('matchingCountriesFound'))
     } else {
       setMatchingTimezones([])
-      setVerificationMessage(locale === 'ar' ? 'تم التحقق بنجاح لعدم وجود دول مطابقة، سيتم اعتماد توقيتك.' : 'Successfully verified: No matching countries found, your custom offset will be used.')
+      setVerificationMessage(t('noMatchingCountriesFound'))
     }
   }
 
@@ -159,7 +162,7 @@ export default function SettingsPage() {
         setSettings(data.settings)
         setHotelNameTranslations(data.settings.hotel_name_translations || { ar: data.settings.hotel_name || '', en: '' })
         setHotelLogoUrl(data.settings.hotel_logo_url || '')
-        setBarcodeTextTranslations(data.settings.barcode_text_translations || { ar: data.settings.barcode_text_ar || '', en: data.settings.barcode_text_en || '' })
+        setBarcodeTextTranslations(data.settings.barcode_text_translations || { ar: '', en: '' })
         setLanguageSecondary(data.settings.language_secondary || 'ar')
 
         const tzValue = data.settings.timezone
@@ -178,6 +181,8 @@ export default function SettingsPage() {
         }
 
         setCurrencyCode(data.settings.currency_code)
+        setRoomTypes(data.settings.room_types || [])
+        refreshCounts()
       }
 
       const dataProfile = await resProfile.json()
@@ -194,7 +199,7 @@ export default function SettingsPage() {
     } finally {
       setLoading(false)
     }
-  }, [tc])
+  }, [tc, refreshCounts])
 
   useEffect(() => {
     fetchSettings()
@@ -276,9 +281,10 @@ export default function SettingsPage() {
 
   const generateBarcodePreview = async () => {
     try {
-      // Simulate URL for room 1 (for testing purposes only)
+      // Use the chosen preview language. If 'both', we usually prioritize secondary for the QR content itself if needed, 
+      // but the main point is the labels on the card.
       const url = new URL(`${window.location.origin}/guest/TEST-QR-ROOM-1`)
-      url.searchParams.set('lang', barcodePreviewLang === 'both' ? 'ar' : barcodePreviewLang)
+      url.searchParams.set('lang', barcodePreviewLang === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : barcodePreviewLang)
       const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
       setBarcodePreviewDataUrl(qrDataUrl)
     } catch (error) {
@@ -290,7 +296,7 @@ export default function SettingsPage() {
   const addRoomType = () => {
     // Prevent adding multiple new rows before saving
     if (editingRow !== null) {
-      toast.error('الرجاء حفظ أو إلغاء التعديل الحالي أولاً')
+      toast.error(t('cancelEditFirst'))
       return
     }
     const newRoomType: RoomType = {
@@ -307,7 +313,7 @@ export default function SettingsPage() {
 
   const handleEditRow = (index: number) => {
     if (editingRow !== null) {
-      toast.error('الرجاء حفظ أو إلغاء التعديل الحالي أولاً')
+      toast.error(t('cancelEditFirst'))
       return
     }
     setEditingRow(index)
@@ -432,6 +438,7 @@ export default function SettingsPage() {
         toast.success(tc('success'))
         setSettings(data.settings)
         setRoomTypeMappings([]) // reset mappings
+        refreshCounts()
       } else {
         toast.error(tc('error'))
         // Revert local state on backend failure
@@ -505,15 +512,15 @@ export default function SettingsPage() {
     if (!profileEmail.trim()) {
       newErrors.email = tv('required')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profileEmail)) {
-      newErrors.email = tv('invalidEmail') || (locale === 'ar' ? 'صيغة البريد الإلكتروني غير صحيحة' : 'Invalid email format')
+      newErrors.email = tv('invalidEmail')
     }
 
     if (profilePassword) {
       // Basic check for complex password: min 8 length, 1 uppercase, 1 lowercase, 1 number, 1 special character
       if (profilePassword.length < 8) {
-        newErrors.password = locale === 'ar' ? 'يجب أن لا تقل كلمة المرور عن 8 أحرف' : 'Password must be at least 8 characters'
+        newErrors.password = tv('passwordMin')
       } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(profilePassword)) {
-        newErrors.password = locale === 'ar' ? 'كلمة المرور يجب أن تحتوي على حرف كبير، حرف صغير، رقم، ورمز' : 'Password must contain uppercase, lowercase, number, and special character'
+        newErrors.password = tv('passwordRequirements')
       }
     }
 
@@ -555,7 +562,7 @@ export default function SettingsPage() {
         toast.success(tc('success'))
         setProfilePassword('')
         if (data.emailChanged) {
-          toast.info(locale === 'ar' ? 'تم تغيير البريد الإلكتروني. يرجى تأكيد البريد الجديد لتتمكن من تسجيل الدخول.' : 'Email changed. Please verify your new email to login later.', { duration: 10000 })
+          toast.info(t('emailChangeActivationSent'), { duration: 10000 })
           setTimeout(() => {
             window.location.href = '/login'
           }, 3000)
@@ -587,23 +594,23 @@ export default function SettingsPage() {
       const newErrors: Record<string, any> = {}
 
       if (!hotelNameTranslations.en?.trim()) {
-        const msg = locale === 'ar' ? 'اسم الفندق بالإنجليزي مطلوب' : locale === 'fr' ? 'Le nom de l hôtel en anglais est requis' : 'Hotel name in English is required'
+        const msg = tv('required')
         newErrors.hotelNameEn = msg
         toast.error(msg)
       } else if (hotelNameTranslations.en.trim().length < 3) {
-        const msg = locale === 'ar' ? 'اسم الفندق يجب أن يكون 3 أحرف على الأقل' : locale === 'fr' ? 'Le nom de l hôtel doit comporter au moins 3 caractères' : 'Hotel name must be at least 3 characters'
+        const msg = tv('minLength', { min: 3 })
         newErrors.hotelNameEn = msg
         toast.error(msg)
       }
 
       if (languageSecondary !== 'none') {
-        const langName = languageSecondary === 'ar' ? (locale === 'ar' ? 'العربية' : 'Arabic') : (locale === 'ar' ? 'الفرنسية' : 'French')
+        const langName = tc(`language_${languageSecondary}` as any)
         if (!hotelNameTranslations[languageSecondary]?.trim()) {
-          const msg = locale === 'ar' ? `اسم الفندق ب${langName} مطلوب` : `Hotel name in ${langName} is required`
+          const msg = tv('required')
           newErrors.hotelNameSecondary = msg
           toast.error(msg)
         } else if (hotelNameTranslations[languageSecondary].trim().length < 3) {
-          const msg = locale === 'ar' ? 'اسم الفندق يجب أن يكون 3 أحرف على الأقل' : locale === 'fr' ? 'Le nom de l hôtel doit comporter au moins 3 caractères' : 'Hotel name must be at least 3 characters'
+          const msg = tv('minLength', { min: 3 })
           newErrors.hotelNameSecondary = msg
           toast.error(msg)
         }
@@ -624,12 +631,12 @@ export default function SettingsPage() {
       if (finalTimezone === 'OTHER') {
         if (!isTimezoneVerified) {
           setErrors(prev => ({ ...prev, timezone: true }))
-          toast.error(locale === 'ar' ? 'يرجى التحقق من التوقيت أولاً' : 'Please verify timezone first')
+          toast.error(t('pleaseVerifyTimezoneFirst'))
           return
         }
         if (matchingTimezones.length > 0) {
           setErrors(prev => ({ ...prev, timezone: true }))
-          toast.error(locale === 'ar' ? 'يوجد دول مطابقة لنطاقك الزمني، يرجى اختيار إحداها للاستمرار' : 'Matching countries found, please select one to continue')
+          toast.error(t('matchingCountriesSelectRequired'))
           return
         }
         finalTimezone = `GMT${customTzSign}${customTzHours}:${customTzMinutes}`
@@ -776,7 +783,7 @@ export default function SettingsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">{locale === 'ar' ? 'الإعدادات' : 'Settings'}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
       </div>
 
       {/* Tabs */}
@@ -790,18 +797,27 @@ export default function SettingsPage() {
               : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
           )}
         >
-          {locale === 'ar' ? 'بيانات الفندق' : 'Hotel Data'}
+          {t('hotelInformation')}
         </button>
         <button
           onClick={() => setActiveTab('rooms')}
           className={cn(
-            'pb-4 px-4 text-sm font-medium border-b-2 transition-colors',
+            'pb-4 px-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2',
             activeTab === 'rooms'
               ? 'border-primary-600 text-primary-600'
               : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
           )}
         >
           {t('roomTypes')}
+          {languageSecondary !== 'none' && counts.roomTypes > 0 && (
+            <div className="group/tooltip relative flex items-center shrink-0">
+              <AlertTriangle className="h-4 w-4 text-yellow-500 shrink-0 cursor-help" />
+              <div className="absolute bottom-full start-1/2 mb-2 hidden w-[200px] -translate-x-1/2 rounded bg-gray-900 px-2 py-1.5 text-center text-[10px] text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-50 pointer-events-none shadow-lg font-normal leading-tight">
+                {tc('missingTranslationTooltip', { language: tc(`language_${languageSecondary}` as any) })}
+                <div className="absolute top-full start-1/2 -ml-1 border-4 border-transparent border-t-gray-900"></div>
+              </div>
+            </div>
+          )}
         </button>
         <button
           onClick={() => setActiveTab('profile')}
@@ -812,7 +828,7 @@ export default function SettingsPage() {
               : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
           )}
         >
-          {locale === 'ar' ? 'البيانات الشخصية' : 'Personal Data'}
+          {t('personalData')}
         </button>
       </div>
 
@@ -822,7 +838,7 @@ export default function SettingsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-6">
             <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
               <HotelIcon className="h-5 w-5 text-primary-600" />
-              {locale === 'ar' ? 'معلومات الفندق' : 'Hotel Information'}
+              {t('hotelInformation')}
             </h2>
 
             {/* Secondary Language Selection */}
@@ -848,7 +864,7 @@ export default function SettingsPage() {
                 }}
                 className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-xs font-semibold text-gray-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-all"
               >
-                <option value="none">{locale === 'ar' ? 'بدون لغة ثانية' : 'No secondary language'}</option>
+                <option value="none">{t('noSecondaryLanguage')}</option>
                 {SUPPORTED_LANGUAGES.filter(lang => lang.code !== 'en').map(lang => (
                   <option key={lang.code} value={lang.code}>
                     {getLanguageName(lang.code, locale)}
@@ -860,7 +876,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 gap-6">
             <MultilingualInput
-              label={locale === 'ar' ? 'اسم الفندق' : 'Hotel Name'}
+              label={t('hotelName')}
               translations={hotelNameTranslations}
               onChange={(newVals) => {
                 setHotelNameTranslations(newVals)
@@ -870,8 +886,6 @@ export default function SettingsPage() {
               }}
               secondaryLocale={languageSecondary === 'none' ? undefined : languageSecondary}
               availableLocales={languageSecondary === 'none' ? ['en'] : SUPPORTED_LANGUAGES.map(l => l.code)}
-              placeholderEn="Enter hotel name in English"
-              placeholderSecondary={languageSecondary === 'ar' ? 'أدخل اسم الفندق بالعربية' : languageSecondary === 'fr' ? 'Entrez le nom de l hotel en français' : ''}
               errorEn={errors.hotelNameEn}
               errorSecondary={errors.hotelNameSecondary}
             />
@@ -892,11 +906,7 @@ export default function SettingsPage() {
                 <div className="group relative">
                   <Info className="h-4 w-4 text-gray-400 cursor-help" />
                   <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                    {locale === 'ar'
-                      ? 'هذا الحقل لتحديد توقيت الفندق المحلي. إذا لم تجد توقيتك في القائمة، يمكنك اختيار "أخرى" وتحديد فرق التوقيت يدوياً.'
-                      : locale === 'fr'
-                        ? 'Ce champ permet de définir le fuseau horaire local de l hôtel. Si vous ne trouvez pas le vôtre, sélectionnez "Autre" pour définir le décalage GMT manuellement.'
-                        : 'This field is to set the local hotel timezone. If you cannot find yours, select "Other" to set the GMT offset manually.'}
+                    {t('timezoneInfoTooltip')}
                   </div>
                 </div>
               </div>
@@ -915,13 +925,13 @@ export default function SettingsPage() {
                     }
                   }}
                   locale={locale}
-                  placeholder={locale === 'ar' ? 'اختر التوقيت الزمني...' : 'Select timezone...'}
-                  searchPlaceholder={locale === 'ar' ? 'ابحث عن مدينة أو توقيت...' : 'Search city or timezone...'}
-                  noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                  placeholder={t('selectTimezonePlaceholder')}
+                  searchPlaceholder={t('searchTimezonePlaceholder')}
+                  noResultsText={t('noResults')}
                   error={!!errors.timezone}
                   hasIcon={true}
                   showOtherOption={true}
-                  otherLabel={locale === 'ar' ? 'أخرى (تحديد مخصص)' : 'Other (Custom Offset)'}
+                  otherLabel={t('otherCustomOffset')}
                 />
               </div>
             </div>
@@ -933,11 +943,7 @@ export default function SettingsPage() {
                 <div className="group relative">
                   <Info className="h-4 w-4 text-gray-400 cursor-help" />
                   <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                    {locale === 'ar'
-                      ? 'حدد عملة الفندق لإظهارها بجانب طلبات الغرف. يمكنك اختيار "أخرى" لعرض المبالغ كأرقام فقط بدون رمز بجانبها.'
-                      : locale === 'fr'
-                        ? 'Déterminez la devise de votre hôtel pour les commandes de chambres. Sélectionnez "Autre" pour afficher les montants uniquement sous forme de chiffres.'
-                        : 'Determine your hotel currency for room orders. Select "Other" to show amounts purely as numbers.'}
+                    {t('currencyInfoTooltip')}
                   </div>
                 </div>
               </div>
@@ -951,13 +957,13 @@ export default function SettingsPage() {
                     if (errors.currencyCode) setErrors({ ...errors, currencyCode: false })
                   }}
                   locale={locale}
-                  placeholder={locale === 'ar' ? 'اختر العملة...' : 'Select currency...'}
-                  searchPlaceholder={locale === 'ar' ? 'ابحث عن عملة...' : 'Search currency...'}
-                  noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                  placeholder={t('selectCurrencyPlaceholder')}
+                  searchPlaceholder={t('searchCurrencyPlaceholder')}
+                  noResultsText={t('noResults')}
                   error={!!errors.currencyCode}
                   hasIcon={true}
                   showOtherOption={true}
-                  otherLabel={locale === 'ar' ? 'أخرى (بدون رمز)' : 'Other (No Symbol)'}
+                  otherLabel={t('otherNoSymbol')}
                 />
               </div>
             </div>
@@ -973,10 +979,10 @@ export default function SettingsPage() {
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                       <div className="flex flex-col gap-1">
                         <span className="text-sm font-semibold text-gray-700">
-                          {locale === 'ar' ? 'نطاق جرينتش المخصص:' : 'Custom GMT Offset:'}
+                          {t('customGmtOffset')}
                         </span>
                         <span className="text-xs text-gray-500 font-medium leading-relaxed max-w-[200px]">
-                          {locale === 'ar' ? 'حدد التوقيت بدقة للمقارنة بخط غرينتش' : 'Set the exact time relative to GMT'}
+                          {t('setExactGmtOffset')}
                         </span>
                       </div>
 
@@ -985,7 +991,7 @@ export default function SettingsPage() {
                           <span className="text-sm font-bold text-gray-400">GMT</span>
                         </div>
                         <div className="flex flex-col gap-1 shrink-0">
-                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'إشارة' : '+ / -'}</span>
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{t('sign')}</span>
                           <select
                             value={customTzSign}
                             className={cn(
@@ -1004,7 +1010,7 @@ export default function SettingsPage() {
                           </select>
                         </div>
                         <div className="flex flex-col gap-1 shrink-0">
-                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'ساعات' : 'HH'}</span>
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{t('hoursShort')}</span>
                           <select
                             value={customTzHours}
                             className={cn(
@@ -1027,7 +1033,7 @@ export default function SettingsPage() {
                           <span className="font-bold text-gray-400">:</span>
                         </div>
                         <div className="flex flex-col gap-1 shrink-0">
-                          <span className="text-[10px] text-center text-gray-500 font-medium">{locale === 'ar' ? 'دقائق' : 'MM'}</span>
+                          <span className="text-[10px] text-center text-gray-500 font-medium">{t('minutesShort')}</span>
                           <select
                             value={customTzMinutes}
                             className={cn(
@@ -1062,8 +1068,8 @@ export default function SettingsPage() {
                         )}
                       >
                         {isTimezoneVerified
-                          ? (locale === 'ar' ? 'تم التحقق بنجاح' : 'Verified Successfully')
-                          : (locale === 'ar' ? 'التحقق والمقارنة' : 'Verify Timezone')
+                          ? t('verifiedSuccessfully')
+                          : t('verifyTimezone')
                         }
                       </button>
                     </div>
@@ -1091,7 +1097,7 @@ export default function SettingsPage() {
                           }
                         }}
                       >
-                        <option value="">{locale === 'ar' ? '--- اختر دولة مطابقة (إجباري) ---' : '--- Select a matching country (Required) ---'}</option>
+                        <option value="">{t('selectMatchingCountryPlaceholder')}</option>
                         {matchingTimezones.map(tz => (
                           <option key={tz.value} value={tz.value}>
                             {typeof tz.label === 'string' ? tz.label : tz.label[locale as 'ar' | 'en']}
@@ -1107,20 +1113,18 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 gap-6 pt-6 border-t border-gray-100">
             <MultilingualInput
-              label={locale === 'ar' ? 'نص الباركود (اختياري)' : 'Barcode Text (Optional)'}
+              label={t('barcodeTextOptional')}
               translations={barcodeTextTranslations}
               onChange={setBarcodeTextTranslations}
               secondaryLocale={languageSecondary}
-              availableLocales={['en', 'ar', 'fr']}
+              availableLocales={SUPPORTED_LANGUAGES.map(l => l.code)}
               maxLength={100}
-              placeholderEn="e.g. Scan for Room Service"
-              placeholderSecondary={languageSecondary === 'ar' ? 'مثال: امسح لطلب الخدمة' : 'ex: Scannez pour le service'}
             />
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {/* Logo Upload */}
               <div className="space-y-2">
-                <label className="label">{locale === 'ar' ? 'شعار الفندق (اختياري)' : 'Hotel Logo (Optional)'}</label>
+                <label className="label">{t('hotelLogoOptional')}</label>
                 <div className="flex items-center gap-4">
                   {hotelLogoUrl ? (
                     <div className="relative h-16 w-16 rounded-xl border border-gray-200 overflow-hidden bg-white">
@@ -1139,7 +1143,7 @@ export default function SettingsPage() {
                   )}
                   <label className="cursor-pointer btn-secondary py-2 px-3 flex-shrink-0 text-xs">
                     {isUploadingLogo ? <Loader2 className="w-4 h-4 animate-spin text-primary-600" /> : <Upload className="w-4 h-4 text-primary-600" />}
-                    {locale === 'ar' ? 'رفع شعار' : 'Upload Logo'}
+                    {t('uploadLogo')}
                     <input
                       type="file"
                       className="hidden"
@@ -1156,26 +1160,30 @@ export default function SettingsPage() {
             <div className="mt-6 p-5 rounded-xl border border-gray-100 bg-gray-50/50">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <h4 className="text-sm font-medium text-gray-700 whitespace-nowrap">{locale === 'ar' ? 'تجربة شكل الباركود:' : 'Test Barcode Layout:'}</h4>
+                  <h4 className="text-sm font-medium text-gray-700 whitespace-nowrap">{t('testBarcodeLayout')}</h4>
                   <select
                     value={barcodePreviewLang}
-                    onChange={(e) => setBarcodePreviewLang(e.target.value as 'ar' | 'en' | 'both')}
+                    onChange={(e) => setBarcodePreviewLang(e.target.value)}
                     className="input !w-fit min-w-[100px] py-1.5 text-sm"
                   >
-                    <option value="ar">العربية</option>
-                    <option value="en">English</option>
-                    <option value="both">كلاهما / Both</option>
+                    <option value="en">{tc('language_en')}</option>
+                    {languageSecondary !== 'none' && (
+                      <>
+                        <option value={languageSecondary}>{tc(`language_${languageSecondary}` as any)}</option>
+                        <option value="both">{tc('all')}</option>
+                      </>
+                    )}
                   </select>
                   <button
                     onClick={generateBarcodePreview}
                     className="btn-secondary py-1.5 whitespace-nowrap"
                   >
-                    {locale === 'ar' ? 'تجربة شكل العرض لغرفة 1' : 'Preview Layout (Room 1)'}
+                    {t('previewLayoutRoom1')}
                   </button>
                 </div>
                 <div className="text-xs text-orange-600 bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100 flex items-center gap-1">
-                  <span className="font-semibold">{locale === 'ar' ? 'تنبيه:' : 'Note:'}</span>
-                  {locale === 'ar' ? 'هذا عرض تجريبي فقط للتصميم ولن يعمل للمسح.' : 'This is a design preview only and will not scan.'}
+                  <span className="font-semibold">{tc('note')}:</span>
+                  {t('noteDesignPreviewOnly')}
                 </div>
               </div>
 
@@ -1209,14 +1217,14 @@ export default function SettingsPage() {
                       {barcodePreviewLang === 'both' ? (
                         <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
                           <span dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
-                            {languageSecondary === 'ar' ? 'غرفة 1' : 'Room 1'}
+                            {languageSecondary === 'ar' ? 'غرفة 1' : (languageSecondary === 'fr' ? 'Chambre 1' : (languageSecondary === 'es' ? 'Habitación 1' : 'Room 1'))}
                           </span>
                           <span className="text-gray-300 font-light">|</span>
                           <span dir="ltr">Room 1</span>
                         </div>
                       ) : (
                         <p className="text-xl font-bold text-gray-900 text-center">
-                          {barcodePreviewLang === 'ar' ? 'غرفة 1' : 'Room 1'}
+                          {barcodePreviewLang === 'en' ? 'Room 1' : (languageSecondary === 'ar' ? 'غرفة 1' : (languageSecondary === 'fr' ? 'Chambre 1' : (languageSecondary === 'es' ? 'Habitación 1' : 'Room 1')))}
                         </p>
                       )}
 
@@ -1279,7 +1287,7 @@ export default function SettingsPage() {
                 </span>
                 {languageSecondary !== 'none' && (
                   <span className="text-xs font-medium text-gray-500">
-                    {languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}
+                    {tc('nameIn', { language: tc(`language_${languageSecondary}` as any) })}
                   </span>
                 )}
                 <span className="text-xs font-medium text-gray-500">
@@ -1320,7 +1328,7 @@ export default function SettingsPage() {
                               }
                             }}
                             className={cn('input', roomTypesErrors[index]?.code && 'input-error')}
-                            placeholder="STD"
+                            placeholder={t('typeCode')}
                             maxLength={10}
                           />
                           {roomTypesErrors[index]?.code && (
@@ -1329,7 +1337,9 @@ export default function SettingsPage() {
                         </div>
                         {languageSecondary !== 'none' && (
                           <div>
-                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}</label>
+                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">
+                              {tc('nameIn', { language: tc(`language_${languageSecondary}` as any) })}
+                            </label>
                             <input
                               type="text"
                               value={currentData.name?.[languageSecondary] || ''}
@@ -1342,7 +1352,7 @@ export default function SettingsPage() {
                                 }
                               }}
                               className={cn('input', roomTypesErrors[index]?.nameSec && 'input-error')}
-                              placeholder={languageSecondary === 'ar' ? 'عادية' : ''}
+                              placeholder={languageSecondary !== 'none' ? tc('standard') : ''}
                               maxLength={50}
                             />
                             {roomTypesErrors[index]?.nameSec && (
@@ -1364,7 +1374,7 @@ export default function SettingsPage() {
                               }
                             }}
                             className={cn('input', roomTypesErrors[index]?.nameEn && 'input-error')}
-                            placeholder="Standard"
+                            placeholder={tc('standard')}
                             maxLength={50}
                           />
                           {roomTypesErrors[index]?.nameEn && (
@@ -1380,9 +1390,28 @@ export default function SettingsPage() {
                         </div>
                         {languageSecondary !== 'none' && (
                           <div>
-                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">{languageSecondary === 'ar' ? (locale === 'ar' ? 'الاسم (العربية)' : locale === 'fr' ? 'Nom (Arabe)' : 'Name (Arabic)') : (locale === 'ar' ? 'الاسم (الفرنسية)' : locale === 'fr' ? 'Nom (Français)' : 'Name (French)')}</label>
+                            <label className="mb-1.5 block text-sm font-medium text-gray-700 sm:hidden">
+                              {tc('nameIn', { language: tc(`language_${languageSecondary}` as any) })}
+                            </label>
                             <span className="block text-sm text-gray-700 sm:py-2">
-                              {rt.name?.[languageSecondary] || <span className="text-gray-400 italic">{locale === 'ar' ? 'غير مترجم' : locale === 'fr' ? 'Non traduit' : 'Not translated'}</span>}
+                              <div className="flex items-center gap-2">
+                                <span>
+                                  {rt.name?.[languageSecondary]?.trim() ? (
+                                    rt.name[languageSecondary]
+                                  ) : (
+                                    <span className="text-gray-400 italic">{tc('notTranslated')}</span>
+                                  )}
+                                </span>
+                                {!rt.name?.[languageSecondary]?.trim() && (
+                                  <div className="group/tooltip relative flex items-center">
+                                    <AlertTriangle className="h-3.5 w-3.5 text-yellow-500 cursor-help" />
+                                    <div className="absolute bottom-full start-1/2 mb-2 hidden w-[200px] -translate-x-1/2 rounded bg-gray-900 px-2 py-1.5 text-center text-xs text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-50 pointer-events-none shadow-lg font-normal">
+                                      {tc('missingTranslationTooltip', { language: tc(`language_${languageSecondary}` as any) })}
+                                      <div className="absolute top-full start-1/2 -ml-1 border-4 border-transparent border-t-gray-900"></div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </span>
                           </div>
                         )}
@@ -1464,7 +1493,7 @@ export default function SettingsPage() {
             <div>
               <label className="label">
                 <User className="w-4 h-4 ml-1.5 inline-block text-gray-400" />
-                {locale === 'ar' ? 'الاسم الكامل' : 'Full Name'}
+                {t('fullName')}
               </label>
               <input
                 type="text"
@@ -1480,7 +1509,7 @@ export default function SettingsPage() {
             <div>
               <label className="label">
                 <Mail className="w-4 h-4 ml-1.5 inline-block text-gray-400" />
-                {locale === 'ar' ? 'البريد الإلكتروني' : 'Email'}
+                {tc('email')}
               </label>
               <input
                 type="email"
@@ -1497,7 +1526,7 @@ export default function SettingsPage() {
             <div>
               <label className="label">
                 <Lock className="w-4 h-4 ml-1.5 inline-block text-gray-400" />
-                {locale === 'ar' ? 'كلمة المرور الجديدة' : 'New Password'}
+                {t('newPassword')}
               </label>
               <div className="relative">
                 <input
@@ -1508,7 +1537,7 @@ export default function SettingsPage() {
                     if (profileErrors.password) setProfileErrors({ ...profileErrors, password: '' })
                   }}
                   className={cn("input", locale === 'ar' ? "pl-10 text-left" : "pr-10", profileErrors.password && "input-error")}
-                  placeholder={locale === 'ar' ? 'اتركه فارغاً إذا لم ترغب بالتغيير' : 'Leave empty to keep current'}
+                  placeholder={t('passwordLeaveEmpty')}
                   dir="ltr"
                 />
                 <button
@@ -1522,36 +1551,36 @@ export default function SettingsPage() {
 
               {profilePassword.length > 0 && (
                 <div className="mt-3 space-y-2 text-sm" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-                  <p className="font-medium text-gray-700">{locale === 'ar' ? 'شروط كلمة المرور:' : 'Password requirements:'}</p>
+                  <p className="font-medium text-gray-700">{tc('passwordRequirements')}:</p>
                   <ul className="space-y-1.5">
                     <li className="flex items-center gap-2">
                       {passwordCriteria.length ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-500" />}
                       <span className={passwordCriteria.length ? "text-green-700" : "text-gray-500"}>
-                        {locale === 'ar' ? '8 أحرف على الأقل' : 'At least 8 characters'}
+                        {tc('passwordMinLength')}
                       </span>
                     </li>
                     <li className="flex items-center gap-2">
                       {passwordCriteria.uppercase ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-500" />}
                       <span className={passwordCriteria.uppercase ? "text-green-700" : "text-gray-500"}>
-                        {locale === 'ar' ? 'حرف كبير واحد على الأقل' : 'At least 1 uppercase letter'}
+                        {tc('passwordUppercase')}
                       </span>
                     </li>
                     <li className="flex items-center gap-2">
                       {passwordCriteria.lowercase ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-500" />}
                       <span className={passwordCriteria.lowercase ? "text-green-700" : "text-gray-500"}>
-                        {locale === 'ar' ? 'حرف صغير واحد على الأقل' : 'At least 1 lowercase letter'}
+                        {tc('passwordLowercase')}
                       </span>
                     </li>
                     <li className="flex items-center gap-2">
                       {passwordCriteria.number ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-500" />}
                       <span className={passwordCriteria.number ? "text-green-700" : "text-gray-500"}>
-                        {locale === 'ar' ? 'رقم واحد على الأقل' : 'At least 1 number'}
+                        {tc('passwordNumber')}
                       </span>
                     </li>
                     <li className="flex items-center gap-2">
                       {passwordCriteria.special ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-500" />}
                       <span className={passwordCriteria.special ? "text-green-700" : "text-gray-500"}>
-                        {locale === 'ar' ? 'رمز واحد على الأقل (مثل @، #، !)' : 'At least 1 special character'}
+                        {tc('passwordSpecial')}
                       </span>
                     </li>
                   </ul>
@@ -1578,7 +1607,7 @@ export default function SettingsPage() {
               {savingProfile ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin inline" />
-                  {locale === 'ar' ? 'جاري الحفظ...' : 'Saving...'}
+                  {t('saving')}
                 </>
               ) : (
                 <>
@@ -1617,7 +1646,7 @@ export default function SettingsPage() {
                       .filter((rt) => rt.code.trim() !== '') // Must be a valid existing code
                       .map((rt) => (
                         <option key={rt.code} value={rt.code}>
-                          {rt.name?.en} / {rt.name?.ar} ({rt.code})
+                          {rt.name?.en} / {rt.name?.[languageSecondary]} ({rt.code})
                         </option>
                       ))}
                   </select>
@@ -1655,7 +1684,7 @@ export default function SettingsPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">
-                    {locale === 'ar' ? 'تأكيد تغيير البريد الإلكتروني' : 'Confirm Email Change'}
+                    {t('emailChangeConfirmTitle')}
                   </h3>
                   <p className="mt-1 text-sm text-yellow-800 font-medium">
                     {profileEmail}
@@ -1669,33 +1698,25 @@ export default function SettingsPage() {
                 <li className="flex gap-3">
                   <Check className="h-5 w-5 text-gray-400 shrink-0" />
                   <span>
-                    {locale === 'ar'
-                      ? 'يجب أن يكون البريد الإلكتروني الجديد صحيحاً ومتاحاً للوصول.'
-                      : 'The new email address must be valid and accessible.'}
+                    {t('emailChangeValidRequired')}
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <Check className="h-5 w-5 text-gray-400 shrink-0" />
                   <span>
-                    {locale === 'ar'
-                      ? 'سيتم إرسال رسالة تفعيل إلى هذا البريد وتحتوي على رابط تأكيد.'
-                      : 'An activation email containing a confirmation link will be sent.'}
+                    {t('emailChangeActivationSent')}
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <Check className="h-5 w-5 text-gray-400 shrink-0" />
                   <span>
-                    {locale === 'ar'
-                      ? 'قد تجد رسالة التأكيد في صندوق البريد المهمل (Spam / Junk).'
-                      : 'You might find the confirmation email in your Spam or Junk folder.'}
+                    {t('emailChangeCheckSpam')}
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <X className="h-5 w-5 text-red-400 shrink-0" />
                   <span className="text-red-700 font-medium">
-                    {locale === 'ar'
-                      ? 'لن تتمكن من تسجيل الدخول إلى النظام أبداً إذا لم تقم بتأكيد البريد الجديد.'
-                      : 'You will NOT be able to log in to the system if you do not confirm the new email.'}
+                    {t('emailChangeCriticalWarning')}
                   </span>
                 </li>
               </ul>
@@ -1707,7 +1728,7 @@ export default function SettingsPage() {
                 className="btn-secondary"
                 disabled={savingProfile}
               >
-                {locale === 'ar' ? 'تراجع' : 'Cancel'}
+                {tc('cancel')}
               </button>
               <button
                 onClick={executeSaveProfile}
@@ -1717,10 +1738,10 @@ export default function SettingsPage() {
                 {savingProfile ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin inline" />
-                    {locale === 'ar' ? 'جاري التأكيد...' : 'Confirming...'}
+                    {t('emailChangeConfirming')}
                   </>
                 ) : (
-                  locale === 'ar' ? 'نعم، قم بتغيير البريد' : 'Yes, change email'
+                  t('emailChangeConfirmButton')
                 )}
               </button>
             </div>

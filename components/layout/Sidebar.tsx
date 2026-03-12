@@ -19,10 +19,13 @@ import {
   ChevronRight,
   LogOut,
   Shield,
+  AlertTriangle,
+  HelpCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSidebarStore } from '@/lib/stores/sidebar-store'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { useTranslationCounts } from '@/components/Providers/TranslationProvider'
 import type { SessionPayload } from '@/types'
 
 interface NavItem {
@@ -41,6 +44,7 @@ const ALL_NAV_ITEMS: NavItem[] = [
   { key: 'employees', href: '/dashboard/employees', icon: Users },
   { key: 'reports', href: '/dashboard/reports', icon: BarChart3 },
   { key: 'settings', href: '/dashboard/settings', icon: Settings },
+  { key: 'help', href: '/dashboard/help', icon: HelpCircle },
 ]
 
 const ROLE_NAV_KEYS: Record<SessionPayload['role'], string[]> = {
@@ -54,6 +58,7 @@ const ROLE_NAV_KEYS: Record<SessionPayload['role'], string[]> = {
     'employees',
     'reports',
     'settings',
+    'help',
   ],
   service_supervisor: [
     'dashboard',
@@ -62,8 +67,9 @@ const ROLE_NAV_KEYS: Record<SessionPayload['role'], string[]> = {
     'items',
     'employees',
     'reports',
+    'help',
   ],
-  service_employee: ['dashboard', 'orders'],
+  service_employee: ['dashboard', 'orders', 'help'],
 }
 
 interface SidebarProps {
@@ -78,12 +84,14 @@ interface SidebarProps {
 
 export default function Sidebar({ session, hotel }: SidebarProps) {
   const t = useTranslations('sidebar')
+  const tc = useTranslations('common')
   const te = useTranslations('employees')
   const td = useTranslations('dashboard')
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
   const { isOpen, close, toggle } = useSidebarStore()
+  const { counts } = useTranslationCounts()
 
   const handleLogout = async () => {
     try {
@@ -112,12 +120,12 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
 
   // Role label
   const roleLabel = session.isPrimarySupervisor
-    ? te('primarySupervisor')
+    ? t('primarySupervisor')
     : session.role === 'hotel_supervisor'
-      ? te('hotelSupervisor')
-      : session.role === 'service_supervisor'
-        ? te('serviceSupervisor')
-        : te('serviceEmployee')
+      ? t('hotelSupervisor')
+      : (session.role === 'service_supervisor'
+        ? t('serviceSupervisor')
+        : t('serviceEmployee'))
 
   return (
     <>
@@ -149,7 +157,7 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
           <button
             onClick={toggle}
             className="absolute inset-0 z-10 hidden md:flex flex-col items-center justify-center gap-3 w-full cursor-pointer"
-            aria-label="Expand sidebar"
+            aria-label={tc('expandSidebar')}
           />
         )}
         {/* Header: Logo + Hotel Name */}
@@ -195,7 +203,7 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
           {isOpen && (
             <div className="w-full rounded-lg bg-gray-50 px-2 py-2 text-center" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
               <p className="text-xs text-gray-500">
-                {td('welcome')}{locale === 'ar' ? '،' : ','}{' '}
+                {t('welcome')}{locale === 'ar' ? '،' : ','}{' '}
                 <span className="font-medium text-gray-800">{session.fullName}</span>
               </p>
               <div className="mt-1 flex items-center justify-center gap-1">
@@ -203,21 +211,28 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
                   <Shield className="h-3 w-3 text-amber-500" />
                 )}
                 <span className="text-xs font-medium text-primary-600">
-                  {session.isPrimarySupervisor
-                    ? te('primarySupervisor')
-                    : roleLabel}
+                  {roleLabel}
                 </span>
               </div>
             </div>
           )}
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-2 py-3">
+        {/* Navigation - removed overflow-y-auto to prevent tooltip clipping */}
+        <nav className="flex-1 px-2 py-3">
           <ul className="space-y-0.5">
             {navItems.map((item) => {
               const Icon = item.icon
               const active = isActive(item.href)
+
+              // Determine if this nav item needs a translation warning badge
+              let hasWarning = false
+              if (hotel.language_secondary && hotel.language_secondary !== 'none') {
+                if (item.key === 'services' && counts.services > 0) hasWarning = true
+                if (item.key === 'subServices' && counts.subServices > 0) hasWarning = true
+                if (item.key === 'items' && counts.items > 0) hasWarning = true
+                if (item.key === 'settings' && counts.roomTypes > 0) hasWarning = true
+              }
 
               return (
                 <li key={item.key}>
@@ -239,7 +254,38 @@ export default function Sidebar({ session, hotel }: SidebarProps) {
                         active ? 'text-primary-600' : 'text-gray-400'
                       )}
                     />
-                    {isOpen && <span>{t(item.key)}</span>}
+                    {isOpen && <span className="flex-1 text-start">{t(item.key)}</span>}
+                    {hasWarning && (
+                      <div className="group/tooltip relative flex items-center shrink-0">
+                        {isOpen ? (
+                          <>
+                            <AlertTriangle className="h-4 w-4 text-yellow-500 cursor-help" />
+                            <div className={cn(
+                              "absolute top-1/2 -translate-y-1/2 hidden w-[250px] rounded bg-gray-900 px-3 py-2 text-center text-[10px] text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-[100] pointer-events-none shadow-lg font-normal leading-tight whitespace-normal",
+                              locale === 'ar' ? "end-full me-2" : "start-full ms-2"
+                            )}>
+                              {tc('missingTranslationTooltip', { language: tc(`language_${hotel.language_secondary}` as any) })}
+                              {/* Arrow */}
+                              <div className={cn(
+                                "absolute top-1/2 -mt-1 border-4 border-transparent",
+                                locale === 'ar' ? "start-full border-s-gray-900" : "end-full border-e-gray-900"
+                              )}></div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute -top-1 -end-1 h-2 w-2 rounded-full bg-yellow-500 border border-white" />
+                            <div className="absolute start-full ms-2 top-1/2 -translate-y-1/2 hidden w-[150px] rounded bg-gray-900 px-2 py-1.5 text-center text-[10px] text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-50 pointer-events-none shadow-lg font-normal leading-tight">
+                              {tc('missingTranslationTooltip', { language: tc(`language_${hotel.language_secondary}` as any) })}
+                              <div className={cn(
+                                "absolute top-1/2 -mt-1 border-4 border-transparent",
+                                locale === 'ar' ? "start-full border-s-gray-900" : "end-full border-e-gray-900"
+                              )}></div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </Link>
                 </li>
               )

@@ -4,6 +4,8 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import Sidebar from '@/components/layout/Sidebar'
 import TopBar from '@/components/layout/TopBar'
 import GlobalOrderNotifications from '@/components/dashboard/GlobalOrderNotifications'
+import { HotelProvider } from '@/components/Providers/HotelProvider'
+import { TranslationProvider } from '@/components/Providers/TranslationProvider'
 
 export default async function DashboardLayout({
   children,
@@ -30,17 +32,21 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <GlobalOrderNotifications hotelId={session.hotelId} />
-      <Sidebar session={session} hotel={hotelData} />
+    <HotelProvider hotel={hotelData}>
+      <TranslationProvider>
+        <div className="flex h-screen overflow-hidden">
+          <GlobalOrderNotifications hotelId={session.hotelId} />
+          <Sidebar session={session} hotel={hotelData} />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <TopBar session={session} hotelName={hotelData.hotel_name} hotelNameTranslations={hotelData.hotel_name_translations} />
+          <div className="flex flex-1 flex-col overflow-hidden">
+            <TopBar session={session} hotelName={hotelData.hotel_name} hotelNameTranslations={hotelData.hotel_name_translations} />
 
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
-          {children}
-        </main>
-      </div>
-    </div>
+            <main className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
+              {children}
+            </main>
+          </div>
+        </div>
+      </TranslationProvider>
+    </HotelProvider>
   )
 }

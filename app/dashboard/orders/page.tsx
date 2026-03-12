@@ -239,6 +239,7 @@ export default function OrdersPage() {
 
         {/* Date From */}
         <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateFrom')}</span>
           <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
           <input
             type="date"
@@ -250,6 +251,7 @@ export default function OrdersPage() {
 
         {/* Date To */}
         <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateTo')}</span>
           <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
           <input
             type="date"

@@ -4,7 +4,7 @@ import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
-import { ConciergeBell, ShoppingCart, ClipboardList, Hotel } from 'lucide-react'
+import { ConciergeBell, HandPlatter, ClipboardList, Hotel } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -61,7 +61,7 @@ export default function GuestLayout({
     {
       href: `/guest/${qrCode}/cart`,
       label: t('cart'),
-      icon: ShoppingCart,
+      icon: HandPlatter,
       isActive: pathname === `/guest/${qrCode}/cart`,
       badge: isHydrated && itemCount > 0 ? itemCount : undefined,
     },

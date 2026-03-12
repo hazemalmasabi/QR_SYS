@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import type { Item, MainService, SubService } from '@/types'
 import MultilingualInput from '@/components/MultilingualInput'
+import { useHotel } from '@/components/Providers/HotelProvider'
+import { SUPPORTED_LANGUAGES } from '@/lib/languages'
 
 interface ItemFormModalProps {
   open: boolean
@@ -51,9 +53,12 @@ export default function ItemFormModal({
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
-  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
-  const [itemNameTranslations, setItemNameTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
-  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
+  const { language_secondary: languageSecondary } = useHotel()
+
+  // Initialize translations based on supported languages
+  const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
+  const [itemNameTranslations, setItemNameTranslations] = useState<Record<string, string>>(initialTrans)
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>(initialTrans)
 
   const {
     register,
@@ -105,17 +110,11 @@ export default function ItemFormModal({
     }
   }, [])
 
-  // Fetch hotel settings and count of items for the selected sub-service
+  // Fetch count of items for the selected sub-service
   useEffect(() => {
     if (!open) return
     const fetchData = async () => {
       try {
-        const settingsRes = await fetch('/api/settings')
-        const settingsData = await settingsRes.json()
-        if (settingsData.success) {
-          setLanguageSecondary(settingsData.settings.language_secondary || 'ar')
-        }
-
         const sid = item?.sub_service_id || subServiceId
         if (!sid) {
           setTotalCount(0)
@@ -175,8 +174,8 @@ export default function ItemFormModal({
       }
       findParent()
     } else {
-      setItemNameTranslations({ en: '', ar: '', fr: '' })
-      setDescriptionTranslations({ en: '', ar: '', fr: '' })
+      setItemNameTranslations(initialTrans)
+      setDescriptionTranslations(initialTrans)
       reset({
         subServiceId: '',
         itemNameEn: '',
@@ -385,8 +384,8 @@ export default function ItemFormModal({
               )}
               <div className="text-xs text-gray-400 space-y-1 pt-1">
                 <p>{tc('acceptedFormats')}: JPG, PNG, WebP, GIF</p>
-                <p>{tc('maxFileSize')}: 5MB</p>
-                <p>{tc('recommendedSize')}: 400×400px</p>
+                <p>{tc('maxFileSize')}: {tc('maxFileSizeValue')}</p>
+                <p>{tc('recommendedSize')}: {tc('recommendedDimensions')}</p>
               </div>
               <input
                 ref={fileInputRef}
@@ -406,7 +405,7 @@ export default function ItemFormModal({
               onChange={(e) => setSelectedServiceId(e.target.value)}
               className="input"
             >
-              <option value="">--</option>
+              <option value="">{tc('select')}</option>
               {services.map((s) => (
                 <option key={s.service_id} value={s.service_id}>
                   {getName(s.service_name)}
@@ -429,7 +428,7 @@ export default function ItemFormModal({
                 className={cn('input', errors.subServiceId && 'border-red-500')}
                 disabled={!selectedServiceId}
               >
-                <option value="">--</option>
+                <option value="">{tc('select')}</option>
                 {subServices.map((sub) => (
                   <option key={sub.sub_service_id} value={sub.sub_service_id}>
                     {getName(sub.sub_service_name)}
@@ -455,9 +454,7 @@ export default function ItemFormModal({
                 setValue('itemNameSecondary', (val as any)[languageSecondary] || '')
               }}
               secondaryLocale={languageSecondary}
-              availableLocales={['en', 'ar', 'fr']}
-              placeholderEn={t('itemNameEn')}
-              placeholderSecondary={languageSecondary === 'ar' ? t('itemNameAr') : 'Nom de l\'article'}
+              availableLocales={SUPPORTED_LANGUAGES.map(l => l.code)}
               errorEn={errors.itemNameEn?.message ? tc(errors.itemNameEn.message) : undefined}
               errorSecondary={errors.itemNameSecondary?.message ? tc(errors.itemNameSecondary.message) : undefined}
             />
@@ -471,10 +468,8 @@ export default function ItemFormModal({
                 setValue('descriptionSecondary', (val as any)[languageSecondary] || '')
               }}
               secondaryLocale={languageSecondary}
-              availableLocales={['en', 'ar', 'fr']}
+              availableLocales={SUPPORTED_LANGUAGES.map(l => l.code)}
               type="textarea"
-              placeholderEn={t('descriptionEn')}
-              placeholderSecondary={languageSecondary === 'ar' ? t('descriptionAr') : 'Description de l\'article'}
               errorEn={errors.descriptionEn?.message ? tc(errors.descriptionEn.message) : undefined}
               errorSecondary={errors.descriptionSecondary?.message ? tc(errors.descriptionSecondary.message) : undefined}
             />
@@ -554,3 +549,4 @@ export default function ItemFormModal({
     </div>
   )
 }
+

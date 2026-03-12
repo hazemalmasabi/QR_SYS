@@ -118,11 +118,11 @@ export default function DashboardPage() {
   }, [fetchStats])
 
   const periods: { key: Period; label: string }[] = [
-    { key: 'today', label: locale === 'ar' ? 'اليوم' : 'Today' },
-    { key: '7d', label: locale === 'ar' ? '7 أيام' : '7 Days' },
-    { key: '30d', label: locale === 'ar' ? '30 يوم' : '30 Days' },
-    { key: '90d', label: locale === 'ar' ? '90 يوم' : '90 Days' },
-    { key: 'custom', label: locale === 'ar' ? 'مخصص' : 'Custom' },
+    { key: 'today', label: t('filters.today') },
+    { key: '7d', label: t('filters.7d') },
+    { key: '30d', label: t('filters.30d') },
+    { key: '90d', label: t('filters.90d') },
+    { key: 'custom', label: t('filters.custom') },
   ]
 
   // Removed local formatDate function to use global formatDateTime
@@ -231,7 +231,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-600">
-                {locale === 'ar' ? 'من' : 'From'}
+                {t('filters.from')}
               </span>
               <div className="relative">
                 <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -253,7 +253,7 @@ export default function DashboardPage() {
 
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-600">
-                {locale === 'ar' ? 'إلى' : 'To'}
+                {t('filters.to')}
               </span>
               <div className="relative">
                 <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />

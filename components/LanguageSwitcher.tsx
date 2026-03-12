@@ -1,6 +1,6 @@
 'use client'
 
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Globe, ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState, useRef, useEffect } from 'react'
@@ -18,6 +18,7 @@ export default function LanguageSwitcher({
   secondaryLocale?: string;
   variant?: 'toggle' | 'dropdown';
 }) {
+  const t = useTranslations('common')
   const locale = useLocale()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -78,12 +79,12 @@ export default function LanguageSwitcher({
           )}
         >
           <Globe className="h-4 w-4 text-primary-600" />
-          <span>{locale === 'ar' ? 'تغيير اللغة' : locale === 'fr' ? 'Changer de langue' : 'Change Language'}</span>
+          <span className="whitespace-nowrap">{t('changeLanguage')}</span>
           <ChevronDown className={cn("h-4 w-4 text-gray-400 transition-transform duration-200", isOpen && "rotate-180")} />
         </button>
 
         {isOpen && (
-          <div className="absolute top-full mt-2 end-0 z-[100] w-48 rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full mt-2 end-0 z-[100] w-48 rounded-xl border border-gray-100 bg-white p-1.5 shadow-xl ring-1 ring-black/5 animate-in fade-in slide-in-from-top-2 duration-200 max-h-72 overflow-y-auto custom-scrollbar">
             {Object.entries(languages).map(([key, label]) => (
               <button
                 key={key}
@@ -119,7 +120,7 @@ export default function LanguageSwitcher({
     <button
       type="button"
       onClick={toggleLocale}
-      title={locale === 'en' ? allLanguages[secondaryToToggle] : 'English'}
+      title={locale === 'en' ? (languages[secondaryToToggle] || 'Arabic') : 'English'}
       className={cn(
         'inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white/80 px-3 py-2 text-sm font-medium text-gray-700 backdrop-blur-sm transition-all duration-200 hover:bg-gray-100 hover:shadow-sm',
         compact && 'px-2 justify-center',
@@ -127,7 +128,7 @@ export default function LanguageSwitcher({
       )}
     >
       <Globe className="h-4 w-4 shrink-0" />
-      {!compact && <span>{locale === 'en' ? (allLanguages[secondaryToToggle]) : 'English'}</span>}
+      {!compact && <span className="whitespace-nowrap">{locale === 'en' ? (allLanguages[secondaryToToggle]) : 'English'}</span>}
     </button>
   )
 }

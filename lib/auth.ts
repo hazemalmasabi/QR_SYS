@@ -8,11 +8,14 @@ const secretKey = new TextEncoder().encode(
 
 const COOKIE_NAME = 'session'
 
-export async function createSession(payload: SessionPayload): Promise<string> {
+export async function createSession(payload: SessionPayload, rememberMe: boolean = false): Promise<string> {
+  const expiresIn = rememberMe ? '30d' : '7d'
+  const maxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 7
+
   const token = await new SignJWT({ ...payload })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime(expiresIn)
     .sign(secretKey)
 
   const cookieStore = await cookies()
@@ -20,7 +23,7 @@ export async function createSession(payload: SessionPayload): Promise<string> {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: maxAge,
     path: '/',
   })
 

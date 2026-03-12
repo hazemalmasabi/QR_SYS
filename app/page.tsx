@@ -11,8 +11,8 @@ import {
   ShieldCheck,
   ScanLine,
   ConciergeBell,
-  ShoppingCart,
-  Truck,
+  HandPlatter,
+  CheckCircle,
   Hotel,
   ChevronDown,
 } from 'lucide-react'
@@ -34,8 +34,8 @@ export default function LandingPage() {
   const steps = [
     { key: 'step1', icon: ScanLine, num: 1 },
     { key: 'step2', icon: ConciergeBell, num: 2 },
-    { key: 'step3', icon: ShoppingCart, num: 3 },
-    { key: 'step4', icon: Truck, num: 4 },
+    { key: 'step3', icon: HandPlatter, num: 3 },
+    { key: 'step4', icon: CheckCircle, num: 4 },
   ]
 
   const scrollTo = (id: string) => {
@@ -48,7 +48,7 @@ export default function LandingPage() {
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-white/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           {/* Logo */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex shrink-0 items-center gap-2.5">
             <img src="/icon.png" alt="QR SYS" className="h-9 w-9 rounded-lg object-cover" />
             <span className="text-lg font-bold text-gray-900">QR SYS</span>
           </div>
@@ -57,16 +57,22 @@ export default function LandingPage() {
           <nav className="hidden items-center gap-1 md:flex">
             <button
               onClick={() => scrollTo('features')}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 whitespace-nowrap"
             >
               {t('features.title')}
             </button>
             <button
               onClick={() => scrollTo('how-it-works')}
-              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 whitespace-nowrap"
             >
               {t('howItWorks.title')}
             </button>
+            <Link
+              href="/help"
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 whitespace-nowrap"
+            >
+              {t('help')}
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -74,13 +80,13 @@ export default function LandingPage() {
             <LanguageSwitcher variant="dropdown" />
             <Link
               href="/login"
-              className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 sm:px-4"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 sm:px-4 whitespace-nowrap"
             >
               {t('hero.loginBtn')}
             </Link>
             <Link
               href="/register"
-              className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 px-3 py-2 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-110 sm:px-5"
+              className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 px-3 py-2 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-110 sm:px-5 whitespace-nowrap"
             >
               {t('hero.registerBtn')}
             </Link>
@@ -128,7 +134,7 @@ export default function LandingPage() {
           <button
             onClick={() => scrollTo('features')}
             className="mt-16 animate-bounce text-white/60 transition-colors hover:text-white"
-            aria-label="Scroll down"
+            aria-label={t('scrollDown')}
           >
             <ChevronDown className="h-6 w-6" />
           </button>
@@ -287,6 +293,14 @@ export default function LandingPage() {
                   >
                     {t('howItWorks.title')}
                   </button>
+                </li>
+                <li>
+                  <Link
+                    href="/help"
+                    className="text-sm text-gray-500 transition-colors hover:text-blue-600"
+                  >
+                    {t('help')}
+                  </Link>
                 </li>
               </ul>
             </div>

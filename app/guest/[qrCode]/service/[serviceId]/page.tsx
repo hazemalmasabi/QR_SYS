@@ -4,7 +4,7 @@ import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
-import { ArrowRight, ArrowLeft, Minus, Plus, ShoppingCart, Loader2, ChevronDown, Clock, Lock, Package } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Minus, Plus, HandPlatter, Loader2, ChevronDown, Clock, Lock, Package } from 'lucide-react'
 import { cn, formatCurrency, isWithinServiceHours } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
 import type { Item, SubService } from '@/types'
@@ -165,7 +165,7 @@ export default function ServiceMenuPage({
             {!isMainOpen && (
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
                 <Lock className="h-2.5 w-2.5" />
-                {locale === 'ar' ? 'مغلق' : 'Closed'}
+                {t('closed')}
               </span>
             )}
           </div>
@@ -179,9 +179,7 @@ export default function ServiceMenuPage({
                   onClick={(e) => toggleDesc(service.service_id, e)}
                   className="mt-1 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
                 >
-                  {isMainDescExpanded
-                    ? (locale === 'ar' ? 'عرض أقل' : 'Show less')
-                    : (locale === 'ar' ? 'عرض المزيد' : 'Read more')}
+                  {isMainDescExpanded ? t('showLess') : t('readMore')}
                 </button>
               )}
             </div>
@@ -199,7 +197,7 @@ export default function ServiceMenuPage({
             >
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <ShoppingCart className="h-5 w-5" />
+                  <HandPlatter className="h-5 w-5" />
                   <span className="absolute -end-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[10px] font-bold text-primary-600">
                     {itemCount}
                   </span>
@@ -271,21 +269,21 @@ export default function ServiceMenuPage({
                           {subIsOpen && !subIsScheduled && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
                               <Clock className="h-2.5 w-2.5" />
-                              <span>{locale === 'ar' ? 'وقت العمل:' : 'Working hours:'}</span>
-                              <span>24/7</span>
+                              <span>{t('workingHours')}</span>
+                              <span>{t('allDay')}</span>
                             </span>
                           )}
                           {subIsOpen && subIsScheduled && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
                               <Clock className="h-2.5 w-2.5" />
-                              <span>{locale === 'ar' ? 'وقت العمل:' : 'Working hours:'}</span>
+                              <span>{t('workingHours')}</span>
                               <span dir="ltr">{formatTime(sub.start_time!)}</span> - <span dir="ltr">{formatTime(sub.end_time!)}</span>
                             </span>
                           )}
                           {!subIsOpen && (
                             <span className="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-semibold text-gray-600">
                               <Lock className="h-2.5 w-2.5" />
-                              {locale === 'ar' ? 'مغلق' : 'Closed'}
+                              {t('closed')}
                             </span>
                           )}
                         </div>
@@ -302,8 +300,8 @@ export default function ServiceMenuPage({
                                 className="mt-1 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline inline-block"
                               >
                                 {isSubDescExpanded
-                                  ? (locale === 'ar' ? 'عرض أقل' : 'Show less')
-                                  : (locale === 'ar' ? 'عرض المزيد' : 'Read more')}
+                                  ? t('showLess')
+                                  : t('readMore')}
                               </div>
                             )}
                           </div>
@@ -319,7 +317,7 @@ export default function ServiceMenuPage({
                       <Clock className="mt-0.5 h-4 w-4 shrink-0" />
                       <div>
                         <p className="font-medium">
-                          {locale === 'ar' ? 'هذه الخدمة غير متاحة الآن' : 'This service is currently unavailable'}
+                          {t('unavailable')}
                         </p>
                         {(() => {
                           const subIsClosedByTime = subIsScheduled && !isWithinServiceHours(sub.start_time!, sub.end_time!, timezone)
@@ -328,14 +326,14 @@ export default function ServiceMenuPage({
                           if (subIsClosedByTime) {
                             return (
                               <p className="mt-0.5 text-xs">
-                                {locale === 'ar' ? 'أوقات العمل:' : 'Working hours:'} {formatTime(sub.start_time!)} {locale === 'ar' ? 'حتى' : 'to'} {formatTime(sub.end_time!)}
+                                {t('workingHours')} {formatTime(sub.start_time!)} {t('to')} {formatTime(sub.end_time!)}
                               </p>
                             )
                           }
                           if (mainIsClosedByTime) {
                             return (
                               <p className="mt-0.5 text-xs">
-                                {locale === 'ar' ? 'الخدمة الرئيسية تعمل من' : 'Main service available'} {formatTime(service.start_time!)} {locale === 'ar' ? 'حتى' : 'to'} {formatTime(service.end_time!)}
+                                {t('mainServiceAvailable')} {formatTime(service.start_time!)} {t('to')} {formatTime(service.end_time!)}
                               </p>
                             )
                           }
@@ -378,7 +376,7 @@ export default function ServiceMenuPage({
                                   <h4 className="font-medium text-gray-900">{itemName}</h4>
                                   {!isItemAvailable && (
                                     <span className="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-[10px] font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
-                                      {locale === 'ar' ? 'غير متوفر' : 'Out of stock'}
+                                      {t('outOfStock')}
                                     </span>
                                   )}
                                 </div>
@@ -395,8 +393,8 @@ export default function ServiceMenuPage({
                                         className="mt-1 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
                                       >
                                         {isItemDescExpanded
-                                          ? (locale === 'ar' ? 'عرض أقل' : 'Show less')
-                                          : (locale === 'ar' ? 'عرض المزيد' : 'Read more')}
+                                          ? t('showLess')
+                                          : t('readMore')}
                                       </button>
                                     )}
                                   </div>
@@ -405,7 +403,7 @@ export default function ServiceMenuPage({
                               <div className="mt-2 flex items-center justify-between">
                                 <span className="text-sm font-bold text-primary-600">
                                   {item.is_free
-                                    ? (locale === 'ar' ? 'مجاني' : 'Free')
+                                    ? t('free')
                                     : formatCurrency(item.price, '', currencySymbol)}
                                 </span>
 
@@ -413,7 +411,7 @@ export default function ServiceMenuPage({
                                 {(!subIsOpen || !isItemAvailable) ? (
                                   <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5 text-xs text-gray-500">
                                     <Lock className="h-3 w-3" />
-                                    {locale === 'ar' ? 'غير متاح' : 'Unavailable'}
+                                    {t('unavailable')}
                                   </span>
                                 ) : qty === 0 ? (
                                   <button

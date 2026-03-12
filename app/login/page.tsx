@@ -26,11 +26,13 @@ type LoginUnifiedInput = z.infer<typeof loginUnifiedSchema>
 export default function LoginPage() {
   const t = useTranslations('auth.login')
   const tv = useTranslations('validation')
+  const tc = useTranslations('common')
   const locale = useLocale()
   const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const form = useForm<LoginUnifiedInput>({
     resolver: zodResolver(loginUnifiedSchema),
@@ -56,19 +58,22 @@ export default function LoginPage() {
       const result = await res.json()
 
       if (!res.ok) {
-        const errorKey = result.error as string
+        const errorKey = result.message || 'invalidCredentials'
         const errorMap: Record<string, string> = {
-          INVALID_CREDENTIALS: t('invalidCredentials'),
-          ACCOUNT_DISABLED: t('accountDisabled'),
-          EMAIL_NOT_VERIFIED: t('emailNotVerified'),
+          invalidCredentials: t('invalidCredentials'),
+          accountDisabled: t('accountDisabled'),
+          emailNotVerified: t('emailNotVerified'),
         }
-        toast.error(errorMap[errorKey] || result.message || t('invalidCredentials'))
+        setServerError(errorMap[errorKey] || t('invalidCredentials'))
         return
       }
 
-      router.push('/dashboard')
+      if (result.locale) {
+        document.cookie = `locale=${result.locale}; path=/; max-age=31536000; SameSite=Lax`
+      }
+      window.location.href = result.redirectUrl || '/dashboard'
     } catch {
-      toast.error(t('invalidCredentials'))
+      setServerError(t('invalidCredentials'))
     } finally {
       setLoading(false)
     }
@@ -79,7 +84,7 @@ export default function LoginPage() {
       <div className="absolute top-4 end-4 flex items-center gap-2">
         <Link href="/" className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700">
           <ArrowLeft className="h-4 w-4" />
-          {locale === 'ar' ? 'الرئيسية' : 'Home'}
+          {tc('home')}
         </Link>
         <LanguageSwitcher variant="dropdown" />
       </div>
@@ -112,7 +117,9 @@ export default function LoginPage() {
                     'input icon-input ps-10',
                     form.formState.errors.identifier && 'input-error'
                   )}
-                  {...form.register('identifier')}
+                  {...form.register('identifier', {
+                    onChange: () => setServerError(null)
+                  })}
                   placeholder={t('identifierPlaceholder') || t('identifier')}
                 />
               </div>
@@ -139,7 +146,9 @@ export default function LoginPage() {
                     'input icon-input-both pe-10 ps-10',
                     form.formState.errors.password && 'input-error'
                   )}
-                  {...form.register('password')}
+                  {...form.register('password', {
+                    onChange: () => setServerError(null)
+                  })}
                 />
                 <button
                   type="button"
@@ -156,8 +165,18 @@ export default function LoginPage() {
               )}
             </div>
 
-            {/* Forgot Password */}
-            <div className="flex justify-end">
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 h-4 w-4"
+                  {...form.register('rememberMe')}
+                />
+                <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
+                  {t('rememberMe')}
+                </span>
+              </label>
               <Link
                 href="/forgot-password"
                 className="text-sm text-primary-600 hover:text-primary-700 hover:underline"
@@ -165,6 +184,14 @@ export default function LoginPage() {
                 {t('forgotPassword')}
               </Link>
             </div>
+
+            {/* Server Error Message */}
+            {serverError && (
+              <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+                <div className="h-1.5 w-1.5 rounded-full bg-red-600 shrink-0" />
+                {serverError}
+              </div>
+            )}
 
             {/* Submit */}
             <button

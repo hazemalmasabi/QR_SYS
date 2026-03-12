@@ -150,6 +150,8 @@ function getDateRange(period: QuickPeriod): { from: string; to: string } {
 
 export default function ReportsPage() {
   const t = useTranslations('reports')
+  const td = useTranslations('dashboard')
+  const tc = useTranslations('common')
   const locale = useLocale()
   const isRTL = locale === 'ar'
 
@@ -251,7 +253,7 @@ export default function ReportsPage() {
   }
 
   const getServiceName = (svc: { service_name: { ar: string; en: string } }) =>
-    isRTL ? svc.service_name.ar : svc.service_name.en
+    svc.service_name[locale as 'ar' | 'en'] || svc.service_name.en
 
 
   const tabs: { key: ReportTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -260,10 +262,10 @@ export default function ReportsPage() {
   ]
 
   const quickPeriods = [
-    { key: '7d' as QuickPeriod, label: isRTL ? '7 أيام' : '7 Days' },
-    { key: '30d' as QuickPeriod, label: isRTL ? '30 يوم' : '30 Days' },
-    { key: '90d' as QuickPeriod, label: isRTL ? '90 يوم' : '90 Days' },
-    { key: 'custom' as QuickPeriod, label: isRTL ? 'مخصص' : 'Custom' },
+    { key: '7d' as QuickPeriod, label: td('filters.7d') },
+    { key: '30d' as QuickPeriod, label: td('filters.30d') },
+    { key: '90d' as QuickPeriod, label: td('filters.90d') },
+    { key: 'custom' as QuickPeriod, label: td('filters.custom') },
   ]
 
   return (
@@ -318,7 +320,7 @@ export default function ReportsPage() {
           <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-600">
-                {locale === 'ar' ? 'من' : 'From'}
+                {t('from')}
               </span>
               <div className="relative">
                 <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -340,7 +342,7 @@ export default function ReportsPage() {
 
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-gray-600">
-                {locale === 'ar' ? 'إلى' : 'To'}
+                {t('to')}
               </span>
               <div className="relative">
                 <Calendar className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
@@ -443,6 +445,7 @@ interface OrdersReportProps {
 }
 
 function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, orders: _orders, currencySymbol: _currencySymbol, t, locale, isRTL, formatDate, timezone }: OrdersReportProps) {
+  const tc = useTranslations('common')
   if (!summary) return <EmptyState t={t} />
 
   // Determine grouping based on number of days in dailyData
@@ -451,10 +454,10 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
   const granularity: Granularity = numDays <= 14 ? 'day' : numDays <= 90 ? 'week' : 'month'
 
   const chartTitle = granularity === 'day'
-    ? (isRTL ? 'الطلبات حسب اليوم' : 'Orders by Day')
+    ? t('ordersByDay')
     : granularity === 'week'
-      ? (isRTL ? 'الطلبات حسب الأسبوع' : 'Orders by Week')
-      : (isRTL ? 'الطلبات حسب الشهر' : 'Orders by Month')
+      ? t('ordersByWeek')
+      : t('ordersByMonth')
 
   // Aggregate daily data into the right granularity
   const aggregatedData = (() => {
@@ -502,14 +505,14 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
         <SummaryCard icon={Target} label={t('completionRate')} value={`${summary.completionRate}%`} color="purple" />
         <SummaryCard
           icon={Timer}
-          label={t('avgAcceptanceTime') || 'متوسط وقت القبول'}
-          value={summary.avgAcceptanceTime != null ? `${summary.avgAcceptanceTime} ${t('minutes')}` : '—'}
+          label={t('avgAcceptanceTime')}
+          value={summary.avgAcceptanceTime != null ? `${summary.avgAcceptanceTime} ${t('minutes')}` : tc('none')}
           color="amber"
         />
         <SummaryCard
           icon={Timer}
-          label={t('avgExecutionTime') || 'متوسط وقت التنفيذ'}
-          value={summary.avgExecutionTime != null ? `${summary.avgExecutionTime} ${t('minutes')}` : '—'}
+          label={t('avgExecutionTime')}
+          value={summary.avgExecutionTime != null ? `${summary.avgExecutionTime} ${t('minutes')}` : tc('none')}
           color="blue"
         />
       </div>
@@ -542,7 +545,7 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
           {topHours.length > 0 && (
             <div className="card">
               <h3 className="mb-3 text-base font-semibold text-gray-900">
-                {isRTL ? 'أوقات الذروة' : 'Peak Hours'}
+                {t('peakHours')}
               </h3>
               <div className="h-[240px] w-full" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
@@ -551,7 +554,7 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
                     <XAxis dataKey="hour" tick={{ fontSize: 10 }} stroke="#9ca3af" />
                     <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" allowDecimals={false} />
                     <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }} />
-                    <Bar dataKey="count" name={isRTL ? 'طلبات' : 'Orders'} fill="#6366f1" radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="count" name={t('orders')} fill="#6366f1" radius={[3, 3, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -565,7 +568,7 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
         <div className="card">
           <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
             <AlertTriangle className="h-4 w-4 text-red-500" />
-            {isRTL ? 'معدل الإلغاء لكل خدمة' : 'Cancellation Rate by Service'}
+            {t('cancellationRateByService')}
           </h3>
           <div className="space-y-2.5">
             {cancellationByService.filter(s => s.cancelled > 0).slice(0, 5).map((s, i) => (
@@ -611,6 +614,7 @@ interface RevenueReportProps {
 }
 
 function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, currencySymbol, t, isRTL, formatDate, timezone, locale, getServiceName }: RevenueReportProps) {
+  const tc = useTranslations('common')
   if (!summary) return <EmptyState t={t} />
 
   // Dynamic grouping same as orders chart
@@ -619,10 +623,10 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
   const granularity: Granularity = numDays <= 14 ? 'day' : numDays <= 90 ? 'week' : 'month'
 
   const chartTitle = granularity === 'day'
-    ? (isRTL ? 'الإيرادات حسب اليوم' : 'Revenue by Day')
+    ? t('revenueByDay')
     : granularity === 'week'
-      ? (isRTL ? 'الإيرادات حسب الأسبوع' : 'Revenue by Week')
-      : (isRTL ? 'الإيرادات حسب الشهر' : 'Revenue by Month')
+      ? t('revenueByWeek')
+      : t('revenueByMonth')
 
   const aggregatedData = (() => {
     if (granularity === 'day') return dailyData
@@ -654,7 +658,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
   })()
 
   const pieData = topServices.map(s => ({
-    name: isRTL ? s.serviceName.ar : s.serviceName.en,
+    name: s.serviceName[locale as 'ar' | 'en'] || s.serviceName.en,
     value: s.revenue,
   }))
 
@@ -697,7 +701,7 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
           <div className="card">
             <h3 className="mb-3 flex items-center gap-2 text-base font-semibold text-gray-900">
               <Medal className="h-4 w-4 text-yellow-500" />
-              {isRTL ? 'أفضل الخدمات إيراداً' : 'Top Services by Revenue'}
+              {t('topServicesByRevenue')}
             </h3>
             <div className="flex items-center gap-4">
               <div className="h-[180px] w-[160px] shrink-0" dir="ltr">
@@ -744,6 +748,8 @@ interface ServicesReportProps {
 }
 
 function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesReportProps) {
+  const tc = useTranslations('common')
+  const locale = useLocale()
   if (servicesData.length === 0) return <EmptyState t={t} />
 
   const chartData = servicesData.map((s) => ({
@@ -768,10 +774,10 @@ function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesRepo
                 {i + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="truncate font-semibold text-gray-900">{isRTL ? svc.serviceName.ar : svc.serviceName.en}</p>
-                <p className="text-sm text-gray-500">{svc.orderCount} {isRTL ? 'طلب' : 'orders'}</p>
+                <p className="truncate font-semibold text-gray-900">{svc.serviceName[locale as 'ar' | 'en'] || svc.serviceName.en}</p>
+                <p className="text-sm text-gray-500">{svc.orderCount} {t('orders')}</p>
                 <div className="mt-2 flex items-center gap-3 text-xs">
-                  <span className="text-green-600 font-medium">{svc.completionRate}% {isRTL ? 'إتمام' : 'completion'}</span>
+                  <span className="text-green-600 font-medium">{svc.completionRate}% {tc('success').toLowerCase()}</span>
                   <span className="text-gray-500">{formatCurrency(svc.revenue, '', currencySymbol)}</span>
                 </div>
               </div>
@@ -805,19 +811,19 @@ function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesRepo
               <th>#</th>
               <th>{t('serviceName')}</th>
               <th>{t('orderCount')}</th>
-              <th>{isRTL ? 'مكتملة' : 'Completed'}</th>
-              <th>{isRTL ? 'ملغاة' : 'Cancelled'}</th>
-              <th>{isRTL ? 'نسبة الإتمام' : 'Completion %'}</th>
+              <th>{t('completed')}</th>
+              <th>{t('cancelled')}</th>
+              <th>{t('completionPercentage')}</th>
               <th>{t('revenue')}</th>
               <th>{t('avgTime')}</th>
-              <th>{isRTL ? 'الأداء' : 'Performance'}</th>
+              <th>{t('performance')}</th>
             </tr>
           </thead>
           <tbody>
             {servicesData.map((svc, i) => (
               <tr key={svc.serviceId}>
                 <td className="text-gray-500">{i + 1}</td>
-                <td className="font-medium text-gray-900">{isRTL ? svc.serviceName.ar : svc.serviceName.en}</td>
+                <td className="font-medium text-gray-900">{svc.serviceName[locale as 'ar' | 'en'] || svc.serviceName.en}</td>
                 <td>{svc.orderCount}</td>
                 <td className="text-green-600">{svc.completed}</td>
                 <td className="text-red-600">{svc.cancelled}</td>
@@ -827,7 +833,7 @@ function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesRepo
                   </span>
                 </td>
                 <td className="font-medium">{svc.revenue.toFixed(2)} {currencySymbol}</td>
-                <td>{svc.avgTime != null ? `${svc.avgTime} ${t('minutes')}` : '—'}</td>
+                <td>{svc.avgTime != null ? `${svc.avgTime} ${t('minutes')}` : tc('none')}</td>
                 <td>
                   <div className="h-2 w-20 rounded-full bg-gray-100">
                     <div

@@ -15,11 +15,15 @@ import {
   ImageIcon,
   ChevronLeft,
   ChevronRight,
+  History,
+  AlertTriangle,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import type { SubService, MainService, SessionPayload } from '@/types'
 import SubServiceFormModal from './SubServiceFormModal'
+import { useHotel } from '@/components/Providers/HotelProvider'
+import { useTranslationCounts } from '@/components/Providers/TranslationProvider'
 
 interface SubServiceWithParent extends SubService {
   main_services?: {
@@ -49,7 +53,9 @@ export default function SubServicesPage() {
   const [editingSubService, setEditingSubService] = useState<SubService | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
+  const [showMissingTranslations, setShowMissingTranslations] = useState(false)
+  const { language_secondary: languageSecondary } = useHotel()
+  const { counts, refreshCounts } = useTranslationCounts()
 
   const fetchSession = useCallback(async () => {
     try {
@@ -83,6 +89,10 @@ export default function SubServicesPage() {
       params.set('page', page.toString())
       params.set('limit', limit.toString())
 
+      if (showMissingTranslations && languageSecondary !== 'none') {
+        params.set('missing_translation_lang', languageSecondary)
+      }
+
       const res = await fetch(`/api/sub-services?${params.toString()}`, {
         cache: 'no-store'
       })
@@ -104,25 +114,12 @@ export default function SubServicesPage() {
     } finally {
       setLoading(false)
     }
-  }, [parentFilter, tc, page])
-
-  const fetchSecondaryLanguage = useCallback(async () => {
-    try {
-      const res = await fetch('/api/settings')
-      const data = await res.json()
-      if (data.success) {
-        setLanguageSecondary(data.settings.language_secondary || 'ar')
-      }
-    } catch {
-      // ignore
-    }
-  }, [])
+  }, [parentFilter, page, showMissingTranslations, languageSecondary, tc])
 
   useEffect(() => {
     fetchSession()
     fetchServices()
-    fetchSecondaryLanguage()
-  }, [fetchSession, fetchServices, fetchSecondaryLanguage])
+  }, [fetchSession, fetchServices])
 
   useEffect(() => {
     fetchSubServices()
@@ -145,6 +142,7 @@ export default function SubServicesPage() {
       if (data.success) {
         toast.success(tc('success'))
         fetchSubServices()
+        refreshCounts()
       } else {
         toast.error(tc('error'))
       }
@@ -166,6 +164,7 @@ export default function SubServicesPage() {
       if (data.success) {
         toast.success(tc('success'))
         fetchSubServices()
+        refreshCounts()
       } else {
         toast.error(tc('error'))
       }
@@ -194,7 +193,7 @@ export default function SubServicesPage() {
       return getName(sub.main_services.service_name)
     }
     const parent = services.find((s) => s.service_id === sub.parent_service_id)
-    return parent ? getName(parent.service_name) : '—'
+    return parent ? getName(parent.service_name) : tc('none')
   }
 
   return (
@@ -211,23 +210,44 @@ export default function SubServicesPage() {
       </div>
 
       {/* Compact Filter */}
-      <div className="flex items-center gap-2">
-        <Filter className="h-4 w-4 text-gray-400" />
-        <select
-          value={parentFilter}
-          onChange={(e) => {
-            setParentFilter(e.target.value)
-            setPage(1)
-          }}
-          className="input max-w-[220px] py-1.5 text-sm"
-        >
-          <option value="">{tc('all')}</option>
-          {services.map((s) => (
-            <option key={s.service_id} value={s.service_id}>
-              {getName(s.service_name)}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Filter className="h-4 w-4 text-gray-400" />
+          <select
+            value={parentFilter}
+            onChange={(e) => {
+              setParentFilter(e.target.value)
+              setPage(1)
+            }}
+            className="input max-w-[220px] py-1.5 text-sm"
+          >
+            <option value="">{tc('all')}</option>
+            {services.map((s) => (
+              <option key={s.service_id} value={s.service_id}>
+                {getName(s.service_name)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Missing Translations Filter */}
+        {languageSecondary !== 'none' && counts.subServices > 0 && (
+          <div className="flex items-center gap-2 ms-auto sm:ms-2">
+            <label className="flex cursor-pointer text-sm font-medium text-gray-700 items-center gap-2 select-none">
+              <input
+                type="checkbox"
+                checked={showMissingTranslations}
+                onChange={(e) => {
+                  setShowMissingTranslations(e.target.checked)
+                  setPage(1)
+                }}
+                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600"
+              />
+              <AlertTriangle className="h-4 w-4 text-yellow-500" />
+              {tc('showMissingTranslations')}
+            </label>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -282,11 +302,32 @@ export default function SubServicesPage() {
                 <h3 className="text-sm font-semibold text-gray-900 line-clamp-1">
                   {getName(sub.sub_service_name)}
                 </h3>
-                <p className="text-xs text-gray-400 line-clamp-1">
-                  {locale === 'en'
-                    ? (sub.sub_service_name[languageSecondary] || sub.sub_service_name.ar || '')
-                    : (sub.sub_service_name.en || '')}
-                </p>
+                {languageSecondary !== 'none' && (
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-gray-400 line-clamp-1">
+                      {sub.sub_service_name[languageSecondary]?.trim() ? (
+                        sub.sub_service_name[languageSecondary]
+                      ) : (
+                        <span className="italic">{tc('notTranslated')}</span>
+                      )}
+                    </p>
+                    {!sub.sub_service_name[languageSecondary]?.trim() && (
+                      <div className="group/tooltip relative flex items-center">
+                        <AlertTriangle className="h-3.5 w-3.5 text-yellow-500 cursor-help" />
+                        <div className={cn(
+                          "absolute bottom-full mb-2 hidden w-[210px] rounded bg-gray-900 px-3 py-2 text-center text-[10px] text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-50 pointer-events-none shadow-lg font-normal leading-tight whitespace-normal",
+                          locale === 'ar' ? "end-0" : "start-0"
+                        )}>
+                          {tc('missingTranslationTooltip', { language: tc(`language_${languageSecondary}` as any) })}
+                          <div className={cn(
+                            "absolute top-full border-4 border-transparent border-t-gray-900",
+                            locale === 'ar' ? "end-2" : "start-2"
+                          )}></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {/* Parent service */}
                 <p className="mt-1 text-[11px] text-gray-500 line-clamp-1">
                   {getParentName(sub)}
@@ -296,7 +337,7 @@ export default function SubServicesPage() {
                   <Clock className="h-3 w-3 shrink-0" />
                   {sub.availability_type === 'scheduled' && sub.start_time && sub.end_time
                     ? `${sub.start_time} - ${sub.end_time}`
-                    : '24/7'}
+                    : tc('allDay')}
                 </div>
 
                 {/* Actions */}
@@ -354,13 +395,13 @@ export default function SubServicesPage() {
               </p>
             </div>
             <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label={tc('pagination')}>
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
                   className="relative inline-flex items-center rounded-s-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">{tc('previous')}</span>
                   {locale === 'ar' ? (
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -375,7 +416,7 @@ export default function SubServicesPage() {
                   disabled={page === totalPages}
                   className="relative inline-flex items-center rounded-e-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">{tc('next')}</span>
                   {locale === 'ar' ? (
                     <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -392,8 +433,11 @@ export default function SubServicesPage() {
       <SubServiceFormModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={fetchSubServices}
-        subService={editingSubService}
+        onSuccess={() => {
+          fetchSubServices()
+          refreshCounts()
+        }}
+        subService={editingSubService || undefined}
         services={services}
       />
 

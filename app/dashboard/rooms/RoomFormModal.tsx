@@ -172,7 +172,7 @@ export default function RoomFormModal({
               }}
               className={cn('input', errors.roomType && 'input-error')}
             >
-              <option value="">--</option>
+              <option value="">{tc('select')}</option>
               {roomTypes.map((rt) => {
                 const displayName = rt.name?.[locale] || rt.name?.en || rt.code
                 return (

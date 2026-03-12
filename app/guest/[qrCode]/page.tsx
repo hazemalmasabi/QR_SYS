@@ -165,21 +165,21 @@ export default function GuestPage({
                         {isOpen && !isScheduled && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
                             <Clock className="h-2.5 w-2.5" />
-                            <span>{locale === 'ar' ? 'وقت العمل:' : 'Working hours:'}</span>
-                            <span>24/7</span>
+                            <span>{t('workingHours')}</span>
+                            <span>{t('allDay')}</span>
                           </span>
                         )}
                         {isOpen && isScheduled && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
                             <Clock className="h-2.5 w-2.5" />
-                            <span>{locale === 'ar' ? 'وقت العمل:' : 'Working hours:'}</span>
+                            <span>{t('workingHours')}</span>
                             <span dir="ltr">{formatTime(service.start_time!)}</span> - <span dir="ltr">{formatTime(service.end_time!)}</span>
                           </span>
                         )}
                         {!isOpen && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-0.5 text-[10px] font-semibold text-gray-600">
                             <Lock className="h-2.5 w-2.5" />
-                            {locale === 'ar' ? 'مغلق' : 'Closed'}
+                            {t('closed')}
                           </span>
                         )}
                       </div>
@@ -198,9 +198,7 @@ export default function GuestPage({
                               }}
                               className="mt-1 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"
                             >
-                              {isDescExpanded
-                                ? (locale === 'ar' ? 'عرض أقل' : 'Show less')
-                                : (locale === 'ar' ? 'عرض المزيد' : 'Read more')}
+                              {isDescExpanded ? t('showLess') : t('readMore')}
                             </button>
                           )}
                         </div>
@@ -209,7 +207,7 @@ export default function GuestPage({
                       {!isOpen && isScheduled && (
                         <div className="mt-1 flex items-center gap-1 text-xs text-amber-600 font-medium">
                           <Clock className="h-3 w-3" />
-                          <span><span dir="ltr">{formatTime(service.start_time!)}</span> - <span dir="ltr">{formatTime(service.end_time!)}</span> · {locale === 'ar' ? 'خارج وقت الخدمة' : 'Outside service hours'}</span>
+                          <span><span dir="ltr">{formatTime(service.start_time!)}</span> - <span dir="ltr">{formatTime(service.end_time!)}</span> · {t('outsideServiceHours')}</span>
                         </div>
                       )}
                     </div>

@@ -44,6 +44,7 @@ interface FormRegisterInput extends RegisterInput {
 export default function RegisterPage() {
   const t = useTranslations('auth.register')
   const tv = useTranslations('validation')
+  const tc = useTranslations('common')
   const locale = useLocale()
   const router = useRouter()
 
@@ -209,7 +210,7 @@ export default function RegisterPage() {
       <div className="absolute top-4 end-4 flex items-center gap-2">
         <Link href="/" className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700">
           <ArrowLeft className="h-4 w-4" />
-          {locale === 'ar' ? 'الرئيسية' : 'Home'}
+          {tc('home')}
         </Link>
         <LanguageSwitcher variant="dropdown" />
       </div>
@@ -235,16 +236,12 @@ export default function RegisterPage() {
                 <div className="flex flex-col gap-1.5 self-start sm:self-auto min-w-[180px]">
                   <div className="flex items-center justify-between gap-2">
                     <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-                      {locale === 'ar' ? 'اللغة الثانية' : locale === 'fr' ? 'Langue secondaire' : 'Secondary Language'}
+                      {t('secondaryLanguage')}
                     </label>
                     <div className="group relative">
                       <Info className="h-3.5 w-3.5 text-gray-400 cursor-help" />
                       <div className="absolute bottom-full mb-2 hidden w-64 rounded bg-gray-800 p-2 text-xs text-white group-hover:block z-50 ltr:right-0 rtl:left-0 shadow-lg border border-gray-700">
-                        {locale === 'ar'
-                          ? 'اختر لغة إضافية لعرضها للنزلاء في قائمة الخدمات. سيطلب منك إدخال أسماء الخدمات والأصناف بهذه اللغة أيضاً.'
-                          : locale === 'fr'
-                            ? 'Sélectionnez une langue supplémentaire à afficher aux clients dans le menu des services.'
-                            : 'Select an additional language to show to guests. You will be asked to enter content in this language as well.'}
+                        {t('secondaryLanguageTooltip')}
                       </div>
                     </div>
                   </div>
@@ -262,7 +259,7 @@ export default function RegisterPage() {
                         }
                       }}
                     >
-                      <option value="none">{locale === 'ar' ? 'بدون لغة ثانية' : 'No secondary language'}</option>
+                      <option value="none">{t('noSecondaryLanguage')}</option>
                       {SUPPORTED_LANGUAGES.filter(lang => lang.code !== 'en').map(lang => (
                         <option key={lang.code} value={lang.code}>
                           {getLanguageName(lang.code, locale)}
@@ -278,7 +275,7 @@ export default function RegisterPage() {
             <div className="space-y-6">
               {/* Multilingual Hotel Name */}
               <MultilingualInput
-                label={locale === 'ar' ? 'اسم الفندق' : 'Hotel Name'}
+                label={t('hotelNameLabel')}
                 translations={{ en: hotelNameEn, [languageSecondary]: hotelNameSecondary }}
                 onChange={(vals) => {
                   setValue('hotelNameEn', vals.en, { shouldValidate: true })
@@ -291,8 +288,6 @@ export default function RegisterPage() {
                 errorEn={errors.hotelNameEn && resolveValidation(errors.hotelNameEn.message || '')}
                 errorSecondary={errors.hotelNameSecondary && resolveValidation(errors.hotelNameSecondary.message || '')}
                 maxLength={100}
-                placeholderEn="e.g. Grand Plaza Hotel"
-                placeholderSecondary={languageSecondary === 'ar' ? 'أدخل اسم الفندق بالعربية' : languageSecondary === 'fr' ? 'ex: Grand Plaza Hôtel' : ''}
               />
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -328,13 +323,13 @@ export default function RegisterPage() {
                             }
                           }}
                           locale={locale}
-                          placeholder={locale === 'ar' ? 'اختر التوقيت الزمني...' : 'Select timezone...'}
-                          searchPlaceholder={locale === 'ar' ? 'ابحث عن مدينة أو توقيت...' : 'Search city or timezone...'}
-                          noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                          placeholder={t('selectTimezone')}
+                          searchPlaceholder={t('searchTimezone')}
+                          noResultsText={tc('noResults')}
                           error={!!errors.timezone}
                           hasIcon={true}
                           showOtherOption={true}
-                          otherLabel={locale === 'ar' ? 'أخرى (تحديد مخصص)' : 'Other (Custom Offset)'}
+                          otherLabel={t('otherCustomOffset')}
                         />
                       )}
                     />
@@ -370,13 +365,13 @@ export default function RegisterPage() {
                           value={field.value}
                           onChange={field.onChange}
                           locale={locale}
-                          placeholder={locale === 'ar' ? 'اختر العملة...' : 'Select currency...'}
-                          searchPlaceholder={locale === 'ar' ? 'ابحث عن عملة...' : 'Search currency...'}
-                          noResultsText={locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
+                          placeholder={t('selectCurrency')}
+                          searchPlaceholder={t('searchCurrency')}
+                          noResultsText={tc('noResults')}
                           error={!!errors.currencyCode}
                           hasIcon={true}
                           showOtherOption={true}
-                          otherLabel={locale === 'ar' ? 'أخرى (بدون رمز)' : 'Other (No Symbol)'}
+                          otherLabel={t('otherNoSymbol')}
                         />
                       )}
                     />

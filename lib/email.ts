@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { getLanguageDirection } from './languages'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -31,34 +32,32 @@ export async function sendEmail({ to, subject, html }: SendEmailParams): Promise
   }
 }
 
-import ar from '../messages/ar.json'
-import en from '../messages/en.json'
-import fr from '../messages/fr.json'
-
-const dicts: Record<string, any> = { ar, en, fr }
-
-function getTranslations(lang: string) {
-  // Fallback to english if the requested language dictionary doesn't exist
-  return dicts[lang] || dicts['en']
+async function getTranslations(lang: string) {
+  try {
+    // Dynamic import allows scaling to any number of languages without manual imports here
+    return (await import(`../messages/${lang}.json`)).default
+  } catch (error) {
+    console.error(`Could not load translations for lang: ${lang}, falling back to 'en'`)
+    return (await import(`../messages/en.json`)).default
+  }
 }
 
-export function getVerificationEmailSubject(lang: string = 'ar'): string {
-  const t = getTranslations(lang).email.verify
-  return t.subject
+export async function getVerificationEmailSubject(lang: string = 'ar'): Promise<string> {
+  const dict = await getTranslations(lang)
+  return dict.email.verify.subject
 }
 
-export function getPasswordResetEmailSubject(lang: string = 'ar'): string {
-  const t = getTranslations(lang).email.reset
-  return t.subject
+export async function getPasswordResetEmailSubject(lang: string = 'ar'): Promise<string> {
+  const dict = await getTranslations(lang)
+  return dict.email.reset.subject
 }
 
-export function getVerificationEmailHtml(name: string, verifyUrl: string, lang: string = 'ar'): string {
-  const t = getTranslations(lang).email.verify
-  const isAr = lang === 'ar' || lang === 'ur' || lang === 'fa' // basic RTL check, though ideally we'd pass dir
-  // Let's use the central registry for direction if possible
-  // Since email is a pure function and Node might not like importing from languages if it has client code,
-  // we can use a quick robust check.
-  const dir = (lang === 'ar') ? 'rtl' : 'ltr'
+export async function getVerificationEmailHtml(name: string, verifyUrl: string, lang: string = 'ar'): Promise<string> {
+  const dict = await getTranslations(lang)
+  const t = dict.email.verify
+
+  // RTL check
+  const dir = getLanguageDirection(lang)
 
   return `
 <!DOCTYPE html>
@@ -103,8 +102,10 @@ export function getVerificationEmailHtml(name: string, verifyUrl: string, lang: 
 </html>`
 }
 
-export function getPasswordResetEmailHtml(name: string, resetUrl: string, lang: string = 'ar'): string {
-  const t = getTranslations(lang).email.reset
+export async function getPasswordResetEmailHtml(name: string, resetUrl: string, lang: string = 'ar'): Promise<string> {
+  const dict = await getTranslations(lang)
+  const t = dict.email.reset
+
   const dir = (lang === 'ar') ? 'rtl' : 'ltr'
 
   return `
@@ -133,7 +134,7 @@ export function getPasswordResetEmailHtml(name: string, resetUrl: string, lang: 
       </div>
       <div class="content">
         <h2 style="color: #111827; font-size: 20px; margin-top: 0; margin-bottom: 24px;">${t.title}</h2>
-        <p>${t.hello.replace('{name}', name)}</p>
+        <h3 style="color: #4b5563; font-size: 16px; margin-top: 0;">${t.hello.replace('{name}', name)}</h3>
         <p>${t.desc}</p>
         <div class="btn-container">
           <a href="${resetUrl}" class="button">${t.btn}</a>

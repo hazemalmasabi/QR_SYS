@@ -24,8 +24,10 @@ export async function POST(request: Request) {
       .single()
 
     if (error || !employee) {
-      // Return success even if not found to prevent email enumeration
-      return NextResponse.json({ success: true, message: 'resetEmailSent' })
+      return NextResponse.json(
+        { success: false, message: 'emailNotFound' },
+        { status: 404 }
+      )
     }
 
     // Generate password reset token with 1 hour expiry
@@ -46,10 +48,10 @@ export async function POST(request: Request) {
     const resetUrl = `${baseUrl}/reset-password?token=${passwordResetToken}`
 
     // Send reset email
-    const emailHtml = getPasswordResetEmailHtml(employee.full_name, resetUrl, lang || 'ar')
+    const emailHtml = await getPasswordResetEmailHtml(employee.full_name, resetUrl, lang || 'ar')
     const emailSent = await sendEmail({
       to: email,
-      subject: getPasswordResetEmailSubject(lang || 'ar'),
+      subject: await getPasswordResetEmailSubject(lang || 'ar'),
       html: emailHtml,
     })
 

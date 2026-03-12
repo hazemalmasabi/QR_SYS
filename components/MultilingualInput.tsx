@@ -1,9 +1,6 @@
-'use client'
-
-import { useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
-import { Globe } from 'lucide-react'
+import { getLanguageDirection } from '@/lib/languages'
 
 interface MultilingualInputProps {
     label: string
@@ -39,6 +36,20 @@ export default function MultilingualInput({
     dirSecondary,
 }: MultilingualInputProps) {
     const locale = useLocale()
+    const tc = useTranslations('common')
+
+    const getLanguageName = (code: string) => {
+        try {
+            return tc(`language_${code}` as any)
+        } catch {
+            return code.toUpperCase()
+        }
+    }
+
+    const cleanLabel = label.replace(/[\*:]/g, '').trim()
+
+    const defaultPlaceholderEn = tc('enterFieldIn', { field: cleanLabel, language: getLanguageName('en') })
+    const defaultPlaceholderSecondary = secondaryLocale ? tc('enterFieldIn', { field: cleanLabel, language: getLanguageName(secondaryLocale) }) : ''
 
     const handleEnChange = (val: string) => {
         onChange({ ...translations, en: val })
@@ -52,7 +63,7 @@ export default function MultilingualInput({
     const otherLocales = availableLocales.filter(l => l !== 'en')
 
     // Default direction for secondary if not provided
-    const effectiveDirSecondary = dirSecondary || (secondaryLocale === 'ar' ? 'rtl' : 'ltr')
+    const effectiveDirSecondary = dirSecondary || (secondaryLocale ? getLanguageDirection(secondaryLocale) : 'ltr')
 
     const InputComponent = type === 'textarea' ? 'textarea' : 'input'
 
@@ -94,7 +105,7 @@ export default function MultilingualInput({
                         value={translations['en'] || ''}
                         onChange={(e: any) => handleEnChange(e.target.value)}
                         className={cn('input', errorEn && 'input-error')}
-                        placeholder={placeholderEn || 'English name...'}
+                        placeholder={placeholderEn || defaultPlaceholderEn}
                         maxLength={maxLength}
                         dir={dirEn}
                         rows={type === 'textarea' ? 3 : undefined}
@@ -107,7 +118,7 @@ export default function MultilingualInput({
                     <div>
                         <div className="flex items-center justify-between mb-1">
                             <span className="text-[10px] font-bold uppercase text-gray-400">
-                                {secondaryLocale === 'ar' ? 'العربية' : secondaryLocale === 'fr' ? 'Français' : secondaryLocale.toUpperCase()}
+                                {getLanguageName(secondaryLocale)}
                             </span>
                         </div>
                         <InputComponent
@@ -115,7 +126,7 @@ export default function MultilingualInput({
                             value={translations[secondaryLocale] || ''}
                             onChange={(e: any) => handleSecondaryChange(e.target.value)}
                             className={cn('input', errorSecondary && 'input-error')}
-                            placeholder={placeholderSecondary || `${secondaryLocale.toUpperCase()} name...`}
+                            placeholder={placeholderSecondary || defaultPlaceholderSecondary}
                             maxLength={maxLength}
                             dir={effectiveDirSecondary}
                             rows={type === 'textarea' ? 3 : undefined}

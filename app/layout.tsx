@@ -7,14 +7,23 @@ import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale()
-  const isAr = locale === 'ar'
 
-  const title = isAr
-    ? 'QR SYS - نظام إدارة الخدمات الفندقية'
-    : 'QR SYS - Hotel Services Management'
-  const description = isAr
-    ? 'نظام إدارة الخدمات الفندقية'
-    : 'Hotel Services Management System'
+  const titles: Record<string, string> = {
+    ar: 'QR SYS - نظام إدارة الخدمات الفندقية',
+    en: 'QR SYS - Hotel Services Management',
+    fr: 'QR SYS - Gestion des Services Hôteliers',
+    es: 'QR SYS - Gestión de Servicios Hoteleros',
+  }
+
+  const descriptions: Record<string, string> = {
+    ar: 'نظام إدارة الخدمات الفندقية',
+    en: 'Hotel Services Management System',
+    fr: 'Système de gestion des services hôteliers',
+    es: 'Sistema de gestión de servicios hoteleros',
+  }
+
+  const title = titles[locale] || titles.en
+  const description = descriptions[locale] || descriptions.en
 
   return {
     title: {

@@ -44,6 +44,7 @@ export const loginUsernameSchema = z.object({
 export const loginUnifiedSchema = z.object({
   identifier: z.string().min(1, 'required'),
   password: z.string().min(1, 'required'),
+  rememberMe: z.boolean().optional().default(false),
 })
 
 export const employeeSchema = z.object({

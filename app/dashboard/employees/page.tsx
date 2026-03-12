@@ -190,13 +190,13 @@ export default function EmployeesPage() {
   }
 
   const getServiceName = (emp: (typeof employees)[0]) => {
-    if (!emp.main_services) return '\u2014'
+    if (!emp.main_services) return tc('none')
     const name = emp.main_services.service_name
-    return locale === 'ar' ? name.ar : name.en
+    return name[locale as 'ar' | 'en'] || name.en
   }
 
   const formatLastLogin = (date: string | null) => {
-    if (!date) return '\u2014'
+    if (!date) return tc('none')
     return new Date(date).toLocaleDateString(
       locale === 'ar' ? 'ar-SA' : 'en-US',
       {
@@ -260,9 +260,7 @@ export default function EmployeesPage() {
               <option value="">{t('assignedService')} ({tc('all')})</option>
               {services.map((svc) => (
                 <option key={svc.service_id} value={svc.service_id}>
-                  {locale === 'ar'
-                    ? svc.service_name.ar
-                    : svc.service_name.en}
+                  {svc.service_name[locale as 'ar' | 'en'] || svc.service_name.en}
                 </option>
               ))}
             </select>
@@ -313,7 +311,7 @@ export default function EmployeesPage() {
                   <td>{getRoleBadge(emp.role)}</td>
                   <td className="text-gray-600">{getServiceName(emp)}</td>
                   <td className="text-gray-600">
-                    {emp.phone_number || '\u2014'}
+                    {emp.phone_number || tc('none')}
                   </td>
                   <td>
                     <span
@@ -410,13 +408,13 @@ export default function EmployeesPage() {
               </p>
             </div>
             <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label={tc('pagination')}>
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
                   className="relative inline-flex items-center rounded-s-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">{tc('previous')}</span>
                   {locale === 'ar' ? (
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -431,7 +429,7 @@ export default function EmployeesPage() {
                   disabled={page === totalPages}
                   className="relative inline-flex items-center rounded-e-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">{tc('next')}</span>
                   {locale === 'ar' ? (
                     <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                   ) : (

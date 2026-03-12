@@ -67,6 +67,7 @@ export default function OrderDetailPage() {
   const t = useTranslations('orders')
   const tc = useTranslations('common')
   const locale = useLocale()
+  const tm = useTranslations('ordersDetails')
   const router = useRouter()
   const params = useParams()
   const orderId = params.orderId as string
@@ -80,21 +81,7 @@ export default function OrderDetailPage() {
   const [cancelError, setCancelError] = useState('')
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
 
-  const CANCEL_PRESETS = locale === 'ar'
-    ? [
-      'الضيف غيّر رأيه وقرر إلغاء الطلب',
-      'العنصر المطلوب غير متوفر حالياً',
-      'طال وقت الانتظار واعتذر الضيف',
-      'تم الطلب بالخطأ',
-      'الضيف غادر الغرفة',
-    ]
-    : [
-      'Guest changed their mind and cancelled',
-      'Requested item is currently unavailable',
-      'Guest cancelled due to long wait time',
-      'Order placed by mistake',
-      'Guest has left the room',
-    ]
+  const CANCEL_PRESETS = tm.raw('presets') as string[]
 
   const fetchOrder = useCallback(async () => {
     setLoading(true)
@@ -153,7 +140,7 @@ export default function OrderDetailPage() {
   const handleCancelSubmit = () => {
     const finalReason = selectedPreset === 'other' ? cancelReason : (selectedPreset || cancelReason)
     if (!finalReason.trim()) {
-      setCancelError(locale === 'ar' ? 'يرجى اختيار سبب الإلغاء' : 'Please select a cancellation reason')
+      setCancelError(tm('cancelReasonRequired'))
       return
     }
     handleStatusUpdate('cancelled', finalReason)
@@ -478,7 +465,7 @@ export default function OrderDetailPage() {
             {/* Preset reasons */}
             <div className="px-6 py-4 space-y-2 max-h-72 overflow-y-auto">
               <p className="text-sm font-medium text-gray-600 mb-3">
-                {locale === 'ar' ? 'اختر سبب الإلغاء:' : 'Select a cancellation reason:'}
+                {tm('selectCancelReason')}
               </p>
               {CANCEL_PRESETS.map((preset, idx) => (
                 <button
@@ -510,7 +497,7 @@ export default function OrderDetailPage() {
                     : 'border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-300 hover:bg-gray-100'
                 )}
               >
-                {locale === 'ar' ? '✏️ أخرى (اكتب السبب)' : '✏️ Other (type reason)'}
+                {tm('otherReason')}
               </button>
 
               {/* Custom reason text area — only when Other selected */}
@@ -524,7 +511,7 @@ export default function OrderDetailPage() {
                   rows={3}
                   autoFocus
                   className={cn('input resize-none mt-2', cancelError && 'input-error')}
-                  placeholder={locale === 'ar' ? 'اكتب سبب الإلغاء...' : 'Type cancellation reason...'}
+                  placeholder={tm('typeReasonPlaceholder')}
                 />
               )}
 

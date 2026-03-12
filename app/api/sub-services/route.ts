@@ -17,6 +17,7 @@ export async function GET(request: Request) {
     const parentServiceId = searchParams.get('parent_service_id')
     const page = parseInt(searchParams.get('page') || '1', 10)
     const limit = parseInt(searchParams.get('limit') || '25', 10)
+    const missingTranslationLang = searchParams.get('missing_translation_lang')
     const offset = (page - 1) * limit
 
     let query = supabaseAdmin
@@ -36,6 +37,10 @@ export async function GET(request: Request) {
 
     if (parentServiceId) {
       query = query.eq('parent_service_id', parentServiceId)
+    }
+
+    if (missingTranslationLang) {
+      query = query.or(`sub_service_name->>${missingTranslationLang}.is.null,sub_service_name->>${missingTranslationLang}.eq.""`)
     }
 
     // Apply pagination range if limit is greater than 0

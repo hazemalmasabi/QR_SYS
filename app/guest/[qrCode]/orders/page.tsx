@@ -140,21 +140,18 @@ export default function GuestOrdersPage({
           fetchOrders()
 
           // Notification
-          const statusLabels: Record<string, Record<string, string>> = {
-            in_progress: { ar: 'قيد التنفيذ', en: 'In Progress', fr: 'En cours' },
-            completed: { ar: 'مكتمل ✅', en: 'Completed ✅', fr: 'Terminée ✅' },
-            cancelled: { ar: 'ملغى ❌', en: 'Cancelled ❌', fr: 'Annulée ❌' },
-          }
-          const label = statusLabels[updated.status]
-          if (label) {
-            const title = t('orderStatus')
-            const body = locale === 'ar'
-              ? `طلبك #${updated.order_number} أصبح: ${label.ar}`
-              : locale === 'fr'
-                ? `Votre commande #${updated.order_number} est maintenant: ${label.fr}`
-                : `Order #${updated.order_number} is now: ${label.en}`
-            showBrowserNotification(title, body)
-          }
+          const statusText = tOrders(
+            updated.status === 'in_progress' ? 'inProgress' :
+              updated.status === 'completed' ? 'completed' :
+                updated.status === 'cancelled' ? 'cancelled' : 'new'
+          )
+
+          const title = t('orderStatus')
+          const body = t('orderStatusNotification', {
+            number: updated.order_number,
+            status: statusText
+          })
+          showBrowserNotification(title, body)
         }
       )
       .subscribe()
@@ -293,7 +290,7 @@ export default function GuestOrdersPage({
                 )}
               >
                 <MessageSquare className="h-3.5 w-3.5" />
-                {locale === 'ar' ? 'الملاحظات' : 'Notes'}
+                {t('notes')}
                 <ChevronDown className={cn('h-3 w-3 transition-transform', isNotesExpanded && 'rotate-180')} />
               </button>
             )}
@@ -306,7 +303,7 @@ export default function GuestOrdersPage({
                 )}
               >
                 <AlertCircle className="h-3.5 w-3.5" />
-                {locale === 'ar' ? 'سبب الإلغاء' : 'Cancel Reason'}
+                {t('cancelReason')}
                 <ChevronDown className={cn('h-3 w-3 transition-transform', isReasonExpanded && 'rotate-180')} />
               </button>
             )}

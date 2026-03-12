@@ -11,7 +11,7 @@ import {
   Minus,
   Plus,
   Trash2,
-  ShoppingBag,
+  HandPlatter,
   Loader2,
   CheckCircle2,
   Package,
@@ -71,7 +71,7 @@ export default function CartPage({
     const sId = ci.serviceId || 'other'
     if (!acc[sId]) {
       acc[sId] = {
-        name: ci.serviceName || { ar: 'خدمات أخرى', en: 'Other Services' },
+        name: ci.serviceName || null,
         displayOrder: ci.serviceDisplayOrder || 999,
         items: [],
         subtotal: 0
@@ -80,7 +80,7 @@ export default function CartPage({
     acc[sId].items.push(ci)
     acc[sId].subtotal += (ci.item.is_free ? 0 : ci.item.price) * ci.quantity
     return acc
-  }, {} as Record<string, { name: Record<string, string>; displayOrder: number; items: typeof items; subtotal: number }>)
+  }, {} as Record<string, { name: Record<string, string> | null; displayOrder: number; items: typeof items; subtotal: number }>)
 
   // Sort groups by display order
   const sortedServiceIds = Object.keys(groupedItemsMap).sort(
@@ -130,7 +130,7 @@ export default function CartPage({
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center">
         <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-          <ShoppingBag className="h-10 w-10 text-gray-400" />
+          <HandPlatter className="h-10 w-10 text-gray-400" />
         </div>
         <h2 className="text-lg font-semibold text-gray-900">{t('emptyCart')}</h2>
         <p className="mt-1 text-sm text-gray-500">{t('emptyCartDesc')}</p>
@@ -159,7 +159,7 @@ export default function CartPage({
       <div className="space-y-8">
         {sortedServiceIds.map((serviceId) => {
           const group = groupedItemsMap[serviceId]
-          const serviceName = group.name[locale] || group.name.en || group.name.ar || ''
+          const serviceName = group.name ? (group.name[locale] || group.name.en || group.name.ar || '') : t('otherServices')
 
           return (
             <div key={serviceId} className="space-y-4">
@@ -212,7 +212,7 @@ export default function CartPage({
 
                           <div className="mt-3 flex items-center justify-between">
                             <span className="text-sm font-black text-primary-600">
-                              {item.is_free ? (locale === 'ar' ? 'مجاني' : 'Free') : formatCurrency(item.price, '', currencySymbol)}
+                              {item.is_free ? t('free') : formatCurrency(item.price, '', currencySymbol)}
                               {itemUnit && <span className="text-[10px] text-gray-400 font-medium mx-1">/ {itemUnit}</span>}
                             </span>
 
@@ -263,7 +263,7 @@ export default function CartPage({
             return (
               <div key={sId} className="flex items-center justify-between text-sm">
                 <span className="text-gray-500 font-medium">
-                  {group.name[locale] || group.name.en || group.name.ar || ''}
+                  {group.name ? (group.name[locale] || group.name.en || group.name.ar || '') : t('otherServices')}
                 </span>
                 <span className="text-gray-900 font-black">{formatCurrency(group.subtotal, '', currencySymbol)}</span>
               </div>

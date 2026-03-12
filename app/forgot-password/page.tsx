@@ -25,10 +25,12 @@ type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>
 export default function ForgotPasswordPage() {
   const t = useTranslations('auth.forgotPassword')
   const tv = useTranslations('validation')
+  const tc = useTranslations('common')
   const locale = useLocale()
 
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const {
     register,
@@ -61,10 +63,16 @@ export default function ForgotPasswordPage() {
         toast.success(t('sent'))
       } else {
         const result = await res.json()
-        toast.error(result.message || tv('required'))
+        const errorKey = result.message || 'required'
+        const errorMap: Record<string, string> = {
+          emailNotFound: t('emailNotFound'),
+          emailRequired: tv('required'),
+          internalError: tv('required'),
+        }
+        setServerError(errorMap[errorKey] || t('emailNotFound'))
       }
     } catch {
-      toast.error(tv('required'))
+      setServerError(t('emailNotFound'))
     } finally {
       setLoading(false)
     }
@@ -75,7 +83,7 @@ export default function ForgotPasswordPage() {
       <div className="absolute top-4 end-4 flex items-center gap-2">
         <Link href="/" className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-700">
           <ArrowLeft className="h-4 w-4" />
-          {locale === 'ar' ? 'الرئيسية' : 'Home'}
+          {tc('home')}
         </Link>
         <LanguageSwitcher variant="dropdown" />
       </div>
@@ -98,7 +106,7 @@ export default function ForgotPasswordPage() {
               <p className="text-sm text-gray-600">{t('sent')}</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
               {/* Admin only notice */}
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
                 {t('adminWarning')}
@@ -117,7 +125,9 @@ export default function ForgotPasswordPage() {
                     autoComplete="email"
                     className={cn('input icon-input ps-10', errors.email && 'input-error')}
                     placeholder="example@hotel.com"
-                    {...register('email')}
+                    {...register('email', {
+                      onChange: () => setServerError(null)
+                    })}
                   />
                 </div>
                 {errors.email && (
@@ -126,6 +136,14 @@ export default function ForgotPasswordPage() {
                   </p>
                 )}
               </div>
+
+              {/* Server Error Message */}
+              {serverError && (
+                <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-1 text-center justify-center">
+                  <div className="h-1.5 w-1.5 rounded-full bg-red-600 shrink-0" />
+                  {serverError}
+                </div>
+              )}
 
               {/* Submit */}
               <button

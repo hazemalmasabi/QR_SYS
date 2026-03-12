@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import type { MainService } from '@/types'
 import MultilingualInput from '@/components/MultilingualInput'
+import { useHotel } from '@/components/Providers/HotelProvider'
+import { SUPPORTED_LANGUAGES } from '@/lib/languages'
 
 interface ServiceFormModalProps {
   open: boolean
@@ -43,9 +45,12 @@ export default function ServiceFormModal({
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
-  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
-  const [serviceNameTranslations, setServiceNameTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
-  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({ en: '', ar: '', fr: '' })
+  const { language_secondary: languageSecondary } = useHotel()
+
+  // Initialize translations based on supported languages
+  const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
+  const [serviceNameTranslations, setServiceNameTranslations] = useState<Record<string, string>>(initialTrans)
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>(initialTrans)
 
   const {
     register,
@@ -69,24 +74,16 @@ export default function ServiceFormModal({
   const availabilityType = watch('availabilityType')
   const displayOrder = watch('displayOrder')
 
-  // Fetch hotel settings and total services count when modal opens
+  // Fetch total services count when modal opens
   useEffect(() => {
     if (!open) return
     const fetchCountAndSettings = async () => {
       try {
-        const [servicesRes, settingsRes] = await Promise.all([
-          fetch('/api/services'),
-          fetch('/api/settings')
-        ])
+        const servicesRes = await fetch('/api/services')
 
         const servicesData = await servicesRes.json()
         if (servicesData.success) {
           setTotalCount(servicesData.services?.length || 0)
-        }
-
-        const settingsData = await settingsRes.json()
-        if (settingsData.success) {
-          setLanguageSecondary(settingsData.settings.language_secondary || 'ar')
         }
       } catch {
         // silently fail
@@ -115,8 +112,8 @@ export default function ServiceFormModal({
       })
       setImageUrl(service.image_url || null)
     } else {
-      setServiceNameTranslations({ en: '', ar: '', fr: '' })
-      setDescriptionTranslations({ en: '', ar: '', fr: '' })
+      setServiceNameTranslations(initialTrans)
+      setDescriptionTranslations(initialTrans)
       reset({
         serviceNameEn: '',
         serviceNameSecondary: '',
@@ -281,8 +278,8 @@ export default function ServiceFormModal({
               )}
               <div className="text-xs text-gray-400 space-y-1 pt-1">
                 <p>{tc('acceptedFormats')}: JPG, PNG, WebP, GIF</p>
-                <p>{tc('maxFileSize')}: 5MB</p>
-                <p>{tc('recommendedSize')}: 400×400px</p>
+                <p>{tc('maxFileSize')}: {tc('maxFileSizeValue')}</p>
+                <p>{tc('recommendedSize')}: {tc('recommendedDimensions')}</p>
               </div>
               <input
                 ref={fileInputRef}
@@ -305,9 +302,7 @@ export default function ServiceFormModal({
                 setValue('serviceNameSecondary', val[languageSecondary] || '')
               }}
               secondaryLocale={languageSecondary}
-              availableLocales={['en', 'ar', 'fr']}
-              placeholderEn={t('serviceNameEn')}
-              placeholderSecondary={languageSecondary === 'ar' ? t('serviceNameAr') : 'Nom du service'}
+              availableLocales={SUPPORTED_LANGUAGES.map(l => l.code)}
               errorEn={errors.serviceNameEn?.message ? tc(errors.serviceNameEn.message) : undefined}
               errorSecondary={errors.serviceNameSecondary?.message ? tc(errors.serviceNameSecondary.message) : undefined}
             />
@@ -321,10 +316,8 @@ export default function ServiceFormModal({
                 setValue('descriptionSecondary', val[languageSecondary] || '')
               }}
               secondaryLocale={languageSecondary}
-              availableLocales={['en', 'ar', 'fr']}
+              availableLocales={SUPPORTED_LANGUAGES.map(l => l.code)}
               type="textarea"
-              placeholderEn={t('descriptionEn')}
-              placeholderSecondary={languageSecondary === 'ar' ? t('descriptionAr') : 'Description du service'}
               errorEn={errors.descriptionEn?.message ? tc(errors.descriptionEn.message) : undefined}
               errorSecondary={errors.descriptionSecondary?.message ? tc(errors.descriptionSecondary.message) : undefined}
             />
@@ -416,3 +409,4 @@ export default function ServiceFormModal({
     </div>
   )
 }
+

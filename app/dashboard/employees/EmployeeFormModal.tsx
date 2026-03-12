@@ -312,7 +312,7 @@ export default function EmployeeFormModal({
               className={cn('input', errors.role && 'input-error')}
               disabled={session.role === 'service_supervisor'}
             >
-              <option value="">--</option>
+              <option value="">{tc('select')}</option>
               {getRoleOptions().map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
@@ -342,12 +342,10 @@ export default function EmployeeFormModal({
                   !!session.assignedServiceId
                 }
               >
-                <option value="">--</option>
+                <option value="">{tc('select')}</option>
                 {services.map((svc) => (
                   <option key={svc.service_id} value={svc.service_id}>
-                    {locale === 'ar'
-                      ? svc.service_name.ar
-                      : svc.service_name.en}
+                    {svc.service_name[locale as 'ar' | 'en'] || svc.service_name.en}
                   </option>
                 ))}
               </select>

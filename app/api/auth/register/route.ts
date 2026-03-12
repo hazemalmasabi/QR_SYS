@@ -123,10 +123,10 @@ export async function POST(request: Request) {
 
     // Send verification email
     const lang = (body as any).lang || 'ar'
-    const emailHtml = getVerificationEmailHtml(fullName, verifyUrl, lang)
+    const emailHtml = await getVerificationEmailHtml(fullName, verifyUrl, lang)
     const emailSent = await sendEmail({
       to: email,
-      subject: getVerificationEmailSubject(lang),
+      subject: await getVerificationEmailSubject(lang),
       html: emailHtml,
     })
 

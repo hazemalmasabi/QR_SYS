@@ -14,10 +14,13 @@ import {
   Clock,
   ChevronLeft,
   ChevronRight,
+  AlertTriangle,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import type { MainService, SessionPayload } from '@/types'
+import { useHotel } from '@/components/Providers/HotelProvider'
+import { useTranslationCounts } from '@/components/Providers/TranslationProvider'
 import ServiceFormModal from './ServiceFormModal'
 
 export default function ServicesPage() {
@@ -36,7 +39,9 @@ export default function ServicesPage() {
   const [editingService, setEditingService] = useState<MainService | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [languageSecondary, setLanguageSecondary] = useState<string>('ar')
+  const [showMissingTranslations, setShowMissingTranslations] = useState(false)
+  const { language_secondary: languageSecondary } = useHotel()
+  const { counts, refreshCounts } = useTranslationCounts()
 
   const fetchSession = useCallback(async () => {
     try {
@@ -53,7 +58,15 @@ export default function ServicesPage() {
   const fetchServices = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await fetch(`/api/services?page=${page}&limit=${limit}`)
+      const params = new URLSearchParams()
+      params.set('page', page.toString())
+      params.set('limit', limit.toString())
+
+      if (showMissingTranslations && languageSecondary !== 'none') {
+        params.set('missing_translation_lang', languageSecondary)
+      }
+
+      const res = await fetch(`/api/services?${params.toString()}`)
       const data = await res.json()
       if (data.success) {
         setServices(data.services)
@@ -64,24 +77,11 @@ export default function ServicesPage() {
     } finally {
       setLoading(false)
     }
-  }, [tc, page])
-
-  const fetchSecondaryLanguage = useCallback(async () => {
-    try {
-      const res = await fetch('/api/settings')
-      const data = await res.json()
-      if (data.success) {
-        setLanguageSecondary(data.settings.language_secondary || 'ar')
-      }
-    } catch {
-      // ignore
-    }
-  }, [])
+  }, [tc, page, showMissingTranslations, languageSecondary])
 
   useEffect(() => {
     fetchSession()
-    fetchSecondaryLanguage()
-  }, [fetchSession, fetchSecondaryLanguage])
+  }, [fetchSession])
 
   useEffect(() => {
     fetchServices()
@@ -101,6 +101,7 @@ export default function ServicesPage() {
       if (data.success) {
         toast.success(tc('success'))
         fetchServices()
+        refreshCounts()
       } else {
         toast.error(tc('error'))
       }
@@ -121,6 +122,7 @@ export default function ServicesPage() {
       if (data.success) {
         toast.success(tc('success'))
         fetchServices()
+        refreshCounts()
       } else {
         toast.error(tc('error'))
       }
@@ -156,6 +158,25 @@ export default function ServicesPage() {
           </button>
         )}
       </div>
+
+      {/* Filters */}
+      {languageSecondary !== 'none' && counts.services > 0 && (
+        <div className="flex items-center gap-2">
+          <label className="flex cursor-pointer text-sm font-medium text-gray-700 items-center gap-2 select-none">
+            <input
+              type="checkbox"
+              checked={showMissingTranslations}
+              onChange={(e) => {
+                setShowMissingTranslations(e.target.checked)
+                setPage(1)
+              }}
+              className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600"
+            />
+            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+            {tc('showMissingTranslations')}
+          </label>
+        </div>
+      )}
 
       {/* Content */}
       {loading ? (
@@ -209,15 +230,39 @@ export default function ServicesPage() {
                 <h3 className="text-sm font-semibold text-gray-900 line-clamp-1">
                   {getName(service.service_name)}
                 </h3>
-                <p className="text-xs text-gray-400 line-clamp-1">
-                  {locale === 'en' ? (service.service_name[languageSecondary] || '') : (service.service_name.en || '')}
-                </p>
+                {languageSecondary !== 'none' && (
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-gray-400 line-clamp-1">
+                      {service.service_name[languageSecondary]?.trim() ? (
+                        service.service_name[languageSecondary]
+                      ) : (
+                        <span className="italic">{tc('notTranslated')}</span>
+                      )}
+                    </p>
+                    {!service.service_name[languageSecondary]?.trim() && (
+                      <div className="group/tooltip relative flex items-center">
+                        <AlertTriangle className="h-3.5 w-3.5 text-yellow-500 cursor-help" />
+                        <div className={cn(
+                          "absolute bottom-full mb-2 hidden w-[210px] rounded bg-gray-900 px-3 py-2 text-center text-[10px] text-white opacity-0 transition-opacity group-hover/tooltip:block group-hover/tooltip:opacity-100 z-50 pointer-events-none shadow-lg font-normal leading-tight whitespace-normal",
+                          locale === 'ar' ? "end-0" : "start-0"
+                        )}>
+                          {tc('missingTranslationTooltip', { language: tc(`language_${languageSecondary}` as any) })}
+                          <div className={cn(
+                            "absolute top-full border-4 border-transparent border-t-gray-900",
+                            locale === 'ar' ? "end-2" : "start-2"
+                          )}></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {/* Availability time */}
                 <div className="mt-1.5 flex items-center gap-1 text-[11px] text-gray-500">
                   <Clock className="h-3 w-3 shrink-0" />
                   {service.availability_type === 'scheduled' && service.start_time && service.end_time
                     ? `${service.start_time} - ${service.end_time}`
-                    : '24/7'}
+                    : tc('allDay')
+                  }
                 </div>
 
                 {/* Actions */}
@@ -275,13 +320,13 @@ export default function ServicesPage() {
               </p>
             </div>
             <div>
-              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label={tc('pagination')}>
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
                   className="relative inline-flex items-center rounded-s-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">{tc('previous')}</span>
                   {locale === 'ar' ? (
                     <ChevronRight className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -296,7 +341,7 @@ export default function ServicesPage() {
                   disabled={page === totalPages}
                   className="relative inline-flex items-center rounded-e-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">{tc('next')}</span>
                   {locale === 'ar' ? (
                     <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                   ) : (
@@ -313,7 +358,10 @@ export default function ServicesPage() {
       <ServiceFormModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        onSuccess={fetchServices}
+        onSuccess={() => {
+          fetchServices()
+          refreshCounts()
+        }}
         service={editingService}
       />
 
