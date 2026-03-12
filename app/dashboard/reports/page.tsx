@@ -8,7 +8,6 @@ import {
   Loader2,
   ClipboardList,
   Banknote,
-  TrendingUp,
   Target,
   ReceiptText,
   CheckCircle2,
@@ -31,9 +30,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from 'recharts'
-import { cn, formatCurrency, formatDate as formatDateHelper, formatDateTime } from '@/lib/utils'
+import { cn, formatCurrency, formatDate as formatDateHelper } from '@/lib/utils'
 
 type ReportTab = 'orders' | 'revenue'
 type QuickPeriod = '7d' | '30d' | '90d' | 'custom'
@@ -99,16 +97,7 @@ interface TopRoom {
   orderCount: number
 }
 
-interface ServiceData {
-  serviceId: string
-  serviceName: { ar: string; en: string }
-  orderCount: number
-  completed: number
-  cancelled: number
-  completionRate: number
-  revenue: number
-  avgTime: number | null
-}
+
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface OrderRow {
@@ -122,19 +111,7 @@ interface OrderRow {
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-const STATUS_BADGE: Record<string, string> = {
-  new: 'badge-new',
-  in_progress: 'badge-progress',
-  completed: 'badge-completed',
-  cancelled: 'badge-cancelled',
-}
-
-const STATUS_KEY: Record<string, string> = {
-  new: 'new',
-  in_progress: 'inProgress',
-  completed: 'completed',
-  cancelled: 'cancelled',
-}
+// STATUS_BADGE and STATUS_KEY removed as they are unused
 
 const PIE_COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#3b82f6']
 
@@ -198,7 +175,10 @@ export default function ReportsPage() {
     if (!dateFrom || !dateTo) return
     setLoading(true)
     try {
-      const params = new URLSearchParams({ type: activeTab, dateFrom, dateTo })
+      const params = new URLSearchParams()
+      params.set('type', activeTab)
+      params.set('dateFrom', dateFrom)
+      params.set('dateTo', dateTo)
       if (serviceFilter) params.set('serviceId', serviceFilter)
 
       const res = await fetch(`/api/reports?${params.toString()}`)
@@ -400,6 +380,7 @@ export default function ReportsPage() {
               formatFullDate={formatFullDate}
               getServiceName={getServiceName}
               timezone={timezone}
+              tc={tc}
             />
           )}
           {activeTab === 'revenue' && (
@@ -442,10 +423,10 @@ interface OrdersReportProps {
   formatFullDate: (d: string) => string
   getServiceName: (svc: { service_name: { ar: string; en: string } }) => string
   timezone: string
+  tc: ReturnType<typeof useTranslations<'common'>>
 }
 
-function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, orders: _orders, currencySymbol: _currencySymbol, t, locale, isRTL, formatDate, timezone }: OrdersReportProps) {
-  const tc = useTranslations('common')
+function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, t, locale, isRTL, formatDate, timezone, tc }: OrdersReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Determine grouping based on number of days in dailyData
@@ -613,8 +594,7 @@ interface RevenueReportProps {
   locale: string
 }
 
-function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, currencySymbol, t, isRTL, formatDate, timezone, locale, getServiceName }: RevenueReportProps) {
-  const tc = useTranslations('common')
+function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isRTL, formatDate, timezone, locale }: RevenueReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Dynamic grouping same as orders chart
@@ -735,121 +715,6 @@ function RevenueReport({ summary, dailyData, topServices, topRooms: _topRooms, c
   )
 }
 
-
-/* ============================================================
-   SERVICES REPORT
-============================================================ */
-
-interface ServicesReportProps {
-  servicesData: ServiceData[]
-  currencySymbol: string
-  t: ReturnType<typeof useTranslations<'reports'>>
-  isRTL: boolean
-}
-
-function ServicesReport({ servicesData, currencySymbol, t, isRTL }: ServicesReportProps) {
-  const tc = useTranslations('common')
-  const locale = useLocale()
-  if (servicesData.length === 0) return <EmptyState t={t} />
-
-  const chartData = servicesData.map((s) => ({
-    name: isRTL ? s.serviceName.ar : s.serviceName.en,
-    orders: s.orderCount,
-    revenue: s.revenue,
-  }))
-
-  const maxOrders = Math.max(...servicesData.map(s => s.orderCount), 1)
-
-  return (
-    <div className="space-y-5">
-      {/* Rankings */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {servicesData.slice(0, 3).map((svc, i) => (
-          <div key={i} className={cn('card border-2', i === 0 ? 'border-yellow-300 bg-yellow-50' : i === 1 ? 'border-gray-300 bg-gray-50' : 'border-amber-200 bg-amber-50')}>
-            <div className="flex items-start gap-3">
-              <div className={cn(
-                'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white',
-                i === 0 ? 'bg-yellow-400' : i === 1 ? 'bg-gray-400' : 'bg-amber-600'
-              )}>
-                {i + 1}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="truncate font-semibold text-gray-900">{svc.serviceName[locale as 'ar' | 'en'] || svc.serviceName.en}</p>
-                <p className="text-sm text-gray-500">{svc.orderCount} {t('orders')}</p>
-                <div className="mt-2 flex items-center gap-3 text-xs">
-                  <span className="text-green-600 font-medium">{svc.completionRate}% {tc('success').toLowerCase()}</span>
-                  <span className="text-gray-500">{formatCurrency(svc.revenue, '', currencySymbol)}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Bar Chart */}
-      <div className="card">
-        <h3 className="mb-4 text-base font-semibold text-gray-900">{t('ordersPerService')}</h3>
-        <div className="h-[280px] w-full" dir="ltr">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis type="number" tick={{ fontSize: 11 }} stroke="#9ca3af" allowDecimals={false} />
-              <YAxis dataKey="name" type="category" width={130} tick={{ fontSize: 11 }} stroke="#9ca3af" />
-              <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }} />
-              <Legend />
-              <Bar dataKey="orders" name={t('orders')} fill="#6366f1" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Detailed Table */}
-      <div className="table-container">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>{t('serviceName')}</th>
-              <th>{t('orderCount')}</th>
-              <th>{t('completed')}</th>
-              <th>{t('cancelled')}</th>
-              <th>{t('completionPercentage')}</th>
-              <th>{t('revenue')}</th>
-              <th>{t('avgTime')}</th>
-              <th>{t('performance')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {servicesData.map((svc, i) => (
-              <tr key={svc.serviceId}>
-                <td className="text-gray-500">{i + 1}</td>
-                <td className="font-medium text-gray-900">{svc.serviceName[locale as 'ar' | 'en'] || svc.serviceName.en}</td>
-                <td>{svc.orderCount}</td>
-                <td className="text-green-600">{svc.completed}</td>
-                <td className="text-red-600">{svc.cancelled}</td>
-                <td>
-                  <span className={cn('font-semibold', svc.completionRate >= 80 ? 'text-green-600' : svc.completionRate >= 50 ? 'text-amber-600' : 'text-red-600')}>
-                    {svc.completionRate}%
-                  </span>
-                </td>
-                <td className="font-medium">{svc.revenue.toFixed(2)} {currencySymbol}</td>
-                <td>{svc.avgTime != null ? `${svc.avgTime} ${t('minutes')}` : tc('none')}</td>
-                <td>
-                  <div className="h-2 w-20 rounded-full bg-gray-100">
-                    <div
-                      className="h-2 rounded-full bg-primary-500"
-                      style={{ width: `${Math.round((svc.orderCount / maxOrders) * 100)}%` }}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
 
 /* ============================================================
    SHARED COMPONENTS

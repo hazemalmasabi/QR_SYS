@@ -84,9 +84,11 @@ export async function GET(request: Request) {
 
     const paginatedData = limit > 0 ? sortedData.slice(offset, offset + limit) : sortedData;
 
-    const sanitized = paginatedData.map(
-      ({ password_hash, ...rest }: Record<string, unknown>) => rest
-    )
+    const sanitized = paginatedData.map((emp: any) => {
+      const rest = { ...emp }
+      delete rest.password_hash
+      return rest
+    })
 
     return NextResponse.json({
       success: true,
@@ -216,7 +218,8 @@ export async function POST(request: Request) {
     }
 
     // Remove password_hash from response
-    const { password_hash: _, ...sanitized } = employee as Record<string, unknown>
+    const sanitized = { ...(employee as any) }
+    delete sanitized.password_hash
 
     return NextResponse.json(
       { success: true, employee: sanitized },

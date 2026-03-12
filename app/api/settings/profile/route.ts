@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import { getSession, destroySession } from '@/lib/auth'
 import { sendEmail, getVerificationEmailHtml, getVerificationEmailSubject } from '@/lib/email'
 
-export async function GET(request: Request) {
+export async function GET() {
     try {
         const session = await getSession()
         if (!session) {
@@ -125,11 +125,11 @@ export async function PATCH(request: Request) {
         // Send verification email if it changed
         if (emailChanged) {
             const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${updates.email_verification_token}`
-            const html = getVerificationEmailHtml(full_name || existing.full_name, verifyUrl, lang)
+            const html = await getVerificationEmailHtml(full_name || existing.full_name, verifyUrl, lang)
 
             const emailSent = await sendEmail({
                 to: email,
-                subject: getVerificationEmailSubject(lang),
+                subject: await getVerificationEmailSubject(lang),
                 html,
             })
 

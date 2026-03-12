@@ -15,8 +15,6 @@ import {
   BarChart3,
   Settings,
   X,
-  ChevronLeft,
-  ChevronRight,
   LogOut,
   Shield,
   AlertTriangle,
@@ -85,8 +83,8 @@ interface SidebarProps {
 export default function Sidebar({ session, hotel }: SidebarProps) {
   const t = useTranslations('sidebar')
   const tc = useTranslations('common')
-  const te = useTranslations('employees')
-  const td = useTranslations('dashboard')
+  // const te = useTranslations('employees')
+  // const td = useTranslations('dashboard')
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()

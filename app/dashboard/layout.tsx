@@ -20,7 +20,7 @@ export default async function DashboardLayout({
 
   const { data: hotel } = await supabaseAdmin
     .from('hotels')
-    .select('hotel_name, hotel_name_translations, hotel_logo_url, currency_code, currency_symbol, language_secondary')
+    .select('hotel_name, hotel_name_translations, hotel_logo_url, language_secondary')
     .eq('hotel_id', session.hotelId)
     .single()
 
@@ -39,7 +39,7 @@ export default async function DashboardLayout({
           <Sidebar session={session} hotel={hotelData} />
 
           <div className="flex flex-1 flex-col overflow-hidden">
-            <TopBar session={session} hotelName={hotelData.hotel_name} hotelNameTranslations={hotelData.hotel_name_translations} />
+            <TopBar />
 
             <main className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
               {children}

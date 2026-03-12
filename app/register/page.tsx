@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Controller } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -18,9 +19,7 @@ import {
   EyeOff,
   Globe,
   Coins,
-  AlertTriangle,
   Info,
-  CheckCircle2,
   UserPlus,
   ArrowLeft,
   X,
@@ -51,7 +50,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formError, setFormError] = useState<string | null>(null)
+  // const [formError, setFormError] = useState<string | null>(null) (removed unused)
   const [matchingTimezones, setMatchingTimezones] = useState<{ value: string, label: any }[]>([])
   const [isTimezoneVerified, setIsTimezoneVerified] = useState(false)
   const [verificationMessage, setVerificationMessage] = useState<string | null>(null)
@@ -198,7 +197,7 @@ export default function RegisterPage() {
       }
 
       router.push(`/verify-email?email=${encodeURIComponent(data.email)}`)
-    } catch (err) {
+    } catch {
       toast.error(t('unexpectedError'))
     } finally {
       setLoading(false)
@@ -218,7 +217,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="mb-8 text-center">
-          <img src="/icon.png" alt="QR SYS" className="mx-auto mb-4 h-14 w-14 rounded-xl object-cover" />
+          <Image src="/icon.png" alt="QR SYS" width={56} height={56} className="mx-auto mb-4 h-14 w-14 rounded-xl object-cover" />
           <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
         </div>
 

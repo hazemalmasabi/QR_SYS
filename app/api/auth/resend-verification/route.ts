@@ -54,10 +54,10 @@ export async function POST(request: Request) {
     const verifyUrl = `${baseUrl}/api/auth/verify-email?token=${emailVerificationToken}`
 
     // Send verification email
-    const emailHtml = getVerificationEmailHtml(employee.full_name, verifyUrl, lang || 'ar')
+    const emailHtml = await getVerificationEmailHtml(employee.full_name, verifyUrl, lang || 'ar')
     const emailSent = await sendEmail({
       to: email,
-      subject: getVerificationEmailSubject(lang || 'ar'),
+      subject: await getVerificationEmailSubject(lang || 'ar'),
       html: emailHtml,
     })
 

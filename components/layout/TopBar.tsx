@@ -3,15 +3,8 @@
 import { useTranslations } from 'next-intl'
 import { Menu } from 'lucide-react'
 import { useSidebarStore } from '@/lib/stores/sidebar-store'
-import type { SessionPayload } from '@/types'
 
-interface TopBarProps {
-  session: SessionPayload
-  hotelName: string
-  hotelNameTranslations?: Record<string, string>
-}
-
-export default function TopBar({ session, hotelName, hotelNameTranslations }: TopBarProps) {
+export default function TopBar() {
   const { toggle } = useSidebarStore()
   const t = useTranslations('common')
 

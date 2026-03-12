@@ -1,4 +1,4 @@
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { getLanguageDirection } from '@/lib/languages'
 
@@ -35,7 +35,7 @@ export default function MultilingualInput({
     dirEn = 'ltr',
     dirSecondary,
 }: MultilingualInputProps) {
-    const locale = useLocale()
+
     const tc = useTranslations('common')
 
     const getLanguageName = (code: string) => {

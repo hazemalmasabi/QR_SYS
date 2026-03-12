@@ -17,8 +17,7 @@
   --color-warning-500: #f59e0b;
   --color-danger-500: #ef4444;
 
-  --font-sans: 'Inter', 'Segoe UI', 'Tahoma', sans-serif;
-  --font-arabic: 'IBM Plex Sans Arabic', 'Segoe UI', 'Tahoma', sans-serif;
+  --font-sans: var(--font-inter), var(--font-ibm-plex-arabic), system-ui, -apple-system, sans-serif;
 }
 
 @layer base {

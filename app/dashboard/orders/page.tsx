@@ -68,7 +68,6 @@ export default function OrdersPage() {
   const [dateTo, setDateTo] = useState('')
   const [serviceFilter, setServiceFilter] = useState('')
   const [services, setServices] = useState<ServiceOption[]>([])
-  const [userRole, setUserRole] = useState<string>('')
   const knownOrderIdsRef = useRef<Set<string>>(new Set())
 
   const limit = 25

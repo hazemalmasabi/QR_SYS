@@ -1,9 +1,18 @@
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { Inter, IBM_Plex_Sans_Arabic } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { getLanguageDirection } from '@/lib/languages'
+import { cn } from '@/lib/utils'
 import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
+})
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale()
@@ -59,16 +68,9 @@ export default async function RootLayout({
   const locale = await getLocale()
   const messages = await getMessages()
   const dir = getLanguageDirection(locale)
-
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-screen bg-gray-50" suppressHydrationWarning>
+    <html lang={locale} dir={dir} className={cn(inter.variable, ibmPlexArabic.variable)} suppressHydrationWarning>
+      <body className="min-h-screen bg-gray-50 font-sans" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
           <Toaster

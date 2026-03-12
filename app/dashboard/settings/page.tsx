@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import {
   Loader2,
   Plus,
@@ -23,29 +24,17 @@ import {
   Info,
   Hotel as HotelIcon,
   Coins,
-  History,
   AlertTriangle,
 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { toast } from 'sonner'
 import { cn, TIMEZONES, CURRENCIES } from '@/lib/utils'
 import { SUPPORTED_LANGUAGES, getLanguageName } from '@/lib/languages'
-import type { Hotel, RoomType } from '@/types'
+import type { RoomType } from '@/types'
 import { SearchableSelect } from '@/components/ui/SearchableSelect'
 import { Clock } from '@/components/Clock'
 import { useTranslationCounts } from '@/components/Providers/TranslationProvider'
 
-interface SettingsData {
-  hotel_name: string
-  hotel_name_translations?: Record<string, string>
-  hotel_logo_url?: string
-  barcode_text_translations?: Record<string, string>
-  language_secondary: string
-  timezone: string
-  currency_code: string
-  currency_symbol: string
-  room_types: RoomType[]
-}
 
 import MultilingualInput from '@/components/MultilingualInput'
 
@@ -54,7 +43,6 @@ export default function SettingsPage() {
   const tc = useTranslations('common')
   const tv = useTranslations('validation')
   const locale = useLocale()
-  const router = useRouter()
   const { counts, refreshCounts } = useTranslationCounts()
 
   const [settings, setSettings] = useState<any>(null)
@@ -205,9 +193,6 @@ export default function SettingsPage() {
     fetchSettings()
   }, [fetchSettings])
 
-  const handleCurrencyChange = (code: string) => {
-    setCurrencyCode(code)
-  }
 
   const hasHotelChanges = settings ? (
     JSON.stringify(hotelNameTranslations) !== JSON.stringify(settings.hotel_name_translations || { ar: settings.hotel_name || '', en: '' }) ||
@@ -452,12 +437,6 @@ export default function SettingsPage() {
     }
   }
 
-  const updateRoomType = (index: number, field: keyof RoomType, value: string) => {
-    // Keep this only for legacy/general updates if still needed, but primarily use updateEditedRoomType
-    const updated = [...roomTypes]
-    updated[index] = { ...updated[index], [field]: value }
-    setRoomTypes(updated)
-  }
 
   const handleDeleteClick = (index: number) => {
     if (roomTypes.length <= 1) {
@@ -604,7 +583,6 @@ export default function SettingsPage() {
       }
 
       if (languageSecondary !== 'none') {
-        const langName = tc(`language_${languageSecondary}` as any)
         if (!hotelNameTranslations[languageSecondary]?.trim()) {
           const msg = tv('required')
           newErrors.hotelNameSecondary = msg
@@ -1128,7 +1106,7 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-4">
                   {hotelLogoUrl ? (
                     <div className="relative h-16 w-16 rounded-xl border border-gray-200 overflow-hidden bg-white">
-                      <img src={hotelLogoUrl} alt="Logo" className="object-contain w-full h-full p-2" />
+                      <Image src={hotelLogoUrl} alt="Hotel Logo" width={64} height={64} className="object-contain w-full h-full p-2" />
                       <button
                         onClick={() => setHotelLogoUrl('')}
                         className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 border-2 border-white shadow-sm"
@@ -1194,11 +1172,11 @@ export default function SettingsPage() {
                     <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-blue-50/50 to-transparent rounded-t-[2rem]" />
 
                     <div className="p-3 border border-gray-100/80 rounded-3xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative flex items-center justify-center transition-transform hover:scale-105">
-                      <img src={barcodePreviewDataUrl} alt="QR Code Preview" className="w-48 h-48" />
+                      <Image src={barcodePreviewDataUrl} alt="QR Code Preview" width={192} height={192} className="w-48 h-48" />
                       {hotelLogoUrl && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                           <div className="bg-white p-1 rounded-xl shadow-sm flex items-center justify-center w-[22%] h-[22%]">
-                            <img src={hotelLogoUrl} alt="Hotel Logo" className="max-w-full max-h-full object-contain" />
+                            <Image src={hotelLogoUrl} alt="Hotel Logo" width={60} height={60} className="max-w-full max-h-full object-contain" />
                           </div>
                         </div>
                       )}

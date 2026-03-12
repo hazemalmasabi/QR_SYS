@@ -17,7 +17,6 @@ interface SearchableSelectProps {
     searchPlaceholder?: string
     noResultsText?: string
     locale?: string
-    icon?: React.ReactNode
     hasIcon?: boolean
     className?: string
     error?: boolean
@@ -33,8 +32,7 @@ export function SearchableSelect({
     searchPlaceholder = 'Search...',
     noResultsText = 'No results found',
     locale = 'ar',
-    icon,
-    hasIcon,
+
     className,
     error,
     showOtherOption = true,
@@ -88,7 +86,7 @@ export function SearchableSelect({
                     className
                 )}
             >
-                <span className={cn('block truncate', hasIcon && 'ps-8', !value && 'text-gray-500')}>
+                <span className={cn('block truncate', !value && 'text-gray-500')}>
                     {selectedLabel}
                 </span>
                 <ChevronDown className="h-4 w-4 text-gray-400" />

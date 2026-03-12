@@ -51,8 +51,8 @@ export async function GET(
         { status: 403 }
       )
     }
-
-    const { password_hash: _, ...sanitized } = employee as Record<string, unknown>
+    const sanitized = { ...(employee as any) }
+    delete sanitized.password_hash
 
     return NextResponse.json({ success: true, employee: sanitized })
   } catch (error) {
@@ -220,8 +220,8 @@ export async function PATCH(
         { status: 500 }
       )
     }
-
-    const { password_hash: _, ...sanitized } = employee as Record<string, unknown>
+    const sanitized = { ...(employee as any) }
+    delete sanitized.password_hash
 
     return NextResponse.json({ success: true, employee: sanitized })
   } catch (error) {

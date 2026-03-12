@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { X, Loader2, Upload, ImageIcon, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { mainServiceSchema } from '@/lib/validations'
-import { cn } from '@/lib/utils'
+
 import Image from 'next/image'
 import type { MainService } from '@/types'
 import MultilingualInput from '@/components/MultilingualInput'
@@ -46,11 +46,9 @@ export default function ServiceFormModal({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [totalCount, setTotalCount] = useState(0)
   const { language_secondary: languageSecondary } = useHotel()
-
   // Initialize translations based on supported languages
-  const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
-  const [serviceNameTranslations, setServiceNameTranslations] = useState<Record<string, string>>(initialTrans)
-  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>(initialTrans)
+  const [serviceNameTranslations, setServiceNameTranslations] = useState<Record<string, string>>({})
+  const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>({})
 
   const {
     register,
@@ -112,8 +110,8 @@ export default function ServiceFormModal({
       })
       setImageUrl(service.image_url || null)
     } else {
-      setServiceNameTranslations(initialTrans)
-      setDescriptionTranslations(initialTrans)
+      setServiceNameTranslations({})
+      setDescriptionTranslations({})
       reset({
         serviceNameEn: '',
         serviceNameSecondary: '',

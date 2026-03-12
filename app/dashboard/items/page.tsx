@@ -1,6 +1,7 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import {
   Plus,
@@ -15,7 +16,6 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertTriangle,
-  History,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
@@ -345,9 +345,11 @@ export default function ItemsPage() {
                 <tr key={item.item_id}>
                   <td>
                     {item.image_url ? (
-                      <img
+                      <Image
                         src={item.image_url}
                         alt={getName(item.item_name)}
+                        width={40}
+                        height={40}
                         className="h-10 w-10 rounded-lg object-cover"
                       />
                     ) : (

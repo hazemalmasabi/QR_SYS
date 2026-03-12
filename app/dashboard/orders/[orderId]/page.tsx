@@ -12,10 +12,9 @@ import {
   PlusCircle,
   Loader2,
   Package,
-  User,
   X,
 } from 'lucide-react'
-import { cn, formatCurrency, formatDateTime, formatTime } from '@/lib/utils'
+import { cn, formatCurrency, formatDateTime } from '@/lib/utils'
 
 interface OrderDetail {
   order_id: string

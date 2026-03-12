@@ -16,7 +16,7 @@ import {
   CheckCircle2,
   Package,
 } from 'lucide-react'
-import { formatCurrency, cn } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
 import { toast } from 'sonner'
 import { saveMyOrderIds } from '@/lib/hooks/use-order-notifications'
@@ -175,7 +175,7 @@ export default function CartPage({
                   const item = cartItem.item
                   const itemName = item.item_name[locale] || item.item_name.en || item.item_name.ar || ''
                   const itemUnit = (item as any).unit ? ((item as any).unit[locale] || (item as any).unit.en || (item as any).unit.ar || '') : ''
-                  const subtotal = (item.is_free ? 0 : item.price) * cartItem.quantity
+                  // no-op
 
                   return (
                     <div key={item.item_id} className="relative bg-white border border-gray-100 rounded-[28px] p-4 shadow-sm transition-all">

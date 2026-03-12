@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { z } from 'zod'
@@ -19,7 +19,7 @@ import {
   Check,
   X,
 } from 'lucide-react'
-import { cn, getPasswordStrength } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 const resetPasswordSchema = z
@@ -42,10 +42,9 @@ type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 
 export default function ResetPasswordPage() {
   const t = useTranslations('auth.resetPassword')
-  const tReg = useTranslations('auth.register')
+  // const tReg = useTranslations('auth.register')
   const tv = useTranslations('validation')
   const tLogin = useTranslations('auth.login')
-  const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
 
@@ -66,7 +65,7 @@ export default function ResetPasswordPage() {
   })
 
   const passwordValue = watch('password')
-  const strength = getPasswordStrength(passwordValue || '')
+  // const strength = getPasswordStrength(passwordValue || '')
 
   const resolveValidation = (key: string) => {
     const map: Record<string, string> = {
@@ -78,36 +77,6 @@ export default function ResetPasswordPage() {
     return map[key] || key
   }
 
-  const strengthColor = () => {
-    switch (strength.label) {
-      case 'weak':
-        return 'bg-red-500'
-      case 'medium':
-        return 'bg-yellow-500'
-      case 'strong':
-        return 'bg-green-500'
-      case 'veryStrong':
-        return 'bg-emerald-500'
-      default:
-        return 'bg-gray-200'
-    }
-  }
-
-  const strengthLabel = () => {
-    if (!passwordValue) return ''
-    switch (strength.label) {
-      case 'weak':
-        return tReg('weak')
-      case 'medium':
-        return tReg('medium')
-      case 'strong':
-        return tReg('strong')
-      case 'veryStrong':
-        return tReg('veryStrong')
-      default:
-        return ''
-    }
-  }
 
   const onSubmit = async (data: ResetPasswordInput) => {
     setFormError(null)

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import {
   Plus,
   Pencil,
@@ -15,7 +16,6 @@ import {
   ImageIcon,
   ChevronLeft,
   ChevronRight,
-  History,
   AlertTriangle,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -36,7 +36,6 @@ interface SubServiceWithParent extends SubService {
 
 export default function SubServicesPage() {
   const t = useTranslations('subServices')
-  const ts = useTranslations('services')
   const tc = useTranslations('common')
   const locale = useLocale()
 
@@ -270,9 +269,11 @@ export default function SubServicesPage() {
               {/* Image - compact */}
               <div className="relative h-28 overflow-hidden bg-gray-100">
                 {sub.image_url ? (
-                  <img
+                  <Image
                     src={sub.image_url}
                     alt={getName(sub.sub_service_name)}
+                    width={400}
+                    height={112}
                     className="h-full w-full object-cover"
                   />
                 ) : (

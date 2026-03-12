@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
@@ -13,6 +13,8 @@ import type { Item, MainService, SubService } from '@/types'
 import MultilingualInput from '@/components/MultilingualInput'
 import { useHotel } from '@/components/Providers/HotelProvider'
 import { SUPPORTED_LANGUAGES } from '@/lib/languages'
+
+const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
 
 interface ItemFormModalProps {
   open: boolean
@@ -55,8 +57,6 @@ export default function ItemFormModal({
   const [totalCount, setTotalCount] = useState(0)
   const { language_secondary: languageSecondary } = useHotel()
 
-  // Initialize translations based on supported languages
-  const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
   const [itemNameTranslations, setItemNameTranslations] = useState<Record<string, string>>(initialTrans)
   const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>(initialTrans)
 
@@ -190,7 +190,7 @@ export default function ItemFormModal({
       setSubServices([])
       setImageUrl(null)
     }
-  }, [item, reset, open, fetchSubServices])
+  }, [item, reset, open, fetchSubServices, languageSecondary, totalCount])
 
   // Auto-select Main Service if there is only one available
   useEffect(() => {

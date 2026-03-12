@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { ConciergeBell, HandPlatter, ClipboardList, Hotel } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -81,10 +82,13 @@ export default function GuestLayout({
           <div className="flex items-center gap-2">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white overflow-hidden">
               {guestInfo?.hotel.hotel_logo_url ? (
-                <img
+                <Image
                   src={guestInfo.hotel.hotel_logo_url}
                   alt={guestInfo.hotel.hotel_name}
+                  width={36}
+                  height={36}
                   className="h-full w-full object-cover"
+                  unoptimized
                 />
               ) : (
                 <Hotel className="h-5 w-5" />

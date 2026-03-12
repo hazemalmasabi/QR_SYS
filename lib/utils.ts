@@ -149,7 +149,6 @@ export const TIMEZONES = Intl.supportedValuesOf('timeZone').map(tz => {
 
   let cityNameAr = cityNameEn
   try {
-    const regionNamesAr = new Intl.DisplayNames(['ar'], { type: 'region' })
     // We try to translate the region first (e.g., if tz is just a country code which is rare, or we can try formatting)
     // Unfortunately JS Intl doesn't natively translate timezone *cities* well, but we can provide the English name cleanly.
     // However, if there's a known country code mapping we could use it. For now, we translate what Intl provides natively.
@@ -160,7 +159,7 @@ export const TIMEZONES = Intl.supportedValuesOf('timeZone').map(tz => {
     if (arTzName && arTzName !== 'غرينتش') {
       cityNameAr = arTzName
     }
-  } catch (e) {
+  } catch {
     // fallback to English city name
   }
 
@@ -195,7 +194,7 @@ export const CURRENCIES = Intl.supportedValuesOf('currency').map(code => {
   try {
     arName = new Intl.DisplayNames(['ar'], { type: 'currency' }).of(code) || code
     enName = new Intl.DisplayNames(['en'], { type: 'currency' }).of(code) || code
-  } catch (e) {
+  } catch {
     // fallback to code if DisplayNames fails or isn't supported for this currency
   }
 

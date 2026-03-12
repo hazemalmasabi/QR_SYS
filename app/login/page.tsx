@@ -1,20 +1,20 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslations, useLocale } from 'next-intl'
-import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
+import Image from 'next/image'
+// import { useRouter } from 'next/navigation' (removed unused)
+// import { toast } from 'sonner' (removed unused)
 import Link from 'next/link'
 import {
+  ArrowLeft,
   User,
   Lock,
-  Eye,
   EyeOff,
-  Hotel,
+  Eye,
   LogIn,
-  ArrowLeft,
 } from 'lucide-react'
 import { loginUnifiedSchema } from '@/lib/validations'
 import { z } from 'zod'
@@ -27,8 +27,8 @@ export default function LoginPage() {
   const t = useTranslations('auth.login')
   const tv = useTranslations('validation')
   const tc = useTranslations('common')
-  const locale = useLocale()
-  const router = useRouter()
+  // const locale = useLocale()
+  // const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -92,7 +92,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8 text-center">
-          <img src="/icon.png" alt="QR SYS" className="mx-auto mb-4 h-14 w-14 rounded-xl object-cover" />
+          <Image src="/icon.png" alt="QR SYS" width={56} height={56} className="mx-auto mb-4 h-14 w-14 rounded-xl object-cover" />
           <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-2 text-sm text-gray-500">{t('subtitle')}</p>
         </div>

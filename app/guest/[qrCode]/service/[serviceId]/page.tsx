@@ -37,7 +37,7 @@ export default function ServiceMenuPage({
   const locale = useLocale()
   const isRTL = locale === 'ar'
 
-  const { items: cartItems, addItem, removeItem, updateQuantity, getTotal, getItemCount } = useCartStore()
+  const { items: cartItems, addItem, updateQuantity, getTotal, getItemCount } = useCartStore()
 
   const [service, setService] = useState<ServiceInfo | null>(null)
   const [subServices, setSubServices] = useState<SubServiceWithItems[]>([])

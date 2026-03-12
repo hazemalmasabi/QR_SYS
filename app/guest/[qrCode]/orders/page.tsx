@@ -15,13 +15,11 @@ import {
   ChevronDown,
   MessageSquare,
   AlertCircle,
-  Bell,
 } from 'lucide-react'
 import { cn, formatCurrency, formatTime } from '@/lib/utils'
 import type { Order } from '@/types'
 import { supabase } from '@/lib/supabase/client'
 import {
-  playNotificationSound,
   showBrowserNotification,
   requestNotificationPermission,
   getMyOrderIds,
@@ -74,7 +72,7 @@ export default function GuestOrdersPage({
   const [guestInfo, setGuestInfo] = useState<GuestInfo | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
-  const [notifPermission, setNotifPermission] = useState<NotificationPermission>('default')
+  const [, setNotifPermission] = useState<NotificationPermission>('default')
   const prevStatusRef = useRef<Record<string, string>>({})
 
   const fetchOrders = useCallback(async (showRefresh = false) => {
@@ -159,7 +157,7 @@ export default function GuestOrdersPage({
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [qrCode, locale, fetchOrders])
+  }, [qrCode, locale, fetchOrders, t, tOrders])
 
   // Keep prevStatusRef up to date when orders load
   useEffect(() => {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import {
   Search,
   Filter,
@@ -18,7 +19,6 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
 import type { Room, RoomType } from '@/types'
 import RoomFormModal from './RoomFormModal'
 import QRCode from 'qrcode'
@@ -96,7 +96,7 @@ export default function RoomsPage() {
     } catch {
       // silently fail
     }
-  }, [])
+  }, [locale])
 
   useEffect(() => {
     fetchHotelRoomTypes()
@@ -121,7 +121,7 @@ export default function RoomsPage() {
       }
     }
     generateQR()
-  }, [selectedRoom, qrLanguage, tc])
+  }, [selectedRoom, qrLanguage, tc, languageSecondary]) // Fixed dependencies
 
   const requestDelete = (roomId: string) => {
     setDeletingId(roomId)
@@ -226,7 +226,7 @@ export default function RoomsPage() {
 
       // Draw QR Code
       await new Promise<void>((resolve, reject) => {
-        const img = new Image()
+        const img = new window.Image()
         img.onload = () => {
           ctx.shadowColor = 'rgba(0, 0, 0, 0.05)'
           ctx.shadowBlur = 10
@@ -246,7 +246,7 @@ export default function RoomsPage() {
       // Draw logo in the middle of QR if exists
       if (hotelLogoUrl) {
         await new Promise<void>((resolve) => {
-          const img = new Image()
+          const img = new window.Image()
           img.crossOrigin = 'anonymous'
           img.onload = () => {
             const logoSize = QR_SIZE * 0.22
@@ -626,11 +626,11 @@ export default function RoomsPage() {
               <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-blue-50/50 to-transparent rounded-t-[2rem]" />
 
               <div className="p-3 border border-gray-100/80 rounded-3xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative flex items-center justify-center">
-                <img src={selectedQR} alt={`QR code for room ${selectedRoom.room_number}`} className="w-48 h-48" />
+                <Image src={selectedQR} alt={`QR code for room ${selectedRoom.room_number}`} width={192} height={192} />
                 {hotelLogoUrl && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="bg-white p-1 rounded-xl shadow-sm flex items-center justify-center w-[22%] h-[22%]">
-                      <img src={hotelLogoUrl} alt="Hotel Logo" className="max-w-full max-h-full object-contain" />
+                      <Image src={hotelLogoUrl} alt="Hotel Logo" width={60} height={60} className="max-w-full max-h-full object-contain" />
                     </div>
                   </div>
                 )}

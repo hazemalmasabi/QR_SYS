@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
@@ -13,6 +13,8 @@ import type { SubService, MainService } from '@/types'
 import MultilingualInput from '@/components/MultilingualInput'
 import { useHotel } from '@/components/Providers/HotelProvider'
 import { SUPPORTED_LANGUAGES } from '@/lib/languages'
+
+const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
 
 interface SubServiceFormModalProps {
   open: boolean
@@ -54,7 +56,6 @@ export default function SubServiceFormModal({
   const { language_secondary: languageSecondary } = useHotel()
 
   // Initialize translations based on supported languages
-  const initialTrans = Object.fromEntries(SUPPORTED_LANGUAGES.map(l => [l.code, '']))
   const [subServiceNameTranslations, setSubServiceNameTranslations] = useState<Record<string, string>>(initialTrans)
   const [descriptionTranslations, setDescriptionTranslations] = useState<Record<string, string>>(initialTrans)
 

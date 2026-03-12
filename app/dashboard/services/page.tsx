@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
+import Image from 'next/image'
 import {
   Plus,
   Pencil,
@@ -198,9 +199,11 @@ export default function ServicesPage() {
               {/* Image - compact */}
               <div className="relative h-28 overflow-hidden bg-gray-100">
                 {service.image_url ? (
-                  <img
+                  <Image
                     src={service.image_url}
                     alt={getName(service.service_name)}
+                    width={400}
+                    height={200}
                     className="h-full w-full object-cover"
                   />
                 ) : (

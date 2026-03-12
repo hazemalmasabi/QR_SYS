@@ -13,9 +13,9 @@ import {
   ConciergeBell,
   HandPlatter,
   CheckCircle,
-  Hotel,
   ChevronDown,
 } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
@@ -49,7 +49,7 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           {/* Logo */}
           <div className="flex shrink-0 items-center gap-2.5">
-            <img src="/icon.png" alt="QR SYS" className="h-9 w-9 rounded-lg object-cover" />
+            <Image src="/icon.png" alt="QR SYS" width={36} height={36} className="h-9 w-9 rounded-lg object-cover" />
             <span className="text-lg font-bold text-gray-900">QR SYS</span>
           </div>
 
@@ -264,7 +264,7 @@ export default function LandingPage() {
             {/* Brand */}
             <div>
               <div className="flex items-center gap-2.5">
-                <img src="/icon.png" alt="QR SYS" className="h-9 w-9 rounded-lg object-cover" />
+                <Image src="/icon.png" alt="QR SYS" width={36} height={36} className="h-9 w-9 rounded-lg object-cover" />
                 <span className="text-lg font-bold text-gray-900">QR SYS</span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-gray-500">

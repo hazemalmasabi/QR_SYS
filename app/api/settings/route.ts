@@ -81,7 +81,6 @@ export async function PATCH(request: Request) {
 
     const body = await request.json()
     const {
-      hotel_name,
       hotel_name_translations,
       hotel_logo_url,
       barcode_text_translations,

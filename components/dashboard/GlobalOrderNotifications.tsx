@@ -11,7 +11,6 @@ import {
 
 export default function GlobalOrderNotifications({ hotelId }: { hotelId: string }) {
     const t = useTranslations('notifications')
-    console.log('Reload translations v2')
     const [newOrderToast, setNewOrderToast] = useState<string | null>(null)
     const knownOrderIdsRef = useRef<Set<string>>(new Set())
 
@@ -71,7 +70,7 @@ export default function GlobalOrderNotifications({ hotelId }: { hotelId: string 
                     setNewOrderToast(body)
                     setTimeout(() => setNewOrderToast(null), 7000) // Stay a bit longer
                 }
-            } catch (err) {
+            } catch {
                 // Silent fail
             }
         }, 2 * 60 * 1000) // 2 minutes

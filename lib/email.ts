@@ -36,7 +36,7 @@ async function getTranslations(lang: string) {
   try {
     // Dynamic import allows scaling to any number of languages without manual imports here
     return (await import(`../messages/${lang}.json`)).default
-  } catch (error) {
+  } catch {
     console.error(`Could not load translations for lang: ${lang}, falling back to 'en'`)
     return (await import(`../messages/en.json`)).default
   }
