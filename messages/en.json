@@ -101,7 +101,8 @@
     "language_it": "Italian",
     "language_pnb": "Western Punjabi",
     "language_kn": "Kannada",
-    "remove": "Remove"
+    "remove": "Remove",
+    "room": "Room"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Recent Orders",
     "viewAll": "View All",
-    "noRecentOrders": "No recent orders"
+    "noRecentOrders": "No recent orders",
+    "barcodeTextOptional": "Barcode Text (If left blank, it will be set to default text)"
   },
   "sidebar": {
     "welcome": "Welcome",

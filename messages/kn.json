@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "ತೆಗೆದುಹಾಕಿ"
+    "remove": "ತೆಗೆದುಹಾಕಿ",
+    "room": "ಕೊಠಡಿ"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "ಇತ್ತೀಚಿನ ಆರ್ಡರ್‌ಗಳು",
     "viewAll": "ಎಲ್ಲವನ್ನೂ ವೀಕ್ಷಿಸಿ",
-    "noRecentOrders": "ಯಾವುದೇ ಇತ್ತೀಚಿನ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ"
+    "noRecentOrders": "ಯಾವುದೇ ಇತ್ತೀಚಿನ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ",
+    "barcodeTextOptional": "ಬಾರ್‌ಕೋಡ್ ಪಠ್ಯ (ಖಾಲಿ ಬಿಟ್ಟರೆ, ಅದನ್ನು ಡೀಫಾಲ್ಟ್ ಪಠ್ಯಕ್ಕೆ ಹೊಂದಿಸಲಾಗುತ್ತದೆ)"
   },
   "sidebar": {
     "welcome": "ಸ್ವಾಗತ",

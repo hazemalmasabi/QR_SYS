@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "移脱"
+    "remove": "移脱",
+    "room": "房间"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "最近单子",
     "viewAll": "统统看下",
-    "noRecentOrders": "最近呒没单子"
+    "noRecentOrders": "最近呒没单子",
+    "barcodeTextOptional": "条形码文本（如果留空，将设置为默认文本）"
   },
   "sidebar": {
     "welcome": "欢迎",

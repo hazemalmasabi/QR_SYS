@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Kaldır"
+    "remove": "Kaldır",
+    "room": "Oda"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Son Siparişler",
     "viewAll": "Tümünü Gör",
-    "noRecentOrders": "Yakın zamanda sipariş yok"
+    "noRecentOrders": "Yakın zamanda sipariş yok",
+    "barcodeTextOptional": "Barkod Metni (Boş bırakılırsa, varsayılan metne ayarlanacaktır)"
   },
   "sidebar": {
     "welcome": "Hoş Geldiniz",

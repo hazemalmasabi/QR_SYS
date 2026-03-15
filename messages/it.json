@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Rimuovi"
+    "remove": "Rimuovi",
+    "room": "Camera"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Ordini Recenti",
     "viewAll": "Visualizza Tutti",
-    "noRecentOrders": "Nessun ordine recente"
+    "noRecentOrders": "Nessun ordine recente",
+    "barcodeTextOptional": "Testo del codice a barre (Se lasciato vuoto, verrà impostato il testo predefinito)"
   },
   "sidebar": {
     "welcome": "Benvenuto",

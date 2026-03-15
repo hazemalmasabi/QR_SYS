@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "తీసివేయండి"
+    "remove": "తీసివేయండి",
+    "room": "గది"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "ఇటీవలి ఆర్డర్లు",
     "viewAll": "అన్నీ చూడండి",
-    "noRecentOrders": "ఇటీవలి ఆర్డర్లు లేవు"
+    "noRecentOrders": "ఇటీవలి ఆర్డర్లు లేవు",
+    "barcodeTextOptional": "బార్‌కోడ్ వచనం (ఖాళీగా వదిలివేస్తే, అది డిఫాల్ట్ వచనానికి సెట్ చేయబడుతుంది)"
   },
   "sidebar": {
     "welcome": "స్వాగతం",

@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "काढून टाका"
+    "remove": "काढून टाका",
+    "room": "खोली"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "अलीकडील ऑर्डर्स",
     "viewAll": "सर्व पहा",
-    "noRecentOrders": "अलीकडील ऑर्डर्स नाहीत"
+    "noRecentOrders": "अलीकडील ऑर्डर्स नाहीत",
+    "barcodeTextOptional": "बारकोड मजकूर (रिक्त सोडल्यास, ते डीफॉल्ट मजकुरावर सेट केले जाईल)"
   },
   "sidebar": {
     "welcome": "स्वागत आहे",

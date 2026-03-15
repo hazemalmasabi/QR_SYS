@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "அகற்று"
+    "remove": "அகற்று",
+    "room": "அறை"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "சமீபத்திய ஆர்டர்கள்",
     "viewAll": "அனைத்தையும் காண்க",
-    "noRecentOrders": "சமீபத்திய ஆர்டர்கள் எதுவும் இல்லை"
+    "noRecentOrders": "சமீபத்திய ஆர்டர்கள் எதுவும் இல்லை",
+    "barcodeTextOptional": "பார்கோடு உரை (காலியாக விடப்பட்டால், அது இயல்புநிலை உரைக்கு அமைக்கப்படும்)"
   },
   "sidebar": {
     "welcome": "வரவேற்கிறோம்",

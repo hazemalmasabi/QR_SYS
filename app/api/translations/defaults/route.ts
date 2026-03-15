@@ -7,16 +7,18 @@ export async function GET() {
     const messagesDir = path.join(process.cwd(), 'messages');
     const files = fs.readdirSync(messagesDir).filter(f => f.endsWith('.json'));
 
-    const defaults: Record<string, string> = {};
+    const defaults: Record<string, { barcode: string; room: string }> = {};
 
     for (const file of files) {
       const code = file.replace('.json', '');
       try {
         const filePath = path.join(messagesDir, file);
         const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-        if (data?.settings?.defaultBarcodeText) {
-          defaults[code] = data.settings.defaultBarcodeText;
-        }
+        
+        defaults[code] = {
+          barcode: data?.settings?.defaultBarcodeText || '',
+          room: data?.common?.room || 'Room'
+        };
       } catch (err) {
         console.error(`Failed to read or parse translation file ${file}:`, err);
       }
@@ -24,7 +26,10 @@ export async function GET() {
 
     // Fallback if no english text found
     if (!defaults['en']) {
-        defaults['en'] = 'Scan to view our services';
+        defaults['en'] = {
+          barcode: 'Scan to view our services',
+          room: 'Room'
+        };
     }
 
     return NextResponse.json(defaults);

@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Mbusak"
+    "remove": "Mbusak",
+    "room": "Kamar"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Pesenan Anyar",
     "viewAll": "Delok Kabeh",
-    "noRecentOrders": "Ora ana pesenan anyar"
+    "noRecentOrders": "Ora ana pesenan anyar",
+    "barcodeTextOptional": "Teks Barcode (Yen ditinggalake kosong, bakal disetel dadi teks gawan)"
   },
   "sidebar": {
     "welcome": "Sugeng Rawuh",

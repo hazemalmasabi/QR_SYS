@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Ondoa"
+    "remove": "Ondoa",
+    "room": "Chumba"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Maagizo ya Hivi Karibuni",
     "viewAll": "Ona Yote",
-    "noRecentOrders": "Hakuna maagizo ya hivi karibuni"
+    "noRecentOrders": "Hakuna maagizo ya hivi karibuni",
+    "barcodeTextOptional": "Maandishi ya Barcode (Ikiachwa wazi, itawekwa kuwa maandishi chaguo-msingi)"
   },
   "sidebar": {
     "welcome": "Karibu",

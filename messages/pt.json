@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Remover"
+    "remove": "Remover",
+    "room": "Quarto"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Pedidos Recentes",
     "viewAll": "Ver Todos",
-    "noRecentOrders": "Nenhum pedido recente"
+    "noRecentOrders": "Nenhum pedido recente",
+    "barcodeTextOptional": "Texto do código de barras (Se deixado em branco, será definido como o texto padrão)"
   },
   "sidebar": {
     "welcome": "Bem-vindo",

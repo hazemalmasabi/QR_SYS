@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "निकालें"
+    "remove": "निकालें",
+    "room": "कमरा"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "हाल के ऑर्डर",
     "viewAll": "सभी देखें",
-    "noRecentOrders": "कोई हालिया ऑर्डर नहीं"
+    "noRecentOrders": "कोई हालिया ऑर्डर नहीं",
+    "barcodeTextOptional": "बारकोड टेक्स्ट (यदि खाली छोड़ा जाता है, तो यह डिफ़ॉल्ट टेक्स्ट पर सेट हो जाएगा)"
   },
   "sidebar": {
     "welcome": "स्वागत है",

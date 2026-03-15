@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "মুছে ফেলুন"
+    "remove": "মুছে ফেলুন",
+    "room": "রুম"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "সাম্প্রতিক অর্ডার",
     "viewAll": "সব দেখুন",
-    "noRecentOrders": "কোনো সাম্প্রতিক অর্ডার নেই"
+    "noRecentOrders": "কোনো সাম্প্রতিক অর্ডার নেই",
+    "barcodeTextOptional": "বারকোড টেক্সট (ফাঁকা রাখা হলে, এটি ডিফল্ট টেক্সটে সেট করা হবে)"
   },
   "sidebar": {
     "welcome": "স্বাগতম",

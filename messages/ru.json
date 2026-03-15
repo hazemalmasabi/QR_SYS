@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Удалить"
+    "remove": "Удалить",
+    "room": "Номер"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Последние заказы",
     "viewAll": "Смотреть все",
-    "noRecentOrders": "Нет последних заказов"
+    "noRecentOrders": "Нет последних заказов",
+    "barcodeTextOptional": "Текст штрих-кода (Если оставить пустым, будет установлен текст по умолчанию)"
   },
   "sidebar": {
     "welcome": "Добро пожаловать",

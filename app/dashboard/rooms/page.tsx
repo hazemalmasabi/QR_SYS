@@ -83,6 +83,7 @@ export default function RoomsPage() {
 
   // QR Settings
   const [hotelLogoUrl, setHotelLogoUrl] = useState<string | null>(null)
+  const [allDefaults, setAllDefaults] = useState<Record<string, { barcode: string, room: string }>>({})
   const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
   const [languageSecondary, setLanguageSecondary] = useState<string>('none')
   const [qrLanguage, setQrLanguage] = useState<string>(locale === 'en' ? 'en' : 'en') // will be updated in fetch
@@ -123,7 +124,17 @@ export default function RoomsPage() {
         }
         setHotelLogoUrl(data.settings.hotel_logo_url || null)
         
-        const mergedTranslations: Record<string, string> = { ...(defaultsData || {}) }
+        if (defaultsData) {
+          setAllDefaults(defaultsData)
+        }
+        
+        const mergedTranslations: Record<string, string> = {}
+        if (defaultsData) {
+          Object.keys(defaultsData).forEach(lang => {
+            mergedTranslations[lang] = defaultsData[lang].barcode
+          })
+        }
+        
         const backendTranslations = data.settings.barcode_text_translations || {}
         
         for (const lang in backendTranslations) {
@@ -323,36 +334,37 @@ export default function RoomsPage() {
     let currentY = HEADER_HEIGHT + QR_SIZE + 40
     ctx.textAlign = 'center'
 
-    if (customTextSec) {
+    // 1. TOP TEXT (Only for "both" - show Secondary Custom Text)
+    if (lang === 'both' && customTextSec) {
       ctx.font = '500 24px system-ui'
       ctx.fillStyle = '#6b7280'
       ctx.fillText(customTextSec, canvas.width / 2, currentY)
       currentY += 35
     }
 
+    // 2. ROOM LABEL (Middle for "both", Top for single)
     ctx.font = 'bold 32px system-ui'
     ctx.fillStyle = '#111827'
-
-    const roomLabels: Record<string, string> = {
-      ar: 'غرفة',
-      en: 'Room',
-      fr: 'Chambre',
-      es: 'Habitación'
-    }
-
     if (lang === 'both') {
-      const roomTextSec = roomLabels[languageSecondary] || roomLabels.en
-      ctx.fillText(`${roomTextSec} ${room.room_number} | Room ${room.room_number}`, canvas.width / 2, currentY)
+      const roomTextSec = allDefaults[languageSecondary]?.room || tc('room')
+      const roomTextEn = allDefaults['en']?.room || 'Room'
+      ctx.fillText(`${roomTextSec} ${room.room_number} | ${roomTextEn} ${room.room_number}`, canvas.width / 2, currentY)
     } else {
-      const roomText = lang === 'en' ? `Room ${room.room_number}` : `${roomLabels[languageSecondary] || roomLabels.en} ${room.room_number}`
+      const roomText = lang === 'en' 
+        ? `${allDefaults['en']?.room || 'Room'} ${room.room_number}` 
+        : `${allDefaults[languageSecondary]?.room || tc('room')} ${room.room_number}`
       ctx.fillText(roomText, canvas.width / 2, currentY)
     }
     currentY += 40
 
-    if (customTextEn) {
+    // 3. BOTTOM TEXT
+    // - If "both": show English Custom Text
+    // - If single: show its custom text
+    const customTextToDraw = lang === 'both' ? customTextEn : (lang === 'en' ? customTextEn : customTextSec)
+    if (customTextToDraw) {
       ctx.font = '500 24px system-ui'
-      ctx.fillStyle = '#6b7280' // gray-500
-      ctx.fillText(customTextEn, canvas.width / 2, currentY)
+      ctx.fillStyle = '#6b7280'
+      ctx.fillText(customTextToDraw, canvas.width / 2, currentY)
     }
 
     return canvas
@@ -785,26 +797,50 @@ export default function RoomsPage() {
               </div>
 
               <div className="flex flex-col items-center gap-2 w-full pt-2">
-                {(qrLanguage === languageSecondary || qrLanguage === 'both') && barcodeTextTranslations[languageSecondary] && (
-                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations[languageSecondary]}</span>
+                {/* For Dual Language: Secondary Text on Top */}
+                {qrLanguage === 'both' && barcodeTextTranslations[languageSecondary] && (
+                  <span
+                    className="text-sm font-medium text-gray-500 text-center"
+                    dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}
+                  >
+                    {barcodeTextTranslations[languageSecondary]}
+                  </span>
                 )}
 
+                {/* Middle (Both) or Top (Single): Room Label */}
                 {qrLanguage === 'both' ? (
                   <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
                     <span dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
-                      {languageSecondary === 'ar' ? `غرفة ${selectedRoom.room_number}` : (languageSecondary === 'fr' ? `Chambre ${selectedRoom.room_number}` : (languageSecondary === 'es' ? `Habitación ${selectedRoom.room_number}` : `Room ${selectedRoom.room_number}`))}
+                      {allDefaults[languageSecondary]?.room || tc('room')} {selectedRoom.room_number}
                     </span>
                     <span className="text-gray-300 font-light mx-1">|</span>
-                    <span dir="ltr">Room {selectedRoom.room_number}</span>
+                    <span dir="ltr">
+                      {allDefaults['en']?.room || 'Room'} {selectedRoom.room_number}
+                    </span>
                   </div>
                 ) : (
                   <p className="text-xl font-bold text-gray-900 text-center">
-                    {qrLanguage === 'en' ? `Room ${selectedRoom.room_number}` : (languageSecondary === 'ar' ? `غرفة ${selectedRoom.room_number}` : (languageSecondary === 'fr' ? `Chambre ${selectedRoom.room_number}` : (languageSecondary === 'es' ? `Habitación ${selectedRoom.room_number}` : `Room ${selectedRoom.room_number}`)))}
+                    {qrLanguage === 'en' 
+                      ? `${allDefaults['en']?.room || 'Room'} ${selectedRoom.room_number}` 
+                      : `${allDefaults[languageSecondary]?.room || tc('room')} ${selectedRoom.room_number}`
+                    }
                   </p>
                 )}
 
-                {(qrLanguage === 'en' || qrLanguage === 'both') && barcodeTextTranslations.en && (
-                  <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
+                {/* Bottom: Custom Text (English for both/en, or Secondary for single secondary) */}
+                {qrLanguage === 'both' ? (
+                  barcodeTextTranslations.en && (
+                    <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
+                  )
+                ) : (
+                  barcodeTextTranslations[qrLanguage] && (
+                    <span
+                      className="text-sm font-medium text-gray-500 text-center"
+                      dir={qrLanguage === 'ar' ? 'rtl' : 'ltr'}
+                    >
+                      {barcodeTextTranslations[qrLanguage]}
+                    </span>
+                  )
                 )}
               </div>
             </div>

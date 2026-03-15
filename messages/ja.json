@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "削除"
+    "remove": "削除",
+    "room": "部屋"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "最近の注文",
     "viewAll": "すべて表示",
-    "noRecentOrders": "最近の注文はありません"
+    "noRecentOrders": "最近の注文はありません",
+    "barcodeTextOptional": "バーコードテキスト（空白のままにすると、デフォルトテキストに設定されます）"
   },
   "sidebar": {
     "welcome": "ようこそ",

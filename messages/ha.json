@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Cire"
+    "remove": "Cire",
+    "room": "Daki"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Odowari na kwanannan",
     "viewAll": "Duba Duka",
-    "noRecentOrders": "Babu odowari na kwanannan"
+    "noRecentOrders": "Babu odowari na kwanannan",
+    "barcodeTextOptional": "Rubutun lambar sirri (Idan an bar shi fanko, za a saita shi zuwa tsoho rubutu)"
   },
   "sidebar": {
     "welcome": "Barka da zuwa",

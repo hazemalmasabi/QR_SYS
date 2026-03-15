@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "ہٹاؤ"
+    "remove": "ہٹاؤ",
+    "room": "کمرہ"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "حالیہ آرڈر",
     "viewAll": "سارے دیکھو",
-    "noRecentOrders": "کوئی حالیہ آرڈر نہیں اے"
+    "noRecentOrders": "کوئی حالیہ آرڈر نہیں اے",
+    "barcodeTextOptional": "بارکوڈ ٹیکسٹ (جے خالی چھڈیا گیا، تے ایہہ پہلے توں طے شدہ متن تے سیٹ ہو جائے گا)"
   },
   "sidebar": {
     "welcome": "جی آیاں نوں",

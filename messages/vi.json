@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Xóa"
+    "remove": "Xóa",
+    "room": "Phòng"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Đơn hàng gần đây",
     "viewAll": "Xem tất cả",
-    "noRecentOrders": "Không có đơn hàng gần đây"
+    "noRecentOrders": "Không có đơn hàng gần đây",
+    "barcodeTextOptional": "Văn bản mã vạch (Nếu để trống, nó sẽ được đặt thành văn bản mặc định)"
   },
   "sidebar": {
     "welcome": "Chào mừng",

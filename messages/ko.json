@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "제거"
+    "remove": "제거",
+    "room": "객실"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "최근 주문",
     "viewAll": "전체 보기",
-    "noRecentOrders": "최근 주문이 없습니다"
+    "noRecentOrders": "최근 주문이 없습니다",
+    "barcodeTextOptional": "바코드 텍스트 (비워 두면 기본 텍스트로 설정됩니다)"
   },
   "sidebar": {
     "welcome": "환영합니다",

@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "移除"
+    "remove": "移除",
+    "room": "房間"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "最近訂單",
     "viewAll": "查看全部",
-    "noRecentOrders": "目前無最近訂單"
+    "noRecentOrders": "目前無最近訂單",
+    "barcodeTextOptional": "條碼文字（如果留空，將設定為預設文字）"
   },
   "sidebar": {
     "welcome": "歡迎",

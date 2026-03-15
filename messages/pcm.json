@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Comot"
+    "remove": "Comot",
+    "room": "Room"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Recent Orders",
     "viewAll": "View All",
-    "noRecentOrders": "No recent orders"
+    "noRecentOrders": "No recent orders",
+    "barcodeTextOptional": "Barcode Text (If you no put anything, we go set am to default text)"
   },
   "sidebar": {
     "welcome": "Welcome",

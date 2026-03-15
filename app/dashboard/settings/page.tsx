@@ -88,6 +88,7 @@ export default function SettingsPage() {
   const [matchingTimezones, setMatchingTimezones] = useState<{ value: string, label: any }[]>([])
 
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
+  const [allDefaults, setAllDefaults] = useState<Record<string, { barcode: string, room: string }>>({})
   const [barcodePreviewLang, setBarcodePreviewLang] = useState<string>(locale === 'en' ? 'en' : (languageSecondary !== 'none' ? languageSecondary : 'en'))
   const [barcodePreviewDataUrl, setBarcodePreviewDataUrl] = useState<string | null>(null)
   const [roomTypes, setRoomTypes] = useState<RoomType[]>([])
@@ -156,7 +157,11 @@ export default function SettingsPage() {
         try {
           const defaultsRes = await fetch('/api/translations/defaults')
           if (defaultsRes.ok) {
-            defaultBarcodeText = await defaultsRes.json()
+            const defaultsData = await defaultsRes.json()
+            setAllDefaults(defaultsData)
+            Object.keys(defaultsData).forEach(lang => {
+              defaultBarcodeText[lang] = defaultsData[lang].barcode
+            })
           }
         } catch (error) {
           console.error('Failed to load default barcode translations', error)
@@ -193,6 +198,12 @@ export default function SettingsPage() {
         setCurrencyCode(data.settings.currency_code)
         setRoomTypes(data.settings.room_types || [])
         refreshCounts()
+
+        // Sync preview language once loaded
+        const sec = data.settings.language_secondary || 'ar'
+        if (sec !== 'none' && locale !== 'en') {
+          setBarcodePreviewLang(sec)
+        }
       }
 
       const dataProfile = await resProfile.json()
@@ -209,7 +220,7 @@ export default function SettingsPage() {
     } finally {
       setLoading(false)
     }
-  }, [tc, refreshCounts])
+  }, [tc, refreshCounts, locale])
 
   useEffect(() => {
     fetchSettings()
@@ -286,10 +297,9 @@ export default function SettingsPage() {
     }
   }
 
-  const generateBarcodePreview = async () => {
+  const generateBarcodePreview = useCallback(async () => {
     try {
-      // Use the chosen preview language. If 'both', we usually prioritize secondary for the QR content itself if needed, 
-      // but the main point is the labels on the card.
+      if (Object.keys(allDefaults).length === 0) return;
       const url = new URL(`${window.location.origin}/guest/TEST-QR-ROOM-1`)
       url.searchParams.set('lang', barcodePreviewLang === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : barcodePreviewLang)
       const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
@@ -298,7 +308,13 @@ export default function SettingsPage() {
       console.error('Error generating QR preview:', error)
       toast.error(tc('error'))
     }
-  }
+  }, [barcodePreviewLang, languageSecondary, allDefaults, tc])
+
+  useEffect(() => {
+    if (Object.keys(allDefaults).length > 0 && !barcodePreviewDataUrl && activeTab === 'hotel') {
+      generateBarcodePreview()
+    }
+  }, [allDefaults, barcodePreviewDataUrl, generateBarcodePreview, activeTab])
 
   const addRoomType = () => {
     // Prevent adding multiple new rows before saving
@@ -1206,7 +1222,8 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="flex flex-col items-center gap-2 w-full pt-2">
-                      {(barcodePreviewLang === languageSecondary || barcodePreviewLang === 'both') && barcodeTextTranslations[languageSecondary] && (
+                      {/* For Dual Language: Secondary Text on Top */}
+                      {barcodePreviewLang === 'both' && barcodeTextTranslations[languageSecondary] && (
                         <span
                           className="text-sm font-medium text-gray-500 text-center"
                           dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}
@@ -1215,22 +1232,40 @@ export default function SettingsPage() {
                         </span>
                       )}
 
+                      {/* Middle (Both) or Top (Single): Room Label */}
                       {barcodePreviewLang === 'both' ? (
                         <div className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 leading-none py-1">
                           <span dir={languageSecondary === 'ar' ? 'rtl' : 'ltr'}>
-                            {languageSecondary === 'ar' ? 'غرفة 1' : (languageSecondary === 'fr' ? 'Chambre 1' : (languageSecondary === 'es' ? 'Habitación 1' : 'Room 1'))}
+                            {allDefaults[languageSecondary]?.room || tc('room')} 1
                           </span>
                           <span className="text-gray-300 font-light">|</span>
-                          <span dir="ltr">Room 1</span>
+                          <span dir="ltr">
+                            {allDefaults['en']?.room || 'Room'} 1
+                          </span>
                         </div>
                       ) : (
                         <p className="text-xl font-bold text-gray-900 text-center">
-                          {barcodePreviewLang === 'en' ? 'Room 1' : (languageSecondary === 'ar' ? 'غرفة 1' : (languageSecondary === 'fr' ? 'Chambre 1' : (languageSecondary === 'es' ? 'Habitación 1' : 'Room 1')))}
+                          {barcodePreviewLang === 'en' 
+                            ? `${allDefaults['en']?.room || 'Room'} 1` 
+                            : `${allDefaults[languageSecondary]?.room || tc('room')} 1`
+                          }
                         </p>
                       )}
 
-                      {(barcodePreviewLang === 'en' || barcodePreviewLang === 'both') && barcodeTextTranslations.en && (
-                        <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
+                      {/* Bottom: Custom Text (English for both/en, or Secondary for single secondary) */}
+                      {barcodePreviewLang === 'both' ? (
+                        barcodeTextTranslations.en && (
+                          <span className="text-sm font-medium text-gray-500 text-center">{barcodeTextTranslations.en}</span>
+                        )
+                      ) : (
+                        barcodeTextTranslations[barcodePreviewLang] && (
+                          <span
+                            className="text-sm font-medium text-gray-500 text-center"
+                            dir={barcodePreviewLang === 'ar' ? 'rtl' : 'ltr'}
+                          >
+                            {barcodeTextTranslations[barcodePreviewLang]}
+                          </span>
+                        )
                       )}
                     </div>
                   </div>

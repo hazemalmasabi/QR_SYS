@@ -101,7 +101,8 @@
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
-    "remove": "Alisin"
+    "remove": "Alisin",
+    "room": "Kwarto"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "Mga Kamakailang Order",
     "viewAll": "Tingnan Lahat",
-    "noRecentOrders": "Walang kamakailang mga order"
+    "noRecentOrders": "Walang kamakailang mga order",
+    "barcodeTextOptional": "Teksto ng Barcode (Kung walang laman, itatakda ito sa default na teksto)"
   },
   "sidebar": {
     "welcome": "Maligayang pagdating",

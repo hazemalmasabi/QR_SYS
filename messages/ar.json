@@ -101,7 +101,8 @@
     "language_it": "الإيطالية",
     "language_pnb": "البنجابية الغربية",
     "language_kn": "الكانادية",
-    "remove": "حذف"
+    "remove": "حذف",
+    "room": "غرفة"
   },
   "email": {
     "verify": {
@@ -346,7 +347,8 @@
     },
     "recentOrders": "الطلبات الحديثة",
     "viewAll": "عرض الكل",
-    "noRecentOrders": "لا توجد طلبات حديثة"
+    "noRecentOrders": "لا توجد طلبات حديثة",
+    "barcodeTextOptional": "نص الباركود (اذا وضعته فارغ سيتم تعينه لنص الافتراضي)"
   },
   "sidebar": {
     "welcome": "مرحباً",
