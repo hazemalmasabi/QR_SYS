@@ -481,7 +481,8 @@ select.input-with-icon+.select-chevron,
 */
 
 /* LTR page: icon on left → padding-left */
-[dir="ltr"] .input.icon-input {
+[dir="ltr"] .input.icon-input,
+[dir="ltr"] .input.ps-10 {
   padding-left: 2.5rem !important;
 }
 
@@ -491,7 +492,8 @@ select.input-with-icon+.select-chevron,
 }
 
 /* RTL page: icon on right (from RTL wrapper), input may be dir=ltr → padding-right */
-[dir="rtl"] .input.icon-input {
+[dir="rtl"] .input.icon-input,
+[dir="rtl"] .input.ps-10 {
   padding-right: 2.5rem !important;
 }
 

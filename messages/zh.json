@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "移除"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "版权所有",
       "quickLinks": "快速链接",
       "contact": "联系我们"
-    }
+    },
+    "qrTypes": {
+      "title": "QR码放置",
+      "desc": "通过多种放置选项为您的酒店房间调整 QR SYS。",
+      "customerScan": {
+        "title": "无缝扫描",
+        "desc": "客人只需打开相机即可立即点餐。"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "desc": "非常适合床头柜的优雅亚克力支架。"
+      },
+      "wallDisplay": {
+        "title": "墙壁显示",
+        "desc": "套房内小巧的墙壁支架。"
+      },
+      "doorSticker": {
+        "title": "门贴",
+        "desc": "放置在房门背面的高级贴纸。"
+      }
+    },
+    "moreOptions": "更多选项"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "您确定要删除此客房类型吗？",
     "replacementType": "选择替代客房类型 (所有相关房间将移动至此)",
     "mustKeepOneRoomType": "酒店必须至少有一种客房类型",
-    "mustSelectReplacement": "删除前必须选择替代客房类型"
+    "mustSelectReplacement": "删除前必须选择替代客房类型",
+    "defaultBarcodeText": "扫描查看我们的服务"
   },
   "reports": {
     "title": "统计报表",
@@ -714,7 +737,10 @@
       "general": "常规信息",
       "auth": "账户与安全",
       "dashboard": "系统指南",
-      "settings": "系统配置"
+      "settings": "系统配置",
+      "guestExperience": "客人旅程",
+      "qrPlacements": "QR 放置位置",
+      "hierarchy": "角色和权限"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "设置与本地化",
         "content": "在酒店设置中，您可以更新酒店 Logo，更改主语言和第二语言，并调整时区或货币。为了安全起见，更改电子邮件需要重新进行验证过程。如果您更改了第二语言，请记得更新您的服务和项目的翻译，以确保客人看到正确的信息。"
+      },
+      "scanQr": {
+        "title": "扫描QR码",
+        "content": "客人通过扫描房间内的QR码开始。"
+      },
+      "browseMenu": {
+        "title": "浏览菜单",
+        "content": "无缝滑动查看精美的多语言数字菜单。"
+      },
+      "placeOrder": {
+        "title": "下订单",
+        "content": "只需点击几下即可确认服务请求。"
+      },
+      "trackStatus": {
+        "title": "实时跟踪",
+        "content": "掌握订单的最新处理进度。"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "content": "显眼且方便客人的亚克力台卡。"
+      },
+      "wallDisplay": {
+        "title": "墙壁显示",
+        "content": "优雅的墙壁展示带来高级感。"
+      },
+      "doorSticker": {
+        "title": "门贴",
+        "content": "方便客人在门口快速扫描。"
+      },
+      "managerRole": {
+        "title": "总经理",
+        "content": "最高权限，可以管理整个酒店配置。"
+      },
+      "hotelSupervisorRole": {
+        "title": "酒店主管",
+        "content": "监督酒店整体运营及配置。"
+      },
+      "serviceSupervisorRole": {
+        "title": "服务主管",
+        "content": "管理特定服务及其员工。"
+      },
+      "employeeRole": {
+        "title": "员工",
+        "content": "直接接收并完成客人的订单。"
       }
     }
   }

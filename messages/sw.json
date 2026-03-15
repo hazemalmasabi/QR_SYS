@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Ondoa"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Haki zote zimehifadhiwa",
       "quickLinks": "Viungo vya Haraka",
       "contact": "Wasiliana Nasi"
-    }
+    },
+    "qrTypes": {
+      "title": "Maeneo ya QR",
+      "desc": "Chaguzi mbalimbali za kuweka QR.",
+      "customerScan": {
+        "title": "Kubonyeza kwa Urahisi",
+        "desc": "Wageni wanaelekeza kamera tu na kuagiza."
+      },
+      "tableTent": {
+        "title": "Mezani",
+        "desc": "Vipande vya akriliki vya mezani."
+      },
+      "wallDisplay": {
+        "title": "Ukutani",
+        "desc": "Vipande vya ukutani kwenye vyumba."
+      },
+      "doorSticker": {
+        "title": "Mlangoni",
+        "desc": "Vibandiko kwenye mlango wa chumba."
+      }
+    },
+    "moreOptions": "Chaguzi Zaidi"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Je, una uhakika unataka kufuta aina hii ya chumba?",
     "replacementType": "Chagua aina ya mbadala (vyumba vitahamishiwa huko)",
     "mustKeepOneRoomType": "Hoteli lazima iwe na angalau aina moja ya chumba",
-    "mustSelectReplacement": "Lazima uchague mbadala kabla ya kufuta"
+    "mustSelectReplacement": "Lazima uchague mbadala kabla ya kufuta",
+    "defaultBarcodeText": "Changanua ili kuona huduma zetu"
   },
   "reports": {
     "title": "Ripoti",
@@ -714,7 +737,10 @@
       "general": "Habari za Jumla",
       "auth": "Akaunti na Usalama",
       "dashboard": "Mwongozo wa Dashibodi",
-      "settings": "Usanidi"
+      "settings": "Usanidi",
+      "guestExperience": "Uzoefu wa Mgeni",
+      "qrPlacements": "Maeneo ya QR",
+      "hierarchy": "Majukumu"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Mipangilio na Ujanibishaji",
         "content": "Badilisha utambulisho wa hoteli yako kwa kupakia nembo, kubadilisha lugha, au kuweka saa za eneo."
+      },
+      "scanQr": {
+        "title": "Skan QR",
+        "content": "Anza kwa kuskan QR."
+      },
+      "browseMenu": {
+        "title": "Orodha",
+        "content": "Angalia orodha."
+      },
+      "placeOrder": {
+        "title": "Agiza",
+        "content": "Chagua huduma."
+      },
+      "trackStatus": {
+        "title": "Tazama hali",
+        "content": "Tazama hali ya agizo lako."
+      },
+      "tableTent": {
+        "title": "Mezani",
+        "content": "Vipande vya mezani."
+      },
+      "wallDisplay": {
+        "title": "Ukutani",
+        "content": "Kwenye ukuta."
+      },
+      "doorSticker": {
+        "title": "Mlangoni",
+        "content": "Kwenye mlango."
+      },
+      "managerRole": {
+        "title": "Meneja",
+        "content": "Msimamizi mkuu."
+      },
+      "hotelSupervisorRole": {
+        "title": "Msimamizi wa Hoteli",
+        "content": "Anasimamia vyumba."
+      },
+      "serviceSupervisorRole": {
+        "title": "Msimamizi wa Huduma",
+        "content": "Anasimamia idara."
+      },
+      "employeeRole": {
+        "title": "Mfanyakazi",
+        "content": "Anayetoa huduma."
       }
     }
   }

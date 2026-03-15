@@ -74,6 +74,7 @@ export default function SettingsPage() {
   const [hotelNameTranslations, setHotelNameTranslations] = useState<Record<string, string>>({})
   const [hotelLogoUrl, setHotelLogoUrl] = useState('')
   const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
+  const [initialBarcodeText, setInitialBarcodeText] = useState<Record<string, string>>({})
   const [languageSecondary, setLanguageSecondary] = useState('ar')
   const [timezone, setTimezone] = useState('')
   const [currencyCode, setCurrencyCode] = useState('')
@@ -150,7 +151,28 @@ export default function SettingsPage() {
         setSettings(data.settings)
         setHotelNameTranslations(data.settings.hotel_name_translations || { ar: data.settings.hotel_name || '', en: '' })
         setHotelLogoUrl(data.settings.hotel_logo_url || '')
-        setBarcodeTextTranslations(data.settings.barcode_text_translations || { ar: '', en: '' })
+        // Fetch default barcode texts from localization files
+        let defaultBarcodeText: Record<string, string> = {}
+        try {
+          const defaultsRes = await fetch('/api/translations/defaults')
+          if (defaultsRes.ok) {
+            defaultBarcodeText = await defaultsRes.json()
+          }
+        } catch (error) {
+          console.error('Failed to load default barcode translations', error)
+        }
+
+        const backendBarcodeText = data.settings.barcode_text_translations || {}
+        const mergedBarcodeText: Record<string, string> = { ...defaultBarcodeText }
+        for (const lang of Object.keys(backendBarcodeText)) {
+          // If the backend has a non-empty string, use it. Otherwise, keep the default.
+          if (backendBarcodeText[lang] && backendBarcodeText[lang].trim() !== '') {
+            mergedBarcodeText[lang] = backendBarcodeText[lang]
+          }
+        }
+        setBarcodeTextTranslations(mergedBarcodeText)
+        setInitialBarcodeText(mergedBarcodeText)
+
         setLanguageSecondary(data.settings.language_secondary || 'ar')
 
         const tzValue = data.settings.timezone
@@ -199,7 +221,7 @@ export default function SettingsPage() {
     timezone !== settings.timezone ||
     currencyCode !== settings.currency_code ||
     hotelLogoUrl !== (settings.hotel_logo_url || '') ||
-    JSON.stringify(barcodeTextTranslations) !== JSON.stringify(settings.barcode_text_translations || { ar: '', en: '' }) ||
+    JSON.stringify(barcodeTextTranslations) !== JSON.stringify(initialBarcodeText) ||
     languageSecondary !== (settings.language_secondary || 'ar')
   ) : false
 
@@ -207,7 +229,7 @@ export default function SettingsPage() {
     if (!settings) return;
     setHotelNameTranslations(settings.hotel_name_translations || { ar: settings.hotel_name || '', en: '' })
     setHotelLogoUrl(settings.hotel_logo_url || '')
-    setBarcodeTextTranslations(settings.barcode_text_translations || { ar: '', en: '' })
+    setBarcodeTextTranslations(initialBarcodeText)
     setLanguageSecondary(settings.language_secondary || 'ar')
     setTimezone(settings.timezone)
     setCurrencyCode(settings.currency_code)
@@ -1105,18 +1127,19 @@ export default function SettingsPage() {
                 <label className="label">{t('hotelLogoOptional')}</label>
                 <div className="flex items-center gap-4">
                   {hotelLogoUrl ? (
-                    <div className="relative h-16 w-16 rounded-xl border border-gray-200 overflow-hidden bg-white">
-                      <Image src={hotelLogoUrl} alt="Hotel Logo" width={64} height={64} className="object-contain w-full h-full p-2" />
+                    <div className="group relative h-24 w-24 rounded-xl border-2 border-primary-100 overflow-hidden bg-white hover:border-primary-300 transition-colors">
+                      <Image src={hotelLogoUrl} alt="Hotel Logo" width={96} height={96} className="object-contain w-full h-full p-2" />
                       <button
                         onClick={() => setHotelLogoUrl('')}
-                        className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 border-2 border-white shadow-sm"
+                        className="absolute top-1 right-1 bg-white text-red-500 hover:text-red-700 rounded-full p-1 border shadow-sm transition-colors z-10 opacity-80 group-hover:opacity-100 hover:bg-red-50"
+                        title={tc('remove')}
                       >
-                        <X className="w-3 h-3" />
+                        <X className="w-4 h-4" />
                       </button>
                     </div>
                   ) : (
-                    <div className="h-16 w-16 rounded-xl border border-dashed border-gray-300 flex items-center justify-center bg-gray-50">
-                      <ImageIcon className="h-6 w-6 text-gray-400" />
+                    <div className="h-24 w-24 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <ImageIcon className="h-8 w-8 text-gray-400" />
                     </div>
                   )}
                   <label className="cursor-pointer btn-secondary py-2 px-3 flex-shrink-0 text-xs">

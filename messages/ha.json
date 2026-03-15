@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Cire"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Dukkan haƙƙoƙi mallakar mu ne",
       "quickLinks": "Hanyoyi masu sauri",
       "contact": "Tuntuɓe mu"
-    }
+    },
+    "qrTypes": {
+      "title": "Wuraren QR",
+      "desc": "Guraben ajiye QR a otal ɗin ku.",
+      "customerScan": {
+        "title": "Sikani mara Sauki",
+        "desc": "Baƙi suna nuna kyamara ne kawai."
+      },
+      "tableTent": {
+        "title": "Kan Tebur",
+        "desc": "Akwatunan roba don kan teburin daki."
+      },
+      "wallDisplay": {
+        "title": "A Bango",
+        "desc": "Fuskokin a bango da ke cikin dakuna."
+      },
+      "doorSticker": {
+        "title": "A Kofa",
+        "desc": "Hotuna a kan kofofin baya."
+      }
+    },
+    "moreOptions": "Sauran Zaɓuɓɓuka"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Shin kuna da tabbacin kuna son goge wannan nau'in dakin?",
     "replacementType": "Zaɓi nau'in maye gurbin (za a canza dakunan can)",
     "mustKeepOneRoomType": "Otal ɗin ya kasance yana da aƙalla nau'in daki guda ɗaya",
-    "mustSelectReplacement": "Dole ne a zaɓi nau'in maye gurbi kafin goge wa"
+    "mustSelectReplacement": "Dole ne a zaɓi nau'in maye gurbi kafin goge wa",
+    "defaultBarcodeText": "Duba don ganin ayyukanmu"
   },
   "reports": {
     "title": "Rahotanni",
@@ -714,7 +737,10 @@
       "general": "Bayanai na Gabaɗaya",
       "auth": "Asusu & Tsaro",
       "dashboard": "Jagoran Tsarin",
-      "settings": "Saituna"
+      "settings": "Saituna",
+      "guestExperience": "Kwarewar Bako",
+      "qrPlacements": "Wuraren QR",
+      "hierarchy": "Mukamai"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Saituna & Harsuna",
         "content": "Canja fasalin otal ɗin ku ta hanyar ɗora logo, canza harsuna ko saita yankin lokaci."
+      },
+      "scanQr": {
+        "title": "Duba QR",
+        "content": "Duba QR a daki."
+      },
+      "browseMenu": {
+        "title": "Duba Menu",
+        "content": "Duba jerin abubuwa."
+      },
+      "placeOrder": {
+        "title": "Bada Umarni",
+        "content": "Zabi abin da kuke so."
+      },
+      "trackStatus": {
+        "title": "Kula da Matsayi",
+        "content": "Kula da umarnin ku."
+      },
+      "tableTent": {
+        "title": "Kan Tebur",
+        "content": "A kan teburin gado."
+      },
+      "wallDisplay": {
+        "title": "A Bango",
+        "content": "Fuskokin a bango."
+      },
+      "doorSticker": {
+        "title": "A Kofa",
+        "content": "A bayan kofa."
+      },
+      "managerRole": {
+        "title": "Manaja",
+        "content": "Babban Manaja."
+      },
+      "hotelSupervisorRole": {
+        "title": "Mai Kula da Otal",
+        "content": "Mai kula da duka."
+      },
+      "serviceSupervisorRole": {
+        "title": "Mai Kula da Sabis",
+        "content": "Mai kula da masu aiki."
+      },
+      "employeeRole": {
+        "title": "Ma'aikaci",
+        "content": "Wanda ke aiki."
       }
     }
   }

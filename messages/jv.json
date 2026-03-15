@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Mbusak"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Kabeh hak dilindungi",
       "quickLinks": "Link Cepet",
       "contact": "Hubungi Kita"
-    }
+    },
+    "qrTypes": {
+      "title": "Panggonan QR",
+      "desc": "Nyetel opsi QR ing kamar.",
+      "customerScan": {
+        "title": "Sken gampang",
+        "desc": "Tamu mung arahke kamera banjur pesen."
+      },
+      "tableTent": {
+        "title": "Ing Meja",
+        "desc": "Stand akrilik sing elegan kanggo meja."
+      },
+      "wallDisplay": {
+        "title": "Ing Tembok",
+        "desc": "Dipasang ing tembok kanthi ukuran cilik."
+      },
+      "doorSticker": {
+        "title": "Stiker Lawang",
+        "desc": "Stiker premium ing sakmburine lawang."
+      }
+    },
+    "moreOptions": "Pilihan Liyane"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Apa sampeyan yakin arep mbusak tipe kamar iki?",
     "replacementType": "Pilih tipe kamar pengganti (kabeh kamar sing ana bakal dipindhah mrene)",
     "mustKeepOneRoomType": "Hotel kudu duwe paling ora siji tipe kamar",
-    "mustSelectReplacement": "Sampeyan kudu milih tipe kamar pengganti sadurunge mbusak"
+    "mustSelectReplacement": "Sampeyan kudu milih tipe kamar pengganti sadurunge mbusak",
+    "defaultBarcodeText": "Pindai kanggo ndeleng layanan kita"
   },
   "reports": {
     "title": "Laporan",
@@ -714,7 +737,10 @@
       "general": "Informasi Umum",
       "auth": "Akun & Keamanan",
       "dashboard": "Panduan Sistem",
-      "settings": "Konfigurasi"
+      "settings": "Konfigurasi",
+      "guestExperience": "Pengalaman Tamu",
+      "qrPlacements": "Panggonan QR",
+      "hierarchy": "Tingkatan"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Setelan lan Lokalisasi",
         "content": "Ing Setelan Hotel, sampeyan bisa nganyari logo hotel, ngganti basa utama lan tambahan, lan nyetel zona wektu utawa mata uang. Ganti email mbutuhake proses verifikasi anyar kanggo keamanan. Yen sampeyan ngganti basa tambahan, elinga kanggo nganyari terjemahan layanan lan item sampeyan supaya tamu weruh informasi sing bener."
+      },
+      "scanQr": {
+        "title": "Sken QR",
+        "content": "Wiwitan karo sken QR."
+      },
+      "browseMenu": {
+        "title": "Nggolek Menu",
+        "content": "Deleng menu digital."
+      },
+      "placeOrder": {
+        "title": "Gawe Pesenan",
+        "content": "Pilih pesenan sampeyan."
+      },
+      "trackStatus": {
+        "title": "Lacak Pesenan",
+        "content": "Lacak kanthi real-time."
+      },
+      "tableTent": {
+        "title": "Ing Meja",
+        "content": "Akrilik ing meja."
+      },
+      "wallDisplay": {
+        "title": "Ing Tembok",
+        "content": "Dipasang ing tembok."
+      },
+      "doorSticker": {
+        "title": "Stiker Lawang",
+        "content": "Ing sakmburine lawang."
+      },
+      "managerRole": {
+        "title": "Manajer",
+        "content": "Sing paling dhuwur."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisor Hotel",
+        "content": "Supervisor umum."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisor Layanan",
+        "content": "Supervisor spesifik."
+      },
+      "employeeRole": {
+        "title": "Pekerja",
+        "content": "Sing ngrampungake tugas."
       }
     }
   }

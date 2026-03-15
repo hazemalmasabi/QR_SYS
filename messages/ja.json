@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "削除"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "全著作権所有",
       "quickLinks": "クイックリンク",
       "contact": "お問い合わせ"
-    }
+    },
+    "qrTypes": {
+      "title": "QRの配置",
+      "desc": "さまざまな配置オプションでホテルに適応させます。",
+      "customerScan": {
+        "title": "シームレスなスキャン",
+        "desc": "ゲストはカメラを向けるだけですぐに注文できます。"
+      },
+      "tableTent": {
+        "title": "テーブルテント",
+        "desc": "ベッドサイドテーブルに最適なアクリルスタンド。"
+      },
+      "wallDisplay": {
+        "title": "壁掛けディスプレイ",
+        "desc": "スイート内の洗練された壁掛け。"
+      },
+      "doorSticker": {
+        "title": "ドアステッカー",
+        "desc": "部屋のドアの裏側に貼るプレミアムなステッカー。"
+      }
+    },
+    "moreOptions": "その他のオプション"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "この客室タイプを削除してもよろしいですか？",
     "replacementType": "移動先のタイプを選択（このタイプに属する客室が移動されます）",
     "mustKeepOneRoomType": "少なくとも1つのタイプが必要です",
-    "mustSelectReplacement": "削除前に移動先のタイプを選択してください"
+    "mustSelectReplacement": "削除前に移動先のタイプを選択してください",
+    "defaultBarcodeText": "スキャンしてサービスを見る"
   },
   "reports": {
     "title": "レポート",
@@ -714,7 +737,10 @@
       "general": "基本情報",
       "auth": "アカウントと安全",
       "dashboard": "システム活用ガイド",
-      "settings": "各種設定"
+      "settings": "各種設定",
+      "guestExperience": "ゲストの旅",
+      "qrPlacements": "QR配置",
+      "hierarchy": "役割と階層"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "詳細設定とローカライズ",
         "content": "ロゴの変更、表示言語の切り替え、タイムゾーンや通貨の設定が可能です。第2言語を設定した場合は、必ず各メニューの翻訳を入力してください（入力がない場合は英語が表示されます）。"
+      },
+      "scanQr": {
+        "title": "QRコードをスキャン",
+        "content": "部屋のQRコードをスキャンすることから始まります。"
+      },
+      "browseMenu": {
+        "title": "メニューを見る",
+        "content": "多言語メニューからサービスを選択します。"
+      },
+      "placeOrder": {
+        "title": "注文する",
+        "content": "サービスを選んで直接リクエストします。"
+      },
+      "trackStatus": {
+        "title": "リアルタイム追跡",
+        "content": "リクエストの進行状況をリアルタイムで確認できます。"
+      },
+      "tableTent": {
+        "title": "テーブルテント",
+        "content": "ベッドサイドに置かれるアクリルスタンド。"
+      },
+      "wallDisplay": {
+        "title": "壁掛けディスプレイ",
+        "content": "プレミアムなデザインのための壁掛け。"
+      },
+      "doorSticker": {
+        "title": "ドアステッカー",
+        "content": "ドアの裏に貼られたステッカー。"
+      },
+      "managerRole": {
+        "title": "ゼネラルマネージャー",
+        "content": "システムの最高権限者。"
+      },
+      "hotelSupervisorRole": {
+        "title": "ホテルスーパーバイザー",
+        "content": "ホテルの全体的な運営を管理します。"
+      },
+      "serviceSupervisorRole": {
+        "title": "サービススーパーバイザー",
+        "content": "部署を管理し、従業員を率います。"
+      },
+      "employeeRole": {
+        "title": "従業員",
+        "content": "最前線でリクエストに対応します。"
       }
     }
   }

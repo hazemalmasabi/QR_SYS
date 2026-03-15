@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Supprimer"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Tous droits réservés",
       "quickLinks": "Liens Rapides",
       "contact": "Contactez-nous"
-    }
+    },
+    "qrTypes": {
+      "title": "Emplacements QR",
+      "desc": "Adaptez QR SYS à vos chambres d'hôtel avec plusieurs options d'emplacement.",
+      "customerScan": {
+        "title": "Numérisation facile",
+        "desc": "Les clients pointent simplement leur appareil photo et commandent instantanément."
+      },
+      "tableTent": {
+        "title": "Chevalets de table",
+        "desc": "Supports en acrylique élégants parfaits pour les tables de chevet et les tables de chambre."
+      },
+      "wallDisplay": {
+        "title": "Affichages muraux",
+        "desc": "Petits supports muraux numériques ou permanents élégants à l'intérieur des suites."
+      },
+      "doorSticker": {
+        "title": "Autocollants de porte",
+        "desc": "Autocollants premium minimalistes placés juste à l'arrière de la porte de la chambre."
+      }
+    },
+    "moreOptions": "Plus d'options"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Êtes-vous sûr de vouloir supprimer ce type de chambre ?",
     "replacementType": "Choisissez un type de chambre de remplacement (toutes les chambres relatives y seront déplacées)",
     "mustKeepOneRoomType": "L'hôtel doit avoir au moins un type de chambre",
-    "mustSelectReplacement": "Vous devez sélectionner un type de chambre de remplacement avant de supprimer"
+    "mustSelectReplacement": "Vous devez sélectionner un type de chambre de remplacement avant de supprimer",
+    "defaultBarcodeText": "Scannez pour voir nos services"
   },
   "reports": {
     "title": "Rapports",
@@ -714,7 +737,10 @@
       "general": "Infos Générales",
       "auth": "Compte et Sécurité",
       "dashboard": "Guide du Système",
-      "settings": "Configurations"
+      "settings": "Configurations",
+      "guestExperience": "Parcours Client",
+      "qrPlacements": "Emplacements QR",
+      "hierarchy": "Rôles et Hiérarchie"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Paramètres et Localisation",
         "content": "Dans les Paramètres de l'Hôtel, vous pouvez mettre à jour le logo de votre hôtel, changer les langues principale et secondaire, et ajuster le fuseau horaire ou la devise. Changer votre e-mail nécessite un nouveau processus de vérification pour la sécurité. Si vous changez la langue secondaire, n'oubliez pas de mettre à jour les traductions de vos services et articles pour vous assurer que les clients voient les informations correctes."
+      },
+      "scanQr": {
+        "title": "Scanner le code QR",
+        "content": "Le parcours client commence par la numérisation du code QR placé en toute sécurité dans sa chambre."
+      },
+      "browseMenu": {
+        "title": "Parcourir le menu",
+        "content": "Les clients peuvent parcourir un menu numérique multilingue élégamment conçu."
+      },
+      "placeOrder": {
+        "title": "Passer une commande",
+        "content": "En quelques clics, les clients peuvent sélectionner leurs services souhaités et confirmer leur demande."
+      },
+      "trackStatus": {
+        "title": "Suivi en temps réel",
+        "content": "Les clients peuvent suivre l'état de leur demande en temps réel pour une transparence totale."
+      },
+      "tableTent": {
+        "title": "Chevalets de table",
+        "content": "Supports en acrylique élégants placés sur les tables de chevet, très visibles et accessibles."
+      },
+      "wallDisplay": {
+        "title": "Affichages muraux",
+        "content": "Petits supports muraux permanents intégrés à l'esthétique de la chambre."
+      },
+      "doorSticker": {
+        "title": "Autocollants de porte",
+        "content": "Les autocollants sont placés directement au dos de la porte de la chambre."
+      },
+      "managerRole": {
+        "title": "Directeur général",
+        "content": "La plus haute autorité. Configure l'hôtel et ajoute les superviseurs principaux."
+      },
+      "hotelSupervisorRole": {
+        "title": "Superviseur d'hôtel",
+        "content": "Supervise toute l'opération de l'hôtel, crée les services et configure les chambres."
+      },
+      "serviceSupervisorRole": {
+        "title": "Superviseur de service",
+        "content": "Gère un département. Ajoute des articles et affecte des employés."
+      },
+      "employeeRole": {
+        "title": "Employé de service",
+        "content": "Le personnel d'exécution qui reçoit et traite les demandes des clients."
       }
     }
   }

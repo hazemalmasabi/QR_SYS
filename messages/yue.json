@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "移除"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "版權所有",
       "quickLinks": "快速連結",
       "contact": "聯絡我哋"
-    }
+    },
+    "qrTypes": {
+      "title": "QR碼放置",
+      "desc": "多個放置選項",
+      "customerScan": {
+        "title": "無縫掃描",
+        "desc": "客人只需打開相機即可立即點餐。"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "desc": "非常適合床頭櫃的優雅亞克力支架。"
+      },
+      "wallDisplay": {
+        "title": "牆壁顯示",
+        "desc": "套房內小巧的牆壁支架。"
+      },
+      "doorSticker": {
+        "title": "門貼",
+        "desc": "放置在房門背面的高級貼紙。"
+      }
+    },
+    "moreOptions": "更多選項"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "您確定要刪除呢個房間類型嗎？",
     "replacementType": "選擇替代類型 (相關房間將會移到該類型)",
     "mustKeepOneRoomType": "酒店必須至少有一種房間類型",
-    "mustSelectReplacement": "喺刪除之前必須選擇替代類型"
+    "mustSelectReplacement": "喺刪除之前必須選擇替代類型",
+    "defaultBarcodeText": "掃描以查看我們的服務"
   },
   "reports": {
     "title": "報告中心",
@@ -714,7 +737,10 @@
       "general": "一般資訊",
       "auth": "賬戶與安全",
       "dashboard": "後台使用指南",
-      "settings": "系統配置"
+      "settings": "系統配置",
+      "guestExperience": "客人體驗",
+      "qrPlacements": "QR 放置位置",
+      "hierarchy": "角色和權限"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "設定同埋在地化",
         "content": "透過上傳 Logo、更改語言或時區嚟個性化你嘅酒店身份。"
+      },
+      "scanQr": {
+        "title": "掃描QR碼",
+        "content": "掃描房間內的QR碼"
+      },
+      "browseMenu": {
+        "title": "瀏覽菜單",
+        "content": "查看菜單"
+      },
+      "placeOrder": {
+        "title": "下訂單",
+        "content": "確認服務"
+      },
+      "trackStatus": {
+        "title": "實時跟蹤",
+        "content": "跟蹤進度"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "content": "亞克力台卡"
+      },
+      "wallDisplay": {
+        "title": "牆壁顯示",
+        "content": "牆壁展示"
+      },
+      "doorSticker": {
+        "title": "門貼",
+        "content": "門貼"
+      },
+      "managerRole": {
+        "title": "總經理",
+        "content": "最高權限"
+      },
+      "hotelSupervisorRole": {
+        "title": "酒店主管",
+        "content": "監督酒店運營"
+      },
+      "serviceSupervisorRole": {
+        "title": "服務主管",
+        "content": "管理員工"
+      },
+      "employeeRole": {
+        "title": "員工",
+        "content": "執行訂單"
       }
     }
   }

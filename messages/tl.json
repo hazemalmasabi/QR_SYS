@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Alisin"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Lahat ng karapatan ay nakareserba",
       "quickLinks": "Mabilis na mga Link",
       "contact": "Makipag-ugnayan sa Amin"
-    }
+    },
+    "qrTypes": {
+      "title": "Mga Lugar ng QR",
+      "desc": "Maraming opsyon sa paglalagay ng QR sa inyong mga kwarto.",
+      "customerScan": {
+        "title": "Madaling Pag-scan",
+        "desc": "Ituro lang ang camera at mag-order agad."
+      },
+      "tableTent": {
+        "title": "Table Tents",
+        "desc": "Mga eleganteng acrylic stand sa mesa."
+      },
+      "wallDisplay": {
+        "title": "Sa Pader",
+        "desc": "Mga maliliit na mount sa suites."
+      },
+      "doorSticker": {
+        "title": "Sticker sa Pinto",
+        "desc": "Mga sticker sa likod ng pinto ng kwarto."
+      }
+    },
+    "moreOptions": "Iba pang pagpipilian"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Sigurado ka bang gusto mong i-delete ang uri ng kwartong ito?",
     "replacementType": "Piliin ang kapalit na uri (ililipat ang mga kwarto doon)",
     "mustKeepOneRoomType": "Ang hotel ay dapat magkaroon ng kahit isang uri ng kwarto",
-    "mustSelectReplacement": "Dapat pumili ng kapalit bago i-delete"
+    "mustSelectReplacement": "Dapat pumili ng kapalit bago i-delete",
+    "defaultBarcodeText": "I-scan upang tingnan ang aming mga serbisyo"
   },
   "reports": {
     "title": "Mga Ulat",
@@ -714,7 +737,10 @@
       "general": "Pangkalahatang Impormasyon",
       "auth": "Account at Seguridad",
       "dashboard": "Gabay sa Dashboard",
-      "settings": "Konfigurasyon"
+      "settings": "Konfigurasyon",
+      "guestExperience": "Karanasan ng Bisita",
+      "qrPlacements": "Mga Lugar ng QR",
+      "hierarchy": "Mga Papel"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Mga Setting at Lokalisasyon",
         "content": "Ibagay ang pagkakakilanlan ng iyong hotel sa pamamagitan ng pag-upload ng logo, pagbabago ng mga wika, o pag-set ng timezone."
+      },
+      "scanQr": {
+        "title": "I-scan ang QR",
+        "content": "Magsimula sa pag-scan ng QR code."
+      },
+      "browseMenu": {
+        "title": "Hanapin ang Menu",
+        "content": "Tingnan ang digital menu."
+      },
+      "placeOrder": {
+        "title": "Mag-order",
+        "content": "Pumili ng mga serbisyo."
+      },
+      "trackStatus": {
+        "title": "Sundan ang status",
+        "content": "Sundan ang inyong order."
+      },
+      "tableTent": {
+        "title": "Table Tents",
+        "content": "Mga stand sa mesa."
+      },
+      "wallDisplay": {
+        "title": "Sa Pader",
+        "content": "Mga mount sa pader."
+      },
+      "doorSticker": {
+        "title": "Sticker sa Pinto",
+        "content": "Sticker sa likod ng pinto."
+      },
+      "managerRole": {
+        "title": "Manager",
+        "content": "Pinakamataas na posisyon."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisor ng Hotel",
+        "content": "Namamahala sa mga kwarto."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisor ng Serbisyo",
+        "content": "Namamahala sa mga tauhan."
+      },
+      "employeeRole": {
+        "title": "Empleyado",
+        "content": "Gumagawa ng mga order."
       }
     }
   }

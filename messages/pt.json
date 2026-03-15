@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Remover"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Todos os direitos reservados",
       "quickLinks": "Links Rápidos",
       "contact": "Contate-nos"
-    }
+    },
+    "qrTypes": {
+      "title": "Posicionamentos QR",
+      "desc": "Adapte o QR SYS aos quartos com várias opções.",
+      "customerScan": {
+        "title": "Escaneamento Simples",
+        "desc": "Os hóspedes simplesmente apontam a câmera e fazem o pedido."
+      },
+      "tableTent": {
+        "title": "Acrílicos de Mesa",
+        "desc": "Suportes elegantes para criados-mudos e mesas."
+      },
+      "wallDisplay": {
+        "title": "Displays de Parede",
+        "desc": "Pequenos suportes de parede fixos ou digitais nas suítes."
+      },
+      "doorSticker": {
+        "title": "Adesivos de Porta",
+        "desc": "Adesivos minimalistas colocados na parte de trás da porta."
+      }
+    },
+    "moreOptions": "Mais Opções"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Tem certeza de que deseja excluir este tipo de quarto?",
     "replacementType": "Escolha um tipo de quarto substituto (todos os quartos relativos serão movidos para cá)",
     "mustKeepOneRoomType": "O hotel deve ter pelo menos um tipo de quarto",
-    "mustSelectReplacement": "Você deve selecionar um tipo de quarto substituto antes de excluir"
+    "mustSelectReplacement": "Você deve selecionar um tipo de quarto substituto antes de excluir",
+    "defaultBarcodeText": "Escaneie para ver nossos serviços"
   },
   "reports": {
     "title": "Relatórios",
@@ -714,7 +737,10 @@
       "general": "Informações Gerais",
       "auth": "Conta e Segurança",
       "dashboard": "Guia do Sistema",
-      "settings": "Configurações"
+      "settings": "Configurações",
+      "guestExperience": "Jornada do Hóspede",
+      "qrPlacements": "Posicionamentos QR",
+      "hierarchy": "Cargos e Hierarquia"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Configurações e Localização",
         "content": "Nas Configurações do Hotel, você pode atualizar o logo do hotel, alterar os idiomas principal e secundário e ajustar o fuso horário ou a moeda. A alteração do e-mail requer um novo processo de verificação por segurança. Se você alterar o idioma secundário, lembre-se de atualizar as traduções de seus serviços e itens para que os hóspedes vejam as informações corretas."
+      },
+      "scanQr": {
+        "title": "Escanear QR Code",
+        "content": "Começa escaneando o QR Code no quarto."
+      },
+      "browseMenu": {
+        "title": "Explorar o Menu",
+        "content": "Os hóspedes podem navegar em um menu digital."
+      },
+      "placeOrder": {
+        "title": "Fazer um Pedido",
+        "content": "Selecione e confirme serviços facilmente."
+      },
+      "trackStatus": {
+        "title": "Acompanhamento",
+        "content": "Acompanhe o status do pedido em tempo real."
+      },
+      "tableTent": {
+        "title": "Acrílicos de Mesa",
+        "content": "Displays elegantes colocados nas mesas."
+      },
+      "wallDisplay": {
+        "title": "Displays de Parede",
+        "content": "Suportes afixados na parede das suítes."
+      },
+      "doorSticker": {
+        "title": "Adesivos de Porta",
+        "content": "Adesivos colados na parte de trás da porta."
+      },
+      "managerRole": {
+        "title": "Gerente Geral",
+        "content": "A autoridade máxima do sistema."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisor do Hotel",
+        "content": "Supervisiona a operação do hotel."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisor de Serviço",
+        "content": "Administra um departamento específico."
+      },
+      "employeeRole": {
+        "title": "Funcionário",
+        "content": "Executa e completa os pedidos dos hóspedes."
       }
     }
   }

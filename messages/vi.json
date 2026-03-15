@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Xóa"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Bản quyền đã được bảo hộ",
       "quickLinks": "Liên kết nhanh",
       "contact": "Liên hệ với chúng tôi"
-    }
+    },
+    "qrTypes": {
+      "title": "Vị trí đặt mã QR",
+      "desc": "Điều chỉnh QR SYS cho các phòng khách sạn với nhiều tùy chọn.",
+      "customerScan": {
+        "title": "Quét liền mạch",
+        "desc": "Khách chỉ cần hướng camera và đặt đồ ngay lập tức."
+      },
+      "tableTent": {
+        "title": "Bảng trên bàn",
+        "desc": "Chân đế mica đẹp mắt cho bàn cạnh giường."
+      },
+      "wallDisplay": {
+        "title": "Màn hình treo tường",
+        "desc": "Giá treo tường nhỏ bền và sang trọng trong phòng."
+      },
+      "doorSticker": {
+        "title": "Nhãn dán cửa",
+        "desc": "Nhãn dán dán ở mặt sau của cửa phòng."
+      }
+    },
+    "moreOptions": "Thêm Tùy Chọn"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Bạn có chắc chắn muốn xóa loại phòng này không?",
     "replacementType": "Chọn một loại phòng thay thế (tất cả các phòng liên quan sẽ được chuyển đến đây)",
     "mustKeepOneRoomType": "Khách sạn phải có ít nhất một loại phòng",
-    "mustSelectReplacement": "Bạn phải chọn một loại phòng thay thế trước khi xóa"
+    "mustSelectReplacement": "Bạn phải chọn một loại phòng thay thế trước khi xóa",
+    "defaultBarcodeText": "Quét để xem các dịch vụ của chúng tôi"
   },
   "reports": {
     "title": "Báo cáo",
@@ -714,7 +737,10 @@
       "general": "Thông tin chung",
       "auth": "Tài khoản & Bảo mật",
       "dashboard": "Hướng dẫn hệ thống",
-      "settings": "Cấu hình"
+      "settings": "Cấu hình",
+      "guestExperience": "Trải nghiệm Khách",
+      "qrPlacements": "Vị trí đặt QR",
+      "hierarchy": "Phân cấp & Vai trò"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Cài đặt và Địa phương hóa",
         "content": "Trong Cài đặt khách sạn, bạn có thể cập nhật logo khách sạn, thay đổi ngôn ngữ chính và phụ, đồng thời điều chỉnh múi giờ hoặc tiền tệ. Việc thay đổi email yêu cầu quy trình xác minh lại vì mục đích bảo mật. Nếu bạn thay đổi ngôn ngữ phụ, hãy nhớ cập nhật bản dịch của các dịch vụ và mục danh mục để khách thấy đúng thông tin."
+      },
+      "scanQr": {
+        "title": "Quét mã QR",
+        "content": "Bắt đầu bằng cách quét mã QR trong phòng."
+      },
+      "browseMenu": {
+        "title": "Xem Menu",
+        "content": "Khách duyệt qua menu kỹ thuật số."
+      },
+      "placeOrder": {
+        "title": "Đặt yêu cầu",
+        "content": "Chọn dịch vụ và xác nhận yêu cầu."
+      },
+      "trackStatus": {
+        "title": "Theo dõi trực tiếp",
+        "content": "Theo dõi trạng thái yêu cầu của khách theo thời gian thực."
+      },
+      "tableTent": {
+        "title": "Bảng trên bàn",
+        "content": "Các bảng mica đặt trên bàn cạnh giường."
+      },
+      "wallDisplay": {
+        "title": "Màn hình treo tường",
+        "content": "Giá treo tường để mang lại trải nghiệm tốt nhất."
+      },
+      "doorSticker": {
+        "title": "Nhãn dán cửa",
+        "content": "Dán ở phía sau cửa phòng."
+      },
+      "managerRole": {
+        "title": "Tổng quản lý",
+        "content": "Quyền cao nhất trong hệ thống."
+      },
+      "hotelSupervisorRole": {
+        "title": "Giám sát khách sạn",
+        "content": "Nắm quyền về các cài đặt phòng."
+      },
+      "serviceSupervisorRole": {
+        "title": "Giám sát dịch vụ",
+        "content": "Quản lý nhân viên trong bộ phận."
+      },
+      "employeeRole": {
+        "title": "Nhân viên",
+        "content": "Nhân viên xử lý yêu cầu của khách."
       }
     }
   }

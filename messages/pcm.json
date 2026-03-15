@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Comot"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "All rights reserved",
       "quickLinks": "Quick Links",
       "contact": "Contact Us"
-    }
+    },
+    "qrTypes": {
+      "title": "Where QR Code Dey",
+      "desc": "Different place to put QR for hotel.",
+      "customerScan": {
+        "title": "Easy Scan",
+        "desc": "Make dem just point dia phone and order."
+      },
+      "tableTent": {
+        "title": "For Table",
+        "desc": "Fine glass stand for top table for night."
+      },
+      "wallDisplay": {
+        "title": "For Wall",
+        "desc": "Small screens for the wall inside room."
+      },
+      "doorSticker": {
+        "title": "For Door",
+        "desc": "Fine stickers for back of hotel door."
+      }
+    },
+    "moreOptions": "More Tins"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "You sure say you wan delete this room type?",
     "replacementType": "Pick another type (rooms go move there)",
     "mustKeepOneRoomType": "Hotel must get at least one room type",
-    "mustSelectReplacement": "You must pick replacement before you delete"
+    "mustSelectReplacement": "You must pick replacement before you delete",
+    "defaultBarcodeText": "Scan to see our service"
   },
   "reports": {
     "title": "Reports",
@@ -714,7 +737,10 @@
       "general": "General Info",
       "auth": "Account & Security",
       "dashboard": "System Guide",
-      "settings": "Configuration"
+      "settings": "Configuration",
+      "guestExperience": "Guest Waka",
+      "qrPlacements": "Where QR Dey",
+      "hierarchy": "Who be Who"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Settings & Languages",
         "content": "Change your hotel style as you upload logo, change language or set timezone."
+      },
+      "scanQr": {
+        "title": "Scan QR Code",
+        "content": "Start by scanning di code."
+      },
+      "browseMenu": {
+        "title": "Check Menu",
+        "content": "Check wetin dey."
+      },
+      "placeOrder": {
+        "title": "Order Wetin You Want",
+        "content": "Tell us wetin you need."
+      },
+      "trackStatus": {
+        "title": "Track Ya Order",
+        "content": "Follow up ya order."
+      },
+      "tableTent": {
+        "title": "For Table",
+        "content": "For top nightstand."
+      },
+      "wallDisplay": {
+        "title": "For Wall",
+        "content": "For inside wall."
+      },
+      "doorSticker": {
+        "title": "For Door",
+        "content": "Sticker for back of door."
+      },
+      "managerRole": {
+        "title": "Oga Kpata-kpata",
+        "content": "Di main boss."
+      },
+      "hotelSupervisorRole": {
+        "title": "Hotel Oga",
+        "content": "Oga wey dey watch over rooms."
+      },
+      "serviceSupervisorRole": {
+        "title": "Service Oga",
+        "content": "Oga for department."
+      },
+      "employeeRole": {
+        "title": "Worker",
+        "content": "Worker wey dey run am."
       }
     }
   }

@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "제거"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "모든 권리 보유",
       "quickLinks": "빠른 링크",
       "contact": "문의하기"
-    }
+    },
+    "qrTypes": {
+      "title": "QR 배치",
+      "desc": "다양한 배치 옵션으로 호텔 객실에 QR SYS를 적용하세요.",
+      "customerScan": {
+        "title": "원활한 스캔",
+        "desc": "고객은 카메라를 가리키고 즉시 주문할 수 있습니다."
+      },
+      "tableTent": {
+        "title": "테이블 스탠드",
+        "desc": "침대 옆 탁자에 완벽한 우아한 아크릴 스탠드."
+      },
+      "wallDisplay": {
+        "title": "벽면 디스플레이",
+        "desc": "스위트룸 내부의 세련된 소형 벽면 마운트."
+      },
+      "doorSticker": {
+        "title": "도어 스티커",
+        "desc": "객실 문 뒤에 부착된 미니멀한 프리미엄 스티커."
+      }
+    },
+    "moreOptions": "추가 옵션"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "정말로 이 객실 유형을 삭제하시겠습니까?",
     "replacementType": "대체 객실 유형 선택(해당하는 모든 객실이 여기로 이동됨)",
     "mustKeepOneRoomType": "호텔에는 최소 한 개의 객실 유형이 있어야 합니다",
-    "mustSelectReplacement": "삭제 전 대체 객실 유형을 선택해야 합니다"
+    "mustSelectReplacement": "삭제 전 대체 객실 유형을 선택해야 합니다",
+    "defaultBarcodeText": "서비스를 보려면 스캔하세요"
   },
   "reports": {
     "title": "보고서",
@@ -714,7 +737,10 @@
       "general": "일반 정보",
       "auth": "계정 및 보안",
       "dashboard": "시스템 가이드",
-      "settings": "환경 설정"
+      "settings": "환경 설정",
+      "guestExperience": "고객 여정",
+      "qrPlacements": "QR 배치 옵션",
+      "hierarchy": "역할 및 권한"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "설정 및 현지화",
         "content": "호텔 설정에서 로고를 업데이트하고, 기본 및 보조 언어를 변경하며, 시간대와 통화를 조정할 수 있습니다. 이메일 변경은 보안을 위해 재인증이 필요합니다. 보조 언어를 변경하는 경우 게스트에게 정확한 정보를 제공하기 위해 서비스 및 품목의 번역 정보도 함께 업데이트해야 합니다."
+      },
+      "scanQr": {
+        "title": "QR 코드 스캔",
+        "content": "고객은 스마트폰으로 QR 코드를 스캔합니다."
+      },
+      "browseMenu": {
+        "title": "메뉴 탐색",
+        "content": "투숙객은 디지털 메뉴를 탐색할 수 있습니다."
+      },
+      "placeOrder": {
+        "title": "주문하기",
+        "content": "원하는 서비스를 선택하고 요청을 확인합니다."
+      },
+      "trackStatus": {
+        "title": "실시간 추적",
+        "content": "주문 상태를 실시간으로 확인할 수 있습니다."
+      },
+      "tableTent": {
+        "title": "테이블 스탠드",
+        "content": "협탁에 보관되는 스탠드 형식의 QR 안내."
+      },
+      "wallDisplay": {
+        "title": "벽면 디스플레이",
+        "content": "벽에 부착되어 우아함을 강조합니다."
+      },
+      "doorSticker": {
+        "title": "도어 스티커",
+        "content": "객실 문 뒷면에 부착되어 있습니다."
+      },
+      "managerRole": {
+        "title": "총지배인",
+        "content": "호텔의 핵심 설정을 구성하는 최고 권한."
+      },
+      "hotelSupervisorRole": {
+        "title": "호텔 감독자",
+        "content": "전체적인 운영과 객실 관리를 담당합니다."
+      },
+      "serviceSupervisorRole": {
+        "title": "서비스 감독자",
+        "content": "각 부서의 항목과 직원을 관리합니다."
+      },
+      "employeeRole": {
+        "title": "서비스 직원",
+        "content": "실제 서비스 요청을 수행하는 직원입니다."
       }
     }
   }

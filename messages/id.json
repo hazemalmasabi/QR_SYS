@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Hapus"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Seluruh hak cipta dilindungi undang-undang",
       "quickLinks": "Tautan Cepat",
       "contact": "Hubungi Kami"
-    }
+    },
+    "qrTypes": {
+      "title": "Penempatan QR",
+      "desc": "Sesuaikan QR SYS untuk kamar hotel Anda dengan berbagai opsi penempatan.",
+      "customerScan": {
+        "title": "Pemindaian Mulus",
+        "desc": "Tamu cukup mengarahkan kamera mereka dan memesan seketika."
+      },
+      "tableTent": {
+        "title": "Tenda Meja",
+        "desc": "Stand akrilik elegan yang cocok untuk meja nakas."
+      },
+      "wallDisplay": {
+        "title": "Tampilan Dinding",
+        "desc": "Pemasangan dinding digital yang ramping di dalam suite."
+      },
+      "doorSticker": {
+        "title": "Stiker Pintu",
+        "desc": "Stiker premium minimalis di bagian belakang pintu kamar."
+      }
+    },
+    "moreOptions": "Opsi Lainnya"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Apakah Anda yakin ingin menghapus tipe kamar ini?",
     "replacementType": "Pilih tipe pengganti (kamar akan dipindahkan ke sana)",
     "mustKeepOneRoomType": "Hotel harus memiliki minimal satu tipe kamar",
-    "mustSelectReplacement": "Harus memilih tipe pengganti sebelum menghapus"
+    "mustSelectReplacement": "Harus memilih tipe pengganti sebelum menghapus",
+    "defaultBarcodeText": "Pindai untuk melihat layanan kami"
   },
   "reports": {
     "title": "Laporan",
@@ -714,7 +737,10 @@
       "general": "Informasi Umum",
       "auth": "Akun & Keamanan",
       "dashboard": "Panduan Sistem",
-      "settings": "Konfigurasi"
+      "settings": "Konfigurasi",
+      "guestExperience": "Perjalanan Tamu",
+      "qrPlacements": "Penempatan QR",
+      "hierarchy": "Peran & Hierarki"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Pengaturan & Lokalisasi",
         "content": "Sesuaikan identitas hotel Anda dengan mengunggah logo, mengubah bahasa, atau menyesuaikan zona waktu."
+      },
+      "scanQr": {
+        "title": "Memindai QR Code",
+        "content": "Tamu memindai QR Code di dalam kamar mereka."
+      },
+      "browseMenu": {
+        "title": "Jelajahi Menu",
+        "content": "Tamu menelusuri menu digital multi-bahasa."
+      },
+      "placeOrder": {
+        "title": "Membuat Pesanan",
+        "content": "Tamu memilih pesanan dan mengirimkannya."
+      },
+      "trackStatus": {
+        "title": "Pelacakan",
+        "content": "Pantau status pesanan secara real-time."
+      },
+      "tableTent": {
+        "title": "Tenda Meja",
+        "content": "Tenda akrilik ditempatkan di atas meja."
+      },
+      "wallDisplay": {
+        "title": "Tampilan Dinding",
+        "content": "Tampilan di dinding untuk nuansa premium."
+      },
+      "doorSticker": {
+        "title": "Stiker Pintu",
+        "content": "Ditempel di belakang pintu kamar."
+      },
+      "managerRole": {
+        "title": "Manajer Umum",
+        "content": "Otoritas tertinggi di dalam sistem."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisor Hotel",
+        "content": "Supervisor yang mengelola seluruh hotel."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisor Layanan",
+        "content": "Supervisor departemen tertentu."
+      },
+      "employeeRole": {
+        "title": "Karyawan",
+        "content": "Staf layanan yang mengerjakan pesanan tamu."
       }
     }
   }

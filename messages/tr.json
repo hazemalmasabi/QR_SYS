@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Kaldır"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Tüm hakları saklıdır",
       "quickLinks": "Hızlı Bağlantılar",
       "contact": "Bize Ulaşın"
-    }
+    },
+    "qrTypes": {
+      "title": "QR Yerleşimleri",
+      "desc": "Otel odalarınız için birden fazla yerleşim seçeneği.",
+      "customerScan": {
+        "title": "Sorunsuz Tarama",
+        "desc": "Misafirler kamerayı yönlendirir ve anında sipariş verir."
+      },
+      "tableTent": {
+        "title": "Masa Üstü",
+        "desc": "Komodinler için mükemmel zarif akrilik standlar."
+      },
+      "wallDisplay": {
+        "title": "Duvar Göstergeleri",
+        "desc": "Süitlerin içindeki şık duvar montajları."
+      },
+      "doorSticker": {
+        "title": "Kapı Çıkartmaları",
+        "desc": "Kapının arakasına yerleştirilen çıkartmalar."
+      }
+    },
+    "moreOptions": "Daha Fazla Seçenek"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Bu oda tipini silmek istediğinizden emin misiniz?",
     "replacementType": "Değiştirilecek tipi seçin (odalar oraya taşınacaktır)",
     "mustKeepOneRoomType": "Otelde en az bir oda tipi bulunmalıdır",
-    "mustSelectReplacement": "Silmeden önce bir yedek tip seçilmelidir"
+    "mustSelectReplacement": "Silmeden önce bir yedek tip seçilmelidir",
+    "defaultBarcodeText": "Hizmetlerimizi görmek için tarayın"
   },
   "reports": {
     "title": "Raporlar",
@@ -714,7 +737,10 @@
       "general": "Genel Bilgiler",
       "auth": "Hesap ve Güvenlik",
       "dashboard": "Sistem Kılavuzu",
-      "settings": "Yapılandırma"
+      "settings": "Yapılandırma",
+      "guestExperience": "Misafir Deneyimi",
+      "qrPlacements": "QR Yerleşimleri",
+      "hierarchy": "Roller ve Hiyerarşi"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Ayarlar ve Yerelleştirme",
         "content": "Logo, dil ve saat dilimi gibi temel bilgileri buradan değiştirebilirsiniz."
+      },
+      "scanQr": {
+        "title": "QR Kodu Tarama",
+        "content": "Misafir, odasındaki QR kodunu tarayarak başlar."
+      },
+      "browseMenu": {
+        "title": "Menüye Göz At",
+        "content": "Dijital dijital menüye göz atılır."
+      },
+      "placeOrder": {
+        "title": "Sipariş Ver",
+        "content": "İstediğiniz hizmetleri seçin ve onaylayın."
+      },
+      "trackStatus": {
+        "title": "Durum Takibi",
+        "content": "İsteğin durumunu gerçek zamanlı izleyin."
+      },
+      "tableTent": {
+        "title": "Masa Üstü",
+        "content": "Odada görülebilen akrilik masa standları."
+      },
+      "wallDisplay": {
+        "title": "Duvar Göstergeleri",
+        "content": "Süitlerde kullanılan kalıcı küçük duvar montajları."
+      },
+      "doorSticker": {
+        "title": "Kapı Çıkartmaları",
+        "content": "Kapı arkasındaki minimalist premium çıkartmalar."
+      },
+      "managerRole": {
+        "title": "Müdür",
+        "content": "Otelin genel sistem otoritesi."
+      },
+      "hotelSupervisorRole": {
+        "title": "Otel Süpervizörü",
+        "content": "Odaların ve temel hizmetlerin yönetimi."
+      },
+      "serviceSupervisorRole": {
+        "title": "Hizmet Süpervizörü",
+        "content": "Özel departmanları ve personeli yönetir."
+      },
+      "employeeRole": {
+        "title": "Personel",
+        "content": "Anlık siparişleri yerine getiren personel."
       }
     }
   }

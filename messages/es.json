@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Eliminar"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Todos los derechos reservados",
       "quickLinks": "Enlaces Rápidos",
       "contact": "Contáctanos"
-    }
+    },
+    "qrTypes": {
+      "title": "Ubicaciones QR",
+      "desc": "Adapte QR SYS a las habitaciones de su hotel con múltiples opciones de ubicación.",
+      "customerScan": {
+        "title": "Escaneo sin problemas",
+        "desc": "Los huéspedes simplemente apuntan con su cámara y piden servicio a la habitación."
+      },
+      "tableTent": {
+        "title": "Caballetes de mesa",
+        "desc": "Elegantes soportes acrílicos perfectos para mesas de noche y mesas de habitación."
+      },
+      "wallDisplay": {
+        "title": "Pantallas de pared",
+        "desc": "Pequeños soportes de pared digitales o permanentes dentro de las suites."
+      },
+      "doorSticker": {
+        "title": "Pegatinas para puertas",
+        "desc": "Pegatinas premium minimalistas colocadas en la parte posterior de la puerta de la habitación."
+      }
+    },
+    "moreOptions": "Más opciones"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "¿Estás seguro de que quieres eliminar este tipo de habitación?",
     "replacementType": "Elige un tipo de habitación de reemplazo (todas las habitaciones relativas se moverán aquí)",
     "mustKeepOneRoomType": "El hotel debe tener al menos un tipo de habitación",
-    "mustSelectReplacement": "Debes seleccionar un tipo de habitación de reemplazo antes de eliminar"
+    "mustSelectReplacement": "Debes seleccionar un tipo de habitación de reemplazo antes de eliminar",
+    "defaultBarcodeText": "Escanea para ver nuestros servicios"
   },
   "reports": {
     "title": "Informes",
@@ -714,7 +737,10 @@
       "general": "Información General",
       "auth": "Cuenta y Seguridad",
       "dashboard": "Guía del Sistema",
-      "settings": "Configuraciones"
+      "settings": "Configuraciones",
+      "guestExperience": "Viaje del huésped",
+      "qrPlacements": "Ubicaciones QR",
+      "hierarchy": "Roles y jerarquía"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Configuración y Localización",
         "content": "En la Configuración del Hotel, puede actualizar el logotipo de su hotel, cambiar los idiomas principal y secundario, y ajustar la zona horaria o la moneda. Cambiar su correo electrónico requiere un nuevo proceso de verificación por seguridad. Si cambia el idioma secundario, recuerde actualizar las traducciones de sus servicios y artículos para asegurar que los huéspedes vean la información correcta."
+      },
+      "scanQr": {
+        "title": "Escanear código QR",
+        "content": "El viaje comienza escaneando el código QR en su habitación."
+      },
+      "browseMenu": {
+        "title": "Explorar el menú",
+        "content": "Los huéspedes pueden explorar un menú digital multilingüe elegante."
+      },
+      "placeOrder": {
+        "title": "Hacer un pedido",
+        "content": "En unos pocos toques, seleccione servicios y confirme la solicitud."
+      },
+      "trackStatus": {
+        "title": "Seguimiento en tiempo real",
+        "content": "Siga el estado de su solicitud en tiempo real para total transparencia."
+      },
+      "tableTent": {
+        "title": "Caballetes de mesa",
+        "content": "Acrílicos elegantes, altamente visibles y accesibles para los huéspedes."
+      },
+      "wallDisplay": {
+        "title": "Pantallas de pared",
+        "content": "Soportes de pared permanentes para una estética premium."
+      },
+      "doorSticker": {
+        "title": "Pegatinas para puertas",
+        "content": "Pegatinas colocadas en la parte posterior de la puerta."
+      },
+      "managerRole": {
+        "title": "Gerente General",
+        "content": "La autoridad más alta que configura el hotel."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisor del hotel",
+        "content": "Supervisa la operación y configura las habitaciones."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisor de servicio",
+        "content": "Administra un departamento específico y a sus empleados."
+      },
+      "employeeRole": {
+        "title": "Empleado de servicio",
+        "content": "El personal que recibe y procesa las solicitudes."
       }
     }
   }

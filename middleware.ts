@@ -12,18 +12,18 @@ const apiPublicPaths = ['/api/auth/register', '/api/auth/login', '/api/auth/veri
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Allow public paths, but redirect authenticated users from login/register
-  const isAuthPage = pathname === '/login' || pathname === '/register'
+  // Allow public paths, but redirect authenticated users from login
+  const isLoginPage = pathname === '/login'
   
   if (publicPaths.some(p => pathname === p || pathname.startsWith('/guest/'))) {
-    if (isAuthPage) {
+    if (isLoginPage) {
       const token = request.cookies.get('session')?.value
       if (token) {
         try {
           await jwtVerify(token, secretKey)
           return NextResponse.redirect(new URL('/dashboard', request.url))
         } catch {
-          // Token invalid, allow access to login/register
+          // Token invalid, allow access to login
         }
       }
     }

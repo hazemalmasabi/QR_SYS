@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Search, Info, ShieldCheck, LayoutGrid, Settings, HelpCircle, BookOpen, UserPlus, LogIn, Key, ClipboardList, ShoppingBag, Box, Grid, Users, BarChart3 } from 'lucide-react'
+import { Search, Info, ShieldCheck, LayoutGrid, Settings, HelpCircle, BookOpen, UserPlus, LogIn, Key, ClipboardList, ShoppingBag, Box, Grid, Users, BarChart3, ScanLine, Smartphone, Pointer, QrCode, MonitorSmartphone, BadgeCheck, UserCog, UserCheck, User } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 interface HelpCenterProps {
@@ -16,6 +17,9 @@ export default function HelpCenter({ context }: HelpCenterProps) {
 
     const categories = [
         { id: 'all', label: t('categories.all'), icon: LayoutGrid },
+        { id: 'guestExperience', label: t('categories.guestExperience'), icon: Smartphone, sections: ['scanQr', 'browseMenu', 'placeOrder', 'trackStatus'] },
+        { id: 'qrPlacements', label: t('categories.qrPlacements'), icon: QrCode, sections: ['tableTent', 'wallDisplay', 'doorSticker'] },
+        { id: 'hierarchy', label: t('categories.hierarchy'), icon: Users, sections: ['managerRole', 'hotelSupervisorRole', 'serviceSupervisorRole', 'employeeRole'] },
         { id: 'general', label: t('categories.general'), icon: Info, sections: ['philosophy', 'registration'] },
         { id: 'auth', label: t('categories.auth'), icon: ShieldCheck, sections: ['login', 'forgotPassword'] },
         { id: 'dashboard', label: t('categories.dashboard'), icon: BookOpen, sections: ['orders', 'services', 'items', 'rooms', 'employees', 'reports'] },
@@ -23,6 +27,17 @@ export default function HelpCenter({ context }: HelpCenterProps) {
     ]
 
     const sectionIcons: Record<string, any> = {
+        scanQr: ScanLine,
+        browseMenu: Pointer,
+        placeOrder: ShoppingBag,
+        trackStatus: MonitorSmartphone,
+        tableTent: QrCode,
+        wallDisplay: QrCode,
+        doorSticker: QrCode,
+        managerRole: BadgeCheck,
+        hotelSupervisorRole: UserCog,
+        serviceSupervisorRole: UserCheck,
+        employeeRole: User,
         philosophy: BookOpen,
         registration: UserPlus,
         login: LogIn,
@@ -36,7 +51,27 @@ export default function HelpCenter({ context }: HelpCenterProps) {
         settings: Settings,
     }
 
+    const sectionImages: Record<string, string> = {
+        scanQr: '/images/landing/qr_scan_customer.png',
+        placeOrder: '/images/landing/qr_scan_customer.png',
+        trackStatus: '/images/landing/hiw_step3.png',
+        tableTent: '/images/landing/qr_type_table_tent.png',
+        wallDisplay: '/images/landing/qr_type_wall_display.png',
+        doorSticker: '/images/landing/qr_type_door_sticker.png',
+    }
+
     const allSections = [
+        { id: 'scanQr', category: 'guestExperience' },
+        { id: 'browseMenu', category: 'guestExperience' },
+        { id: 'placeOrder', category: 'guestExperience' },
+        { id: 'trackStatus', category: 'guestExperience' },
+        { id: 'tableTent', category: 'qrPlacements' },
+        { id: 'wallDisplay', category: 'qrPlacements' },
+        { id: 'doorSticker', category: 'qrPlacements' },
+        { id: 'managerRole', category: 'hierarchy' },
+        { id: 'hotelSupervisorRole', category: 'hierarchy' },
+        { id: 'serviceSupervisorRole', category: 'hierarchy' },
+        { id: 'employeeRole', category: 'hierarchy' },
         { id: 'philosophy', category: 'general' },
         { id: 'registration', category: 'general' },
         { id: 'login', category: 'auth' },
@@ -107,11 +142,11 @@ export default function HelpCenter({ context }: HelpCenterProps) {
                                 key={section.id}
                                 className="group bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-all duration-300"
                             >
-                                <div className="flex flex-col md:flex-row items-start gap-4">
+                                <div className="flex flex-col md:flex-row items-start gap-4 h-full">
                                     <div className="flex-shrink-0 p-3 bg-primary-50 rounded-xl group-hover:bg-primary-100 transition-colors">
                                         <Icon className="h-6 w-6 text-primary-600" />
                                     </div>
-                                    <div className="space-y-3">
+                                    <div className="space-y-3 flex-1">
                                         <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-700 transition-colors">
                                             {t(`sections.${section.id}.title`)}
                                         </h3>
@@ -119,6 +154,12 @@ export default function HelpCenter({ context }: HelpCenterProps) {
                                             {t(`sections.${section.id}.content`)}
                                         </div>
                                     </div>
+                                    
+                                    {sectionImages[section.id] && (
+                                        <div className="w-full md:w-56 h-48 md:h-auto self-stretch flex-shrink-0 relative rounded-xl overflow-hidden mt-4 md:mt-0 md:ltr:ml-2 md:rtl:mr-2 border border-gray-100 shadow-sm hidden sm:block bg-gray-50">
+                                            <Image src={sectionImages[section.id]} fill alt={t(`sections.${section.id}.title`)} className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )

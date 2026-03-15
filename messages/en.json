@@ -100,7 +100,8 @@
     "language_jv": "Javanese",
     "language_it": "Italian",
     "language_pnb": "Western Punjabi",
-    "language_kn": "Kannada"
+    "language_kn": "Kannada",
+    "remove": "Remove"
   },
   "email": {
     "verify": {
@@ -181,6 +182,27 @@
         "desc": "The guest tracks their request status in real-time until completion"
       }
     },
+    "qrTypes": {
+      "title": "QR Placements",
+      "desc": "Adapt QR SYS to your hotel rooms with multiple placement options.",
+      "customerScan": {
+        "title": "Seamless Scanning",
+        "desc": "Guests simply point their camera and order room service instantly."
+      },
+      "tableTent": {
+        "title": "Table Tents",
+        "desc": "Elegant acrylic stands perfect for nightstands and room tables."
+      },
+      "wallDisplay": {
+        "title": "Wall Displays",
+        "desc": "Sleek digital or permanent small wall mounts inside the suites."
+      },
+      "doorSticker": {
+        "title": "Door Stickers",
+        "desc": "Minimalist premium stickers placed right on the back of the room door."
+      }
+    },
+    "moreOptions": "More Options",
     "footer": {
       "rights": "All rights reserved",
       "quickLinks": "Quick Links",
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Are you sure you want to delete this room type?",
     "replacementType": "Choose a replacement room type (all relative rooms will be moved here)",
     "mustKeepOneRoomType": "The hotel must have at least one room type",
-    "mustSelectReplacement": "You must select a replacement room type before deleting"
+    "mustSelectReplacement": "You must select a replacement room type before deleting",
+    "defaultBarcodeText": "Scan to view our services"
   },
   "reports": {
     "title": "Reports",
@@ -714,9 +737,56 @@
       "general": "General Info",
       "auth": "Account & Security",
       "dashboard": "System Guide",
-      "settings": "Configurations"
+      "settings": "Configurations",
+      "guestExperience": "Guest Journey",
+      "qrPlacements": "QR Code Placements",
+      "hierarchy": "Roles & Hierarchy"
     },
     "sections": {
+      "scanQr": {
+        "title": "Scanning the QR Code",
+        "content": "The guest journey begins by scanning the QR code placed securely inside their hotel room using any smartphone camera. No app download is required—they are instantly connected to the hotel's digital service portal."
+      },
+      "browseMenu": {
+        "title": "Browsing the Menu",
+        "content": "Guests can seamlessly swipe through an elegantly designed, multi-language digital menu. They can view crystal-clear images, read detailed descriptions of services, and check prices to decide what they want at their own pace."
+      },
+      "placeOrder": {
+        "title": "Placing an Order",
+        "content": "In just a few taps, guests can select their desired services, add them to the Service Tray, write any special instructions, and confirm their request directly from their mobile device."
+      },
+      "trackStatus": {
+        "title": "Real-time Tracking",
+        "content": "After placing an order, guests are provided with live updates. They can track the status of their request—whether it's 'New', 'In Progress', or 'Completed'—ensuring transparency and peace of mind."
+      },
+      "tableTent": {
+        "title": "Table Tents",
+        "content": "Elegant acrylic table tents are perfectly sized to be placed on nightstands, dining tables, or desks within the room, making them highly visible and accessible to guests at all times."
+      },
+      "wallDisplay": {
+        "title": "Wall Displays",
+        "content": "Sleek and permanent small wall mounts can be installed on the walls of suites or near the room entrance, offering a premium and integrated aesthetic."
+      },
+      "doorSticker": {
+        "title": "Door Stickers",
+        "content": "Minimalist, premium stickers are placed directly on the back of the room door, ensuring that it is one of the first things a guest sees when they enter."
+      },
+      "managerRole": {
+        "title": "General Manager",
+        "content": "The highest authority in the system. The Manager registers the hotel, configures core settings (like timezone and currency), and adds primary Hotel Supervisors to oversee the daily operations."
+      },
+      "hotelSupervisorRole": {
+        "title": "Hotel Supervisor",
+        "content": "Oversees the entire hotel operation. Responsible for creating main services (e.g., Housekeeping, Dining), configuring rooms, and assigning Service Supervisors to manage specific departments."
+      },
+      "serviceSupervisorRole": {
+        "title": "Service Supervisor",
+        "content": "Manages a specific department. They add sub-services, create items/products, manage availability, and assign Service Employees to handle guest requests."
+      },
+      "employeeRole": {
+        "title": "Service Employee",
+        "content": "The frontline execution staff. Employees receive real-time notifications of guest requests, accept them, and update the status to 'Completed' once the service is delivered."
+      },
       "philosophy": {
         "title": "System Concept & Goal",
         "content": "QR SYS is a comprehensive hotel service management system designed to bridge the gap between guests and hotel staff. Our goal is to digitize the guest experience, allowing them to request services instantly via QR codes without needing to make phone calls or visit the reception. This increases operational efficiency, reduces wait times, and provides management with real-time analytics to improve service quality."

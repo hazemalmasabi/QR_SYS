@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Rimuovi"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Tutti i diritti riservati",
       "quickLinks": "Link Rapidi",
       "contact": "Contattaci"
-    }
+    },
+    "qrTypes": {
+      "title": "Posizionamenti QR",
+      "desc": "Adatta QR SYS alle tue camere con diverse opzioni.",
+      "customerScan": {
+        "title": "Scansione rapida",
+        "desc": "Gli ospiti scansionano per ordinare immediatamente."
+      },
+      "tableTent": {
+        "title": "Espositori da tavolo",
+        "desc": "Eleganti supporti in acrilico per comodini."
+      },
+      "wallDisplay": {
+        "title": "Display da parete",
+        "desc": "Piccoli supporti a parete permanenti nelle suite."
+      },
+      "doorSticker": {
+        "title": "Adesivi per porte",
+        "desc": "Adesivi premium posizionati sul retro della porta."
+      }
+    },
+    "moreOptions": "Altre Opzioni"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Sei sicuro di voler eliminare questo tipo di camera?",
     "replacementType": "Seleziona un tipo sostitutivo (le camere verranno spostate lì)",
     "mustKeepOneRoomType": "L'hotel deve avere almeno un tipo di camera",
-    "mustSelectReplacement": "Devi selezionare un sostituto prima di eliminare"
+    "mustSelectReplacement": "Devi selezionare un sostituto prima di eliminare",
+    "defaultBarcodeText": "Scansiona per vedere i nostri servizi"
   },
   "reports": {
     "title": "Report",
@@ -714,7 +737,10 @@
       "general": "Informazioni Generali",
       "auth": "Account e Sicurezza",
       "dashboard": "Guida al Sistema",
-      "settings": "Configurazione"
+      "settings": "Configurazione",
+      "guestExperience": "Viaggio dell'Ospite",
+      "qrPlacements": "Posizionamenti QR",
+      "hierarchy": "Ruoli e Gerarchia"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Impostazioni e Localizzazione",
         "content": "Nelle Impostazioni Hotel, puoi aggiornare il logo, cambiare le lingue primaria e secondaria e regolare il fuso orario o la valuta. Il cambio dell'email richiede un nuovo processo di verifica per sicurezza. Se cambi la lingua secondaria, ricordati di aggiornare le traduzioni per i tuoi servizi e articoli per garantire che gli ospiti vedano le informazioni corrette."
+      },
+      "scanQr": {
+        "title": "Scansionare il QR",
+        "content": "Inizia la scansione del codice QR nella camera."
+      },
+      "browseMenu": {
+        "title": "Sfoglia il Menu",
+        "content": "Esplora i servizi disponibili."
+      },
+      "placeOrder": {
+        "title": "Effettua un Ordine",
+        "content": "Seleziona i servizi desiderati."
+      },
+      "trackStatus": {
+        "title": "Monitoraggio",
+        "content": "Controlla lo stato in tempo reale."
+      },
+      "tableTent": {
+        "title": "Espositori da tavolo",
+        "content": "Espositori posizionati in punti strategici."
+      },
+      "wallDisplay": {
+        "title": "Display da parete",
+        "content": "Adesivi e display montati sulle pareti."
+      },
+      "doorSticker": {
+        "title": "Adesivi per porte",
+        "content": "Adesivi collocati sulla porta d'ingresso."
+      },
+      "managerRole": {
+        "title": "Direttore",
+        "content": "Autorità massima della piattaforma."
+      },
+      "hotelSupervisorRole": {
+        "title": "Supervisore Hotel",
+        "content": "Supervisione operativa."
+      },
+      "serviceSupervisorRole": {
+        "title": "Supervisore Servizio",
+        "content": "Gestione dei vari reparti dell'hotel."
+      },
+      "employeeRole": {
+        "title": "Dipendente",
+        "content": "Personale di esecuzione."
       }
     }
   }

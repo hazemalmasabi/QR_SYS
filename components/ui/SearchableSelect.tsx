@@ -32,7 +32,7 @@ export function SearchableSelect({
     searchPlaceholder = 'Search...',
     noResultsText = 'No results found',
     locale = 'ar',
-
+    hasIcon,
     className,
     error,
     showOtherOption = true,
@@ -82,6 +82,7 @@ export function SearchableSelect({
                 onClick={() => setOpen(!open)}
                 className={cn(
                     'input w-full flex items-center justify-between text-start',
+                    hasIcon && 'ps-10',
                     error && 'input-error',
                     className
                 )}

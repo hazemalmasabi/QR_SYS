@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "Entfernen"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "Alle Rechte vorbehalten",
       "quickLinks": "Quick-Links",
       "contact": "Kontaktieren Sie uns"
-    }
+    },
+    "qrTypes": {
+      "title": "QR-Platzierungen",
+      "desc": "Passen Sie QR SYS mit mehreren Platzierungsoptionen an Ihre Hotelzimmer an.",
+      "customerScan": {
+        "title": "Nahtloses Scannen",
+        "desc": "Gäste scannen einfach und bestellen sofort Zimmerservice."
+      },
+      "tableTent": {
+        "title": "Tischaufsteller",
+        "desc": "Elegante Acrylständer speziell für Nachttische."
+      },
+      "wallDisplay": {
+        "title": "Wanddisplays",
+        "desc": "Elegante kleine Wandhalterungen in den Suiten."
+      },
+      "doorSticker": {
+        "title": "Türaufkleber",
+        "desc": "Minimalistische Premium-Aufkleber auf der Rückseite der Zimmertür."
+      }
+    },
+    "moreOptions": "Mehr Optionen"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "Sind Sie sicher, dass Sie diesen Zimmertyp löschen möchten?",
     "replacementType": "Wählen Sie einen Ersatz-Zimmertyp (alle zugehörigen Zimmer werden hierhin verschoben)",
     "mustKeepOneRoomType": "Das Hotel muss mindestens einen Zimmertyp haben",
-    "mustSelectReplacement": "Sie müssen einen Ersatz-Zimmertyp auswählen, bevor Sie löschen"
+    "mustSelectReplacement": "Sie müssen einen Ersatz-Zimmertyp auswählen, bevor Sie löschen",
+    "defaultBarcodeText": "Scannen, um unsere Dienstleistungen zu sehen"
   },
   "reports": {
     "title": "Berichte",
@@ -714,7 +737,10 @@
       "general": "Allgemeine Informationen",
       "auth": "Konto & Sicherheit",
       "dashboard": "Systemanleitung",
-      "settings": "Konfigurationen"
+      "settings": "Konfigurationen",
+      "guestExperience": "Gäste-Erlebnis",
+      "qrPlacements": "QR-Platzierungen",
+      "hierarchy": "Rollen & Hierarchie"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "Einstellungen und Lokalisierung",
         "content": "In den Hoteleinstellungen können Sie das Hotellogo aktualisieren, die Haupt- und Zweitsprache ändern und die Zeitzone oder Währung anpassen. Eine Änderung der E-Mail erfordert aus Sicherheitsgründen einen erneuten Verifizierungsprozess. Wenn Sie die Zweitsprache ändern, denken Sie daran, die Übersetzungen Ihrer Services und Artikel zu aktualisieren, damit Gäste die richtigen Informationen sehen."
+      },
+      "scanQr": {
+        "title": "QR-Code scannen",
+        "content": "Das Erlebnis beginnt mit dem Scannen des QR-Codes im Zimmer."
+      },
+      "browseMenu": {
+        "title": "Menü durchsuchen",
+        "content": "Gäste können ein elegantes, mehrsprachiges Menü durchsuchen."
+      },
+      "placeOrder": {
+        "title": "Bestellung aufgeben",
+        "content": "Dienstleistungen auswählen und Anfragen direkt bestätigen."
+      },
+      "trackStatus": {
+        "title": "Echtzeit-Tracking",
+        "content": "Status der Anfrage wird in Echtzeit angezeigt."
+      },
+      "tableTent": {
+        "title": "Tischaufsteller",
+        "content": "Bereitstellung von Acryl-Aufstellern auf Nachttischen."
+      },
+      "wallDisplay": {
+        "title": "Wanddisplays",
+        "content": "Feste kleine Wandhalterungen in Premium-Ästhetik."
+      },
+      "doorSticker": {
+        "title": "Türaufkleber",
+        "content": "Aufkleber direkt an der Zimmertür."
+      },
+      "managerRole": {
+        "title": "Geschäftsführer",
+        "content": "Die höchste Instanz zur Konfiguration des Hotels."
+      },
+      "hotelSupervisorRole": {
+        "title": "Hotel-Supervisor",
+        "content": "Überwacht den Betrieb und legt Dienstleistungen fest."
+      },
+      "serviceSupervisorRole": {
+        "title": "Service-Supervisor",
+        "content": "Verwaltet Abteilungen und Artikel."
+      },
+      "employeeRole": {
+        "title": "Service-Mitarbeiter",
+        "content": "Führt die Anfragen aus."
       }
     }
   }

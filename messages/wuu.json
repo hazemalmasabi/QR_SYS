@@ -100,7 +100,8 @@
     "language_jv": "Basa Jawa",
     "language_it": "Italiano",
     "language_pnb": "پنجابی",
-    "language_kn": "ಕನ್ನಡ"
+    "language_kn": "ಕನ್ನಡ",
+    "remove": "移脱"
   },
   "email": {
     "verify": {
@@ -185,7 +186,28 @@
       "rights": "版权所有",
       "quickLinks": "快速连接",
       "contact": "联系阿拉"
-    }
+    },
+    "qrTypes": {
+      "title": "QR码放置",
+      "desc": "多个放置选项",
+      "customerScan": {
+        "title": "无缝扫描",
+        "desc": "客人只需打开相机即可立即点餐。"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "desc": "非常适合床头柜的优雅亚克力支架。"
+      },
+      "wallDisplay": {
+        "title": "墙壁显示",
+        "desc": "套房内小巧的墙壁支架。"
+      },
+      "doorSticker": {
+        "title": "门贴",
+        "desc": "放置在房门背面的高级贴纸。"
+      }
+    },
+    "moreOptions": "更多选项"
   },
   "auth": {
     "login": {
@@ -557,7 +579,8 @@
     "deleteRoomTypeConfirm": "侬确定要删掉箇种类伐？",
     "replacementType": "选个顶上。房间会挪过去。",
     "mustKeepOneRoomType": "至少得留一个种类",
-    "mustSelectReplacement": "删脱之前选个代替个"
+    "mustSelectReplacement": "删脱之前选个代替个",
+    "defaultBarcodeText": "扫描查看服务"
   },
   "reports": {
     "title": "报告",
@@ -714,7 +737,10 @@
       "general": "基本事体",
       "auth": "账号搭安全",
       "dashboard": "总台哪亨用",
-      "settings": "配置设置"
+      "settings": "配置设置",
+      "guestExperience": "客人体验",
+      "qrPlacements": "QR 放置位置",
+      "hierarchy": "角色和权限"
     },
     "sections": {
       "philosophy": {
@@ -760,6 +786,50 @@
       "settings": {
         "title": "设置搭本地化",
         "content": "设置里好改 Logo、主副语言、时区搭钞票。改邮件要重新验证。换勒副语言，别忘记改服务搭东西个翻译。"
+      },
+      "scanQr": {
+        "title": "扫描QR码",
+        "content": "扫描房间内的QR码"
+      },
+      "browseMenu": {
+        "title": "浏览菜单",
+        "content": "查看菜单"
+      },
+      "placeOrder": {
+        "title": "下订单",
+        "content": "确认服务"
+      },
+      "trackStatus": {
+        "title": "实时跟踪",
+        "content": "跟踪进度"
+      },
+      "tableTent": {
+        "title": "台卡",
+        "content": "亚克力台卡"
+      },
+      "wallDisplay": {
+        "title": "墙壁显示",
+        "content": "墙壁展示"
+      },
+      "doorSticker": {
+        "title": "门贴",
+        "content": "门贴"
+      },
+      "managerRole": {
+        "title": "总经理",
+        "content": "最高权限"
+      },
+      "hotelSupervisorRole": {
+        "title": "酒店主管",
+        "content": "监督酒店运营"
+      },
+      "serviceSupervisorRole": {
+        "title": "服务主管",
+        "content": "管理员工"
+      },
+      "employeeRole": {
+        "title": "员工",
+        "content": "执行订单"
       }
     }
   }
