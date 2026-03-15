@@ -108,14 +108,19 @@ export default function GuestLayout({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Clock timezone={guestInfo?.hotel.timezone} />
             {guestInfo ? (
-              <LanguageSwitcher
-                className="!py-1.5 !px-2.5 !text-xs"
-                secondaryLocale={guestInfo.hotel.language_secondary}
-              />
+              <>
+                <Clock timezone={guestInfo.hotel.timezone} />
+                <LanguageSwitcher
+                  className="!py-1.5 !px-2.5 !text-xs"
+                  secondaryLocale={guestInfo.hotel.language_secondary}
+                />
+              </>
             ) : (
-              <div className="h-8 w-20 animate-pulse rounded-lg bg-gray-200" />
+              <>
+                <div className="h-8 w-12 animate-pulse rounded-lg bg-gray-200" />
+                <div className="h-8 w-20 animate-pulse rounded-lg bg-gray-200" />
+              </>
             )}
           </div>
         </div>
