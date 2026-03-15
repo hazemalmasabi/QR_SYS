@@ -40,10 +40,10 @@ export function Clock({ className, iconClassName, timezone }: { className?: stri
     return (
         <div className={cn("flex items-center justify-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-gray-200 shadow-sm whitespace-nowrap transition-shadow hover:shadow-md", className)}>
             <ClockIcon className={cn("w-4 h-4 text-primary-600", iconClassName)} />
-            {mounted ? (
-                <span dir="ltr" className="font-bold text-gray-900 tracking-wider font-mono text-sm sm:text-base">{time}</span>
-            ) : (
-                <div className="w-12 sm:w-16 h-5 animate-pulse rounded bg-gray-100" />
+            {mounted && (
+                <span dir="ltr" className="font-bold text-gray-900 tracking-wider font-mono text-sm sm:text-base animate-in fade-in zoom-in duration-300">
+                    {time}
+                </span>
             )}
         </div>
     )
