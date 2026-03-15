@@ -7,6 +7,7 @@ interface HotelData {
     hotel_name_translations: Record<string, string>
     hotel_logo_url: string
     language_secondary: string
+    timezone: string
 }
 
 const HotelContext = createContext<HotelData | null>(null)

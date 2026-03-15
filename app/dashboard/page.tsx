@@ -19,6 +19,7 @@ import {
 import { cn, formatCurrency, formatDateTime } from '@/lib/utils'
 import { supabase } from '@/lib/supabase/client'
 import { Clock as ClockComponent } from '@/components/Clock'
+import { useHotel } from '@/components/Providers/HotelProvider'
 
 type Period = 'today' | '7d' | '30d' | '90d' | 'custom'
 
@@ -66,6 +67,7 @@ export default function DashboardPage() {
   const tc = useTranslations('common')
   const locale = useLocale()
   const router = useRouter()
+  const { timezone } = useHotel()
 
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [loading, setLoading] = useState(true)
@@ -271,7 +273,7 @@ export default function DashboardPage() {
         )}
 
         <div className="ms-auto flex items-center">
-          <ClockComponent className="px-5 py-2.5 rounded-2xl gap-3 shadow" iconClassName="w-5 h-5" />
+          <ClockComponent timezone={timezone} className="px-5 py-2.5 rounded-2xl gap-3 shadow" iconClassName="w-5 h-5" />
         </div>
       </div>
 

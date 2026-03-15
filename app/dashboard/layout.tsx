@@ -20,7 +20,7 @@ export default async function DashboardLayout({
 
   const { data: hotel } = await supabaseAdmin
     .from('hotels')
-    .select('hotel_name, hotel_name_translations, hotel_logo_url, language_secondary')
+    .select('hotel_name, hotel_name_translations, hotel_logo_url, language_secondary, timezone')
     .eq('hotel_id', session.hotelId)
     .single()
 
@@ -29,6 +29,7 @@ export default async function DashboardLayout({
     hotel_name_translations: hotel?.hotel_name_translations || {},
     hotel_logo_url: hotel?.hotel_logo_url || '',
     language_secondary: hotel?.language_secondary || 'ar',
+    timezone: hotel?.timezone || 'Asia/Riyadh',
   }
 
   return (

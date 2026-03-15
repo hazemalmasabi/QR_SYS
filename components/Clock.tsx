@@ -37,15 +37,14 @@ export function Clock({ className, iconClassName, timezone }: { className?: stri
         return () => clearInterval(interval)
     }, [timezone])
 
-    if (!mounted) {
-        // Return empty space or a skeleton to prevent hydration mismatch
-        return <div className="w-16 h-5" />
-    }
-
     return (
         <div className={cn("flex items-center justify-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-gray-200 shadow-sm whitespace-nowrap transition-shadow hover:shadow-md", className)}>
             <ClockIcon className={cn("w-4 h-4 text-primary-600", iconClassName)} />
-            <span dir="ltr" className="font-bold text-gray-900 tracking-wider font-mono text-sm sm:text-base">{time}</span>
+            {mounted ? (
+                <span dir="ltr" className="font-bold text-gray-900 tracking-wider font-mono text-sm sm:text-base">{time}</span>
+            ) : (
+                <div className="w-12 sm:w-16 h-5 animate-pulse rounded bg-gray-100" />
+            )}
         </div>
     )
 }
