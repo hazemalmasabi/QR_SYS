@@ -492,7 +492,15 @@
     "printQR": "Print QR",
     "noRooms": "No rooms found",
     "notes": "Notes",
-    "roomLabel": "Room"
+    "roomLabel": "Room",
+    "exportAllPdf": "Export All (PDF)",
+    "qrExportSize": "QR Export Size Width",
+    "sizeHelpText": "Adjust the QR size wey you export in centimeters make e fit your print layouts, acrylic stands, or door templates.",
+    "cm": "cm",
+    "downloadPdf": "Download PDF",
+    "bulkDownloadInfo": "You dey about to export QR codes for {count} rooms.",
+    "previewingFirstRoom": "Previewing first room",
+    "printWarning": "Important: For accurate sizing, ensure 'Fit to paper' scaling is selected in your browser's print dialog (e.g. Chrome). If sizes print incorrectly, try printing via Microsoft Edge."
   },
   "employees": {
     "title": "Employees",

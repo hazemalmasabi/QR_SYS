@@ -492,7 +492,15 @@
     "printQR": "Buga QR",
     "noRooms": "Ba a sami ɗakuna ba",
     "notes": "Bayani",
-    "roomLabel": "Daki"
+    "roomLabel": "Daki",
+    "exportAllPdf": "Fitarwa Gaba ɗaya (PDF)",
+    "qrExportSize": "Fadin Girman Fitarwar QR",
+    "cm": "cm",
+    "downloadPdf": "Sauke PDF",
+    "bulkDownloadInfo": "Kuna gab da fitarwa da lambobin QR na ɗakuna {count}.",
+    "previewingFirstRoom": "Yin samfoti na ɗakin farko",
+    "sizeHelpText": "Canzawa girman QR da aka fitarwa a santimita don dacewa da kwafin bugunku, tsayawar acrylic, ko alamomin ƙofa.",
+    "printWarning": "Muhimmi: Domin samun girman daidai, tabbatar an zabi tsarin 'Fit to paper' a wajen bugun takarda a Chrome. Idan bai yi daidai ba, yi kokarin amfani da Microsoft Edge."
   },
   "employees": {
     "title": "Ma'aikata",

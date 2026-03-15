@@ -492,7 +492,15 @@
     "printQR": "In mã QR",
     "noRooms": "Không tìm thấy phòng nào",
     "notes": "Ghi chú",
-    "roomLabel": "Phòng"
+    "roomLabel": "Phòng",
+    "exportAllPdf": "Xuất tất cả (PDF)",
+    "qrExportSize": "Chiều rộng kích thước xuất QR",
+    "sizeHelpText": "Điều chỉnh kích thước QR đã xuất bằng centimet để vừa với bố cục in, giá đỡ bằng acrylic hoặc mẫu cửa.",
+    "cm": "cm",
+    "downloadPdf": "Tải xuống PDF",
+    "bulkDownloadInfo": "Bạn sắp xuất mã QR cho {count} phòng.",
+    "previewingFirstRoom": "Đang xem trước phòng đầu tiên",
+    "printWarning": "Quan trọng: Để có kích thước chính xác, hãy đảm bảo chọn tùy chọn 'Vừa với giấy' trong hộp thoại in của trình duyệt (ví dụ Chrome). Nếu kích thước in không đúng, hãy thử với Microsoft Edge."
   },
   "employees": {
     "title": "Nhân viên",

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import Image from 'next/image'
 import {
@@ -17,11 +17,13 @@ import {
   DoorOpen,
   ChevronLeft,
   ChevronRight,
+  Info,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import type { Room, RoomType } from '@/types'
 import RoomFormModal from './RoomFormModal'
 import QRCode from 'qrcode'
+import { jsPDF } from 'jspdf'
 
 export default function RoomsPage() {
   const t = useTranslations('rooms')
@@ -45,6 +47,39 @@ export default function RoomsPage() {
   const [qrLoading, setQrLoading] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
+
+  // QR Export Settings
+  const [qrSizeCm, setQrSizeCm] = useState<number>(5)
+  const [bulkQrLoading, setBulkQrLoading] = useState(false)
+  const [isBulkQR, setIsBulkQR] = useState(false)
+
+  const QR_SIZES = useMemo(() => [
+    { label: '4x4 cm', value: 4 },
+    { label: '5x5 cm', value: 5 },
+    { label: '6x6 cm', value: 6 },
+    { label: '7x7 cm', value: 7 },
+    { label: '8x8 cm', value: 8 },
+    { label: '10x10 cm', value: 10 },
+    { label: '12x12 cm', value: 12 },
+    { label: '15x15 cm', value: 15 },
+    { label: `B5 / JIS B5 (18.2x25.7 ${t('cm')})`, value: 18.2 },
+    { label: `A6 (10.5x14.8 ${t('cm')})`, value: 10.5 },
+    { label: `A5 (14.8x21 ${t('cm')})`, value: 14.8 },
+    { label: `A4 (21x29.7 ${t('cm')})`, value: 21 },
+    { label: `A3 (29.7x42 ${t('cm')})`, value: 29.7 },
+    { label: `B4 / JIS B4 (25.7x36.4 ${t('cm')})`, value: 25.7 },
+    { label: `Letter (21.6x27.9 ${t('cm')})`, value: 21.6 },
+    { label: `Legal (21.6x35.6 ${t('cm')})`, value: 21.59 },
+    { label: `3x5" Index (7.6x12.7 ${t('cm')})`, value: 7.6 },
+    { label: `4x6" Photo (10.1x15.2 ${t('cm')})`, value: 10.1 },
+    { label: `5x7" Photo (12.7x17.8 ${t('cm')})`, value: 12.7 },
+    { label: `8x10" Portrait (20.3x25.4 ${t('cm')})`, value: 20.3 },
+    { label: `Executive (18.4x26.6 ${t('cm')})`, value: 18.4 },
+    { label: `Statement (14x21.6 ${t('cm')})`, value: 14 },
+    { label: `Envelope #10 (10.4x24.1 ${t('cm')})`, value: 10.4 },
+    { label: `Envelope DL (11x22 ${t('cm')})`, value: 11 },
+    { label: `Envelope C5 (16.2x22.9 ${t('cm')})`, value: 16.2 },
+  ], [t])
 
   // QR Settings
   const [hotelLogoUrl, setHotelLogoUrl] = useState<string | null>(null)
@@ -78,12 +113,26 @@ export default function RoomsPage() {
     try {
       const res = await fetch('/api/settings')
       const data = await res.json()
+      
+      const defaultsRes = await fetch('/api/translations/defaults')
+      const defaultsData = await defaultsRes.json()
+
       if (data.success && data.settings) {
         if (data.settings.room_types) {
           setRoomTypes(data.settings.room_types)
         }
         setHotelLogoUrl(data.settings.hotel_logo_url || null)
-        setBarcodeTextTranslations(data.settings.barcode_text_translations || {})
+        
+        const mergedTranslations: Record<string, string> = { ...(defaultsData || {}) }
+        const backendTranslations = data.settings.barcode_text_translations || {}
+        
+        for (const lang in backendTranslations) {
+          if (backendTranslations[lang] && backendTranslations[lang].trim() !== '') {
+            mergedTranslations[lang] = backendTranslations[lang]
+          }
+        }
+        
+        setBarcodeTextTranslations(mergedTranslations)
         const sec = data.settings.language_secondary || 'none'
         setLanguageSecondary(sec)
         // Set initial QR language based on availability
@@ -184,138 +233,201 @@ export default function RoomsPage() {
     }
   }
 
+  // Helper to generate a canvas for a specific room and language
+  const generateQRCanvas = async (room: Room, lang: string): Promise<HTMLCanvasElement> => {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+    const url = new URL(`${appUrl}/guest/${room.qr_code}`)
+    url.searchParams.set('lang', lang === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : lang)
+    const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Could not get canvas context')
+
+    // Dimensions
+    const QR_SIZE = 400
+    const PADDING = 40
+    const HEADER_HEIGHT = PADDING
+
+    // Determine text content based on selected language
+    let customTextSec = ''
+    let customTextEn = ''
+    if (lang === 'both') {
+      customTextSec = barcodeTextTranslations[languageSecondary] || ''
+      customTextEn = barcodeTextTranslations.en || ''
+    } else if (lang === 'en') {
+      customTextEn = barcodeTextTranslations.en || ''
+    } else {
+      customTextSec = barcodeTextTranslations[languageSecondary] || ''
+    }
+
+    const TEXT_GAP_SEC = customTextSec ? 35 : 0
+    const TEXT_GAP_EN = customTextEn ? 35 : 0
+    const FOOTER_HEIGHT = 80 + TEXT_GAP_SEC + TEXT_GAP_EN
+
+    canvas.width = QR_SIZE + PADDING * 2
+    canvas.height = HEADER_HEIGHT + QR_SIZE + FOOTER_HEIGHT
+
+    // Draw background
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    // Draw QR Code
+    await new Promise<void>((resolve, reject) => {
+      const img = new window.Image()
+      img.onload = () => {
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.05)'
+        ctx.shadowBlur = 10
+        ctx.fillStyle = '#ffffff'
+        ctx.beginPath()
+        ctx.roundRect(PADDING - 10, HEADER_HEIGHT - 10, QR_SIZE + 20, QR_SIZE + 20, 20)
+        ctx.fill()
+        ctx.shadowColor = 'transparent'
+        ctx.shadowBlur = 0
+        ctx.drawImage(img, PADDING, HEADER_HEIGHT, QR_SIZE, QR_SIZE)
+        resolve()
+      }
+      img.onerror = reject
+      img.src = qrDataUrl
+    })
+
+    // Draw logo in the middle of QR if exists
+    if (hotelLogoUrl) {
+      await new Promise<void>((resolve) => {
+        const img = new window.Image()
+        img.crossOrigin = 'anonymous'
+        img.onload = () => {
+          const logoSize = QR_SIZE * 0.22
+          const cx = PADDING + QR_SIZE / 2
+          const cy = HEADER_HEIGHT + QR_SIZE / 2
+          ctx.fillStyle = '#ffffff'
+          ctx.beginPath()
+          ctx.roundRect(cx - logoSize / 2 - 6, cy - logoSize / 2 - 6, logoSize + 12, logoSize + 12, 12)
+          ctx.fill()
+          let w = img.width
+          let h = img.height
+          if (w > h) {
+            h = h * (logoSize / w); w = logoSize;
+          } else {
+            w = w * (logoSize / h); h = logoSize;
+          }
+          ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h)
+          resolve()
+        }
+        img.onerror = () => resolve()
+        img.src = hotelLogoUrl
+      })
+    }
+
+    // Draw Text
+    let currentY = HEADER_HEIGHT + QR_SIZE + 40
+    ctx.textAlign = 'center'
+
+    if (customTextSec) {
+      ctx.font = '500 24px system-ui'
+      ctx.fillStyle = '#6b7280'
+      ctx.fillText(customTextSec, canvas.width / 2, currentY)
+      currentY += 35
+    }
+
+    ctx.font = 'bold 32px system-ui'
+    ctx.fillStyle = '#111827'
+
+    const roomLabels: Record<string, string> = {
+      ar: 'غرفة',
+      en: 'Room',
+      fr: 'Chambre',
+      es: 'Habitación'
+    }
+
+    if (lang === 'both') {
+      const roomTextSec = roomLabels[languageSecondary] || roomLabels.en
+      ctx.fillText(`${roomTextSec} ${room.room_number} | Room ${room.room_number}`, canvas.width / 2, currentY)
+    } else {
+      const roomText = lang === 'en' ? `Room ${room.room_number}` : `${roomLabels[languageSecondary] || roomLabels.en} ${room.room_number}`
+      ctx.fillText(roomText, canvas.width / 2, currentY)
+    }
+    currentY += 40
+
+    if (customTextEn) {
+      ctx.font = '500 24px system-ui'
+      ctx.fillStyle = '#6b7280' // gray-500
+      ctx.fillText(customTextEn, canvas.width / 2, currentY)
+    }
+
+    return canvas
+  }
+
   const handleDownloadQR = async (room: Room) => {
     setQrLoading(room.room_id)
     try {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
-      const url = new URL(`${appUrl}/guest/${room.qr_code}`)
-      url.searchParams.set('lang', qrLanguage === 'both' ? (languageSecondary !== 'none' ? languageSecondary : 'en') : qrLanguage)
-      const qrDataUrl = await QRCode.toDataURL(url.toString(), { errorCorrectionLevel: 'H', width: 400, margin: 2 })
+      const canvas = await generateQRCanvas(room, qrLanguage)
+      const canvasAspect = canvas.height / canvas.width
+      const pdfWidth = qrSizeCm
+      const pdfHeight = qrSizeCm * canvasAspect
 
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      if (!ctx) throw new Error('Could not get canvas context')
-
-      // Dimensions
-      const QR_SIZE = 400
-      const PADDING = 40
-      const HEADER_HEIGHT = PADDING
-
-      // Determine text content based on selected language
-      let customTextSec = ''
-      let customTextEn = ''
-      if (qrLanguage === 'both') {
-        customTextSec = barcodeTextTranslations[languageSecondary] || ''
-        customTextEn = barcodeTextTranslations.en || ''
-      } else if (qrLanguage === 'en') {
-        customTextEn = barcodeTextTranslations.en || ''
-      } else {
-        customTextSec = barcodeTextTranslations[languageSecondary] || ''
-      }
-
-      const TEXT_GAP_SEC = customTextSec ? 35 : 0
-      const TEXT_GAP_EN = customTextEn ? 35 : 0
-      const FOOTER_HEIGHT = 80 + TEXT_GAP_SEC + TEXT_GAP_EN
-
-      canvas.width = QR_SIZE + PADDING * 2
-      canvas.height = HEADER_HEIGHT + QR_SIZE + FOOTER_HEIGHT
-
-      // Draw background
-      ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      // Draw QR Code
-      await new Promise<void>((resolve, reject) => {
-        const img = new window.Image()
-        img.onload = () => {
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.05)'
-          ctx.shadowBlur = 10
-          ctx.fillStyle = '#ffffff'
-          ctx.beginPath()
-          ctx.roundRect(PADDING - 10, HEADER_HEIGHT - 10, QR_SIZE + 20, QR_SIZE + 20, 20)
-          ctx.fill()
-          ctx.shadowColor = 'transparent'
-          ctx.shadowBlur = 0
-          ctx.drawImage(img, PADDING, HEADER_HEIGHT, QR_SIZE, QR_SIZE)
-          resolve()
-        }
-        img.onerror = reject
-        img.src = qrDataUrl
+      const pdf = new jsPDF({
+        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+        unit: 'cm',
+        format: [pdfWidth, pdfHeight]
       })
 
-      // Draw logo in the middle of QR if exists
-      if (hotelLogoUrl) {
-        await new Promise<void>((resolve) => {
-          const img = new window.Image()
-          img.crossOrigin = 'anonymous'
-          img.onload = () => {
-            const logoSize = QR_SIZE * 0.22
-            const cx = PADDING + QR_SIZE / 2
-            const cy = HEADER_HEIGHT + QR_SIZE / 2
-            ctx.fillStyle = '#ffffff'
-            ctx.beginPath()
-            ctx.roundRect(cx - logoSize / 2 - 6, cy - logoSize / 2 - 6, logoSize + 12, logoSize + 12, 12)
-            ctx.fill()
-            let w = img.width
-            let h = img.height
-            if (w > h) {
-              h = h * (logoSize / w); w = logoSize;
-            } else {
-              w = w * (logoSize / h); h = logoSize;
-            }
-            ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h)
-            resolve()
-          }
-          img.onerror = () => resolve()
-          img.src = hotelLogoUrl
-        })
-      }
-
-      // Draw Text
-      let currentY = HEADER_HEIGHT + QR_SIZE + 40
-      ctx.textAlign = 'center'
-
-      if (customTextSec) {
-        ctx.font = '500 24px system-ui'
-        ctx.fillStyle = '#6b7280'
-        ctx.fillText(customTextSec, canvas.width / 2, currentY)
-        currentY += 35
-      }
-
-      ctx.font = 'bold 32px system-ui'
-      ctx.fillStyle = '#111827'
-
-      const roomLabels: Record<string, string> = {
-        ar: 'غرفة',
-        en: 'Room',
-        fr: 'Chambre',
-        es: 'Habitación'
-      }
-
-      if (qrLanguage === 'both') {
-        const roomTextSec = roomLabels[languageSecondary] || roomLabels.en
-        ctx.fillText(`${roomTextSec} ${room.room_number} | Room ${room.room_number}`, canvas.width / 2, currentY)
-      } else {
-        const roomText = qrLanguage === 'en' ? `Room ${room.room_number}` : `${roomLabels[languageSecondary] || roomLabels.en} ${room.room_number}`
-        ctx.fillText(roomText, canvas.width / 2, currentY)
-      }
-      currentY += 40
-
-      if (customTextEn) {
-        ctx.font = '500 24px system-ui'
-        ctx.fillStyle = '#6b7280' // gray-500
-        ctx.fillText(customTextEn, canvas.width / 2, currentY)
-      }
-
-      const link = document.createElement('a')
-      link.download = `QR_Room_${room.room_number}_${qrLanguage}.png`
-      link.href = canvas.toDataURL('image/png')
-      link.click()
+      const imgData = canvas.toDataURL('image/png')
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+      pdf.save(`QR_Room_${room.room_number}_${qrLanguage}.pdf`)
     } catch (err) {
       console.error(err)
       toast.error(tc('error'))
     } finally {
       setQrLoading(null)
+    }
+  }
+
+  const openBulkQRModal = () => {
+    if (rooms.length === 0) return
+    setSelectedRoom(rooms[0])
+    setIsBulkQR(true)
+  }
+
+  const closeQRModal = () => {
+    setSelectedQR(null)
+    setSelectedRoom(null)
+    setIsBulkQR(false)
+  }
+
+  const handleBulkDownloadQR = async () => {
+    if (rooms.length === 0) return
+    setBulkQrLoading(true)
+    try {
+      // Create first canvas just to get the aspect ratio needed for PDF creation
+      const sampleCanvas = await generateQRCanvas(rooms[0], qrLanguage)
+      const canvasAspect = sampleCanvas.height / sampleCanvas.width
+      const pdfWidth = qrSizeCm
+      const pdfHeight = qrSizeCm * canvasAspect
+
+      const pdf = new jsPDF({
+        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+        unit: 'cm',
+        format: [pdfWidth, pdfHeight]
+      })
+
+      for (let i = 0; i < rooms.length; i++) {
+        if (i > 0) {
+          pdf.addPage([pdfWidth, pdfHeight])
+        }
+        const canvas = await generateQRCanvas(rooms[i], qrLanguage)
+        const imgData = canvas.toDataURL('image/png')
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+      }
+
+      pdf.save(`All_Room_QRs_${qrLanguage}.pdf`)
+      toast.success(tc('success'))
+      closeQRModal()
+    } catch (err) {
+      console.error(err)
+      toast.error(tc('error'))
+    } finally {
+      setBulkQrLoading(false)
     }
   }
 
@@ -353,10 +465,20 @@ export default function RoomsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-        <button onClick={openAdd} className="btn-primary">
-          <Plus className="h-4 w-4" />
-          {t('addRoom')}
-        </button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={openBulkQRModal} 
+            disabled={bulkQrLoading || rooms.length === 0}
+            className="btn-secondary gap-2"
+          >
+            <Download className="h-4 w-4" />
+            {rooms.length === 0 ? t('noRooms') : t('exportAllPdf')}
+          </button>
+          <button onClick={openAdd} className="btn-primary gap-2">
+            <Plus className="h-4 w-4" />
+            {t('addRoom')}
+          </button>
+        </div>
       </div>
 
       {/* Compact Filters */}
@@ -595,30 +717,56 @@ export default function RoomsPage() {
       {selectedQR && selectedRoom && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          onClick={() => { setSelectedQR(null); setSelectedRoom(null); }}
+          onClick={closeQRModal}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl flex flex-col items-center max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl flex flex-col items-center max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center w-full mb-6">
-              <h3 className="text-lg font-bold text-gray-900">
-                {t('roomNumber')}: <span className="text-primary-600">{selectedRoom.room_number}</span>
-              </h3>
-              <select
-                value={qrLanguage}
-                onChange={(e) => setQrLanguage(e.target.value)}
-                className="input py-1 px-2 text-sm !w-fit min-w-[100px]"
-              >
-                <option value="en">{tc('language_en')}</option>
-                {languageSecondary !== 'none' && (
-                  <>
-                    <option value={languageSecondary}>{tc(`language_${languageSecondary}` as any)}</option>
-                    <option value="both">{t('qrLanguageBoth')}</option>
-                  </>
-                )}
-              </select>
-            </div>
+            {isBulkQR ? (
+              <div className="flex flex-col items-center mb-6 w-full text-center">
+                 <h3 className="text-xl font-bold text-gray-900 mb-1">{t('exportAllPdf')}</h3>
+                 <p className="text-sm text-gray-500 mb-4">{t('bulkDownloadInfo', { count: rooms.length })}</p>
+                 <div className="w-full flex justify-between items-center bg-blue-50 text-blue-800 p-3 rounded-xl border border-blue-100">
+                   <div className="flex items-center gap-2 font-medium">
+                     <Info className="h-4 w-4" />
+                     <span>{t('previewingFirstRoom')}</span>
+                   </div>
+                   <select
+                     value={qrLanguage}
+                     onChange={(e) => setQrLanguage(e.target.value)}
+                     className="input py-1 px-3 text-sm !w-fit bg-white border-blue-200"
+                   >
+                     <option value="en">{tc('language_en')}</option>
+                     {languageSecondary !== 'none' && (
+                       <>
+                         <option value={languageSecondary}>{tc(`language_${languageSecondary}` as any)}</option>
+                         <option value="both">{t('qrLanguageBoth')}</option>
+                       </>
+                     )}
+                   </select>
+                 </div>
+              </div>
+            ) : (
+                <div className="flex justify-between items-center w-full mb-6">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {t('roomNumber')}: <span className="text-primary-600">{selectedRoom.room_number}</span>
+                  </h3>
+                  <select
+                    value={qrLanguage}
+                    onChange={(e) => setQrLanguage(e.target.value)}
+                    className="input py-1 px-2 text-sm !w-fit min-w-[100px]"
+                  >
+                    <option value="en">{tc('language_en')}</option>
+                    {languageSecondary !== 'none' && (
+                      <>
+                        <option value={languageSecondary}>{tc(`language_${languageSecondary}` as any)}</option>
+                        <option value="both">{t('qrLanguageBoth')}</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+            )}
 
             {/* The beautiful card layout */}
             <div id="qr-card-preview" className="bg-white p-8 rounded-[2rem] border border-gray-100 flex flex-col items-center justify-center space-y-6 w-80 relative mb-6">
@@ -661,20 +809,68 @@ export default function RoomsPage() {
               </div>
             </div>
 
+            {/* QR Setting Adjustments */}
+            <div className="w-full mb-6 space-y-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-semibold text-gray-700">{t('qrExportSize')}</label>
+                  <div className="relative group">
+                    <Info className="h-4 w-4 text-gray-400 hover:text-blue-500 transition-colors cursor-help" />
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden w-80 flex-col items-center group-hover:flex z-10">
+                      <div className="rounded bg-gray-900 p-3 text-xs text-white shadow-lg text-center space-y-2">
+                        <p>{t('sizeHelpText')}</p>
+                        <p className="text-yellow-200 font-medium">{t('printWarning')}</p>
+                      </div>
+                      <div className="h-2 w-2 -mt-1 rotate-45 bg-gray-900" />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={qrSizeCm}
+                    onChange={(e) => setQrSizeCm(Number(e.target.value))}
+                    className="input py-1 px-3 w-40 text-sm font-medium"
+                  >
+                    {QR_SIZES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <div className="flex gap-3 w-full">
               <button
-                onClick={() => { setSelectedQR(null); setSelectedRoom(null); }}
+                onClick={closeQRModal}
                 className="btn-secondary flex-1"
               >
                 {tc('close')}
               </button>
-              <button
-                onClick={() => handleDownloadQR(selectedRoom)}
-                className="btn-primary flex-1 gap-2"
-              >
-                <Download className="h-4 w-4" />
-                {t('downloadQR')}
-              </button>
+              {isBulkQR ? (
+                <button
+                  onClick={handleBulkDownloadQR}
+                  disabled={bulkQrLoading}
+                  className="btn-primary flex-1 gap-2"
+                >
+                  {bulkQrLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Download className="h-4 w-4" />
+                  )}
+                  {t('downloadPdf')}
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleDownloadQR(selectedRoom)}
+                  disabled={qrLoading === selectedRoom?.room_id}
+                  className="btn-primary flex-1 gap-2"
+                >
+                  {qrLoading === selectedRoom?.room_id ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Download className="h-4 w-4" />
+                  )}
+                  {t('downloadPdf')}
+                </button>
+              )}
             </div>
           </div>
         </div>

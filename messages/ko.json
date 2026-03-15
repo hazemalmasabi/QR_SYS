@@ -492,7 +492,15 @@
     "printQR": "QR 인쇄",
     "noRooms": "객실을 찾을 수 없습니다",
     "notes": "메모",
-    "roomLabel": "객실"
+    "roomLabel": "객실",
+    "exportAllPdf": "모두 내보내기 (PDF)",
+    "qrExportSize": "QR 내보내기 크기 너비",
+    "sizeHelpText": "인쇄 레이아웃, 아크릴 스탠드 또는 도어 템플릿에 맞게 내보낼 QR 크기를 센티미터 단위로 조정하세요.",
+    "cm": "cm",
+    "downloadPdf": "PDF 다운로드",
+    "bulkDownloadInfo": "{count}개 객실의 QR 코드를 내보내려고 합니다.",
+    "previewingFirstRoom": "첫 번째 객실 미리보기",
+    "printWarning": "중요: 정확한 크기를 위해 브라우저의 인쇄 대화 상자(예: Chrome)에서 '용지에 맞춤'이 선택되어 있는지 확인하세요. 크기가 잘못 출력되면 Microsoft Edge나 Acrobat을 통해 인쇄해 보세요."
   },
   "employees": {
     "title": "직원",

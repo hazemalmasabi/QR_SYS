@@ -492,7 +492,15 @@
     "printQR": "QRを印刷",
     "noRooms": "客室が見つかりません",
     "notes": "備考",
-    "roomLabel": "客室"
+    "roomLabel": "客室",
+    "exportAllPdf": "すべてエクスポート (PDF)",
+    "qrExportSize": "QRエクスポートサイズの幅",
+    "sizeHelpText": "印刷レイアウト、アクリルスタンド、またはドアのテンプレートに合わせて、エクスポートされるQRサイズをセンチメートル単位で調整します。",
+    "cm": "cm",
+    "downloadPdf": "PDFをダウンロード",
+    "bulkDownloadInfo": "{count} 部屋のQRコードをエクスポートしようとしています。",
+    "previewingFirstRoom": "最初の部屋のプレビュー",
+    "printWarning": "重要: 正確なサイズを得るには、ブラウザの印刷ダイアログで「用紙に合わせる」が選択されていることを確認してください。サイズが正しくない場合は、Microsoft EdgeやAcrobatから印刷をお試しください。"
   },
   "employees": {
     "title": "スタッフ管理",

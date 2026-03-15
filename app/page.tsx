@@ -9,19 +9,9 @@ import {
   BarChart3,
   Settings,
   ShieldCheck,
-  ScanLine,
-  ConciergeBell,
-  HandPlatter,
-  CheckCircle,
   ChevronDown,
-  Building,
-  UserCog,
-  UserCheck,
-  User,
-  ArrowRight,
 } from 'lucide-react'
 import Image from 'next/image'
-import { cn } from '@/lib/utils'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function LandingPage() {
@@ -41,13 +31,6 @@ export default function LandingPage() {
     { key: 'step2', num: 2, image: '/images/landing/hiw_step2.png' },
     { key: 'step3', num: 3, image: '/images/landing/hiw_step3.png' },
     { key: 'step4', num: 4, image: '/images/landing/hiw_step4.png' },
-  ]
-
-  const hierarchyRoles = [
-    { key: 'manager', image: '/images/landing/hierarchy_manager.png', color: 'ring-blue-100' },
-    { key: 'supervisor', image: '/images/landing/hierarchy_supervisor.png', color: 'ring-indigo-100' },
-    { key: 'serviceSupervisor', image: '/images/landing/hierarchy_service_supervisor.png', color: 'ring-sky-100' },
-    { key: 'employee', image: '/images/landing/hierarchy_employee.png', color: 'ring-emerald-100' },
   ]
 
   const qrTypes = [
@@ -208,7 +191,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map(({ key, icon: Icon, color, image }) => (
+            {features.map(({ key, image }) => (
               <div
                 key={key}
                 className="group relative flex flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"

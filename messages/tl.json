@@ -492,7 +492,15 @@
     "printQR": "I-print ang QR",
     "noRooms": "Walang nahanap na kwarto",
     "notes": "Mga Tala",
-    "roomLabel": "Kwarto"
+    "roomLabel": "Kwarto",
+    "exportAllPdf": "I-export Lahat (PDF)",
+    "qrExportSize": "Lapad ng Sukat ng QR Export",
+    "sizeHelpText": "Ayusin ang laki ng in-export na QR sa centimeters upang umangkop sa iyong mga print layout, acrylic stands, o door templates.",
+    "cm": "cm",
+    "downloadPdf": "I-download ang PDF",
+    "bulkDownloadInfo": "Ie-export mo ang mga QR code para sa {count} na silid.",
+    "previewingFirstRoom": "Pini-preview ang unang silid",
+    "printWarning": "Mahalaga: Para sa tamang sizing, siguraduhing ang 'Fit to paper' na opsyon ay naka-select sa inyong browser (e.g. Chrome). Kung nagkakamali, subukang mag-print gamit ang Microsoft Edge o Acrobat."
   },
   "employees": {
     "title": "Mga Empleyado",

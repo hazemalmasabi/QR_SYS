@@ -492,7 +492,15 @@
     "printQR": "Chapa QR",
     "noRooms": "Hakuna vyumba vilivyopatikana",
     "notes": "Vidokezo",
-    "roomLabel": "Chumba"
+    "roomLabel": "Chumba",
+    "exportAllPdf": "Hamisha Zote (PDF)",
+    "qrExportSize": "Upana wa Ukubwa wa Kuhamisha QR",
+    "sizeHelpText": "Rekebisha ukubwa wa QR uliyohamishwa kwa sentimita ili kutoshea miundo yako ya uchapishaji, stendi za akriliki, au violezo vya mlango.",
+    "cm": "cm",
+    "downloadPdf": "Pakua PDF",
+    "bulkDownloadInfo": "Uko karibu kuhamisha misimbo ya QR ya vyumba {count}.",
+    "previewingFirstRoom": "Inakagua chumba cha kwanza",
+    "printWarning": "Muhimu: Hakikisha kuwa chaguo la 'Fit to paper' limeteuliwa kwenye kichapishi chako cha kivinjari (kama Chrome). Ikiwa mipangilio si sawa, jaribu kutumia Microsoft Edge."
   },
   "employees": {
     "title": "Wafanyakazi",

@@ -492,7 +492,15 @@
     "printQR": "打印 QR",
     "noRooms": "搵唔到房間",
     "notes": "備註",
-    "roomLabel": "房間"
+    "roomLabel": "房間",
+    "exportAllPdf": "全部匯出 (PDF)",
+    "qrExportSize": "QR 匯出尺寸寬度",
+    "sizeHelpText": "調整匯出嘅 QR 尺寸（厘米），以配合你嘅列印佈局、亞克力企牌或門牌範本。",
+    "cm": "厘米",
+    "downloadPdf": "下載 PDF",
+    "bulkDownloadInfo": "你即將匯出 {count} 間房嘅 QR 碼。",
+    "previewingFirstRoom": "預覽第一間房",
+    "printWarning": "重要：為咗準確嘅尺寸，請確保喺瀏覽器（例如 Chrome）嘅列印對話框中選擇咗「符合紙張大小」。如果列印尺寸唔啱，試下用 Microsoft Edge 啦。"
   },
   "employees": {
     "title": "職員管理",

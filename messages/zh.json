@@ -492,7 +492,15 @@
     "printQR": "打印二维码",
     "noRooms": "未找到客房",
     "notes": "备注",
-    "roomLabel": "客房"
+    "roomLabel": "客房",
+    "exportAllPdf": "全部导出 (PDF)",
+    "qrExportSize": "QR 导出尺寸宽度",
+    "sizeHelpText": "以厘米为单位调整导出的 QR 尺寸，以适应您的打印布局、亚克力展台或门模板。",
+    "cm": "厘米",
+    "downloadPdf": "下载 PDF",
+    "bulkDownloadInfo": "您即将导出 {count} 个房间的 QR 码。",
+    "previewingFirstRoom": "预览第一个房间",
+    "printWarning": "重要信息：为了尺寸准确，请确保在浏览器打印对话框中（例如Chrome）选择了“适合纸张”缩放。如果尺寸不正确，请尝试通过 Microsoft Edge 或 Acrobat 进行打印。"
   },
   "employees": {
     "title": "员工管理",

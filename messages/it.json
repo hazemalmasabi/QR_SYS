@@ -492,7 +492,15 @@
     "printQR": "Stampa QR",
     "noRooms": "Nessuna camera trovata",
     "notes": "Note",
-    "roomLabel": "Camera"
+    "roomLabel": "Camera",
+    "exportAllPdf": "Esporta tutto (PDF)",
+    "qrExportSize": "Larghezza dimensioni esportazione QR",
+    "sizeHelpText": "Regola le dimensioni del QR esportato in centimetri per adattarlo ai layout di stampa, ai supporti in acrilico o ai modelli per porte.",
+    "cm": "cm",
+    "downloadPdf": "Scarica PDF",
+    "bulkDownloadInfo": "Stai per esportare i codici QR per {count} camere.",
+    "previewingFirstRoom": "Anteprima della prima camera",
+    "printWarning": "Importante: Per un dimensionamento preciso, assicurati che la casella 'Adatta alla pagina' sia selezionata nella finestra di dialogo di stampa del browser (es. Chrome). Se le dimensioni non sono corrette, riprova con Microsoft Edge o Acrobat."
   },
   "employees": {
     "title": "Dipendenti",

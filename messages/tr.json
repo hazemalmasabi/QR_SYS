@@ -492,7 +492,15 @@
     "printQR": "QR Yazdır",
     "noRooms": "Oda bulunamadı",
     "notes": "Notlar",
-    "roomLabel": "Oda"
+    "roomLabel": "Oda",
+    "exportAllPdf": "Tümünü Dışa Aktar (PDF)",
+    "qrExportSize": "QR Dışa Aktarma Boyutu Genişliği",
+    "sizeHelpText": "Dışa aktarılan QR boyutunu baskı düzenlerinize, akrilik stantlarınıza veya kapı şablonlarına uyacak şekilde santimetre cinsinden ayarlayın.",
+    "cm": "cm",
+    "downloadPdf": "PDF İndir",
+    "bulkDownloadInfo": "{count} oda için QR kodlarını dışa aktarmak üzeresiniz.",
+    "previewingFirstRoom": "İlk oda önizleniyor",
+    "printWarning": "Önemli: Doğru boyutlandırma için, tarayıcınızın yazdırma iletişim kutusunda (ör. Chrome) 'Sayfaya sığdır' ölçekleme seçeneğinin seçili olduğundan emin olun. Boyutlar yanlışsa Microsoft Edge üzerinden yazdırmayı deneyin."
   },
   "employees": {
     "title": "Personel",

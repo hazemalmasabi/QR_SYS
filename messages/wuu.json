@@ -492,7 +492,15 @@
     "printQR": "打印码",
     "noRooms": "找弗房间",
     "notes": "备注词",
-    "roomLabel": "房间"
+    "roomLabel": "房间",
+    "exportAllPdf": "全部导出 (PDF)",
+    "qrExportSize": "QR 导出尺寸宽度",
+    "sizeHelpText": "调整导出个 QR 尺寸以厘米为单位，来配侬个打印布局、亚克力架子或者门模版。",
+    "cm": "厘米",
+    "downloadPdf": "下载 PDF",
+    "bulkDownloadInfo": "侬准备导出 {count} 个房间个 QR 码。",
+    "previewingFirstRoom": "预览头一个房间",
+    "printWarning": "重要：为着正确个尺寸，要确认浏览器里向打印个辰光选好了‘适配纸张’。如果尺寸勿灵，麻烦试试用 Microsoft Edge 来打印。"
   },
   "employees": {
     "title": "员工",

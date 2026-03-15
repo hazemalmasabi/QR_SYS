@@ -492,7 +492,15 @@
     "printQR": "Imprimir QR",
     "noRooms": "No se encontraron habitaciones",
     "notes": "Notas",
-    "roomLabel": "Habitación"
+    "roomLabel": "Habitación",
+    "exportAllPdf": "Exportar todo (PDF)",
+    "qrExportSize": "Ancho de tamaño de exportación QR",
+    "sizeHelpText": "Ajuste el tamaño del QR exportado en centímetros para que se adapte a sus diseños de impresión, soportes acrílicos o plantillas de puertas.",
+    "cm": "cm",
+    "downloadPdf": "Descargar PDF",
+    "bulkDownloadInfo": "Está a punto de exportar códigos QR para {count} habitaciones.",
+    "previewingFirstRoom": "Vista previa de la primera habitación",
+    "printWarning": "Importante: Para obtener el tamaño exacto, asegúrese de que la opción 'Ajustar al papel' esté seleccionada en el cuadro de diálogo de impresión (ej. Chrome). Si los tamaños no son correctos, intente imprimir desde Microsoft Edge o Acrobat."
   },
   "employees": {
     "title": "Empleados",

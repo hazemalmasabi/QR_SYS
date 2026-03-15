@@ -492,7 +492,15 @@
     "printQR": "Cetak QR",
     "noRooms": "Ora ana kamar sing ditemokake",
     "notes": "Cathetan",
-    "roomLabel": "Kamar"
+    "roomLabel": "Kamar",
+    "exportAllPdf": "Ekspor Kabeh (PDF)",
+    "qrExportSize": "Jembar Ukuran Ekspor QR",
+    "sizeHelpText": "Selarasake ukuran QR sing diekspor ing sentimeter supaya cocog karo cithakan tata letak, cithakan akrilik, utawa cithakan lawang.",
+    "cm": "cm",
+    "downloadPdf": "Unduh PDF",
+    "bulkDownloadInfo": "Sampeyan arep ngekspor kode QR kanggo {count} kamar.",
+    "previewingFirstRoom": "Ndeleng pratinjau kamar pisanan",
+    "printWarning": "Penting: Kanggo ukuran akurat, priksa manawa opsi 'Fit to paper' dipilih ing dialog cetak browser sampeyan. Yen ukurane salah, cobanen nyithak saka browser liyane kayata Microsoft Edge."
   },
   "employees": {
     "title": "Karyawan",

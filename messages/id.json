@@ -492,7 +492,15 @@
     "printQR": "Cetak QR",
     "noRooms": "Tidak ada kamar ditemukan",
     "notes": "Catatan",
-    "roomLabel": "Kamar"
+    "roomLabel": "Kamar",
+    "exportAllPdf": "Ekspor Semua (PDF)",
+    "qrExportSize": "Lebar Ukuran Ekspor QR",
+    "sizeHelpText": "Sesuaikan ukuran QR yang diekspor dalam sentimeter agar sesuai dengan tata letak cetak, dudukan akrilik, atau templat pintu Anda.",
+    "cm": "cm",
+    "downloadPdf": "Unduh PDF",
+    "bulkDownloadInfo": "Anda akan mengekspor kode QR untuk {count} kamar.",
+    "previewingFirstRoom": "Melihat pratinjau kamar pertama",
+    "printWarning": "Penting: Untuk ukuran yang akurat, pastikan 'Fit to paper' dipilih pada dialog cetak browser Anda (mis. Chrome). Jika opsi cetak salah, coba mencetak melalui Microsoft Edge atau Acrobat."
   },
   "employees": {
     "title": "Karyawan",

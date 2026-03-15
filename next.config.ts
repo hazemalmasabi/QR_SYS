@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  outputFileTracingRoot: process.cwd(),
 }
 
 export default withNextIntl(nextConfig)
