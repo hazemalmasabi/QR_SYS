@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Empleado de servicio",
         "content": "El personal que recibe y procesa las solicitudes."
+      },
+      "locationVerification": {
+        "title": "Verificación de ubicación de huéspedes",
+        "content": "Esta función requiere que los huéspedes estén físicamente presentes dentro de un radio de 500 metros del hotel para explorar los servicios.\n\nCómo utilizar:\n1. Desde el panel de Configuración, habilite la opción 'Verificación de ubicación'.\n2. Ingrese la URL de Google Maps de su hotel.\n\nNota sobre la URL:\nPuede copiar la URL larga directamente desde la barra de direcciones de su navegador o utilizar un enlace corto (como maps.app.goo.gl). El sistema decodificará automáticamente los enlaces cortos y extraerá las coordenadas exactas para garantizar la máxima precisión."
       }
     }
   }

@@ -151,7 +151,41 @@ export async function PATCH(request: Request) {
     }
 
     if (hotel_google_maps_url !== undefined) {
-      updateData.hotel_google_maps_url = hotel_google_maps_url || null
+      let finalUrl = hotel_google_maps_url || null
+      // Auto-expand short URLs (e.g. goo.gl) to get the url containing exact coords
+      if (finalUrl && finalUrl.includes('goo.gl')) {
+        try {
+          const response = await fetch(finalUrl, { method: 'HEAD', redirect: 'follow' })
+          if (response.url) {
+            finalUrl = response.url
+          }
+        } catch (error) {
+          console.error('Failed to expand Google Maps short URL:', error)
+          // Try alternative unshorten API as fallback
+          try {
+            const apiResp = await fetch(`https://unshorten.me/s/${finalUrl}`)
+            const resolvedText = await apiResp.text()
+            if (resolvedText && resolvedText.startsWith('http')) {
+              finalUrl = resolvedText
+            }
+          } catch {
+            // Ignore failure
+          }
+        }
+      }
+
+      // If location verification is enabled, ensure the finalUrl actually has coordinates
+      if (finalUrl && location_verification_enabled !== false) {
+        const hasCoords = finalUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || finalUrl.match(/[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/) || finalUrl.match(/place\/[^/]+\/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+        if (!hasCoords) {
+          return NextResponse.json(
+            { success: false, message: 'invalidGoogleMapsUrl' },
+            { status: 400 }
+          )
+        }
+      }
+
+      updateData.hotel_google_maps_url = finalUrl
     }
 
     if (room_types !== undefined) {

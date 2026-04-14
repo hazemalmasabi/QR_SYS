@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Dipendente",
         "content": "Personale di esecuzione."
+      },
+      "locationVerification": {
+        "title": "Verifica della posizione degli ospiti",
+        "content": "Questa funzione richiede agli ospiti di essere fisicamente presenti entro un raggio di 500 metri dall'hotel per poter esplorare i servizi.\n\nCome utilizzare:\n1. Dalla dashboard delle Impostazioni, attiva l'opzione 'Verifica della posizione'.\n2. Inserisci l'URL di Google Maps del tuo hotel.\n\nNota sull'URL:\nPuoi copiare l'URL lungo direttamente dalla barra degli indirizzi del tuo browser o utilizzare un link breve (come maps.app.goo.gl). Il sistema decodificherà automaticamente i link brevi ed estrarrà le coordinate esatte per garantire la massima precisione."
       }
     }
   }

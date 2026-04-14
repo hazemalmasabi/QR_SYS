@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Employé de service",
         "content": "Le personnel d'exécution qui reçoit et traite les demandes des clients."
+      },
+      "locationVerification": {
+        "title": "Vérification de l'emplacement du client",
+        "content": "Cette fonctionnalité exige que les clients soient physiquement présents dans un rayon de 500 mètres de l'hôtel pour consulter les services.\n\nComment l'utiliser :\n1. Dans le tableau de bord des paramètres, activez l'option 'Vérification de l'emplacement'.\n2. Saisissez l'URL Google Maps de votre hôtel.\n\nRemarque concernant l'URL :\nVous pouvez copier l'URL longue directement à partir de la barre d'adresse de votre navigateur ou utiliser un lien court (comme maps.app.goo.gl). Le système décodera automatiquement les liens courts et extraira les coordonnées exactes pour garantir une précision maximale."
       }
     }
   }

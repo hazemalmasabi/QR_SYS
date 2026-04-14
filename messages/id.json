@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Karyawan",
         "content": "Staf layanan yang mengerjakan pesanan tamu."
+      },
+      "locationVerification": {
+        "title": "Verifikasi Lokasi Tamu",
+        "content": "Fitur ini mengharuskan tamu untuk hadir secara fisik dalam radius 500 meter dari hotel untuk menelusuri layanan.\n\nCara menggunakan:\n1. Dari dasbor Pengaturan, aktifkan opsi 'Verifikasi Lokasi'.\n2. Masukkan URL Google Maps hotel Anda.\n\nCatatan tentang URL:\nAnda dapat menyalin URL panjang langsung dari bilah alamat browser Anda atau menggunakan tautan singkat (seperti maps.app.goo.gl). Sistem akan secara otomatis memecahkan kode tautan singkat dan mengekstrak koordinat yang tepat untuk memastikan tingkat akurasi maksimum."
       }
     }
   }

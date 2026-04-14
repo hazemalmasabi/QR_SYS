@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Empleyado",
         "content": "Gumagawa ng mga order."
+      },
+      "locationVerification": {
+        "title": "Pag-verify sa Lokasyon ng Bisita",
+        "content": "Kinakailangan ng feature na ito na ang mga bisita ay pisikal na nasa loob ng 500-meter radius ng hotel bago sila mag-browse sa mga serbisyo.\n\nPaano gamitin:\n1. Mula sa Settings dashboard, i-enable ang 'Pag-verify ng Lokasyon' na opsyon.\n2. I-type ang Google Maps URL ng iyong hotel.\n\nNota sa URL:\nMaaari mong direktang kopyahin ang mahabang URL mula sa address bar ng iyong browser o gumamit ng maikling link (tulad ng maps.app.goo.gl). Awtomatikong ide-decode ng system ang mga maikling link at kukunin ang tumpak na coordinates para maseguro ang perpektong katumpakan."
       }
     }
   }

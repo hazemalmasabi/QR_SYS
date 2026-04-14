@@ -793,7 +793,7 @@ export default function SettingsPage() {
           setRoomTypeMappings([])
         }
       } else {
-        toast.error(tc('error'))
+        toast.error(data.message === 'invalidGoogleMapsUrl' ? t('invalidGoogleMapsUrl') : tc('error'))
       }
     } catch {
       toast.error(tc('error'))

@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Nhân viên",
         "content": "Nhân viên xử lý yêu cầu của khách."
+      },
+      "locationVerification": {
+        "title": "Xác minh vị trí truy cập của khách",
+        "content": "Tính năng này yêu cầu khách hàng phải có mặt trong bán kính 500 mét xung quanh khách sạn để có thể duyệt các dịch vụ.\n\nCách sử dụng:\n1. Từ trang Cài đặt, bật tùy chọn 'Xác minh vị trí'.\n2. Nhập URL Google Maps của khách sạn.\n\nLưu ý về URL:\nBạn có thể sao chép trực tiếp URL dài từ thanh địa chỉ trên trình duyệt hoặc sử dụng liên kết ngắn (như maps.app.goo.gl). Hệ thống sẽ tự động giải mã các liên kết ngắn và trích xuất tọa độ chính xác để đảm bảo độ tin cậy được cao nhất."
       }
     }
   }

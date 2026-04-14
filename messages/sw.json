@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Mfanyakazi",
         "content": "Anayetoa huduma."
+      },
+      "locationVerification": {
+        "title": "Uthibitishaji wa Eneo la Mgeni",
+        "content": "Kipengele hiki kinahitaji wageni kuwepo kimwili ndani ya rasi ya mita 500 ya hoteli ili kuangalia huduma zilizopo.\n\nJinsi ya kutumia:\n1. Kutoka kwenye dashibodi ya Mipangilio, wezesha chaguo la 'Uthibitishaji wa Mahali'.\n2. Ingiza URL yako ya Ramani za Google ya hoteli hiyo.\n\nKumbuka juu ya URL:\nUnaweza kunakili URL ndefu moja kwa moja kutoka kwenye upau wa anwani wako au kutumia kiungo kifupi (kama vile maps.app.goo.gl). Mfumo utashughulikia viungo vifupi kiotomatiki na kutoa kuratibu halisi ili kuhakikisha usahihi wa kiwango cha juu."
       }
     }
   }

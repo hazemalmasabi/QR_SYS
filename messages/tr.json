@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Personel",
         "content": "Anlık siparişleri yerine getiren personel."
+      },
+      "locationVerification": {
+        "title": "Misafir Konum Doğrulaması",
+        "content": "Bu özellik, misafirlerin hizmetlere göz atabilmeleri için otelin 500 metrelik yarıçapı içinde fiziksel olarak bulunmasını gerektirir.\n\nNasıl kullanılır:\n1. Ayarlar panelinden 'Konum Doğrulaması' seçeneğini etkinleştirin.\n2. Otelinizin Google Haritalar URL'sini girin.\n\nURL Notu:\nUzun URL'yi doğrudan tarayıcınızın adres çubuğundan kopyalayabilir veya kısa bir bağlantı (maps.app.goo.gl gibi) kullanabilirsiniz. Sistem, yüksek doğruluk sağlamak amacıyla kısa bağlantıları otomatik olarak çözecek ve kesin koordinatları alacaktır."
       }
     }
   }

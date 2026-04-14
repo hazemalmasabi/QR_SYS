@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Ma'aikaci",
         "content": "Wanda ke aiki."
+      },
+      "locationVerification": {
+        "title": "Tabbatar da Wurin Baƙo",
+        "content": "Wannan fasalin na buƙatar baƙi su kasance a zahiri tsakanin radiyo na mita 500 na otal don duba ayyuka.\n\nYadda ake amfani da:\n1. Daga dashboard ɗin Saituna, kunna zaɓin 'Tabbatar da Wuri'.\n2. Shigar da URL na Google Maps na otal ɗinku.\n\nLura Game da URL:\nKuna iya kwafin dogon URL ɗin kai tsaye daga maɓallin adreshin bincikenku ko amfani da gajeren mahaɗi (kamar maps.app.goo.gl). Tsarin zai fasakh gajerun hanyoyin mahaɗi don cire ainihin haɗin gwiwar don tabbatar da daidaiton daƙiƙa."
       }
     }
   }

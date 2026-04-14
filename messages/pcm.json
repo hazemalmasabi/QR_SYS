@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Worker",
         "content": "Worker wey dey run am."
+      },
+      "locationVerification": {
+        "title": "Guest Location Verification",
+        "content": "Dis feature dey make sure say guests suppose physically show face within 500-meter radius of di hotel before dem fit see wetin unna dey offer.\n\nHow to use am:\n1. For your Settings dashboard, enable di 'Location Verification' option.\n2. Put your hotel Google Maps URL.\n\nURL Note:\nYou fit copy the long URL straight from your browser address bar or use short link (like maps.app.goo.gl). Di system go automatically decode di short link and find di exact point wey di hotel dey to make sure dere is no mistake."
       }
     }
   }

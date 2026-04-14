@@ -860,6 +860,10 @@
       "employeeRole": {
         "title": "Service-Mitarbeiter",
         "content": "Führt die Anfragen aus."
+      },
+      "locationVerification": {
+        "title": "Standortüberprüfung für Gäste",
+        "content": "Diese Funktion verlangt, dass Gäste sich innerhalb eines Radius von 500 Metern um das Hotel befinden, um auf die Services zugreifen zu können.\n\nSo wird es verwendet:\n1. Aktivieren Sie im Einstellungs-Dashboard die Option 'Standortüberprüfung'.\n2. Geben Sie die Google Maps-URL Ihres Hotels ein.\n\nHinweis zur URL:\nSie können die lange URL direkt aus der Adressleiste Ihres Browsers kopieren oder einen Kurzlink verwenden (wie maps.app.goo.gl). Das System decodiert Kurzlinks automatisch und extrahiert die genauen Koordinaten, um höchste Genauigkeit zu gewährleisten."
       }
     }
   }

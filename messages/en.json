@@ -860,6 +860,10 @@
       "settings": {
         "title": "Settings & Localization",
         "content": "In Hotel Settings, you can update your hotel logo, change the primary and secondary languages, and adjust timezone or currency. Changing your email requires a new verification process for security. If you change the secondary language, remember to update translations for your services and items to ensure guests see the correct information."
+      },
+      "locationVerification": {
+        "title": "Guest Location Verification",
+        "content": "This feature requires guests to be physically present within a 500-meter radius of the hotel to browse services.\n\nHow to use:\n1. From the Settings dashboard, enable the 'Location Verification' option.\n2. Enter your hotel's Google Maps URL.\n\nURL Note:\nYou can copy the long URL directly from your browser's address bar or use a short link (like maps.app.goo.gl). The system will automatically decode short links and extract the exact coordinates to ensure maximum accuracy."
       }
     }
   }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Search, Info, ShieldCheck, LayoutGrid, Settings, HelpCircle, BookOpen, UserPlus, LogIn, Key, ClipboardList, ShoppingBag, Box, Grid, Users, BarChart3, ScanLine, Smartphone, Pointer, QrCode, MonitorSmartphone, BadgeCheck, UserCog, UserCheck, User } from 'lucide-react'
+import { Search, Info, ShieldCheck, LayoutGrid, Settings, HelpCircle, BookOpen, UserPlus, LogIn, Key, ClipboardList, ShoppingBag, Box, Grid, Users, BarChart3, ScanLine, Smartphone, Pointer, QrCode, MonitorSmartphone, BadgeCheck, UserCog, UserCheck, User, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
@@ -23,7 +23,7 @@ export default function HelpCenter({ context }: HelpCenterProps) {
         { id: 'general', label: t('categories.general'), icon: Info, sections: ['philosophy', 'registration'] },
         { id: 'auth', label: t('categories.auth'), icon: ShieldCheck, sections: ['login', 'forgotPassword'] },
         { id: 'dashboard', label: t('categories.dashboard'), icon: BookOpen, sections: ['orders', 'services', 'items', 'rooms', 'employees', 'reports'] },
-        { id: 'settings', label: t('categories.settings'), icon: Settings, sections: ['settings'] },
+        { id: 'settings', label: t('categories.settings'), icon: Settings, sections: ['settings', 'locationVerification'] },
     ]
 
     const sectionIcons: Record<string, any> = {
@@ -49,6 +49,7 @@ export default function HelpCenter({ context }: HelpCenterProps) {
         employees: Users,
         reports: BarChart3,
         settings: Settings,
+        locationVerification: MapPin,
     }
 
     const sectionImages: Record<string, string> = {
@@ -83,6 +84,7 @@ export default function HelpCenter({ context }: HelpCenterProps) {
         { id: 'employees', category: 'dashboard' },
         { id: 'reports', category: 'dashboard' },
         { id: 'settings', category: 'settings' },
+        { id: 'locationVerification', category: 'settings' },
     ]
 
     const filteredSections = allSections.filter(section => {
