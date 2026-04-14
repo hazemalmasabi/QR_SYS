@@ -590,7 +590,13 @@
     "replacementType": "Pilih tipe kamar pengganti (kabeh kamar sing ana bakal dipindhah mrene)",
     "mustKeepOneRoomType": "Hotel kudu duwe paling ora siji tipe kamar",
     "mustSelectReplacement": "Sampeyan kudu milih tipe kamar pengganti sadurunge mbusak",
-    "defaultBarcodeText": "Pindai kanggo ndeleng layanan kita"
+    "defaultBarcodeText": "Pindai kanggo ndeleng layanan kita",
+    "locationVerification": "Aktifake Verifikasi Lokasi",
+    "locationVerificationDesc": "Yen diaktifake, tamu bakal dijaluk nuduhake lakasi nalika mindhai kode QR kanggo mesthekake yen dheweke ana ing hotel.",
+    "googleMapsUrl": "URL Google Maps Hotel",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Bukak hotel sampeyan ing Google Maps lan salin URL saka bilah alamat. Digunakake kanggo ngekstrak koordinat hotel kanggo verifikasi lokasi tamu.",
+    "invalidGoogleMapsUrl": "Monggo ketik URL Google Maps sing sah"
   },
   "reports": {
     "title": "Laporan",
@@ -699,7 +705,21 @@
     "to": "tekan",
     "cancelReason": "Alesan Batal",
     "orderStatusNotification": "Pesenan #{number} Status: {status}",
-    "otherServices": "Layanan Liyane"
+    "otherServices": "Layanan Liyane",
+    "locationRequired": "Kudu Nuduhake Lokasi",
+    "locationRequiredDesc": "Sampeyan kudu nuduhake lokasi kanggo mesthekake sampeyan ana ing hotel sadurunge mriksa layanan.",
+    "locationShareBtn": "Nuduhake Lokasiku",
+    "locationVerifying": "Mverifikasi lokasi sampeyan...",
+    "locationVerifyingDesc": "Monggo ngenteni nalika kita mverifikasi lokasi sampeyan.",
+    "locationVerified": "Lokasi diverifikasi",
+    "locationDenied": "Akses Lokasi Ditolak",
+    "locationDeniedDesc": "Sampeyan durung ngidini browser ngakses lokasi sampeyan. Monggo aktifake akses lokasi ing pengaturan browser sampeyan lan cobanen maneh.",
+    "locationDeniedHint": "Priksa manawa ngidini akses lokasi kanggo situs iki ing pengaturan browser sampeyan.",
+    "locationOutOfRange": "Sampeyan ana ing njaba area hotel",
+    "locationOutOfRangeDesc": "Ketoke sampeyan ora ana ing hotel. Priksa manawa sampeyan ana ing jero bangunan hotel lan cobanen maneh.",
+    "locationTryAgain": "Coba Maneh",
+    "locationCoordsError": "Ora bisa mverifikasi lokasi",
+    "locationCoordsErrorDesc": "Ana kesalahan nalika ngethok koordinat hotel. Monggo hubungi hotel."
   },
   "validation": {
     "required": "Iki kolom sing wajib diisi",

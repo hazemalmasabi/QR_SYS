@@ -590,7 +590,13 @@
     "replacementType": "Chọn một loại phòng thay thế (tất cả các phòng liên quan sẽ được chuyển đến đây)",
     "mustKeepOneRoomType": "Khách sạn phải có ít nhất một loại phòng",
     "mustSelectReplacement": "Bạn phải chọn một loại phòng thay thế trước khi xóa",
-    "defaultBarcodeText": "Quét để xem các dịch vụ của chúng tôi"
+    "defaultBarcodeText": "Quét để xem các dịch vụ của chúng tôi",
+    "locationVerification": "Bật xác minh vị trí",
+    "locationVerificationDesc": "Khi được bật, khách sẽ được yêu cầu chia sẻ vị trí của họ khi quét mã QR để xác nhận họ đang ở trong khách sạn.",
+    "googleMapsUrl": "URL Google Maps của khách sạn",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Mở khách sạn của bạn trên Google Maps và sao chép URL từ thanh địa chỉ. Được sử dụng để trích xuất tọa độ khách sạn nhằm xác minh vị trí của khách.",
+    "invalidGoogleMapsUrl": "Vui lòng nhập URL Google Maps hợp lệ"
   },
   "reports": {
     "title": "Báo cáo",
@@ -699,7 +705,21 @@
     "to": "đến",
     "cancelReason": "Lý do hủy",
     "orderStatusNotification": "Đơn hàng #{number} Trạng thái: {status}",
-    "otherServices": "Dịch vụ khác"
+    "otherServices": "Dịch vụ khác",
+    "locationRequired": "Yêu cầu chia sẻ vị trí",
+    "locationRequiredDesc": "Bạn phải chia sẻ vị trí của mình để xác nhận bạn đang ở trong khách sạn trước khi duyệt các dịch vụ.",
+    "locationShareBtn": "Chia sẻ vị trí của tôi",
+    "locationVerifying": "Đang xác minh vị trí của bạn...",
+    "locationVerifyingDesc": "Vui lòng đợi trong khi chúng tôi xác minh vị trí của bạn.",
+    "locationVerified": "Đã xác minh vị trí",
+    "locationDenied": "Đã từ chối quyền truy cập vị trí",
+    "locationDeniedDesc": "Bạn chưa cho phép trình duyệt truy cập vị trí của bạn. Vui lòng bật quyền truy cập vị trí trong cài đặt trình duyệt và thử lại.",
+    "locationDeniedHint": "Đảm bảo cho phép truy cập vị trí đối với trang web này trong cài đặt trình duyệt của bạn.",
+    "locationOutOfRange": "Bạn đang ở ngoài khu vực khách sạn",
+    "locationOutOfRangeDesc": "Có vẻ như bạn không ở trong khách sạn. Vui lòng đảm bảo bạn đang ở trong tòa nhà khách sạn và thử lại.",
+    "locationTryAgain": "Thử lại",
+    "locationCoordsError": "Không thể xác minh vị trí",
+    "locationCoordsErrorDesc": "Đã xảy ra lỗi khi trích xuất tọa độ của khách sạn. Vui lòng liên hệ với quầy tiếp tân."
   },
   "validation": {
     "required": "Trường này là bắt buộc",

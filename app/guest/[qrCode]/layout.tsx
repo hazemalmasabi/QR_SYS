@@ -22,6 +22,8 @@ interface GuestInfo {
     currency_symbol: string
     language_secondary: string
     hotel_name_translations: Record<string, string>
+    location_verification_enabled: boolean
+    hotel_google_maps_url: string | null
   }
 }
 

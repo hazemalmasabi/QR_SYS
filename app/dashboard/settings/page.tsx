@@ -25,6 +25,9 @@ import {
   Hotel as HotelIcon,
   Coins,
   AlertTriangle,
+  MapPin,
+  ToggleLeft,
+  ToggleRight,
 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { toast } from 'sonner'
@@ -78,6 +81,8 @@ export default function SettingsPage() {
   const [languageSecondary, setLanguageSecondary] = useState('ar')
   const [timezone, setTimezone] = useState('')
   const [currencyCode, setCurrencyCode] = useState('')
+  const [locationVerificationEnabled, setLocationVerificationEnabled] = useState(false)
+  const [hotelGoogleMapsUrl, setHotelGoogleMapsUrl] = useState('')
 
   // Custom Timezone states
   const [customTzSign, setCustomTzSign] = useState<'+' | '-'>('+')
@@ -196,6 +201,8 @@ export default function SettingsPage() {
         }
 
         setCurrencyCode(data.settings.currency_code)
+        setLocationVerificationEnabled(!!data.settings.location_verification_enabled)
+        setHotelGoogleMapsUrl(data.settings.hotel_google_maps_url || '')
         setRoomTypes(data.settings.room_types || [])
         refreshCounts()
 
@@ -233,7 +240,9 @@ export default function SettingsPage() {
     currencyCode !== settings.currency_code ||
     hotelLogoUrl !== (settings.hotel_logo_url || '') ||
     JSON.stringify(barcodeTextTranslations) !== JSON.stringify(initialBarcodeText) ||
-    languageSecondary !== (settings.language_secondary || 'ar')
+    languageSecondary !== (settings.language_secondary || 'ar') ||
+    locationVerificationEnabled !== (!!settings.location_verification_enabled) ||
+    hotelGoogleMapsUrl !== (settings.hotel_google_maps_url || '')
   ) : false
 
   const handleCancelGeneral = () => {
@@ -244,6 +253,8 @@ export default function SettingsPage() {
     setLanguageSecondary(settings.language_secondary || 'ar')
     setTimezone(settings.timezone)
     setCurrencyCode(settings.currency_code)
+    setLocationVerificationEnabled(!!settings.location_verification_enabled)
+    setHotelGoogleMapsUrl(settings.hotel_google_maps_url || '')
 
     // Reset custom timezone states
     setCustomTzSign('+')
@@ -632,6 +643,18 @@ export default function SettingsPage() {
         }
       }
 
+      if (locationVerificationEnabled) {
+        if (!hotelGoogleMapsUrl?.trim()) {
+          const msg = tv('required')
+          newErrors.googleMapsUrl = msg
+          toast.error(msg)
+        } else if (!hotelGoogleMapsUrl.includes('google.com/maps') && !hotelGoogleMapsUrl.includes('maps.app.goo.gl')) {
+          const msg = t('invalidGoogleMapsUrl')
+          newErrors.googleMapsUrl = msg
+          toast.error(msg)
+        }
+      }
+
       if (!timezone) newErrors.timezone = true
       if (!currencyCode) newErrors.currencyCode = true
 
@@ -681,6 +704,8 @@ export default function SettingsPage() {
         hotel_logo_url: hotelLogoUrl,
         barcode_text_translations: cleanBarcodeTextTranslations,
         language_secondary: languageSecondary,
+        location_verification_enabled: locationVerificationEnabled,
+        hotel_google_maps_url: locationVerificationEnabled ? (hotelGoogleMapsUrl || null) : null,
       }
       setSavingGeneral(true)
     } else if (type === 'room_types') {
@@ -1125,6 +1150,61 @@ export default function SettingsPage() {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Location Verification Section */}
+          <div className="sm:col-span-2 mt-2">
+            <div className={cn(
+              "rounded-xl border p-4 transition-all",
+              locationVerificationEnabled ? "border-primary-200 bg-primary-50/30" : "border-gray-200 bg-gray-50/30"
+            )}>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-3 flex-1">
+                  <div className={cn(
+                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+                    locationVerificationEnabled ? "bg-primary-100 text-primary-600" : "bg-gray-100 text-gray-400"
+                  )}>
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">{t('locationVerification')}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{t('locationVerificationDesc')}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setLocationVerificationEnabled(v => !v)}
+                  className="shrink-0 focus:outline-none"
+                  title={locationVerificationEnabled ? tc('active') : tc('inactive')}
+                >
+                  {locationVerificationEnabled
+                    ? <ToggleRight className="h-8 w-8 text-primary-600" />
+                    : <ToggleLeft className="h-8 w-8 text-gray-400" />
+                  }
+                </button>
+              </div>
+
+              {locationVerificationEnabled && (
+                <div className="mt-4 pt-4 border-t border-primary-100">
+                  <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-gray-700">
+                    <MapPin className="h-4 w-4 shrink-0 text-primary-500" />
+                    <span className="mt-0.5">{t('googleMapsUrl')}</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={hotelGoogleMapsUrl}
+                    onChange={(e) => setHotelGoogleMapsUrl(e.target.value)}
+                    placeholder={t('googleMapsUrlPlaceholder')}
+                    className={cn('input', errors.googleMapsUrl && 'input-error')}
+                    dir="ltr"
+                  />
+                  {errors.googleMapsUrl && (
+                    <p className="mt-1 text-xs text-red-500">{errors.googleMapsUrl}</p>
+                  )}
+                  <p className="mt-1.5 text-xs text-gray-500">{t('googleMapsUrlHint')}</p>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 pt-6 border-t border-gray-100">

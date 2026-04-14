@@ -590,7 +590,13 @@
     "replacementType": "نوع جایگزین را انتخاب کنید (اتاق‌ها به آن منتقل می‌شوند)",
     "mustKeepOneRoomType": "هتل باید حداقل یک نوع اتاق داشته باشد",
     "mustSelectReplacement": "قبل از حذف باید یک جایگزین انتخاب کنید",
-    "defaultBarcodeText": "برای مشاهده خدمات ما اسکن کنید"
+    "defaultBarcodeText": "برای مشاهده خدمات ما اسکن کنید",
+    "locationVerification": "فعال سازی تأیید موقعیت مکانی",
+    "locationVerificationDesc": "هنگامی که فعال باشد، مهمانان باید هنگام اسکن کد QR موقعیت مکانی خود را به اشتراک بگذارند تا تأیید شود که در داخل هتل هستند.",
+    "googleMapsUrl": "آدرس گوگل مپ هتل",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "هتل خود را در گوگل مپ باز کنید و آدرس را از نوار آدرس کپی کنید. برای استخراج مختصات هتل جهت تأیید موقعیت مهمان استفاده می‌شود.",
+    "invalidGoogleMapsUrl": "لطفاً یک آدرس معتبر گوگل مپ وارد کنید"
   },
   "reports": {
     "title": "گزارش‌ها",
@@ -699,7 +705,21 @@
     "to": "تا",
     "cancelReason": "دلیل لغو",
     "orderStatusNotification": "وضعیت سفارش #{number}: {status}",
-    "otherServices": "سایر خدمات"
+    "otherServices": "سایر خدمات",
+    "locationRequired": "اشتراک گذاری موقعیت مکانی الزامی است",
+    "locationRequiredDesc": "برای مرور خدمات، باید موقعیت خود را به اشتراک بگذارید تا تأیید شود داخل هتل هستید.",
+    "locationShareBtn": "اشتراک گذاری موقعیت من",
+    "locationVerifying": "در حال بررسی موقعیت شما...",
+    "locationVerifyingDesc": "لطفاً تا بررسی موقعیت شما منتظر بمانید.",
+    "locationVerified": "موقعیت تأیید شد",
+    "locationDenied": "دسترسی به موقعیت مسدود شد",
+    "locationDeniedDesc": "شما اجازه دسترسی مرورگر به موقعیت مکانی خود را نداده‌اید. لطفاً دسترسی به موقعیت مکانی را در تنظیمات مرورگر خود فعال کرده و دوباره تلاش کنید.",
+    "locationDeniedHint": "مطمئن شوید که دسترسی به موقعیت مکانی برای این سایت در تنظیمات مرورگر شما مجاز است.",
+    "locationOutOfRange": "شما خارج از منطقه هتل هستید",
+    "locationOutOfRangeDesc": "به نظر می‌رسد شما در داخل هتل نیستید. لطفاً مطمئن شوید که در داخل ساختمان هتل هستید و دوباره تلاش کنید.",
+    "locationTryAgain": "تلاش مجدد",
+    "locationCoordsError": "امکان تأیید موقعیت مکانی وجود ندارد",
+    "locationCoordsErrorDesc": "خطایی هنگام بررسی مختصات هتل رخ داد. لطفاً با پذیرش تماس بگیرید."
   },
   "validation": {
     "required": "این مورد الزامی است",

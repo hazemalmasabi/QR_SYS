@@ -14,7 +14,7 @@ export async function GET() {
 
     const { data: hotel, error } = await supabaseAdmin
       .from('hotels')
-      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
+      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types, location_verification_enabled, hotel_google_maps_url')
       .eq('hotel_id', session.hotelId)
       .single()
 
@@ -89,7 +89,9 @@ export async function PATCH(request: Request) {
       currency_code,
       currency_symbol,
       room_types,
-      room_type_mappings
+      room_type_mappings,
+      location_verification_enabled,
+      hotel_google_maps_url
     } = body
 
     const updateData: Record<string, unknown> = {
@@ -142,6 +144,14 @@ export async function PATCH(request: Request) {
         )
       }
       updateData.currency_symbol = currency_symbol
+    }
+
+    if (location_verification_enabled !== undefined) {
+      updateData.location_verification_enabled = !!location_verification_enabled
+    }
+
+    if (hotel_google_maps_url !== undefined) {
+      updateData.hotel_google_maps_url = hotel_google_maps_url || null
     }
 
     if (room_types !== undefined) {
@@ -203,7 +213,7 @@ export async function PATCH(request: Request) {
       .from('hotels')
       .update(updateData)
       .eq('hotel_id', session.hotelId)
-      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types')
+      .select('hotel_name, hotel_name_translations, hotel_logo_url, barcode_text_translations, language_secondary, timezone, currency_code, currency_symbol, room_types, location_verification_enabled, hotel_google_maps_url')
       .single()
 
     if (error) {

@@ -590,7 +590,13 @@
     "replacementType": "Choose a replacement room type (all relative rooms will be moved here)",
     "mustKeepOneRoomType": "The hotel must have at least one room type",
     "mustSelectReplacement": "You must select a replacement room type before deleting",
-    "defaultBarcodeText": "Scan to view our services"
+    "defaultBarcodeText": "Scan to view our services",
+    "locationVerification": "Enable Location Verification",
+    "locationVerificationDesc": "When enabled, guests will be required to share their location when scanning the QR code to confirm they are inside the hotel.",
+    "googleMapsUrl": "Hotel Google Maps URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Open your hotel on Google Maps and copy the URL from the address bar. Used to extract hotel coordinates for guest location verification.",
+    "invalidGoogleMapsUrl": "Please enter a valid Google Maps URL"
   },
   "reports": {
     "title": "Reports",
@@ -699,7 +705,21 @@
     "to": "to",
     "cancelReason": "Cancel Reason",
     "orderStatusNotification": "Order #{number} status: {status}",
-    "otherServices": "Other Services"
+    "otherServices": "Other Services",
+    "locationRequired": "Location Sharing Required",
+    "locationRequiredDesc": "You must share your location to confirm you are inside the hotel before browsing services.",
+    "locationShareBtn": "Share My Location",
+    "locationVerifying": "Verifying your location...",
+    "locationVerifyingDesc": "Please wait while we verify your location.",
+    "locationVerified": "Location verified",
+    "locationDenied": "Location Access Denied",
+    "locationDeniedDesc": "You have not allowed the browser to access your location. Please enable location access in your browser settings and try again.",
+    "locationDeniedHint": "Make sure to allow location access for this site in your browser settings.",
+    "locationOutOfRange": "You are outside the hotel area",
+    "locationOutOfRangeDesc": "It seems you are not inside the hotel. Please make sure you are inside the hotel building and try again.",
+    "locationTryAgain": "Try Again",
+    "locationCoordsError": "Could not verify location",
+    "locationCoordsErrorDesc": "An error occurred while extracting hotel coordinates. Please contact the hotel."
   },
   "validation": {
     "required": "This field is required",

@@ -590,7 +590,13 @@
     "replacementType": "Chagua aina ya mbadala (vyumba vitahamishiwa huko)",
     "mustKeepOneRoomType": "Hoteli lazima iwe na angalau aina moja ya chumba",
     "mustSelectReplacement": "Lazima uchague mbadala kabla ya kufuta",
-    "defaultBarcodeText": "Changanua ili kuona huduma zetu"
+    "defaultBarcodeText": "Changanua ili kuona huduma zetu",
+    "locationVerification": "Wezesha Uthibitishaji wa Mahali",
+    "locationVerificationDesc": "Ikipangiliwa, wageni watahitajika kushiriki mahali walipo wanaposkena nambari ya QR ili kuthibitisha kuwa wako ndani ya hoteli.",
+    "googleMapsUrl": "URL ya Ramani za Google ya Hoteli",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Fungua hoteli yako kwenye Ramani za Google na unakili URL kutoka sehemu ya anwani. Inatumika kwa kutoa kuratibu za hoteli ili kuthibitisha mahali mgeni alipo.",
+    "invalidGoogleMapsUrl": "Tafadhali weka URL halali ya Ramani za Google"
   },
   "reports": {
     "title": "Ripoti",
@@ -699,7 +705,21 @@
     "to": "hadi",
     "cancelReason": "Sababu ya Kufuta",
     "orderStatusNotification": "Hali ya Agizo #{number}: {status}",
-    "otherServices": "Huduma Nyingine"
+    "otherServices": "Huduma Nyingine",
+    "locationRequired": "Kushiriki Mahali Unahitajika",
+    "locationRequiredDesc": "Unapaswa kushiriki mahali pako ili kuthibitisha kwamba uko ndani ya hoteli kabla ya kuangalia huduma.",
+    "locationShareBtn": "Shiriki Mahali Pangu",
+    "locationVerifying": "Inathibitisha mahali pako...",
+    "locationVerifyingDesc": "Tafadhali subiri tunapothibitisha mahali pako.",
+    "locationVerified": "Eneo limethibitishwa",
+    "locationDenied": "Ufikiaji wa Mahali Umekataliwa",
+    "locationDeniedDesc": "Hujaruhusu kivinjari chako kufikia mahali ulipo. Tafadhali wezesha ufikiaji wa mahali katika mipangilio ya kompyuta yako na ujaribu tena.",
+    "locationDeniedHint": "Hakikisha umeruhusu tovuti hii kufikia mahali ulipo katika mipangilio ya kivinjari chako.",
+    "locationOutOfRange": "Uko nje ya eneo la hoteli",
+    "locationOutOfRangeDesc": "Inaonekana uko nje ya hoteli. Tafadhali hakikisha uko ndani ya jengo na ujaribu tena.",
+    "locationTryAgain": "Jaribu Tena",
+    "locationCoordsError": "Kushindwa kuthibitisha eneo",
+    "locationCoordsErrorDesc": "Tatizo limetokea wakati wa kutoa kuratibu za hoteli. Tafadhali wasiliana na hoteli."
   },
   "validation": {
     "required": "Hii ni lazima",

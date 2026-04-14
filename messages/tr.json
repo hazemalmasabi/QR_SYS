@@ -590,7 +590,13 @@
     "replacementType": "Değiştirilecek tipi seçin (odalar oraya taşınacaktır)",
     "mustKeepOneRoomType": "Otelde en az bir oda tipi bulunmalıdır",
     "mustSelectReplacement": "Silmeden önce bir yedek tip seçilmelidir",
-    "defaultBarcodeText": "Hizmetlerimizi görmek için tarayın"
+    "defaultBarcodeText": "Hizmetlerimizi görmek için tarayın",
+    "locationVerification": "Konum Doğrulamayı Etkinleştir",
+    "locationVerificationDesc": "Etkinleştirildiğinde, misafirlerin otelin içinde olduklarını onaylamak için QR kodunu tararken konumlarını paylaşmaları istenecektir.",
+    "googleMapsUrl": "Otel Google Haritalar URL'si",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Google Haritalar'da otelinizi açın ve adres çubuğundaki URL'yi kopyalayın. Misafir konum doğrulaması için otel koordinatlarını çıkarmak amacıyla kullanılır.",
+    "invalidGoogleMapsUrl": "Lütfen geçerli bir Google Haritalar URL'si girin"
   },
   "reports": {
     "title": "Raporlar",
@@ -699,7 +705,21 @@
     "to": "-",
     "cancelReason": "İptal Nedeni",
     "orderStatusNotification": "Sipariş #{number} Durumu: {status}",
-    "otherServices": "Diğer Hizmetler"
+    "otherServices": "Diğer Hizmetler",
+    "locationRequired": "Konum Paylaşımı Gerekli",
+    "locationRequiredDesc": "Hizmetlere göz atmadan önce otelin içinde olduğunuzu doğrulamak için konumunuzu paylaşmalısınız.",
+    "locationShareBtn": "Konumumu Paylaş",
+    "locationVerifying": "Konumunuz doğrulanıyor...",
+    "locationVerifyingDesc": "Konumunuz doğrulanırken lütfen bekleyin.",
+    "locationVerified": "Konum doğrulandı",
+    "locationDenied": "Konum Erişimi Reddedildi",
+    "locationDeniedDesc": "Tarayıcının konumunuza erişmesine izin vermediniz. Lütfen tarayıcı ayarlarından konum erişimini etkinleştirin ve tekrar deneyin.",
+    "locationDeniedHint": "Tarayıcı ayarlarınızda bu site için konum izni verdiğinizden emin olun.",
+    "locationOutOfRange": "Otel bölgesinin dışındasınız",
+    "locationOutOfRangeDesc": "Otelin içinde olmadığınız görünüyor. Lütfen otel binasının içinde olduğunuzdan emin olun ve tekrar deneyin.",
+    "locationTryAgain": "Tekrar Dene",
+    "locationCoordsError": "Konum doğrulanamadı",
+    "locationCoordsErrorDesc": "Otel koordinatları çıkarılırken bir hata oluştu. Lütfen otel ile iletişime geçin."
   },
   "validation": {
     "required": "Bu alan gereklidir",

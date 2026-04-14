@@ -590,7 +590,13 @@
     "replacementType": "Pick another type (rooms go move there)",
     "mustKeepOneRoomType": "Hotel must get at least one room type",
     "mustSelectReplacement": "You must pick replacement before you delete",
-    "defaultBarcodeText": "Scan to see our service"
+    "defaultBarcodeText": "Scan to see our service",
+    "locationVerification": "Enable Location Verification",
+    "locationVerificationDesc": "When e dey enabled, guest dem go need to share their location when dem scan di QR code to confirm say dem dey inside di hotel.",
+    "googleMapsUrl": "Hotel Google Maps URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Open your hotel for Google Maps and copy di URL from di address bar. E dey help bring out di hotel coords for location check.",
+    "invalidGoogleMapsUrl": "Abeg put correct Google Maps URL"
   },
   "reports": {
     "title": "Reports",
@@ -699,7 +705,21 @@
     "to": "to",
     "cancelReason": "Why we cancel",
     "orderStatusNotification": "Order #{number} Status: {status}",
-    "otherServices": "Other Services"
+    "otherServices": "Other Services",
+    "locationRequired": "Location Sharing Na Must",
+    "locationRequiredDesc": "You must share your location to confirm say you dey inside di hotel before you fit see our services.",
+    "locationShareBtn": "Share My Location",
+    "locationVerifying": "Verifying your location...",
+    "locationVerifyingDesc": "Abeg wait make we verify your location.",
+    "locationVerified": "Location Verified",
+    "locationDenied": "Location Access Denied",
+    "locationDeniedDesc": "You never give your browser permit make e see your location. Abeg go your browser settings go allow am den try again.",
+    "locationDeniedHint": "Make sure say you allow location for dis site inside your browser settings.",
+    "locationOutOfRange": "You dey outside di hotel area",
+    "locationOutOfRangeDesc": "E be like say you no dey inside di hotel. Abeg make sure say you dey inside di building den try again.",
+    "locationTryAgain": "Try Again",
+    "locationCoordsError": "Could not verify location",
+    "locationCoordsErrorDesc": "One error happen to find di hotel position. Abeg contact di hotel."
   },
   "validation": {
     "required": "This one na must",

@@ -590,7 +590,13 @@
     "replacementType": "대체 객실 유형 선택(해당하는 모든 객실이 여기로 이동됨)",
     "mustKeepOneRoomType": "호텔에는 최소 한 개의 객실 유형이 있어야 합니다",
     "mustSelectReplacement": "삭제 전 대체 객실 유형을 선택해야 합니다",
-    "defaultBarcodeText": "서비스를 보려면 스캔하세요"
+    "defaultBarcodeText": "서비스를 보려면 스캔하세요",
+    "locationVerification": "위치 확인 활성화",
+    "locationVerificationDesc": "활성화되면 투숙객이 QR 코드를 스캔할 때 호텔 내부에 있는지 확인하기 위해 위치를 공유해야 합니다.",
+    "googleMapsUrl": "호텔 Google 지도 URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Google 지도에서 호텔을 열고 주소 표시줄에서 URL을 복사하세요. 이 URL은 투숙객 위치 확인을 위한 호텔 좌표를 추출하는 데 사용됩니다.",
+    "invalidGoogleMapsUrl": "유효한 Google 지도 URL을 입력하세요"
   },
   "reports": {
     "title": "보고서",
@@ -699,7 +705,21 @@
     "to": "~",
     "cancelReason": "취소 사유",
     "orderStatusNotification": "주문 #{number} 상태: {status}",
-    "otherServices": "기타 서비스"
+    "otherServices": "기타 서비스",
+    "locationRequired": "위치 공유 필수",
+    "locationRequiredDesc": "서비스를 검색하기 전에 호텔 내부에 있는지 확인하려면 위치를 공유해야 합니다.",
+    "locationShareBtn": "내 위치 공유",
+    "locationVerifying": "위치를 확인하는 중...",
+    "locationVerifyingDesc": "위치를 확인하는 동안 잠시 기다려 주세요.",
+    "locationVerified": "위치 확인됨",
+    "locationDenied": "위치 액세스 거부됨",
+    "locationDeniedDesc": "브라우저에서 위치 정보 액세스를 허용하지 않았습니다. 브라우저 설정에서 위치 권한을 활성화하고 다시 시도해 주세요.",
+    "locationDeniedHint": "브라우저 설정에서 이 사이트에 대한 위치 액세스를 허용해야 합니다.",
+    "locationOutOfRange": "호텔 구역을 벗어났습니다.",
+    "locationOutOfRangeDesc": "호텔 내부에 있지 않은 것 같습니다. 호텔 건물 내부에 있는지 확인하고 다시 시도해 주세요.",
+    "locationTryAgain": "다시 시도",
+    "locationCoordsError": "위치를 확인할 수 없음",
+    "locationCoordsErrorDesc": "호텔 좌표를 추출하는 중 오류가 발생했습니다. 호텔 측에 문의해 주세요."
   },
   "validation": {
     "required": "이 필드는 필수입니다",

@@ -590,7 +590,13 @@
     "replacementType": "متبادل قسم منتخب کریں",
     "mustKeepOneRoomType": "کم از کم ایک قسم ہونا لازمی ہے",
     "mustSelectReplacement": "حذف کرنے سے پہلے متبادل چناؤ لازمی ہے",
-    "defaultBarcodeText": "ہماری خدمات دیکھنے کے لیے اسکین کریں"
+    "defaultBarcodeText": "ہماری خدمات دیکھنے کے لیے اسکین کریں",
+    "locationVerification": "مقام کی توثیق کو فعال کریں",
+    "locationVerificationDesc": "جب یہ فعال ہو تو، مہمانوں کو یہ تصدیق کرنے کے لیے کہ وہ ہوٹل کے اندر موجود ہیں، QR کوڈ اسکین کرتے وقت اپنے مقام کا اشتراک کرنا لازمی ہوگا۔",
+    "googleMapsUrl": "ہوٹل کا گوگل میپس URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "گوگل میپس پر اپنا ہوٹل کھولیں اور ایڈریس بار سے URL کاپی کریں۔ اسے مہمانوں کی مقام کی توثیق کے لیے ہوٹل کے نقاط نکالنے کے لیے استعمال کیا جاتا ہے۔",
+    "invalidGoogleMapsUrl": "براہ کرم ایک درست گوگل میپس URL درج کریں"
   },
   "reports": {
     "title": "رپورٹس",
@@ -699,7 +705,21 @@
     "to": "سے",
     "cancelReason": "منسوخی کی وجہ",
     "orderStatusNotification": "آرڈر #{number} کی صورتحال: {status}",
-    "otherServices": "دیگر خدمات"
+    "otherServices": "دیگر خدمات",
+    "locationRequired": "لوکیشن شیئر کرنا لازمی ہے",
+    "locationRequiredDesc": "خدمات دیکھنے سے پہلے آپ کو اپنی لوکیشن شیئر کر کے یہ تصدیق کرنی ہو گی کہ آپ ہوٹل کے اندر ہیں۔",
+    "locationShareBtn": "میری لوکیشن شیئر کریں",
+    "locationVerifying": "آپ کی لوکیشن کی تصدیق کی جا رہی ہے...",
+    "locationVerifyingDesc": "جب ہم آپ کے مقام کی توثیق کر رہے ہوں تو براہ کرم انتظار کریں۔",
+    "locationVerified": "مقام کی توثیق ہو گئی",
+    "locationDenied": "مقام تک رسائی سے انکار",
+    "locationDeniedDesc": "آپ نے براؤزر کو اپنے مقام تک رسائی کی اجازت نہیں دی۔ براہ کرم براؤزر کی سیٹنگز میں مقام تک رسائی کو فعال کریں اور دوبارہ کوشش کریں۔",
+    "locationDeniedHint": "یقینی بنائیں کہ آپ کے براؤزر کی سیٹنگز میں اس سائٹ کے لیے مقام کی اجازت دی گئی ہے۔",
+    "locationOutOfRange": "آپ ہوٹل کے احاطے سے باہر ہیں",
+    "locationOutOfRangeDesc": "ایسا لگتا ہے کہ آپ ہوٹل کے اندر نہیں ہیں۔ براہ کرم یقینی بنائیں کہ آپ ہوٹل کی عمارت کے اندر موجود ہیں اور دوبارہ کوشش کریں۔",
+    "locationTryAgain": "دوبارہ کوشش کریں",
+    "locationCoordsError": "مقام کی تصدیق نہیں کی جا سکی",
+    "locationCoordsErrorDesc": "ہوٹل کے نقاط معلوم کرنے میں کوئی خرابی پیش آ گئی ہے۔ براہ کرم ہوٹل سے رابطہ کریں۔"
   },
   "validation": {
     "required": "یہ ضروری ہے",

@@ -590,7 +590,13 @@
     "replacementType": "选择替代客房类型 (所有相关房间将移动至此)",
     "mustKeepOneRoomType": "酒店必须至少有一种客房类型",
     "mustSelectReplacement": "删除前必须选择替代客房类型",
-    "defaultBarcodeText": "扫描查看我们的服务"
+    "defaultBarcodeText": "扫描查看我们的服务",
+    "locationVerification": "启用位置验证",
+    "locationVerificationDesc": "启用后，客人在扫描二维码时将被要求共享其位置，以确认其在酒店内。",
+    "googleMapsUrl": "酒店 Google 地图链接",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "在 Google 地图上打开您的酒店并从地址栏复制URL。用于提取酒店坐标进行访客位置验证。",
+    "invalidGoogleMapsUrl": "请输入有效的 Google 地图链接"
   },
   "reports": {
     "title": "统计报表",
@@ -699,7 +705,21 @@
     "to": "至",
     "cancelReason": "取消原因",
     "orderStatusNotification": "订单 #{number} 状态：{status}",
-    "otherServices": "其他服务"
+    "otherServices": "其他服务",
+    "locationRequired": "需要共享位置",
+    "locationRequiredDesc": "在浏览服务之前，您必须共享您的位置以确认您在酒店内。",
+    "locationShareBtn": "共享我的位置",
+    "locationVerifying": "正在验证您的位置...",
+    "locationVerifyingDesc": "请稍候，我们正在验证您的位置。",
+    "locationVerified": "位置已验证",
+    "locationDenied": "位置访问被拒绝",
+    "locationDeniedDesc": "您未允许浏览器访问您的位置。请在浏览器设置中启用位置访问权限，然后重试。",
+    "locationDeniedHint": "切记在浏览器设置中允许该网站访问位置信息。",
+    "locationOutOfRange": "您在酒店区域外",
+    "locationOutOfRangeDesc": "看起来您不在酒店内。请确保您在酒店大楼内，然后重试。",
+    "locationTryAgain": "重试",
+    "locationCoordsError": "无法验证位置",
+    "locationCoordsErrorDesc": "提取酒店坐标时出错。请联系酒店。"
   },
   "validation": {
     "required": "此字段为必填项",

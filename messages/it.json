@@ -590,7 +590,13 @@
     "replacementType": "Seleziona un tipo sostitutivo (le camere verranno spostate lì)",
     "mustKeepOneRoomType": "L'hotel deve avere almeno un tipo di camera",
     "mustSelectReplacement": "Devi selezionare un sostituto prima di eliminare",
-    "defaultBarcodeText": "Scansiona per vedere i nostri servizi"
+    "defaultBarcodeText": "Scansiona per vedere i nostri servizi",
+    "locationVerification": "Abilita verifica posizione",
+    "locationVerificationDesc": "Quando è attivata, agli ospiti verrà richiesto di condividere la propria posizione al momento della scansione del codice QR per confermare di essere all'interno dell'hotel.",
+    "googleMapsUrl": "URL di Google Maps dell'hotel",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Apri il tuo hotel su Google Maps e copia l'URL dalla barra degli indirizzi. Utilizzato per estrarre le coordinate dell'hotel per la verifica della posizione degli ospiti.",
+    "invalidGoogleMapsUrl": "Inserisci un URL di Google Maps valido"
   },
   "reports": {
     "title": "Report",
@@ -699,7 +705,21 @@
     "to": "a",
     "cancelReason": "Motivo Annullamento",
     "orderStatusNotification": "Stato Ordine #{number}: {status}",
-    "otherServices": "Altri Servizi"
+    "otherServices": "Altri Servizi",
+    "locationRequired": "Condivisione della posizione necessaria",
+    "locationRequiredDesc": "Devi condividere la tua posizione per confermare che ti trovi all'interno dell'hotel prima di sfogliare i servizi.",
+    "locationShareBtn": "Condividi la mia posizione",
+    "locationVerifying": "Verifica della posizione in corso...",
+    "locationVerifyingDesc": "Attendi mentre verifichiamo la tua posizione.",
+    "locationVerified": "Posizione verificata",
+    "locationDenied": "Accesso alla posizione negato",
+    "locationDeniedDesc": "Non hai concesso al browser l'accesso alla tua posizione. Abilita l'accesso alla posizione nelle impostazioni del browser e riprova.",
+    "locationDeniedHint": "Assicurati di consentire l'accesso alla posizione per questo sito nelle impostazioni del browser.",
+    "locationOutOfRange": "Sei al di fuori dell'area dell'hotel",
+    "locationOutOfRangeDesc": "Sembra che tu non sia all'interno dell'hotel. Assicurati di essere all'interno dell'edificio e riprova.",
+    "locationTryAgain": "Riprova",
+    "locationCoordsError": "Impossibile verificare la posizione",
+    "locationCoordsErrorDesc": "Si è verificato un errore durante l'estrazione delle coordinate dell'hotel. Si prega di contattare l'hotel."
   },
   "validation": {
     "required": "Questo è obbligatorio",

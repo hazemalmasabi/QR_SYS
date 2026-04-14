@@ -32,7 +32,9 @@ export async function GET(
           currency_code,
           currency_symbol,
           language_secondary,
-          hotel_name_translations
+          hotel_name_translations,
+          location_verification_enabled,
+          hotel_google_maps_url
         )
       `)
       .eq('qr_code_id', qrCode)
@@ -72,7 +74,9 @@ export async function GET(
         currency_code: hotel.currency_code,
         currency_symbol: hotel.currency_symbol,
         language_secondary: hotel.language_secondary || 'ar',
-        hotel_name_translations: hotel.hotel_name_translations || { ar: hotel.hotel_name }
+        hotel_name_translations: hotel.hotel_name_translations || { ar: hotel.hotel_name },
+        location_verification_enabled: hotel.location_verification_enabled || false,
+        hotel_google_maps_url: hotel.hotel_google_maps_url || null,
       },
     })
   } catch (error) {

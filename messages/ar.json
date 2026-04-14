@@ -590,7 +590,13 @@
     "replacementType": "أختر نوع الغرفة البديل (جميع الغرف المرتبطة ستُنقل إليه)",
     "mustKeepOneRoomType": "يجب أن يحتوي الفندق على نوع غرفة واحد على الأقل",
     "mustSelectReplacement": "يجب عليك اختيار نوع الغرفة البديل قبل الحذف",
-    "defaultBarcodeText": "امسح الرمز لعرض خدماتنا"
+    "defaultBarcodeText": "امسح الرمز لعرض خدماتنا",
+    "locationVerification": "تفعيل التحقق من الموقع",
+    "locationVerificationDesc": "عند التفعيل، سيُطلب من العميل مشاركة موقعه عند مسح الباركود للتأكد من وجوده داخل الفندق.",
+    "googleMapsUrl": "رابط الفندق على قوقل ماب",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "افتح الفندق على قوقل ماب ثم انسخ الرابط من شريط العنوان. يُستخدم لاستخراج إحداثيات الفندق للتحقق من موقع العميل.",
+    "invalidGoogleMapsUrl": "يرجى إدخال رابط قوقل ماب صحيح"
   },
   "reports": {
     "title": "التقارير",
@@ -699,7 +705,21 @@
     "to": "إلى",
     "cancelReason": "سبب الإلغاء",
     "orderStatusNotification": "تغيرت حالة الطلب #{number} إلى: {status}",
-    "otherServices": "خدمات أخرى"
+    "otherServices": "خدمات أخرى",
+    "locationRequired": "مشاركة الموقع مطلوبة",
+    "locationRequiredDesc": "يُطلب منك مشاركة موقعك للتحقق من وجودك داخل الفندق قبل تصفح الخدمات.",
+    "locationShareBtn": "مشاركة موقعي الآن",
+    "locationVerifying": "جاري التحقق من موقعك...",
+    "locationVerifyingDesc": "يرجى الانتظار بينما نتحقق من موقعك.",
+    "locationVerified": "تم التحقق من موقعك",
+    "locationDenied": "تم رفض الوصول للموقع",
+    "locationDeniedDesc": "لم تسمح للمتصفح بالوصول لموقعك. يرجى السماح بالوصول للموقع من إعدادات المتصفح ثم المحاولة مجدداً.",
+    "locationDeniedHint": "تأكد من السماح للموقع بالوصول إلى الموقع الجغرافي في إعدادات المتصفح.",
+    "locationOutOfRange": "أنت خارج نطاق الفندق",
+    "locationOutOfRangeDesc": "يبدو أنك لست داخل الفندق. يُرجى التأكد من وجودك داخل مبنى الفندق والمحاولة مجدداً.",
+    "locationTryAgain": "حاول مرة أخرى",
+    "locationCoordsError": "تعذّر التحقق من الموقع",
+    "locationCoordsErrorDesc": "حدث خطأ في استخراج إحداثيات الفندق. يرجى التواصل مع الفندق."
   },
   "validation": {
     "required": "هذا الحقل مطلوب",

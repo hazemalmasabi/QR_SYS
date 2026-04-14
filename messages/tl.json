@@ -590,7 +590,13 @@
     "replacementType": "Piliin ang kapalit na uri (ililipat ang mga kwarto doon)",
     "mustKeepOneRoomType": "Ang hotel ay dapat magkaroon ng kahit isang uri ng kwarto",
     "mustSelectReplacement": "Dapat pumili ng kapalit bago i-delete",
-    "defaultBarcodeText": "I-scan upang tingnan ang aming mga serbisyo"
+    "defaultBarcodeText": "I-scan upang tingnan ang aming mga serbisyo",
+    "locationVerification": "I-enable ang Pag-verify ng Lokasyon",
+    "locationVerificationDesc": "Kapag na-enable, kakailanganin ng mga bisita na ibahagi ang kanilang lokasyon kapag ini-scan ang QR code upang kumpirmahing nasa loob sila ng hotel.",
+    "googleMapsUrl": "URL ng Hotel sa Google Maps",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Buksan ang iyong hotel sa Google Maps at kopyahin ang URL mula sa address bar. Ginagamit para makuha ang mga coordinate ng hotel para sa pag-verify sa lokasyon ng bisita.",
+    "invalidGoogleMapsUrl": "Mangyaring maglagay ng wastong Google Maps URL"
   },
   "reports": {
     "title": "Mga Ulat",
@@ -699,7 +705,21 @@
     "to": "hanggang",
     "cancelReason": "Dahilan ng Pagkansela",
     "orderStatusNotification": "Katayuan ng Order #{number}: {status}",
-    "otherServices": "Iba Pang Serbisyo"
+    "otherServices": "Iba Pang Serbisyo",
+    "locationRequired": "Kinakailangang Ibahagi ang Lokasyon",
+    "locationRequiredDesc": "Kailangan mong ibahagi ang iyong lokasyon upang makumpirmang nasa loob ka ng hotel bago mag-browse ng mga serbisyo.",
+    "locationShareBtn": "Ibahagi ang Aking Lokasyon",
+    "locationVerifying": "Sinisiyasat ang iyong lokasyon...",
+    "locationVerifyingDesc": "Mangyaring maghintay habang sinusuri namin ang iyong lokasyon.",
+    "locationVerified": "Na-verify na ang lokasyon",
+    "locationDenied": "Na-deny ang Access sa Lokasyon",
+    "locationDeniedDesc": "Hindi mo pinayagan ang browser na ma-access ang iyong lokasyon. Mangyaring i-enable ang access sa lokasyon sa mga setting ng iyong browser at subukang muli.",
+    "locationDeniedHint": "Tiyaking pinapayagan ang access sa lokasyon para sa site na ito sa iyong mga setting ng browser.",
+    "locationOutOfRange": "Nasa labas ka ng lugar ng hotel",
+    "locationOutOfRangeDesc": "Tila wala ka sa loob ng hotel. Tiyaking nasa loob ka ng gusali ng hotel at subukang muli.",
+    "locationTryAgain": "Subukang Muli",
+    "locationCoordsError": "Hindi ma-verify ang lokasyon",
+    "locationCoordsErrorDesc": "May naganap na error habang kinukuha ang mga coordinate ng hotel. Mangyaring makipag-ugnayan sa pamunuan ng hotel."
   },
   "validation": {
     "required": "Ito ay kinakailangan",

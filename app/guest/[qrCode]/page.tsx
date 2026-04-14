@@ -4,7 +4,7 @@ import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
-import { Clock, ChevronLeft, ChevronRight, Loader2, Lock } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight, Loader2, Lock, MapPin, AlertTriangle, Shield, CheckCircle2 } from 'lucide-react'
 import { isWithinServiceHours } from '@/lib/utils'
 import type { MainService } from '@/types'
 
@@ -19,8 +19,57 @@ interface GuestInfo {
     currency_symbol: string
     language_secondary: string
     hotel_name_translations: Record<string, string>
+    location_verification_enabled: boolean
+    hotel_google_maps_url: string | null
   }
 }
+
+/** Extract lat/lng from a Google Maps URL */
+function extractCoordsFromGoogleMapsUrl(url: string): { lat: number; lng: number } | null {
+  try {
+    // Handles both @lat,lng and ?q=lat,lng formats
+    const atMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+    if (atMatch) return { lat: parseFloat(atMatch[1]), lng: parseFloat(atMatch[2]) }
+
+    const qMatch = url.match(/[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/)
+    if (qMatch) return { lat: parseFloat(qMatch[1]), lng: parseFloat(qMatch[2]) }
+
+    // maps/place/.../@lat,lng
+    const placeMatch = url.match(/place\/[^/]+\/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+    if (placeMatch) return { lat: parseFloat(placeMatch[1]), lng: parseFloat(placeMatch[2]) }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
+/** Haversine distance in meters */
+function haversineDistanceMeters(
+  lat1: number, lng1: number,
+  lat2: number, lng2: number
+): number {
+  const R = 6371000 // Earth radius in meters
+  const dLat = ((lat2 - lat1) * Math.PI) / 180
+  const dLng = ((lng2 - lng1) * Math.PI) / 180
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+const MAX_DISTANCE_METERS = 500 // 500m allowed radius
+
+type LocationState =
+  | 'idle'
+  | 'requesting'
+  | 'verifying'
+  | 'success'
+  | 'denied'
+  | 'out_of_range'
+  | 'coords_error'
 
 export default function GuestPage({
   params,
@@ -36,9 +85,10 @@ export default function GuestPage({
   const [services, setServices] = useState<MainService[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  // State for expanding long descriptions
   const [expandedDescId, setExpandedDescId] = useState<string | null>(null)
+
+  // Location verification state
+  const [locationState, setLocationState] = useState<LocationState>('idle')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +110,13 @@ export default function GuestPage({
         if (servicesData.success) {
           setServices(servicesData.services)
         }
+
+        // If location verification is enabled, start requesting immediately
+        if (infoData.hotel?.location_verification_enabled) {
+          setLocationState('requesting')
+        } else {
+          setLocationState('success') // no verification needed
+        }
       } catch {
         setError(t('invalidQR'))
       } finally {
@@ -69,6 +126,47 @@ export default function GuestPage({
 
     fetchData()
   }, [qrCode, t])
+
+  const handleRequestLocation = () => {
+    if (!guestInfo) return
+    setLocationState('requesting')
+
+    if (!navigator.geolocation) {
+      setLocationState('denied')
+      return
+    }
+
+    setLocationState('verifying')
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+
+        const mapsUrl = guestInfo.hotel.hotel_google_maps_url
+        if (!mapsUrl) {
+          // No coords configured — allow access
+          setLocationState('success')
+          return
+        }
+
+        const hotelCoords = extractCoordsFromGoogleMapsUrl(mapsUrl)
+        if (!hotelCoords) {
+          setLocationState('coords_error')
+          return
+        }
+
+        const distMeters = haversineDistanceMeters(latitude, longitude, hotelCoords.lat, hotelCoords.lng)
+        if (distMeters <= MAX_DISTANCE_METERS) {
+          setLocationState('success')
+        } else {
+          setLocationState('out_of_range')
+        }
+      },
+      () => {
+        setLocationState('denied')
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    )
+  }
 
   if (loading) {
     return (
@@ -94,6 +192,82 @@ export default function GuestPage({
     )
   }
 
+  // ── Location Verification Gate ──
+  if (guestInfo?.hotel.location_verification_enabled && locationState !== 'success') {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <div className="w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-8 shadow-xl text-center space-y-5">
+          {/* Icon */}
+          <div className={`mx-auto flex h-20 w-20 items-center justify-center rounded-full ${
+            locationState === 'denied' || locationState === 'out_of_range' || locationState === 'coords_error'
+              ? 'bg-red-50'
+              : locationState === 'verifying'
+              ? 'bg-blue-50'
+              : 'bg-primary-50'
+          }`}>
+            {locationState === 'verifying' ? (
+              <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
+            ) : locationState === 'denied' ? (
+              <AlertTriangle className="h-10 w-10 text-red-500" />
+            ) : locationState === 'out_of_range' ? (
+              <MapPin className="h-10 w-10 text-red-500" />
+            ) : locationState === 'coords_error' ? (
+              <AlertTriangle className="h-10 w-10 text-amber-500" />
+            ) : (
+              <Shield className="h-10 w-10 text-primary-600" />
+            )}
+          </div>
+
+          {/* Title */}
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">
+              {locationState === 'verifying'
+                ? t('locationVerifying')
+                : locationState === 'denied'
+                ? t('locationDenied')
+                : locationState === 'out_of_range'
+                ? t('locationOutOfRange')
+                : locationState === 'coords_error'
+                ? t('locationCoordsError')
+                : t('locationRequired')
+              }
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">
+              {locationState === 'verifying'
+                ? t('locationVerifyingDesc')
+                : locationState === 'denied'
+                ? t('locationDeniedDesc')
+                : locationState === 'out_of_range'
+                ? t('locationOutOfRangeDesc')
+                : locationState === 'coords_error'
+                ? t('locationCoordsErrorDesc')
+                : t('locationRequiredDesc')
+              }
+            </p>
+          </div>
+
+          {/* Action button */}
+          {(locationState === 'idle' || locationState === 'requesting' || locationState === 'denied' || locationState === 'out_of_range' || locationState === 'coords_error') && (
+            <button
+              onClick={handleRequestLocation}
+              className="btn-primary w-full flex items-center justify-center gap-2"
+            >
+              <MapPin className="h-4 w-4" />
+              {locationState === 'denied' || locationState === 'out_of_range' || locationState === 'coords_error'
+                ? t('locationTryAgain')
+                : t('locationShareBtn')
+              }
+            </button>
+          )}
+
+          {locationState === 'denied' && (
+            <p className="text-xs text-gray-400">{t('locationDeniedHint')}</p>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   const ArrowIcon = isRTL ? ChevronLeft : ChevronRight
 
   return (
@@ -102,6 +276,12 @@ export default function GuestPage({
       <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-5 text-white shadow-lg">
         <h2 className="text-xl font-bold">{t('welcome')} 👋</h2>
         <p className="mt-1 text-primary-100">{t('browseServices')}</p>
+        {guestInfo?.hotel.location_verification_enabled && locationState === 'success' && (
+          <div className="mt-3 flex items-center gap-1.5 text-xs text-green-300">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            <span>{t('locationVerified')}</span>
+          </div>
+        )}
       </div>
 
       {/* Services Header */}
@@ -137,7 +317,7 @@ export default function GuestPage({
 
               const isScheduled = service.availability_type === 'scheduled' && service.start_time && service.end_time
               const isOpen = !isScheduled || isWithinServiceHours(service.start_time!, service.end_time!, timezone)
-              const formatTime = (time: string) => time.slice(0, 5) // Convert HH:MM:SS to HH:MM
+              const formatTime = (time: string) => time.slice(0, 5)
 
               const isDescExpanded = expandedDescId === service.service_id
               const shouldTruncateDesc = desc && desc.length > 80
@@ -193,7 +373,7 @@ export default function GuestPage({
                           {shouldTruncateDesc && (
                             <button
                               onClick={(e) => {
-                                e.preventDefault() // Prevent navigation to service details
+                                e.preventDefault()
                                 setExpandedDescId(isDescExpanded ? null : service.service_id)
                               }}
                               className="mt-1 text-xs font-semibold text-primary-600 hover:text-primary-700 hover:underline"

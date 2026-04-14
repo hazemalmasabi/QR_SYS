@@ -590,7 +590,13 @@
     "replacementType": "متبادل قسم چنو (کمرے اوتھے بدل دتے جان گے)",
     "mustKeepOneRoomType": "ہوٹل وچ گھٹو گھٹ اک کمرے دی قسم ہونا ضروری اے",
     "mustSelectReplacement": "مٹان توں پہلاں متبادل چننا ضروری اے",
-    "defaultBarcodeText": "ساڈیاں خدمتاں دیکھن لئی سکین کرو"
+    "defaultBarcodeText": "ساڈیاں خدمتاں دیکھن لئی سکین کرو",
+    "locationVerification": "مقام دی تصدیق فعال کرو",
+    "locationVerificationDesc": "جدوں فعال ہندا اے، تے مہماناں نوں QR کوڈ سکین کرن ویلے اپنی لوکیشن شیئر کرنی پوے گی تاں جے ایہہ پکا کیتا جا سکے کہ اوہ ہوٹل دے اندر ہن۔",
+    "googleMapsUrl": "ہوٹل گوگل میپس URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "گوگل میپس تے اپنا ہوٹل کھولو تے ایڈریس بار توں URL کاپی کرو۔ ایہہ مہمان دی لوکیشن تصدیق لئی ہوٹل دے نقاط کڈھن لئی ورتیا جاندا اے۔",
+    "invalidGoogleMapsUrl": "مہربانی کر کے اک درست گوگل میپس URL درج کرو"
   },
   "reports": {
     "title": "رپورٹاں",
@@ -699,7 +705,21 @@
     "to": "تک",
     "cancelReason": "رد کرن دی وجہ",
     "orderStatusNotification": "آرڈر #{number} دا حال: {status}",
-    "otherServices": "ہور سروساں"
+    "otherServices": "ہور سروساں",
+    "locationRequired": "لوکیشن شیئر کرنا ضروری اے",
+    "locationRequiredDesc": "خدمات توں پہلے تہانوں اپنی لوکیشن شیئر کر کے پکا کرنا پوے گا کہ تسیں ہوٹل دے اندر او۔",
+    "locationShareBtn": "میری لوکیشن شیئر کرو",
+    "locationVerifying": "تہاڈی لوکیشن تصدیق ہو رہی اے...",
+    "locationVerifyingDesc": "اسیں تہاڈی لوکیشن دی تصدیق کر رہے آں، مہربانی کر کے انتظار کرو۔",
+    "locationVerified": "مقام دی تصدیق ہو گئی",
+    "locationDenied": "لوکیشن تک رسائی روکی گئی اے",
+    "locationDeniedDesc": "تسی براؤزر نوں اپنی لوکیشن تک جان دی اجازت نہیں دتی۔ مہربانی کر کے اپنیاں براؤزر سیٹنگز وچ جا کے مقام تک رسائی চালু کرو تے مُڑ کوشش کرو۔",
+    "locationDeniedHint": "پکا کرو کہ تسی اپنیاں براؤزر سیٹنگز وچ اس ویب سائٹ نوں لوکیشن دی اجازت دتی اے۔",
+    "locationOutOfRange": "تسیں ہوٹل دے علاقے توں باہر او",
+    "locationOutOfRangeDesc": "لگدا اے کہ تسیں ہوٹل دے اندر نہیں او۔ مہربانی کر کے پکا کرو کہ تسیں ہوٹل دی عمارت وچ ہو تے مُڑ کوشش کرو۔",
+    "locationTryAgain": "مُڑ کوشش کرو",
+    "locationCoordsError": "لوکیشن دی تصدیق نہیں کیتی جا سکی",
+    "locationCoordsErrorDesc": "ہوٹل دے نقاط کڈھن وچ کوئی مسئلہ آ گیا اے۔ مہربانی کر کے ہوٹل نال رابطہ کرو۔"
   },
   "validation": {
     "required": "ایہ ضروری اے",

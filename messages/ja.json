@@ -590,7 +590,13 @@
     "replacementType": "移動先のタイプを選択（このタイプに属する客室が移動されます）",
     "mustKeepOneRoomType": "少なくとも1つのタイプが必要です",
     "mustSelectReplacement": "削除前に移動先のタイプを選択してください",
-    "defaultBarcodeText": "スキャンしてサービスを見る"
+    "defaultBarcodeText": "スキャンしてサービスを見る",
+    "locationVerification": "位置情報の確認を有効にする",
+    "locationVerificationDesc": "有効にすると、QRコードをスキャンするときにゲストがホテル内にいることを確認するため、位置情報の共有が求められます。",
+    "googleMapsUrl": "ホテルのGoogleマップURL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Googleマップでホテルを開き、アドレスバーからURLをコピーしてください。これは、ゲストの位置情報を確認するためにホテルの座標を抽出するために使用されます。",
+    "invalidGoogleMapsUrl": "有効なGoogleマップURLを入力してください"
   },
   "reports": {
     "title": "レポート",
@@ -699,7 +705,21 @@
     "to": "～",
     "cancelReason": "キャンセル理由",
     "orderStatusNotification": "注文 #{number} 状況：{status}",
-    "otherServices": "その他のサービス"
+    "otherServices": "その他のサービス",
+    "locationRequired": "位置情報の共有が必要です",
+    "locationRequiredDesc": "サービスを閲覧する前に、ホテル内にいることを確認するため、位置情報を共有する必要があります。",
+    "locationShareBtn": "私の位置を共有する",
+    "locationVerifying": "位置情報を確認しています...",
+    "locationVerifyingDesc": "位置情報を確認する間、しばらくお待ちください。",
+    "locationVerified": "位置情報が確認されました",
+    "locationDenied": "位置情報へのアクセスが拒否されました",
+    "locationDeniedDesc": "ブラウザで位置情報へのアクセスを許可していません。ブラウザの設定で位置情報へのアクセスを有効にして、もう一度お試しください。",
+    "locationDeniedHint": "ブラウザの設定でこのサイトの位置情報へのアクセスを許可していることを確認してください。",
+    "locationOutOfRange": "ホテルエリアの外にいます",
+    "locationOutOfRangeDesc": "ホテル内にいないようです。ホテル建物内にいることを確認して、もう一度お試しください。",
+    "locationTryAgain": "再試行",
+    "locationCoordsError": "位置情報を確認できませんでした",
+    "locationCoordsErrorDesc": "ホテルの座標を抽出する際にエラーが発生しました。ホテルにお問い合わせください。"
   },
   "validation": {
     "required": "この項目は必須です",

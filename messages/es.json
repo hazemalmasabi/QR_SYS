@@ -590,7 +590,13 @@
     "replacementType": "Elige un tipo de habitación de reemplazo (todas las habitaciones relativas se moverán aquí)",
     "mustKeepOneRoomType": "El hotel debe tener al menos un tipo de habitación",
     "mustSelectReplacement": "Debes seleccionar un tipo de habitación de reemplazo antes de eliminar",
-    "defaultBarcodeText": "Escanea para ver nuestros servicios"
+    "defaultBarcodeText": "Escanea para ver nuestros servicios",
+    "locationVerification": "Habilitar Verificación de Ubicación",
+    "locationVerificationDesc": "Cuando está habilitado, a los huéspedes se les pedirá que compartan su ubicación al escanear el código QR para confirmar que están dentro del hotel.",
+    "googleMapsUrl": "URL de Google Maps del Hotel",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Abra su hotel en Google Maps y copie la URL de la barra de direcciones. Se utiliza para extraer las coordenadas del hotel para verificar la ubicación de los huéspedes.",
+    "invalidGoogleMapsUrl": "Por favor, introduzca una URL válida de Google Maps"
   },
   "reports": {
     "title": "Informes",
@@ -699,7 +705,21 @@
     "to": "a",
     "cancelReason": "Motivo de cancelación",
     "orderStatusNotification": "Pedido #{number} estado: {status}",
-    "otherServices": "Otros Servicios"
+    "otherServices": "Otros Servicios",
+    "locationRequired": "Se requiere compartir ubicación",
+    "locationRequiredDesc": "Debe compartir su ubicación para confirmar que está dentro del hotel antes de navegar por los servicios.",
+    "locationShareBtn": "Compartir Mi Ubicación",
+    "locationVerifying": "Verificando su ubicación...",
+    "locationVerifyingDesc": "Por favor espere mientras verificamos su ubicación.",
+    "locationVerified": "Ubicación verificada",
+    "locationDenied": "Acceso a la Ubicación Denegado",
+    "locationDeniedDesc": "No ha permitido que el navegador acceda a su ubicación. Por favor, habilite el acceso a la ubicación en la configuración de su navegador y vuelva a intentarlo.",
+    "locationDeniedHint": "Asegúrese de permitir el acceso a la ubicación para este sitio en la configuración de su navegador.",
+    "locationOutOfRange": "Está fuera del área del hotel",
+    "locationOutOfRangeDesc": "Parece que no está dentro del hotel. Asegúrese de estar dentro del edificio del hotel y vuelva a intentarlo.",
+    "locationTryAgain": "Intentar de nuevo",
+    "locationCoordsError": "No se pudo verificar la ubicación",
+    "locationCoordsErrorDesc": "Ocurrió un error al extraer las coordenadas del hotel. Por favor, póngase en contacto con el hotel."
   },
   "validation": {
     "required": "Este campo es requerido",

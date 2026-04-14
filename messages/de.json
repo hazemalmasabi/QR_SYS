@@ -590,7 +590,13 @@
     "replacementType": "Wählen Sie einen Ersatz-Zimmertyp (alle zugehörigen Zimmer werden hierhin verschoben)",
     "mustKeepOneRoomType": "Das Hotel muss mindestens einen Zimmertyp haben",
     "mustSelectReplacement": "Sie müssen einen Ersatz-Zimmertyp auswählen, bevor Sie löschen",
-    "defaultBarcodeText": "Scannen, um unsere Dienstleistungen zu sehen"
+    "defaultBarcodeText": "Scannen, um unsere Dienstleistungen zu sehen",
+    "locationVerification": "Standortüberprüfung aktivieren",
+    "locationVerificationDesc": "Wenn diese Option aktiviert ist, müssen Gäste ihren Standort freigeben, wenn sie den QR-Code scannen, um zu bestätigen, dass sie sich im Hotel befinden.",
+    "googleMapsUrl": "Google Maps-URL des Hotels",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Öffnen Sie Ihr Hotel auf Google Maps und kopieren Sie die URL aus der Adressleiste. Wird verwendet, um Hotelkoordinaten für die Standortüberprüfung der Gäste zu extrahieren.",
+    "invalidGoogleMapsUrl": "Bitte geben Sie eine gültige Google Maps-URL ein"
   },
   "reports": {
     "title": "Berichte",
@@ -699,7 +705,21 @@
     "to": "bis",
     "cancelReason": "Stornierungsgrund",
     "orderStatusNotification": "Bestellung #{number} Status: {status}",
-    "otherServices": "Andere Services"
+    "otherServices": "Andere Services",
+    "locationRequired": "Standortfreigabe erforderlich",
+    "locationRequiredDesc": "Sie müssen Ihren Standort freigeben, um zu bestätigen, dass Sie sich im Hotel befinden, bevor Sie Dienste durchsuchen können.",
+    "locationShareBtn": "Meinen Standort freigeben",
+    "locationVerifying": "Ihr Standort wird überprüft...",
+    "locationVerifyingDesc": "Bitte warten Sie, während wir Ihren Standort überprüfen.",
+    "locationVerified": "Standort überprüft",
+    "locationDenied": "Standortzugriff verweigert",
+    "locationDeniedDesc": "Sie haben dem Browser keinen Zugriff auf Ihren Standort gestattet. Bitte aktivieren Sie den Standortzugriff in Ihren Browsereinstellungen und versuchen Sie es erneut.",
+    "locationDeniedHint": "Stellen Sie sicher, dass Sie den Standortzugriff für diese Website in Ihren Browsereinstellungen zulassen.",
+    "locationOutOfRange": "Sie befinden sich außerhalb des Hotelbereichs",
+    "locationOutOfRangeDesc": "Es scheint, als ob Sie sich nicht im Hotel befinden. Bitte stellen Sie sicher, dass Sie sich im Hotelgebäude befinden und versuchen Sie es erneut.",
+    "locationTryAgain": "Erneut versuchen",
+    "locationCoordsError": "Standort konnte nicht überprüft werden",
+    "locationCoordsErrorDesc": "Beim Extrahieren der Hotelkoordinaten ist ein Fehler aufgetreten. Bitte wenden Sie sich an die Rezeption."
   },
   "validation": {
     "required": "Dieses Feld ist ein Pflichtfeld",

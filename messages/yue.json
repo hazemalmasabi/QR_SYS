@@ -590,7 +590,13 @@
     "replacementType": "選擇替代類型 (相關房間將會移到該類型)",
     "mustKeepOneRoomType": "酒店必須至少有一種房間類型",
     "mustSelectReplacement": "喺刪除之前必須選擇替代類型",
-    "defaultBarcodeText": "掃描以查看我們的服務"
+    "defaultBarcodeText": "掃描以查看我們的服務",
+    "locationVerification": "啟用位置驗證",
+    "locationVerificationDesc": "開啟後，客人喺掃描二維碼時需要分享佢哋嘅位置，以確認佢哋喺酒店範圍內。",
+    "googleMapsUrl": "酒店 Google Maps 連結",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "喺 Google Maps 打開你間酒店，然後複製網址。呢個用嚟提取酒店坐標做客人位置驗證。",
+    "invalidGoogleMapsUrl": "請輸入有效嘅 Google Maps 連結"
   },
   "reports": {
     "title": "報告中心",
@@ -699,7 +705,21 @@
     "to": "至",
     "cancelReason": "取消原因",
     "orderStatusNotification": "訂單 #{number} 狀態：{status}",
-    "otherServices": "其他服務"
+    "otherServices": "其他服務",
+    "locationRequired": "必須分享位置",
+    "locationRequiredDesc": "要睇任何服務之前，你必須分享位置嚟確認你喺酒店內。",
+    "locationShareBtn": "分享我嘅位置",
+    "locationVerifying": "驗證緊你嘅位置...",
+    "locationVerifyingDesc": "請稍等，我哋驗證緊你嘅位置。",
+    "locationVerified": "已驗證位置",
+    "locationDenied": "拒絕咗位置權限",
+    "locationDeniedDesc": "你仲未畀瀏覽器權限去攞你嘅位置。請喺瀏覽器設定開啟位置權限，然後再試過。",
+    "locationDeniedHint": "請確保你喺瀏覽器設定畀咗位置權限呢個網站。",
+    "locationOutOfRange": "你唔喺酒店範圍內",
+    "locationOutOfRangeDesc": "睇嚟你唔喺酒店入面喎。請確保你喺酒店大樓入面再試多次啦。",
+    "locationTryAgain": "再試多次",
+    "locationCoordsError": "無法驗證位置",
+    "locationCoordsErrorDesc": "提取酒店坐標時發生錯誤，請聯絡酒店前台。"
   },
   "validation": {
     "required": "呢個係必填嘅",

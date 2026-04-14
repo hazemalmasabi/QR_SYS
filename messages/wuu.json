@@ -590,7 +590,13 @@
     "replacementType": "选个顶上。房间会挪过去。",
     "mustKeepOneRoomType": "至少得留一个种类",
     "mustSelectReplacement": "删脱之前选个代替个",
-    "defaultBarcodeText": "扫描查看服务"
+    "defaultBarcodeText": "扫描查看服务",
+    "locationVerification": "开启定位验证 (Khai-khi din-wei yae-tsun)",
+    "locationVerificationDesc": "开启后，客人扫二维码时须共享位置，确认勒拉酒店里向。",
+    "googleMapsUrl": "酒店Google地图链接",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "垃Google地图浪打开酒店并复制地址栏链接。用来验证客人位置个酒店坐标。",
+    "invalidGoogleMapsUrl": "请输入有效个Google地图网址"
   },
   "reports": {
     "title": "报告",
@@ -699,7 +705,21 @@
     "to": "到",
     "cancelReason": "因头",
     "orderStatusNotification": "单子#{number}状态：{status}",
-    "otherServices": "其他旁个服务"
+    "otherServices": "其他旁个服务",
+    "locationRequired": "需要共享位置",
+    "locationRequiredDesc": "您须共享位置确认勒拉酒店里向，然后再看服务。",
+    "locationShareBtn": "共享我个位置",
+    "locationVerifying": "正在验证地址...",
+    "locationVerifyingDesc": "请稍等，我伲正在看侬个位置。",
+    "locationVerified": "地址已验证",
+    "locationDenied": "定位请求被拒",
+    "locationDeniedDesc": "浏览器呒没拿到定位权限。请勒设置里向打开定位，再试一趟。",
+    "locationDeniedHint": "请确认浏览器里向允许该网站使用定位。",
+    "locationOutOfRange": "侬勿拉酒店范围里向",
+    "locationOutOfRangeDesc": "看样子侬勿拉酒店里向。请先确保进入酒店大楼，再试一趟。",
+    "locationTryAgain": "重试",
+    "locationCoordsError": "定位验证失败",
+    "locationCoordsErrorDesc": "提取酒店坐标个辰光出错了，请好去问前台。"
   },
   "validation": {
     "required": "必填个",

@@ -590,7 +590,13 @@
     "replacementType": "Zaɓi nau'in maye gurbin (za a canza dakunan can)",
     "mustKeepOneRoomType": "Otal ɗin ya kasance yana da aƙalla nau'in daki guda ɗaya",
     "mustSelectReplacement": "Dole ne a zaɓi nau'in maye gurbi kafin goge wa",
-    "defaultBarcodeText": "Duba don ganin ayyukanmu"
+    "defaultBarcodeText": "Duba don ganin ayyukanmu",
+    "locationVerification": "Kunna Tabbatar da Wuri",
+    "locationVerificationDesc": "Idan an kunna, za a buƙaci baƙi su raba wurin su lokacin da suke duba lambar QR don tabbatar da cewa suna cikin otal ɗin.",
+    "googleMapsUrl": "Otal ɗin Google Maps URL",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Bude otal ɗin ku akan Google Maps kuma kuyi kwafin URL daga mashigin adireshin. Ana amfani dashi don cire haɗin kai na otal don tabbatar da wurin baƙi.",
+    "invalidGoogleMapsUrl": "Da fatan za a shigar da ingantaccen URL na Google Maps"
   },
   "reports": {
     "title": "Rahotanni",
@@ -699,7 +705,21 @@
     "to": "zuwa",
     "cancelReason": "Dalilin Soke",
     "orderStatusNotification": "Matsayin Oda #{number}: {status}",
-    "otherServices": "Wasu Ayyuka"
+    "otherServices": "Wasu Ayyuka",
+    "locationRequired": "Ana Buƙatar Raba Wuri",
+    "locationRequiredDesc": "Dole ne ku raba wurin ku don tabbatar da cewa kuna cikin otal kafin duba ayyuka.",
+    "locationShareBtn": "Raba Wuri Na",
+    "locationVerifying": "Tabbatar da wurin ku...",
+    "locationVerifyingDesc": "Da fatan za a jira yayin da muke tabbatar da wurin ku.",
+    "locationVerified": "An tabbatar da Wuri",
+    "locationDenied": "An Han Akshiyar Wuri",
+    "locationDeniedDesc": "Ba ku da izinin burauzar don shiga wurin ku. Da fatan za a kunna isa ga wuri a cikin saitunan binciken ku sannan ku sake gwadawa.",
+    "locationDeniedHint": "Tabbatar kun ba da dama ga wuri na yanar gizo a saitunan burauzar ku.",
+    "locationOutOfRange": "Kuna waje da yankin otal",
+    "locationOutOfRangeDesc": "Da alama ba ku cikin otal ba. Don Allah a tabbata kuna cikin ginin otal ɗin a sake gwadawa.",
+    "locationTryAgain": "Sake Gwada",
+    "locationCoordsError": "Ba a iya tabbatar da wuri ba",
+    "locationCoordsErrorDesc": "An sami wani kuskure yayin gano adireshin otal. Don Allah tuntuɓi otal ɗin."
   },
   "validation": {
     "required": "Wannan ya zama dole",

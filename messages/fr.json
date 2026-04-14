@@ -590,7 +590,13 @@
     "replacementType": "Choisissez un type de chambre de remplacement (toutes les chambres relatives y seront déplacées)",
     "mustKeepOneRoomType": "L'hôtel doit avoir au moins un type de chambre",
     "mustSelectReplacement": "Vous devez sélectionner un type de chambre de remplacement avant de supprimer",
-    "defaultBarcodeText": "Scannez pour voir nos services"
+    "defaultBarcodeText": "Scannez pour voir nos services",
+    "locationVerification": "Activer la vérification de l'emplacement",
+    "locationVerificationDesc": "Lorsqu'il est activé, les clients devront partager leur emplacement en scannant le code QR pour confirmer qu'ils se trouvent bien dans l'hôtel.",
+    "googleMapsUrl": "URL Google Maps de l'Hôtel",
+    "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
+    "googleMapsUrlHint": "Ouvrez votre hôtel sur Google Maps et copiez l'URL de la barre d'adresse. Elle est utilisée pour extraire les coordonnées de l'hôtel et vérifier l'emplacement du client.",
+    "invalidGoogleMapsUrl": "Veuillez entrer une URL Google Maps valide"
   },
   "reports": {
     "title": "Rapports",
@@ -699,7 +705,21 @@
     "to": "à",
     "cancelReason": "Motif d'annulation",
     "orderStatusNotification": "Numéro de commande #{number} statut: {status}",
-    "otherServices": "Autres Services"
+    "otherServices": "Autres Services",
+    "locationRequired": "Partage d'emplacement requis",
+    "locationRequiredDesc": "Vous devez partager votre position pour confirmer que vous êtes à l'intérieur de l'hôtel avant de parcourir les services.",
+    "locationShareBtn": "Partager ma position",
+    "locationVerifying": "Vérification de votre position...",
+    "locationVerifyingDesc": "Veuillez patienter pendant que nous vérifions votre position.",
+    "locationVerified": "Emplacement vérifié",
+    "locationDenied": "Accès à l'emplacement refusé",
+    "locationDeniedDesc": "Vous n'avez pas autorisé le navigateur à accéder à votre position. Veuillez activer l'accès à la position dans les paramètres de votre navigateur et réessayer.",
+    "locationDeniedHint": "Assurez-vous d'autoriser l'accès à l'emplacement pour ce site dans les paramètres de votre navigateur.",
+    "locationOutOfRange": "Vous êtes en dehors de la zone de l'hôtel",
+    "locationOutOfRangeDesc": "Il semble que vous ne soyez pas à l'intérieur de l'hôtel. Assurez-vous d'être à l'intérieur du bâtiment de l'hôtel et réessayez.",
+    "locationTryAgain": "Réessayer",
+    "locationCoordsError": "Impossible de vérifier l'emplacement",
+    "locationCoordsErrorDesc": "Une erreur s'est produite lors de l'extraction des coordonnées de l'hôtel. Veuillez contacter la réception."
   },
   "validation": {
     "required": "Ce champ est obligatoire",
