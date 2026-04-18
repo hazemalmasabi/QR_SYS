@@ -13,8 +13,11 @@ import {
   Loader2,
   Package,
   X,
+  Edit
 } from 'lucide-react'
 import { cn, formatCurrency, formatDateTime } from '@/lib/utils'
+import { EditOrderProviderModal } from './EditOrderProviderModal'
+import { toast } from 'sonner'
 
 interface OrderDetail {
   order_id: string
@@ -32,7 +35,7 @@ interface OrderDetail {
   }[]
   total_amount: number
   currency_code: string
-  status: 'new' | 'in_progress' | 'completed' | 'cancelled'
+  status: 'new' | 'in_progress' | 'completed' | 'cancelled' | 'under_modification'
   created_at: string
   accepted_at: string | null
   completed_at: string | null
@@ -43,23 +46,26 @@ interface OrderDetail {
   actual_time: number | null
   handled_by: string | null
   notes: string | null
+  modification_reason: string | null
   rooms: { room_number: string }
   main_services: { service_name: { ar: string; en: string } }
   employees?: { full_name: string } | null
 }
 
-const BADGE_CLASS: Record<string, string> = {
-  new: 'badge-new',
-  in_progress: 'badge-progress',
-  completed: 'badge-completed',
-  cancelled: 'badge-cancelled',
-}
-
 const STATUS_LABEL_KEY: Record<string, string> = {
   new: 'new',
+  under_modification: 'underModification',
   in_progress: 'inProgress',
   completed: 'completed',
   cancelled: 'cancelled',
+}
+
+const BADGE_STYLING: Record<string, string> = {
+  new: 'badge-new',
+  under_modification: 'badge-under-modification',
+  in_progress: 'badge-progress',
+  completed: 'badge-completed',
+  cancelled: 'badge-cancelled',
 }
 
 export default function OrderDetailPage() {
@@ -79,8 +85,35 @@ export default function OrderDetailPage() {
   const [cancelReason, setCancelReason] = useState('')
   const [cancelError, setCancelError] = useState('')
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
+  const [showEditModal, setShowEditModal] = useState(false)
 
-  const CANCEL_PRESETS = tm.raw('presets') as string[]
+  const CANCEL_PRESETS = tm.raw('presets') as Record<string, string>
+
+  const renderReason = (reason: string | null) => {
+    if (!reason) return null
+    
+    // Split by newline to separate key from technical logs
+    const lines = reason.split('\n')
+    const firstLine = lines[0]
+    
+    let renderedFirstLine = firstLine
+    if (tm.has(`presets.${firstLine}`)) renderedFirstLine = tm(`presets.${firstLine}`)
+    else if (tm.has(`modificationPresets.${firstLine}`)) renderedFirstLine = tm(`modificationPresets.${firstLine}`)
+    else if (t.has(firstLine)) renderedFirstLine = t(firstLine)
+    
+    if (lines.length > 1) {
+      return (
+        <div className="space-y-1">
+          <div className="font-bold">{renderedFirstLine}</div>
+          <div className="text-xs opacity-90 leading-relaxed whitespace-pre-line">
+            {lines.slice(1).join('\n')}
+          </div>
+        </div>
+      )
+    }
+    
+    return renderedFirstLine
+  }
 
   const fetchOrder = useCallback(async () => {
     setLoading(true)
@@ -121,13 +154,14 @@ export default function OrderDetailPage() {
       const data = await res.json()
 
       if (data.success) {
-        setOrder(data.order)
-        setShowCancelModal(false)
-        setCancelReason('')
-        setCancelError('')
+        toast.success(t(`${newStatus}Success`) + ' ✅')
+        fetchOrder()
+        resetCancelModal()
+      } else {
+        toast.error(data.message || t('error'))
       }
     } catch {
-      console.error('Failed to update order')
+      toast.error(t('error'))
     } finally {
       setActionLoading(false)
     }
@@ -135,6 +169,7 @@ export default function OrderDetailPage() {
 
   const handleAccept = () => handleStatusUpdate('in_progress')
   const handleComplete = () => handleStatusUpdate('completed')
+  
 
   const handleCancelSubmit = () => {
     const finalReason = selectedPreset === 'other' ? cancelReason : (selectedPreset || cancelReason)
@@ -238,7 +273,7 @@ export default function OrderDetailPage() {
           <h1 className="text-2xl font-bold text-gray-900">
             {t('orderNumber')} #{order.order_number}
           </h1>
-          <span className={BADGE_CLASS[order.status]}>
+          <span className={cn('badge', BADGE_STYLING[order.status] || 'badge-new')}>
             {t(STATUS_LABEL_KEY[order.status])}
           </span>
         </div>
@@ -352,26 +387,41 @@ export default function OrderDetailPage() {
             </div>
           )}
 
-          {/* Cancellation Reason */}
-          {order.cancellation_reason && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-6">
-              <h2 className="mb-2 text-lg font-semibold text-red-800">
-                {t('cancelReason')}
-              </h2>
-              <p className="text-red-700">{order.cancellation_reason}</p>
-            </div>
-          )}
+          {/* Cancellation / Modification Reason */}
+          <div className="space-y-4">
+            {order.cancellation_reason && (
+              <div className="rounded-xl border border-red-200 bg-red-50 p-6">
+                <h2 className="mb-2 text-lg font-semibold text-red-800">
+                  {t('cancelReason')}
+                </h2>
+                <div className="text-sm text-red-700 italic">
+                  {renderReason(order.cancellation_reason)}
+                </div>
+              </div>
+            )}
+
+            {order.modification_reason && (
+              <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-6">
+                <h2 className="mb-2 text-lg font-semibold text-yellow-800">
+                  {t('modificationReason')}
+                </h2>
+                <div className="text-sm text-yellow-700 italic">
+                  {renderReason(order.modification_reason)}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right Column - Timeline & Actions */}
         <div className="space-y-6">
-          {(order.status === 'new' || order.status === 'in_progress') && (
-            <div className="flex gap-3">
-              {order.status === 'new' && (
+          {(order.status === 'new' || order.status === 'in_progress' || order.status === 'under_modification') && (
+            <div className="flex gap-3 flex-wrap">
+              {(order.status === 'new' || order.status === 'under_modification') && (
                 <button
                   onClick={handleAccept}
-                  disabled={actionLoading}
-                  className="btn-primary flex-1 py-3 text-base shadow-sm"
+                  disabled={actionLoading || order.status === 'under_modification'}
+                  className={cn("btn-primary flex-1 py-3 text-base shadow-sm", order.status === 'under_modification' ? 'opacity-50 cursor-not-allowed' : '')}
                 >
                   {actionLoading ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -394,6 +444,14 @@ export default function OrderDetailPage() {
                       <CheckCircle2 className="h-5 w-5" />
                     )}
                     {t('complete')}
+                  </button>
+                  <button
+                    onClick={() => setShowEditModal(true)}
+                    disabled={actionLoading}
+                    className="btn-secondary flex-1 py-3 text-base shadow-sm text-blue-600 hover:bg-blue-50"
+                  >
+                    <Edit className="h-5 w-5" />
+                    {t('editOrder')}
                   </button>
                   <button
                     onClick={() => setShowCancelModal(true)}
@@ -466,21 +524,21 @@ export default function OrderDetailPage() {
               <p className="text-sm font-medium text-gray-600 mb-3">
                 {tm('selectCancelReason')}
               </p>
-              {CANCEL_PRESETS.map((preset, idx) => (
+              {Object.entries(CANCEL_PRESETS || {}).map(([key, label]) => (
                 <button
-                  key={idx}
+                  key={key}
                   onClick={() => {
-                    setSelectedPreset(preset)
+                    setSelectedPreset(key)
                     if (cancelError) setCancelError('')
                   }}
                   className={cn(
                     'w-full text-start rounded-xl border px-4 py-3 text-sm transition-all',
-                    selectedPreset === preset
+                    selectedPreset === key
                       ? 'border-red-400 bg-red-50 text-red-700 font-medium'
                       : 'border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-300 hover:bg-gray-100'
                   )}
                 >
-                  {preset}
+                  {label}
                 </button>
               ))}
               {/* Other */}
@@ -539,6 +597,17 @@ export default function OrderDetailPage() {
             </div>
           </div>
         </div>
+      )}
+      
+       {/* Edit Order Modal */}
+      {order && (
+        <EditOrderProviderModal
+          order={order}
+          isOpen={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          onSuccess={() => fetchOrder()}
+          currencySymbol={order.currency_code}
+        />
       )}
     </div>
   )

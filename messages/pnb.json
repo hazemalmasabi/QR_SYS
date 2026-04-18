@@ -411,7 +411,27 @@
     "orderCreated": "آرڈر بن گیا",
     "orderAccepted": "آرڈر من لیا گیا",
     "orderCompleted": "آرڈر مکمل ہو گیا",
-    "orderCancelled": "آرڈر رد کر دتا گیا"
+    "orderCancelled": "آرڈر رد کر دتا گیا",
+    "underModification": "ترمیم ہو رہی اے",
+    "editOrder": "آرڈر بدلیں",
+    "saveChanges": "محفوظ کرن",
+    "cancelEdit": "کینسل",
+    "modificationReason": "ترمیم دی وجہ",
+    "modificationReasonRequired": "وجہ لازمی اے",
+    "modificationReasonPlaceholder": "وجہ درج کرو...",
+    "forceUnlock": "زبردستی انلاک کرو",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "آرڈر وچ تبدیلیاں دی تصدیق کرو:",
+    "itemRemoved": "ہٹایا گیا",
+    "itemAdded": "شامل کیتا",
+    "was": "سی",
+    "became": "ہوگیا",
+    "emptyOrderWarning": "آرڈر خالی اے، منسوخ ہووے گا۔ جاری رکھیے؟",
+    "continueEdit": "ترمیم جاری رکھو",
+    "autoCancelledTimeout": "خودکار منسوخي: وقت ختم",
+    "guestCancelled": "مہمان ولوں منسوخ",
+    "modifiedByGuest": "پروہنے ولوں ترمیم کیتی گئی",
+    "cancelledSuccess": "آرڈر کامیابی نال منسوخ ہو گیا"
   },
   "services": {
     "title": "مین سروساں",
@@ -495,14 +515,35 @@
     "noRooms": "کوئی کمرہ نہیں لبھیا",
     "notes": "نوٹ",
     "roomLabel": "کمرہ",
-    "exportAllPdf": "سارے ایکسپورٹ کرو (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR ایکسپورٹ سائز دی چوڑائی",
     "sizeHelpText": "اپنے پرنٹ لے آؤٹ، ایکریلک سٹینڈز، یا دروازے دے ٹیمپلیٹس تے فٹ کرن لئی سینٹی میٹر وچ ایکسپورٹ کیتے گئے QR دے سائز نوں ایڈجسٹ کرو۔",
     "cm": "سم",
     "downloadPdf": "PDF ڈاؤن لوڈ کرو",
     "bulkDownloadInfo": "تسی {count} کمریاں دے کیو آر کوڈز ایکسپورٹ کرن لگے او۔",
     "previewingFirstRoom": "پہلے کمرے دا پری ویو دیکھو",
-    "printWarning": "اہم: سائز درست رکھنے کے لیے یقینی بنائیں کہ براؤزر پرنٹ ڈائیلاگ (مثلاً کروم) میں 'فٹ ٹو پیپر' آپشن منتخب ہے۔ اگر سائز غلط ہے تو مائیکروسافٹ ایج یا دوسری ایپ سے پرنٹ کی کوشش کریں۔"
+    "printWarning": "اہم: سائز درست رکھنے کے لیے یقینی بنائیں کہ براؤزر پرنٹ ڈائیلاگ (مثلاً کروم) میں 'فٹ ٹو پیپر' آپشن منتخب ہے۔ اگر سائز غلط ہے تو مائیکروسافٹ ایج یا دوسری ایپ سے پرنٹ کی کوشش کریں۔",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "ملازم",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "مہربانی کر کے آرڈر رد کرن دی وجہ چنو",
     "selectCancelReason": "رد کرن دی وجہ چنو:",
-    "otherReason": "✏️ ہور (وجہ لکھو)",
+    "otherReason": "ہور",
     "typeReasonPlaceholder": "رد کرن دی وجہ لکھو...",
-    "presets": [
-      "مہمان نے اپنا ارادہ بدل لیا تے آرڈر رد کر دتا",
-      "منگی گئی شے اس ویلے موجود نہیں اے",
-      "بہت زیادہ انتظار دی وجہ توں مہمان نے آرڈر رد کر دتا",
-      "آرڈر غلطی نال دتا گیا سی",
-      "مہمان کمرے توں جا چکے نیں"
-    ]
+    "presets": {
+      "changedMind": "مہمان نے اپنا ارادہ بدل لیا تے آرڈر رد کر دتا",
+      "itemUnavailable": "منگی گئی شے اس ویلے موجود نہیں اے",
+      "longWait": "بہت زیادہ انتظار دی وجہ توں مہمان نے آرڈر رد کر دتا",
+      "mistake": "آرڈر غلطی نال دتا گیا سی",
+      "leftRoom": "مہمان کمرے توں جا چکے نیں",
+      "removedAllItems": "ساریاں شیواں کڈ دتیاں"
+    },
+    "modificationPresets": {
+      "unavailable": "کجھ چیزاں نئیں ہیگیاں",
+      "guestRequest": "مہمان دی مرضی نال بدلیا",
+      "alternative": "متبادل چیز دتی"
+    }
   },
   "help": {
     "title": "مدد سنٹر",

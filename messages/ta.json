@@ -411,7 +411,27 @@
     "orderCreated": "ஆர்டர் உருவாக்கப்பட்டது",
     "orderAccepted": "ஆர்டர் ஏற்றுக்கொள்ளப்பட்டது",
     "orderCompleted": "ஆர்டர் முடிக்கப்பட்டது",
-    "orderCancelled": "ஆர்டர் ரத்து செய்யப்பட்டது"
+    "orderCancelled": "ஆர்டர் ரத்து செய்யப்பட்டது",
+    "underModification": "மாற்றத்தில் உள்ளது",
+    "editOrder": "ஆர்டரை திருத்து",
+    "saveChanges": "சேமி",
+    "cancelEdit": "ரத்துசெய்",
+    "modificationReason": "காரணம்",
+    "modificationReasonRequired": "காரணம் தேவை",
+    "modificationReasonPlaceholder": "காரணத்தை உள்ளிடு...",
+    "forceUnlock": "திற",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "இந்த மாற்றங்களை உறுதிப்படுத்தவும்:",
+    "itemRemoved": "நீக்கப்பட்டது",
+    "itemAdded": "சேர்க்கப்பட்டது",
+    "was": "இருந்தது",
+    "became": "ஆகிவிட்டது",
+    "emptyOrderWarning": "ஆர்டர் காலியாக உள்ளது, இது ரத்தாகும். தொடரவா?",
+    "continueEdit": "திருத்துவதைத் தொடரவும்",
+    "autoCancelledTimeout": "தானியங்கி ரத்து: நேரம் முடிந்தது",
+    "guestCancelled": "விருந்தினரால் ரத்து செய்யப்பட்டது",
+    "modifiedByGuest": "விருந்தினரால் மாற்றப்பட்டது",
+    "cancelledSuccess": "ஆர்டர் வெற்றிகரமாக ரத்து செய்யப்பட்டது"
   },
   "services": {
     "title": "முக்கிய சேவைகள்",
@@ -495,14 +515,35 @@
     "noRooms": "அறைகள் எதுவும் காணப்படவில்லை",
     "notes": "குறிப்புகள்",
     "roomLabel": "அறை",
-    "exportAllPdf": "அனைத்தையும் ஏற்றுமதி செய் (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR ஏற்றுமதி அளவு அகலம்",
     "sizeHelpText": "உங்கள் அச்சு தளவமைப்புகள், அக்ரிலிக் ஸ்டாண்டுகள் அல்லது கதவு டெம்ப்ளேட்டுகளுக்கு ஏற்றவாறு ஏற்றுமதி செய்யப்பட்ட QR அளவை சென்டிமீட்டர்களில் சரிசெய்யவும்.",
     "cm": "செ.மீ",
     "downloadPdf": "PDF பதிவிறக்கு",
     "bulkDownloadInfo": "நீங்கள் {count} அறைகளுக்கான QR குறியீடுகளை ஏற்றுமதி செய்ய உள்ளீர்கள்.",
     "previewingFirstRoom": "முதல் அறையை முன்னோட்டமிடுகிறது",
-    "printWarning": "முக்கியமானது: உங்கள் உலாவியின் அச்சு உரையாடலில் (எ.கா. Chrome) 'பொருத்தவும்' (Fit to paper) தேர்வைக் கண்டறியவும். அளவுகள் தவறாக இருந்தால், Microsoft Edge அல்லது Acrobat மூலமாக அச்சிட முயற்சிக்கவும்."
+    "printWarning": "முக்கியமானது: உங்கள் உலாவியின் அச்சு உரையாடலில் (எ.கா. Chrome) 'பொருத்தவும்' (Fit to paper) தேர்வைக் கண்டறியவும். அளவுகள் தவறாக இருந்தால், Microsoft Edge அல்லது Acrobat மூலமாக அச்சிட முயற்சிக்கவும்.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "பணியாளர்கள்",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "தயவுசெய்து ஒரு காரணத்தைத் தேர்ந்தெடுக்கவும்",
     "selectCancelReason": "காரணத்தைத் தேர்ந்தெடு:",
-    "otherReason": "✏️ மற்றவை (உள்ளிடவும்)",
+    "otherReason": "மற்றவை",
     "typeReasonPlaceholder": "காரணத்தை இங்கே எழுதவும்...",
-    "presets": [
-      "விருந்தினர் எண்ணத்தை மாற்றிக்கொண்டார்",
-      "கேட்கப்பட்ட பொருள் கைவசம் இல்லை",
-      "காத்திருப்பு நேரம் அதிகமாக உள்ளது",
-      "தவறுதலாக ஆர்டர் செய்யப்பட்டது",
-      "விருந்தினர் ஏற்கனவே வெளியேறிவிட்டார் (Checked-out)"
-    ]
+    "presets": {
+      "changedMind": "விருந்தினர் எண்ணத்தை மாற்றிக்கொண்டார்",
+      "itemUnavailable": "கேட்கப்பட்ட பொருள் கைவசம் இல்லை",
+      "longWait": "காத்திருப்பு நேரம் அதிகமாக உள்ளது",
+      "mistake": "தவறுதலாக ஆர்டர் செய்யப்பட்டது",
+      "leftRoom": "விருந்தினர் ஏற்கனவே வெளியேறிவிட்டார் (Checked-out)",
+      "removedAllItems": "அனைத்து பொருட்களும் நீக்கப்பட்டன"
+    },
+    "modificationPresets": {
+      "unavailable": "சில பொருட்கள் இல்லை",
+      "guestRequest": "விருந்தினர் கோரிக்கையால் மாற்றப்பட்டது",
+      "alternative": "மாற்று பொருள் வழங்கப்பட்டது"
+    }
   },
   "help": {
     "title": "உதவி மையம்",

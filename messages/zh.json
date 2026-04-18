@@ -411,7 +411,27 @@
     "orderCreated": "订单已创建",
     "orderAccepted": "订单已接受",
     "orderCompleted": "订单已完成",
-    "orderCancelled": "订单已取消"
+    "orderCancelled": "订单已取消",
+    "underModification": "修改中",
+    "editOrder": "编辑订单",
+    "saveChanges": "保存更改",
+    "cancelEdit": "取消",
+    "modificationReason": "修改原因",
+    "modificationReasonRequired": "修改原因必填",
+    "modificationReasonPlaceholder": "输入原因...",
+    "forceUnlock": "强制解锁",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "请确认订单修改：",
+    "itemRemoved": "已移除",
+    "itemAdded": "已添加",
+    "was": "原为",
+    "became": "变为",
+    "emptyOrderWarning": "订单现在为空。将取消订单。继续吗？",
+    "continueEdit": "继续编辑",
+    "autoCancelledTimeout": "自动取消：超时",
+    "guestCancelled": "宾客已取消",
+    "modifiedByGuest": "宾客已修改",
+    "cancelledSuccess": "订单取消成功"
   },
   "services": {
     "title": "主服务项目",
@@ -495,14 +515,35 @@
     "noRooms": "未找到客房",
     "notes": "备注",
     "roomLabel": "客房",
-    "exportAllPdf": "全部导出 (PDF)",
+    "exportAllPdf": "导出所有二维码",
     "qrExportSize": "QR 导出尺寸宽度",
     "sizeHelpText": "以厘米为单位调整导出的 QR 尺寸，以适应您的打印布局、亚克力展台或门模板。",
     "cm": "厘米",
     "downloadPdf": "下载 PDF",
     "bulkDownloadInfo": "您即将导出 {count} 个房间的 QR 码。",
     "previewingFirstRoom": "预览第一个房间",
-    "printWarning": "重要信息：为了尺寸准确，请确保在浏览器打印对话框中（例如Chrome）选择了“适合纸张”缩放。如果尺寸不正确，请尝试通过 Microsoft Edge 或 Acrobat 进行打印。"
+    "printWarning": "重要信息：为了尺寸准确，请确保在浏览器打印对话框中（例如Chrome）选择了“适合纸张”缩放。如果尺寸不正确，请尝试通过 Microsoft Edge 或 Acrobat 进行打印。",
+    "deleteAllBtn": "全部删除",
+    "importRoomsBtn": "导入房间",
+    "importTitle1": "从文件导入房间",
+    "importTitle2": "检查并确认 ({count} 间房间)",
+    "importFormatInstTitle": "文件格式要求 (Excel / CSV)",
+    "importFormatInstDesc": "文件必须依次包含以下列 (A, B, C):",
+    "importCol1": "第一列 (A): 房间号或名称 (必填)。",
+    "importCol2": "第二列 (B): 楼层号 (选填，仅限数字)。",
+    "importCol3": "第三列 (C): 附加备注 (选填)。",
+    "hasHeadersToggle": "文件包含表头行 (将被忽略)",
+    "uploadBtnTxt": "选择或拖拽文件 (Excel / CSV)",
+    "uploadHint": "格式必须符合上述要求",
+    "foundValidRooms": "在文件中找到了 {count} 个有效房间。",
+    "otherRoomsCount": "... 还有 {count} 个房间 ...",
+    "importRoomTypeLabel": "选择导入房间类型",
+    "confirmImportBtn": "确认导入",
+    "deleteAllTitle": "确认删除所有房间",
+    "deleteAllDesc1": "您确定要删除该酒店的所有房间吗？",
+    "deleteAllDesc2": "所有房间的二维码路由将被禁用并删除。此操作无法撤销。",
+    "yesDeleteAll": "是的，全部删除",
+    "allDuplicatesOrInvalid": "所有房间均重复或无效"
   },
   "employees": {
     "title": "员工管理",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "请选择取消原因",
     "selectCancelReason": "选择取消原因：",
-    "otherReason": "✏️ 其他 (输入原因)",
+    "otherReason": "其他",
     "typeReasonPlaceholder": "输入取消原因...",
-    "presets": [
-      "客人改变主意并取消",
-      "所请求的项目目前不可用",
-      "客人因等待时间过长而取消",
-      "误操作下单",
-      "客人已离开客房"
-    ]
+    "presets": {
+      "changedMind": "客人改变主意并取消",
+      "itemUnavailable": "所请求的项目目前不可用",
+      "longWait": "客人因等待时间过长而取消",
+      "mistake": "误操作下单",
+      "leftRoom": "客人已离开客房",
+      "removedAllItems": "已移除所有项目"
+    },
+    "modificationPresets": {
+      "unavailable": "部分项目不可用",
+      "guestRequest": "根据客人要求调整",
+      "alternative": "提供了替代项目"
+    }
   },
   "help": {
     "title": "帮助中心",

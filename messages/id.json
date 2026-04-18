@@ -411,7 +411,27 @@
     "orderCreated": "Pesanan Dibuat",
     "orderAccepted": "Pesanan Diterima",
     "orderCompleted": "Pesanan Selesai",
-    "orderCancelled": "Pesanan Dibatalkan"
+    "orderCancelled": "Pesanan Dibatalkan",
+    "underModification": "Sedang Dimodifikasi",
+    "editOrder": "Edit Pesanan",
+    "saveChanges": "Simpan",
+    "cancelEdit": "Batal",
+    "modificationReason": "Alasan Modifikasi",
+    "modificationReasonRequired": "Alasan wajib diisi",
+    "modificationReasonPlaceholder": "Masukkan alasan...",
+    "forceUnlock": "Buka Kunci Paksa",
+    "confirmDeleteZero": "Kuantitas item nol. Item akan dihapus. Lanjutkan?",
+    "confirmModificationChanges": "Konfirmasi perubahan ini:",
+    "itemRemoved": "Dihapus",
+    "itemAdded": "Ditambahkan",
+    "was": "sebelumnya",
+    "became": "menjadi",
+    "emptyOrderWarning": "Pesanan kosong dan akan dibatalkan. Lanjut?",
+    "continueEdit": "Lanjutkan mengedit",
+    "autoCancelledTimeout": "Batal otomatis: Waktu habis",
+    "guestCancelled": "Dibatalkan oleh Tamu",
+    "modifiedByGuest": "Diubah oleh Tamu",
+    "cancelledSuccess": "Pesanan berhasil dibatalkan"
   },
   "services": {
     "title": "Layanan Utama",
@@ -495,14 +515,35 @@
     "noRooms": "Tidak ada kamar ditemukan",
     "notes": "Catatan",
     "roomLabel": "Kamar",
-    "exportAllPdf": "Ekspor Semua (PDF)",
+    "exportAllPdf": "Ekspor Semua Kode QR",
     "qrExportSize": "Lebar Ukuran Ekspor QR",
     "sizeHelpText": "Sesuaikan ukuran QR yang diekspor dalam sentimeter agar sesuai dengan tata letak cetak, dudukan akrilik, atau templat pintu Anda.",
     "cm": "cm",
     "downloadPdf": "Unduh PDF",
     "bulkDownloadInfo": "Anda akan mengekspor kode QR untuk {count} kamar.",
     "previewingFirstRoom": "Melihat pratinjau kamar pertama",
-    "printWarning": "Penting: Untuk ukuran yang akurat, pastikan 'Fit to paper' dipilih pada dialog cetak browser Anda (mis. Chrome). Jika opsi cetak salah, coba mencetak melalui Microsoft Edge atau Acrobat."
+    "printWarning": "Penting: Untuk ukuran yang akurat, pastikan 'Fit to paper' dipilih pada dialog cetak browser Anda (mis. Chrome). Jika opsi cetak salah, coba mencetak melalui Microsoft Edge atau Acrobat.",
+    "deleteAllBtn": "Hapus Semua",
+    "importRoomsBtn": "Impor Kamar",
+    "importTitle1": "Impor Kamar dari File",
+    "importTitle2": "Tinjau dan Konfirmasi ({count} kamar)",
+    "importFormatInstTitle": "Instruksi Format File (Excel / CSV)",
+    "importFormatInstDesc": "File harus memuat kolom berikut secara berurutan (A, B, C):",
+    "importCol1": "Kolom Pertama (A): Nomor atau nama kamar (wajib).",
+    "importCol2": "Kolom Kedua (B): Nomor lantai (opsional, hanya angka).",
+    "importCol3": "Kolom Ketiga (C): Catatan tambahan (opsional).",
+    "hasHeadersToggle": "File berisi baris tajuk (akan diabaikan)",
+    "uploadBtnTxt": "Pilih atau tarik file (Excel / CSV) ke sini",
+    "uploadHint": "Format harus sesuai dengan instruksi di atas",
+    "foundValidRooms": "Ditemukan {count} kamar valid dalam file.",
+    "otherRoomsCount": "... {count} kamar lainnya ...",
+    "importRoomTypeLabel": "Pilih tipe kamar yang diimpor",
+    "confirmImportBtn": "Konfirmasi Impor",
+    "deleteAllTitle": "Konfirmasi Penghapusan Semua Kamar",
+    "deleteAllDesc1": "Apakah Anda yakin ingin menghapus semua kamar untuk hotel ini?",
+    "deleteAllDesc2": "Semua rute QR kamar akan dinonaktifkan dan dihapus. Tindakan ini tidak dapat dibatalkan.",
+    "yesDeleteAll": "Ya, Hapus Semua",
+    "allDuplicatesOrInvalid": "Semua kamar adalah duplikat atau tidak valid"
   },
   "employees": {
     "title": "Karyawan",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Silakan pilih alasan pembatalan",
     "selectCancelReason": "Pilih alasan:",
-    "otherReason": "✏️ Lainnya (Tuliskan)",
+    "otherReason": "Lainnya",
     "typeReasonPlaceholder": "Ketik alasan di sini...",
-    "presets": [
-      "Tamu berubah pikiran",
-      "Item yang diminta tidak tersedia",
-      "Waktu tunggu terlalu lama",
-      "Pesanan dibuat secara tidak sengaja",
-      "Tamu sudah check-out"
-    ]
+    "presets": {
+      "changedMind": "Tamu berubah pikiran",
+      "itemUnavailable": "Item yang diminta tidak tersedia",
+      "longWait": "Waktu tunggu terlalu lama",
+      "mistake": "Pesanan dibuat secara tidak sengaja",
+      "leftRoom": "Tamu sudah check-out",
+      "removedAllItems": "Semua item dihapus"
+    },
+    "modificationPresets": {
+      "unavailable": "Beberapa item tidak tersedia",
+      "guestRequest": "Disesuaikan per permintaan",
+      "alternative": "Item alternatif disediakan"
+    }
   },
   "help": {
     "title": "Pusat Bantuan",

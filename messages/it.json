@@ -411,7 +411,27 @@
     "orderCreated": "Ordine Creato",
     "orderAccepted": "Ordine Accettato",
     "orderCompleted": "Ordine Completato",
-    "orderCancelled": "Ordine Annullato"
+    "orderCancelled": "Ordine Annullato",
+    "underModification": "In Fase di Modifica",
+    "editOrder": "Modifica Ordine",
+    "saveChanges": "Salva",
+    "cancelEdit": "Annulla",
+    "modificationReason": "Motivo della Modifica",
+    "modificationReasonRequired": "Motivo necessario",
+    "modificationReasonPlaceholder": "Inserisci motivo...",
+    "forceUnlock": "Forza Sblocco",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Conferma queste modifiche:",
+    "itemRemoved": "Rimosso",
+    "itemAdded": "Aggiunto",
+    "was": "era",
+    "became": "è diventato",
+    "emptyOrderWarning": "L'ordine è vuoto e verrà annullato. Continuare?",
+    "continueEdit": "Continua a modificare",
+    "autoCancelledTimeout": "Annullato automaticamente: tempo scaduto",
+    "guestCancelled": "Annullato dall'ospite",
+    "modifiedByGuest": "Modificato dall'ospite",
+    "cancelledSuccess": "Ordine annullato con successo"
   },
   "services": {
     "title": "Servizi Principali",
@@ -495,14 +515,35 @@
     "noRooms": "Nessuna camera trovata",
     "notes": "Note",
     "roomLabel": "Camera",
-    "exportAllPdf": "Esporta tutto (PDF)",
+    "exportAllPdf": "Esporta tutti i codici QR",
     "qrExportSize": "Larghezza dimensioni esportazione QR",
     "sizeHelpText": "Regola le dimensioni del QR esportato in centimetri per adattarlo ai layout di stampa, ai supporti in acrilico o ai modelli per porte.",
     "cm": "cm",
     "downloadPdf": "Scarica PDF",
     "bulkDownloadInfo": "Stai per esportare i codici QR per {count} camere.",
     "previewingFirstRoom": "Anteprima della prima camera",
-    "printWarning": "Importante: Per un dimensionamento preciso, assicurati che la casella 'Adatta alla pagina' sia selezionata nella finestra di dialogo di stampa del browser (es. Chrome). Se le dimensioni non sono corrette, riprova con Microsoft Edge o Acrobat."
+    "printWarning": "Importante: Per un dimensionamento preciso, assicurati che la casella 'Adatta alla pagina' sia selezionata nella finestra di dialogo di stampa del browser (es. Chrome). Se le dimensioni non sono corrette, riprova con Microsoft Edge o Acrobat.",
+    "deleteAllBtn": "Elimina tutto",
+    "importRoomsBtn": "Importa camere",
+    "importTitle1": "Importa camere da file",
+    "importTitle2": "Rivedi e conferma ({count} camere)",
+    "importFormatInstTitle": "Istruzioni per il formato (Excel / CSV)",
+    "importFormatInstDesc": "Il file deve contenere le seguenti colonne in ordine (A, B, C):",
+    "importCol1": "Prima colonna (A): Numero o nome della camera (obbligatorio).",
+    "importCol2": "Seconda colonna (B): Numero del piano (facoltativo, solo numeri).",
+    "importCol3": "Terza colonna (C): Note aggiuntive (facoltative).",
+    "hasHeadersToggle": "Il file contiene una riga di intestazione (verrà ignorata)",
+    "uploadBtnTxt": "Seleziona o trascina il file (Excel / CSV) qui",
+    "uploadHint": "Il formato deve corrispondere alle istruzioni",
+    "foundValidRooms": "Trovate {count} camere valide nel file.",
+    "otherRoomsCount": "... altre {count} camere ...",
+    "importRoomTypeLabel": "Seleziona il tipo di camera da importare",
+    "confirmImportBtn": "Conferma importazione",
+    "deleteAllTitle": "Conferma l'eliminazione di tutte le camere",
+    "deleteAllDesc1": "Sei sicuro di voler eliminare tutte le camere per questo hotel?",
+    "deleteAllDesc2": "Tutti i percorsi QR delle camere verranno disabilitati ed eliminati. Questa azione è irreversibile.",
+    "yesDeleteAll": "Sì, elimina tutto",
+    "allDuplicatesOrInvalid": "Tutte le camere sono duplicate o non valide"
   },
   "employees": {
     "title": "Dipendenti",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Seleziona un motivo di annullamento",
     "selectCancelReason": "Seleziona un motivo di annullamento:",
-    "otherReason": "✏️ Altro (digita il motivo)",
+    "otherReason": "Altro",
     "typeReasonPlaceholder": "Digita il motivo dell'annullamento...",
-    "presets": [
-      "L'ospite ha cambiato idea e ha annullato",
-      "L'articolo richiesto è attualmente non disponibile",
-      "L'ospite ha annullato a causa della lunga attesa",
-      "Ordine effettuato per errore",
-      "L'ospite ha lasciato la camera"
-    ]
+    "presets": {
+      "changedMind": "L'ospite ha cambiato idea e ha annullato",
+      "itemUnavailable": "L'articolo richiesto è attualmente non disponibile",
+      "longWait": "L'ospite ha annullato a causa della lunga attesa",
+      "mistake": "Ordine effettuato per errore",
+      "leftRoom": "L'ospite ha lasciato la camera",
+      "removedAllItems": "Tutti gli articoli rimossi"
+    },
+    "modificationPresets": {
+      "unavailable": "Articoli non disponibili",
+      "guestRequest": "Modificato su richiesta del cliente",
+      "alternative": "Articolo alternativo fornito"
+    }
   },
   "help": {
     "title": "Centro Assistenza",

@@ -411,7 +411,27 @@
     "orderCreated": "آرڈر بنایا گیا",
     "orderAccepted": "آرڈر قبول کیا گیا",
     "orderCompleted": "آرڈر مکمل ہو گیا",
-    "orderCancelled": "آرڈر منسوخ کر دیا گیا"
+    "orderCancelled": "آرڈر منسوخ کر دیا گیا",
+    "underModification": "ترمیم جاری ہے",
+    "editOrder": "آرڈر میں ترمیم کریں",
+    "saveChanges": "محفوظ کریں",
+    "cancelEdit": "منسوخ کریں",
+    "modificationReason": "ترمیم کی وجہ",
+    "modificationReasonRequired": "وجہ درکار ہے",
+    "modificationReasonPlaceholder": "وجہ درج کریں...",
+    "forceUnlock": "زبردستی انلاک کریں",
+    "confirmDeleteZero": "آئٹم کی مقدار صفر ہے۔ اس سے آئٹم حذف ہو جائے گا۔ جاری رکھیں؟",
+    "confirmModificationChanges": "تبدیلیوں کی تصدیق کریں:",
+    "itemRemoved": "ہٹا دیا",
+    "itemAdded": "شامل کیا",
+    "was": "تھا",
+    "became": "ہوا",
+    "emptyOrderWarning": "آرڈر خالی ہے اور منسوخ ہوگا۔ جاری رکھیں؟",
+    "continueEdit": "ترمیم جاری رکھیں",
+    "autoCancelledTimeout": "خودکار منسوخی: وقت ختم",
+    "guestCancelled": "مہمان کی طرف سے منسوخ",
+    "modifiedByGuest": "مہمان کی طرف سے ترمیم شدہ",
+    "cancelledSuccess": "آرڈر کامیابی سے منسوخ ہو گیا"
   },
   "services": {
     "title": "بنیادی خدمات",
@@ -495,14 +515,35 @@
     "noRooms": "کوئی کمرہ نہیں ملا",
     "notes": "نوٹس",
     "roomLabel": "کمرہ",
-    "exportAllPdf": "سب ایکسپورٹ کریں (PDF)",
+    "exportAllPdf": "تمام کیو آر کوڈز برآمد کریں",
     "qrExportSize": "QR ایکسپورٹ سائز کی چوڑائی",
     "sizeHelpText": "اپنے پرنٹ لے آؤٹ، ایکریلک اسٹینڈز، یا دروازے کے ٹیمپلیٹس میں فٹ ہونے کے لیے سینٹی میٹر میں ایکسپورٹ کردہ QR کا سائز ایڈجسٹ کریں۔",
     "cm": "سم",
     "downloadPdf": "PDF ڈاؤن لوڈ کریں",
     "bulkDownloadInfo": "آپ {count} کمروں کے لیے QR کوڈز ایکسپورٹ کرنے والے ہیں۔",
     "previewingFirstRoom": "پہلے کمرے کا پیش نظارہ",
-    "printWarning": "اہم: سائز درست رکھنے کے لیے یقینی بنائیں کہ براؤزر پرنٹ ڈائیلاگ (مثلاً کروم) میں 'فٹ ٹو پیپر' آپشن منتخب ہے۔ اگر سائز غلط آئے، تو مائیکروسافٹ ایج یا ایکروبیٹ سے پرنٹ کرنے کی کوشش کریں۔"
+    "printWarning": "اہم: سائز درست رکھنے کے لیے یقینی بنائیں کہ براؤزر پرنٹ ڈائیلاگ (مثلاً کروم) میں 'فٹ ٹو پیپر' آپشن منتخب ہے۔ اگر سائز غلط آئے، تو مائیکروسافٹ ایج یا ایکروبیٹ سے پرنٹ کرنے کی کوشش کریں۔",
+    "deleteAllBtn": "سب حذف کریں",
+    "importRoomsBtn": "کمروں کو درآمد کریں",
+    "importTitle1": "فائل سے کمرے درآمد کریں",
+    "importTitle2": "جائزہ لیں اور تصدیق کریں ({count} کمرے)",
+    "importFormatInstTitle": "فائل کی شکل کی ہدایات (Excel / CSV)",
+    "importFormatInstDesc": "فائل میں درج ذیل کالم بترتیب موجود ہونے چاہیں (A, B, C):",
+    "importCol1": "پہلا کالم (A): کمرہ نمبر یا نام (ضروری)۔",
+    "importCol2": "دوسرا کالم (B): منزل کا نمبر (اختیاری، صرف نمبر)۔",
+    "importCol3": "تیسرا کالم (C): اضافی نوٹس (اختیاری)۔",
+    "hasHeadersToggle": "فائل میں ہیڈر قطار موجود ہے (نظرانداز کر دی جائے گی)",
+    "uploadBtnTxt": "یہاں فائل (Excel / CSV) منتخب یا گھسیٹ کر لائیں",
+    "uploadHint": "شکل ہدایات کے مطابق ہونی چاہئے",
+    "foundValidRooms": "فائل میں {count} درست کمرے ملے ہیں۔",
+    "otherRoomsCount": "... اور {count} دیگر کمرے ...",
+    "importRoomTypeLabel": "درآمد شدہ کمرے کی قسم منتخب کریں",
+    "confirmImportBtn": "درآمد کی تصدیق کریں",
+    "deleteAllTitle": "تمام کمروں کو حذف کرنے کی تصدیق کریں",
+    "deleteAllDesc1": "کیا واقعی اس ہوٹل کے سب کمروں کو حذف کرنا چاہتے ہیں؟",
+    "deleteAllDesc2": "کمروں کے تمام کیو آر کوڈز منسوخ ہو کر مِٹ جائیں گے۔ یہ عمل واپس نہیں آ سکتا۔",
+    "yesDeleteAll": "جی ہاں، سب حذف کریں",
+    "allDuplicatesOrInvalid": "تمام کمرے یا تو نقل ہیں یا غلط ہیں"
   },
   "employees": {
     "title": "ملازمین",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "براہ کرم منسوخی کی وجہ منتخب کریں",
     "selectCancelReason": "وجہ منتخب کریں:",
-    "otherReason": "✏️ دیگر (درج کریں)",
+    "otherReason": "دیگر",
     "typeReasonPlaceholder": "وجہ لکھیں...",
-    "presets": [
-      "مہمان نے اپنا ارادہ بدل لیا",
-      "مطلوبہ چیز دستیاب نہیں ہے",
-      "انتظار کا وقت زیادہ ہونے کی وجہ سے",
-      "آرڈر غلطی سے دیا گیا تھا",
-      "مہمان پہلے ہی چیک آؤٹ کر چکا ہے"
-    ]
+    "presets": {
+      "changedMind": "مہمان نے اپنا ارادہ بدل لیا",
+      "itemUnavailable": "مطلوبہ چیز دستیاب نہیں ہے",
+      "longWait": "انتظار کا وقت زیادہ ہونے کی وجہ سے",
+      "mistake": "آرڈر غلطی سے دیا گیا تھا",
+      "leftRoom": "مہمان پہلے ہی چیک آؤٹ کر چکا ہے",
+      "removedAllItems": "تمام اشیاء نکال دی گئیں"
+    },
+    "modificationPresets": {
+      "unavailable": "آئٹمز دستیاب نہیں",
+      "guestRequest": "مہمان کی فرمائش پر تبدیل شدہ",
+      "alternative": "متبادل مہیا کر دیا گیا"
+    }
   },
   "help": {
     "title": "مدد مرکز",

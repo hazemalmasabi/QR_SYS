@@ -411,7 +411,27 @@
     "orderCreated": "سفارش ثبت شد",
     "orderAccepted": "سفارش پذیرفته شد",
     "orderCompleted": "سفارش تکمیل شد",
-    "orderCancelled": "سفارش لغو شد"
+    "orderCancelled": "سفارش لغو شد",
+    "underModification": "در حال ویرایش",
+    "editOrder": "ویرایش سفارش",
+    "saveChanges": "ذخیره تغییرات",
+    "cancelEdit": "انصراف",
+    "modificationReason": "دلیل ویرایش",
+    "modificationReasonRequired": "دلیل الزامی است",
+    "modificationReasonPlaceholder": "دلیل را وارد کنید...",
+    "forceUnlock": "باز کردن قفل",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "تغییرات زیر را تایید کنید:",
+    "itemRemoved": "حذف شد",
+    "itemAdded": "اضافه شد",
+    "was": "بود",
+    "became": "شد",
+    "emptyOrderWarning": "سفارش خالی است و لغو خواهد شد. ادامه می‌دهید؟",
+    "continueEdit": "ادامه ویرایش",
+    "autoCancelledTimeout": "لغو خودکار: زمان ویرایش پایان یافت",
+    "guestCancelled": "لغو شده توسط مهمان",
+    "modifiedByGuest": "توسط مهمان ویرایش شد",
+    "cancelledSuccess": "سفارش با موفقیت لغو شد"
   },
   "services": {
     "title": "خدمات اصلی",
@@ -495,14 +515,35 @@
     "noRooms": "اتاقی یافت نشد",
     "notes": "یادداشت‌ها",
     "roomLabel": "اتاق",
-    "exportAllPdf": "صدور همه (PDF)",
+    "exportAllPdf": "استخراج همه کدهای QR",
     "qrExportSize": "عرض اندازه صدور QR",
     "sizeHelpText": "اندازه QR صادر شده را به سانتی‌متر تنظیم کنید تا متناسب با طرح‌های چاپ، پایه‌های اکریلیک یا الگوهای درب شما باشد.",
     "cm": "سانتی‌متر",
     "downloadPdf": "دانلود PDF",
     "bulkDownloadInfo": "شما در حال صدور کدهای QR برای {count} اتاق هستید.",
     "previewingFirstRoom": "پیش‌نمایش اتاق اول",
-    "printWarning": "مهم: برای اندازه دقیق، مطمئن شوید که گزینه «Fit to paper» در تنظیمات چاپ مرورگر شما (مانند کروم) انتخاب شده است. اگر ابعاد چاپ نادرست است، از طریق Microsoft Edge یا مرورگر دیگری چاپ کنید."
+    "printWarning": "مهم: برای اندازه دقیق، مطمئن شوید که گزینه «Fit to paper» در تنظیمات چاپ مرورگر شما (مانند کروم) انتخاب شده است. اگر ابعاد چاپ نادرست است، از طریق Microsoft Edge یا مرورگر دیگری چاپ کنید.",
+    "deleteAllBtn": "حذف همه",
+    "importRoomsBtn": "وارد کردن اتاق‌ها",
+    "importTitle1": "وارد کردن اتاق‌ها از فایل",
+    "importTitle2": "بازبینی و تأیید ({count} اتاق)",
+    "importFormatInstTitle": "راهنمای فرمت فایل (Excel / CSV)",
+    "importFormatInstDesc": "فایل باید حاوی ستون‌های زیر به ترتیب باشد (A, B, C):",
+    "importCol1": "ستون اول (A): شماره یا نام اتاق (الزامی).",
+    "importCol2": "ستون دوم (B): شماره طبقه (اختیاری، فقط اعداد).",
+    "importCol3": "ستون سوم (C): یادداشت‌های اضافی (اختیاری).",
+    "hasHeadersToggle": "فایل دارای ردیف عنوان است (نادیده گرفته می‌شود)",
+    "uploadBtnTxt": "انتخاب یا کشیدن فایل (Excel / CSV)",
+    "uploadHint": "فرمت باید مطابق راهنمای بالا باشد",
+    "foundValidRooms": "{count} اتاق معتبر در فایل پیدا شد.",
+    "otherRoomsCount": "... {count} اتاق دیگر ...",
+    "importRoomTypeLabel": "نوع اتاق وارد شده را انتخاب کنید",
+    "confirmImportBtn": "تأیید واردات",
+    "deleteAllTitle": "تأیید حذف همه اتاق‌ها",
+    "deleteAllDesc1": "آیا مطمئن هستید که می‌خواهید همه اتاق‌های این هتل را حذف کنید؟",
+    "deleteAllDesc2": "همه مسیرهای QR اتاق‌ها غیرفعال و پاک می‌شوند. این عمل قابل بازگشت نیست.",
+    "yesDeleteAll": "بله، همه را حذف کن",
+    "allDuplicatesOrInvalid": "تمامی اتاق‌ها تکراری یا نامعتبر هستند"
   },
   "employees": {
     "title": "کارکنان",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "لطفاً دلیل لغو را انتخاب کنید",
     "selectCancelReason": "انتخاب دلیل:",
-    "otherReason": "✏️ سایر (تایپ کنید)",
+    "otherReason": "سایر",
     "typeReasonPlaceholder": "دلیل خود را اینجا بنویسید...",
-    "presets": [
-      "میهمان نظرش تغییر کرد",
-      "قلم درخواستی موجود نیست",
-      "زمان انتظار طولانی شد",
-      "سفارش اشتباه ثبت شد",
-      "میهمان اتاق را تحویل داده است (Check-out)"
-    ]
+    "presets": {
+      "changedMind": "میهمان نظرش تغییر کرد",
+      "itemUnavailable": "قلم درخواستی موجود نیست",
+      "longWait": "زمان انتظار طولانی شد",
+      "mistake": "سفارش اشتباه ثبت شد",
+      "leftRoom": "میهمان اتاق را تحویل داده است (Check-out)",
+      "removedAllItems": "تمام اقلام حذف شدند"
+    },
+    "modificationPresets": {
+      "unavailable": "موجودی کافی نیست",
+      "guestRequest": "بنا به درخواست مهمان ویرایش شد",
+      "alternative": "کالای جایگزین ارائه شد"
+    }
   },
   "help": {
     "title": "مرکز کمک",

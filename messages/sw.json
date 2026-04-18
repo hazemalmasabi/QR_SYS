@@ -411,7 +411,27 @@
     "orderCreated": "Agizo Limeundwa",
     "orderAccepted": "Agizo Limekubaliwa",
     "orderCompleted": "Agizo Limekamilika",
-    "orderCancelled": "Agizo Limefutwa"
+    "orderCancelled": "Agizo Limefutwa",
+    "underModification": "Inafanyiwa Marekebisho",
+    "editOrder": "Hariri Agizo",
+    "saveChanges": "Hifadhi",
+    "cancelEdit": "Ghairi",
+    "modificationReason": "Sababu ya Marekebisho",
+    "modificationReasonRequired": "Sababu inahitajika",
+    "modificationReasonPlaceholder": "Weka sababu...",
+    "forceUnlock": "Fungua kwa Lazima",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Tafadhali thibitisha mabadiliko haya:",
+    "itemRemoved": "Imeondolewa",
+    "itemAdded": "Imeongezwa",
+    "was": "ilikuwa",
+    "became": "imekuwa",
+    "emptyOrderWarning": "Agizo ni tupu na litafutwa kabisa. Endelea?",
+    "continueEdit": "Endelea Kuhariri",
+    "autoCancelledTimeout": "Kughairiwa kiotomatiki: Muda umeisha",
+    "guestCancelled": "Imeghairiwa na mgeni",
+    "modifiedByGuest": "Imebadilishwa na Mgeni",
+    "cancelledSuccess": "Agizo limeghairiwa kwa mafanikio"
   },
   "services": {
     "title": "Huduma Kuu",
@@ -495,14 +515,35 @@
     "noRooms": "Hakuna vyumba vilivyopatikana",
     "notes": "Vidokezo",
     "roomLabel": "Chumba",
-    "exportAllPdf": "Hamisha Zote (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "Upana wa Ukubwa wa Kuhamisha QR",
     "sizeHelpText": "Rekebisha ukubwa wa QR uliyohamishwa kwa sentimita ili kutoshea miundo yako ya uchapishaji, stendi za akriliki, au violezo vya mlango.",
     "cm": "cm",
     "downloadPdf": "Pakua PDF",
     "bulkDownloadInfo": "Uko karibu kuhamisha misimbo ya QR ya vyumba {count}.",
     "previewingFirstRoom": "Inakagua chumba cha kwanza",
-    "printWarning": "Muhimu: Hakikisha kuwa chaguo la 'Fit to paper' limeteuliwa kwenye kichapishi chako cha kivinjari (kama Chrome). Ikiwa mipangilio si sawa, jaribu kutumia Microsoft Edge."
+    "printWarning": "Muhimu: Hakikisha kuwa chaguo la 'Fit to paper' limeteuliwa kwenye kichapishi chako cha kivinjari (kama Chrome). Ikiwa mipangilio si sawa, jaribu kutumia Microsoft Edge.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "Wafanyakazi",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Tafadhali chagua sababu ya kufuta",
     "selectCancelReason": "Chagua sababu:",
-    "otherReason": "✏️ Nyingine (andika)",
+    "otherReason": "Nyingine",
     "typeReasonPlaceholder": "Andika sababu hapa...",
-    "presets": [
-      "Mgeni amebadilisha mawazo",
-      "Kitu kilichoombwa hakipatikani",
-      "Muda wa kusubiri ulikuwa mrefu",
-      "Agizo liliwekwa kimakosa",
-      "Mgeni tayari ameondoka (Checked-out)"
-    ]
+    "presets": {
+      "changedMind": "Mgeni amebadilisha mawazo",
+      "itemUnavailable": "Kitu kilichoombwa hakipatikani",
+      "longWait": "Muda wa kusubiri ulikuwa mrefu",
+      "mistake": "Agizo liliwekwa kimakosa",
+      "leftRoom": "Mgeni tayari ameondoka (Checked-out)",
+      "removedAllItems": "Vitu vyote vimeondolewa"
+    },
+    "modificationPresets": {
+      "unavailable": "Baadhi ya bidhaa hazipo",
+      "guestRequest": "Imerekebishwa kulingana na mgeni",
+      "alternative": "Bidhaa mbadala imetolewa"
+    }
   },
   "help": {
     "title": "Kituo cha Msaada",

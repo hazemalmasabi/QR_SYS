@@ -411,7 +411,27 @@
     "orderCreated": "Pedido Criado",
     "orderAccepted": "Pedido Aceito",
     "orderCompleted": "Pedido Concluído",
-    "orderCancelled": "Pedido Cancelado"
+    "orderCancelled": "Pedido Cancelado",
+    "underModification": "Em Modificação",
+    "editOrder": "Editar Pedido",
+    "saveChanges": "Salvar",
+    "cancelEdit": "Cancelar",
+    "modificationReason": "Motivo da Modificação",
+    "modificationReasonRequired": "Motivo exigido",
+    "modificationReasonPlaceholder": "Insira o motivo...",
+    "forceUnlock": "Forçar Desbloqueio",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Por favor, confirme as alterações:",
+    "itemRemoved": "Removido",
+    "itemAdded": "Adicionado",
+    "was": "era",
+    "became": "tornou-se",
+    "emptyOrderWarning": "O pedido está vazio e será cancelado. Continuar?",
+    "continueEdit": "Continuar editando",
+    "autoCancelledTimeout": "Cancelado automaticamente: tempo expirado",
+    "guestCancelled": "Cancelado pelo hóspede",
+    "modifiedByGuest": "Modificado pelo hóspede",
+    "cancelledSuccess": "Pedido cancelado com sucesso"
   },
   "services": {
     "title": "Serviços Principais",
@@ -495,14 +515,35 @@
     "noRooms": "Nenhum quarto encontrado",
     "notes": "Notas",
     "roomLabel": "Quarto",
-    "exportAllPdf": "Exportar Tudo (PDF)",
+    "exportAllPdf": "Exportar todos os códigos QR",
     "qrExportSize": "Largura do Tamanho de Exportação do QR",
     "sizeHelpText": "Ajuste o tamanho do QR exportado em centímetros para caber em seus layouts de impressão, suportes de acrílico ou modelos de porta.",
     "cm": "cm",
     "downloadPdf": "Baixar PDF",
     "bulkDownloadInfo": "Você está prestes a exportar códigos QR para {count} quartos.",
     "previewingFirstRoom": "Visualizando o primeiro quarto",
-    "printWarning": "Importante: Para o dimensionamento preciso, certifique-se de selecionar 'Ajustar ao papel' na caixa de diálogo de impressão do navegador (ex: Chrome). Se não ficar correto, tente usar o Microsoft Edge ou Acrobat."
+    "printWarning": "Importante: Para o dimensionamento preciso, certifique-se de selecionar 'Ajustar ao papel' na caixa de diálogo de impressão do navegador (ex: Chrome). Se não ficar correto, tente usar o Microsoft Edge ou Acrobat.",
+    "deleteAllBtn": "Apagar Tudo",
+    "importRoomsBtn": "Importar Quartos",
+    "importTitle1": "Importar Quartos de Arquivo",
+    "importTitle2": "Revisar e Confirmar ({count} quartos)",
+    "importFormatInstTitle": "Instruções de formato (Excel / CSV)",
+    "importFormatInstDesc": "O arquivo deve conter as seguintes colunas em ordem (A, B, C):",
+    "importCol1": "Primeira coluna (A): Número ou nome (obrigatório).",
+    "importCol2": "Segunda coluna (B): Andar (opcional, apenas números).",
+    "importCol3": "Terceira coluna (C): Notas adicionais (opcional).",
+    "hasHeadersToggle": "O arquivo contém linha de cabeçalho (será ignorado)",
+    "uploadBtnTxt": "Selecione ou arraste o arquivo (Excel / CSV)",
+    "uploadHint": "O formato deve corresponder às instruções",
+    "foundValidRooms": "Encontrados {count} quartos válidos.",
+    "otherRoomsCount": "... {count} outros quartos ...",
+    "importRoomTypeLabel": "Selecione o tipo de quarto importado",
+    "confirmImportBtn": "Confirmar Importação",
+    "deleteAllTitle": "Confirmar exclusão de todos os quartos",
+    "deleteAllDesc1": "Tem certeza que deseja apagar todos os quartos deste hotel?",
+    "deleteAllDesc2": "Todas as rotas QR dos quartos serão desativadas e apagadas. Isso não pode ser desfeito.",
+    "yesDeleteAll": "Sim, apagar tudo",
+    "allDuplicatesOrInvalid": "Todos os quartos são duplicados ou inválidos"
   },
   "employees": {
     "title": "Funcionários",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Por favor, selecione um motivo para o cancelamento",
     "selectCancelReason": "Selecione um motivo:",
-    "otherReason": "✏️ Outro (Digite o motivo)",
+    "otherReason": "Outro",
     "typeReasonPlaceholder": "Digite o motivo do cancelamento...",
-    "presets": [
-      "O hóspede mudou de ideia e cancelou",
-      "O item solicitado está indisponível no momento",
-      "O hóspede cancelou devido ao longo tempo de espera",
-      "Pedido feito por engano",
-      "O hóspede já fez o checkout"
-    ]
+    "presets": {
+      "changedMind": "O hóspede mudou de ideia e cancelou",
+      "itemUnavailable": "O item solicitado está indisponível no momento",
+      "longWait": "O hóspede cancelou devido ao longo tempo de espera",
+      "mistake": "Pedido feito por engano",
+      "leftRoom": "O hóspede já fez o checkout",
+      "removedAllItems": "Todos os itens removidos"
+    },
+    "modificationPresets": {
+      "unavailable": "Alguns itens indisponíveis",
+      "guestRequest": "Ajustado conforme pedido do cliente",
+      "alternative": "Item alternativo fornecido"
+    }
   },
   "help": {
     "title": "Central de Ajuda",

@@ -411,7 +411,27 @@
     "orderCreated": "Order Nalikha Na",
     "orderAccepted": "Order Tinanggap Na",
     "orderCompleted": "Order Tapos Na",
-    "orderCancelled": "Order Kinansela Na"
+    "orderCancelled": "Order Kinansela Na",
+    "underModification": "Nirerebisa",
+    "editOrder": "I-edit ang Order",
+    "saveChanges": "I-save",
+    "cancelEdit": "Ikansela",
+    "modificationReason": "Dahilan",
+    "modificationReasonRequired": "Kailangan ng dahilan",
+    "modificationReasonPlaceholder": "Ipasok ang dahilan...",
+    "forceUnlock": "Pwersahang I-unlock",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Pakikumpirma ang mga pagbabagong ito:",
+    "itemRemoved": "Tinanggal",
+    "itemAdded": "Naidagdag",
+    "was": "ay",
+    "became": "naging",
+    "emptyOrderWarning": "Ang order ay walang laman at kakanselahin. Magpatuloy?",
+    "continueEdit": "Ipagpatuloy ang pag-edit",
+    "autoCancelledTimeout": "Auto-cancel: Nag-timeout",
+    "guestCancelled": "Kinansela ng Bisita",
+    "modifiedByGuest": "Binago ng Bisita",
+    "cancelledSuccess": "Matagumpay na nakansela ang order"
   },
   "services": {
     "title": "Pangunahing Serbisyo",
@@ -495,14 +515,35 @@
     "noRooms": "Walang nahanap na kwarto",
     "notes": "Mga Tala",
     "roomLabel": "Kwarto",
-    "exportAllPdf": "I-export Lahat (PDF)",
+    "exportAllPdf": "I-export ang Lahat ng QR Codes",
     "qrExportSize": "Lapad ng Sukat ng QR Export",
     "sizeHelpText": "Ayusin ang laki ng in-export na QR sa centimeters upang umangkop sa iyong mga print layout, acrylic stands, o door templates.",
     "cm": "cm",
     "downloadPdf": "I-download ang PDF",
     "bulkDownloadInfo": "Ie-export mo ang mga QR code para sa {count} na silid.",
     "previewingFirstRoom": "Pini-preview ang unang silid",
-    "printWarning": "Mahalaga: Para sa tamang sizing, siguraduhing ang 'Fit to paper' na opsyon ay naka-select sa inyong browser (e.g. Chrome). Kung nagkakamali, subukang mag-print gamit ang Microsoft Edge o Acrobat."
+    "printWarning": "Mahalaga: Para sa tamang sizing, siguraduhing ang 'Fit to paper' na opsyon ay naka-select sa inyong browser (e.g. Chrome). Kung nagkakamali, subukang mag-print gamit ang Microsoft Edge o Acrobat.",
+    "deleteAllBtn": "Tanggalin Lahat",
+    "importRoomsBtn": "Mag-import ng mga Kuwarto",
+    "importTitle1": "Mag-import ng Kuwarto mula sa File",
+    "importTitle2": "Suriin at Kumpirmahin ({count} kuwarto)",
+    "importFormatInstTitle": "Mga Tagubilin sa Format (Excel / CSV)",
+    "importFormatInstDesc": "Ang file ay dapat maglaman ng mga haligi na ito sa ayos (A, B, C):",
+    "importCol1": "Unang Haligi (A): Numero o pangalan ng kuwarto (kailangan).",
+    "importCol2": "Ikalawang Haligi (B): Numero ng palapag (opsyonal, numero lamang).",
+    "importCol3": "Ikatlong Haligi (C): Karagdagang tala (opsyonal).",
+    "hasHeadersToggle": "Ang file ay mayroong header row (babalewalain)",
+    "uploadBtnTxt": "Pumili o i-drag ang file (Excel / CSV) dito",
+    "uploadHint": "Ang pormat ay dapat tumugma sa mga tagubilin sa taas",
+    "foundValidRooms": "Nakahanap ng {count} na wastong kuwarto sa file.",
+    "otherRoomsCount": "... {count} pang kuwarto ...",
+    "importRoomTypeLabel": "Pumili ng uri ng in-import na kuwarto",
+    "confirmImportBtn": "Kumpirmahin ang Pag-import",
+    "deleteAllTitle": "Kumpirmahin ang Pagbura sa Lahat ng Kuwarto",
+    "deleteAllDesc1": "Sigurado ka bang nais mong burahin ang lahat ng kuwarto para sa hotel na ito?",
+    "deleteAllDesc2": "Lahat ng rutang QR ng kuwarto ay madi-disable at mabubura. Hindi ito maibabalik.",
+    "yesDeleteAll": "Oo, Burahin Lahat",
+    "allDuplicatesOrInvalid": "Lahat ng kuwarto ay maaaring duplicate o hindi wasto"
   },
   "employees": {
     "title": "Mga Empleyado",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Mangyaring pumili ng dahilan ng pagkansela",
     "selectCancelReason": "Pumili ng dahilan:",
-    "otherReason": "✏️ Iba pa (i-type ito)",
+    "otherReason": "Iba pa",
     "typeReasonPlaceholder": "I-type ang dahilan dito...",
-    "presets": [
-      "Nagbago ang isip ng bisita",
-      "Ang hinihiling na aytem ay hindi available",
-      "Masyadong matagal ang oras ng paghihintay",
-      "Ang order ay aksidenteng nagawa",
-      "Ang bisita ay naka-check-out na"
-    ]
+    "presets": {
+      "changedMind": "Nagbago ang isip ng bisita",
+      "itemUnavailable": "Ang hinihiling na aytem ay hindi available",
+      "longWait": "Masyadong matagal ang oras ng paghihintay",
+      "mistake": "Ang order ay aksidenteng nagawa",
+      "leftRoom": "Ang bisita ay naka-check-out na",
+      "removedAllItems": "Inalis ang lahat ng item"
+    },
+    "modificationPresets": {
+      "unavailable": "Ang ilang item ay wala",
+      "guestRequest": "Inayos batay sa hiling ng panauhin",
+      "alternative": "Ibinigay ang alternatibo"
+    }
   },
   "help": {
     "title": "Help Center",

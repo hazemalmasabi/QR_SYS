@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, use } from 'react'
 import Link from 'next/link'
+import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
 import {
   ArrowRight,
@@ -15,10 +16,13 @@ import {
   ChevronDown,
   MessageSquare,
   AlertCircle,
+  Edit,
+  Trash2,
 } from 'lucide-react'
 import { cn, formatCurrency, formatTime } from '@/lib/utils'
 import type { Order } from '@/types'
 import { supabase } from '@/lib/supabase/client'
+import { EditOrderGuestModal } from './EditOrderGuestModal'
 import {
   showBrowserNotification,
   requestNotificationPermission,
@@ -41,6 +45,10 @@ const statusConfig = {
   new: {
     badge: 'badge-new',
     icon: Package,
+  },
+  under_modification: {
+    badge: 'badge-under-modification',
+    icon: Edit,
   },
   in_progress: {
     badge: 'badge-progress',
@@ -72,6 +80,11 @@ export default function GuestOrdersPage({
   const [guestInfo, setGuestInfo] = useState<GuestInfo | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
+  const [editingOrder, setEditingOrder] = useState<OrderWithService | null>(null)
+  
+  const [cancelOrderId, setCancelOrderId] = useState<string | null>(null)
+  const [cancelLoading, setCancelLoading] = useState(false)
+  
   const [, setNotifPermission] = useState<NotificationPermission>('default')
   const prevStatusRef = useRef<Record<string, string>>({})
 
@@ -91,6 +104,25 @@ export default function GuestOrdersPage({
       setRefreshing(false)
     }
   }, [qrCode])
+
+  const handleConfirmCancel = async () => {
+    if (!cancelOrderId) return
+    setCancelLoading(true)
+    try {
+      await fetch(`/api/orders/${cancelOrderId}/guest-edit`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'cancel_order', cancel_reason: 'guestCancelled' })
+      })
+      toast.success(tOrders('cancelledSuccess'))
+      fetchOrders()
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setCancelLoading(false)
+      setCancelOrderId(null)
+    }
+  }
 
   // Ask for notification permission on mount
   useEffect(() => {
@@ -141,7 +173,8 @@ export default function GuestOrdersPage({
           const statusText = tOrders(
             updated.status === 'in_progress' ? 'inProgress' :
               updated.status === 'completed' ? 'completed' :
-                updated.status === 'cancelled' ? 'cancelled' : 'new'
+                updated.status === 'cancelled' ? 'cancelled' : 
+                  updated.status === 'under_modification' ? 'underModification' : 'new'
           )
 
           const title = t('orderStatus')
@@ -182,6 +215,7 @@ export default function GuestOrdersPage({
   const getStatusLabel = (status: string) => {
     switch (status) {
       case 'new': return tOrders('new')
+      case 'under_modification': return tOrders('underModification')
       case 'in_progress': return tOrders('inProgress')
       case 'completed': return tOrders('completed')
       case 'cancelled': return tOrders('cancelled')
@@ -210,8 +244,35 @@ export default function GuestOrdersPage({
     })
   }
 
+  const tm = useTranslations('ordersDetails')
+  const renderReason = (reason: string | null) => {
+    if (!reason) return null
+    
+    // Split by newline to separate key from technical logs
+    const lines = reason.split('\n')
+    const firstLine = lines[0]
+    
+    let renderedFirstLine = firstLine
+    if (tm.has(`presets.${firstLine}`)) renderedFirstLine = tm(`presets.${firstLine}`)
+    else if (tm.has(`modificationPresets.${firstLine}`)) renderedFirstLine = tm(`modificationPresets.${firstLine}`)
+    else if (tOrders.has(firstLine)) renderedFirstLine = tOrders(firstLine)
+    
+    if (lines.length > 1) {
+      return (
+        <div className="space-y-1">
+          <div className="font-bold">{renderedFirstLine}</div>
+          <div className="text-xs opacity-90 leading-relaxed whitespace-pre-line">
+            {lines.slice(1).join('\n')}
+          </div>
+        </div>
+      )
+    }
+    
+    return renderedFirstLine
+  }
+
   const renderOrderCard = (order: OrderWithService) => {
-    const config = statusConfig[order.status]
+    const config = statusConfig[order.status] || statusConfig.new
     const StatusIcon = config.icon
     const serviceName = order.main_services?.service_name
       ? (order.main_services.service_name[locale] || order.main_services.service_name.en || order.main_services.service_name.ar || '')
@@ -220,7 +281,9 @@ export default function GuestOrdersPage({
     const isNotesExpanded = expandedNotes.has(order.order_id)
     const isReasonExpanded = expandedReasons.has(order.order_id)
     const hasNotes = !!(order.notes && order.notes.trim())
-    const hasCancelReason = order.status === 'cancelled' && !!(order.cancellation_reason && order.cancellation_reason.trim())
+    const hasCancelReason = !!(order.cancellation_reason && order.cancellation_reason.trim())
+    const hasModificationReason = !!(order.modification_reason && order.modification_reason.trim())
+    const isModificationExpanded = isReasonExpanded
 
     return (
       <div key={order.order_id} className="card !p-0 overflow-hidden space-y-0">
@@ -243,6 +306,7 @@ export default function GuestOrdersPage({
             <StatusIcon className={cn(
               'h-5 w-5 shrink-0',
               order.status === 'new' && 'text-blue-500',
+              order.status === 'under_modification' && 'text-amber-500',
               order.status === 'in_progress' && 'text-yellow-500',
               order.status === 'completed' && 'text-green-500',
               order.status === 'cancelled' && 'text-red-500',
@@ -308,6 +372,36 @@ export default function GuestOrdersPage({
           </div>
         )}
 
+        {/* Guest Actions (Edit / Cancel) for New AND Under Modification Orders */}
+        {(order.status === 'new' || order.status === 'under_modification') && (
+           <div className="border-t border-gray-100 flex divide-x divide-gray-100 rtl:divide-x-reverse bg-gray-50/50">
+             <button
+                onClick={async () => {
+                  try {
+                    await fetch(`/api/orders/${order.order_id}/guest-edit`, {
+                      method: 'PATCH',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ action: 'start_edit' })
+                    })
+                    setEditingOrder(order)
+                    fetchOrders()
+                  } catch (e) { console.error(e) }
+                }}
+                className={'flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-sm font-medium transition-colors hover:bg-gray-100 text-blue-600'}
+             >
+                <Edit className="h-4 w-4" />
+                {order.status === 'under_modification' ? tOrders('continueEdit') : tOrders('editOrder')}
+             </button>
+             <button
+                onClick={() => setCancelOrderId(order.order_id)}
+                className={'flex flex-1 items-center justify-center gap-1.5 px-3 py-3 text-sm font-medium transition-colors hover:bg-red-50 text-red-600'}
+             >
+                <Trash2 className="h-4 w-4" />
+                {tOrders('cancelOrder')}
+             </button>
+           </div>
+        )}
+
         {/* Expandable Notes */}
         {hasNotes && isNotesExpanded && (
           <div className="px-4 pb-3 pt-2 bg-blue-50/50 border-t border-blue-100 text-sm text-gray-700">
@@ -318,7 +412,14 @@ export default function GuestOrdersPage({
         {/* Expandable Cancel Reason */}
         {hasCancelReason && isReasonExpanded && (
           <div className="px-4 pb-3 pt-2 bg-red-50/50 border-t border-red-100 text-sm text-red-700">
-            <p className="leading-relaxed">{order.cancellation_reason}</p>
+            <p className="leading-relaxed italic">{renderReason(order.cancellation_reason)}</p>
+          </div>
+        )}
+
+        {/* Expandable Modification Reason */}
+        {hasModificationReason && isModificationExpanded && (
+          <div className="px-4 pb-3 pt-2 bg-amber-50/50 border-t border-amber-100 text-sm text-amber-700">
+            <p className="leading-relaxed italic">{renderReason(order.modification_reason)}</p>
           </div>
         )}
       </div>
@@ -388,6 +489,48 @@ export default function GuestOrdersPage({
             </div>
           )}
         </>
+      )}
+
+      {/* Edit Order Modal */}
+      <EditOrderGuestModal
+        order={editingOrder}
+        isOpen={!!editingOrder}
+        onClose={() => setEditingOrder(null)}
+        onSuccess={() => fetchOrders()}
+        currencySymbol={currencySymbol}
+      />
+      {/* Cancel Confirmation Modal */}
+      {cancelOrderId && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="relative flex w-full max-sm flex-col rounded-xl bg-white shadow-xl overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+            <div className="p-6 text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto">
+                <Trash2 className="h-6 w-6" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">{tOrders('cancelOrder')}</h3>
+              <p className="text-sm text-gray-500">
+                {tOrders('emptyOrderWarning') || 'Are you sure you want to cancel this order?'}
+              </p>
+            </div>
+            <div className="border-t border-gray-100 flex gap-0 bg-white">
+              <button
+                onClick={() => setCancelOrderId(null)}
+                disabled={cancelLoading}
+                className="flex-1 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                {tOrders('cancelEdit') || 'Back'}
+              </button>
+              <div className="w-px bg-gray-100" />
+              <button
+                onClick={handleConfirmCancel}
+                disabled={cancelLoading}
+                className="flex-1 px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors flex justify-center items-center"
+              >
+                {cancelLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : tOrders('cancelOrder') || 'Cancel'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

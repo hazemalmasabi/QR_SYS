@@ -411,7 +411,27 @@
     "orderCreated": "تم إنشاء الطلب",
     "orderAccepted": "تم قبول الطلب",
     "orderCompleted": "تم إكمال الطلب",
-    "orderCancelled": "تم إلغاء الطلب"
+    "orderCancelled": "تم إلغاء الطلب",
+    "underModification": "تحت التعديل",
+    "editOrder": "تعديل الطلب",
+    "saveChanges": "حفظ التعديلات",
+    "cancelEdit": "إلغاء التعديل",
+    "modificationReason": "سبب التعديل",
+    "modificationReasonRequired": "سبب التعديل مطلوب",
+    "modificationReasonPlaceholder": "أدخل سبب التعديل...",
+    "forceUnlock": "فك قفل التعديل",
+    "confirmDeleteZero": "الكمية صفر. سيتم إزالة الصنف. هل تريد المتابعة؟",
+    "confirmModificationChanges": "يرجى تأكيد التعديلات التالية على طلبك:",
+    "itemRemoved": "أُزيل",
+    "itemAdded": "أضيف",
+    "was": "كان",
+    "became": "أصبح",
+    "emptyOrderWarning": "الطلب فارغ الآن. سيتم إلغاء الطلب بالكامل. هل تريد المتابعة؟",
+    "continueEdit": "أكمل التعديل",
+    "autoCancelledTimeout": "تم الإلغاء تلقائياً لتجاوز مدة التعديل",
+    "guestCancelled": "تم الإلغاء من قبل العميل",
+    "modifiedByGuest": "تعديل من قبل الضيف",
+    "cancelledSuccess": "تم إلغاء الطلب بنجاح"
   },
   "services": {
     "title": "الخدمات الرئيسية",
@@ -495,14 +515,35 @@
     "noRooms": "لم يتم العثور على غرف",
     "notes": "ملاحظات",
     "roomLabel": "غرفة",
-    "exportAllPdf": "تصدير للكل (PDF)",
+    "exportAllPdf": "تصدير كل الباركودات",
     "qrExportSize": "عرض الباركود المصدر",
     "sizeHelpText": "قم بتعديل حجم الباركود بالسنتيمتر ليتناسب مع استاندات الغرف، أغلفة الطباعة، أو ملصقات الأبواب الخاصة بك.",
     "cm": "سم",
     "downloadPdf": "تنزيل PDF",
     "bulkDownloadInfo": "أنت على وشك تصدير باركود لـ {count} غرفة.",
     "previewingFirstRoom": "مُعاينة الغرفة الأولى",
-    "printWarning": "هام للطباعة: تأكد من تفعيل خيار 'ملاءمة حجم الورقة' (Fit to paper) في إعدادات الطباعة كمتصفح كروم. إذا ظهر الحجم بشكل غير دقيق، جرب الطباعة عبر متصفح مايكروسوفت إيدج أو تطبيق آخر."
+    "printWarning": "هام للطباعة: تأكد من تفعيل خيار 'ملاءمة حجم الورقة' (Fit to paper) في إعدادات الطباعة كمتصفح كروم. إذا ظهر الحجم بشكل غير دقيق، جرب الطباعة عبر متصفح مايكروسوفت إيدج أو تطبيق آخر.",
+    "deleteAllBtn": "حذف الكل",
+    "importRoomsBtn": "استيراد غرف",
+    "importTitle1": "استيراد الغرف من ملف",
+    "importTitle2": "مراجعة وتأكيد ({count} غرفة)",
+    "importFormatInstTitle": "تعليمات تنسيق الملف (Excel / CSV)",
+    "importFormatInstDesc": "يجب أن يحتوي الملف على الأعمدة بالترتيب التالي (من اليمين لليسار أو A, B, C):",
+    "importCol1": "العمود الأول (A): رقم أو اسم الغرفة (مطلوب).",
+    "importCol2": "العمود الثاني (B): رقم الطابق (اختياري، أرقام فقط).",
+    "importCol3": "العمود الثالث (C): ملاحظات إضافية (اختياري).",
+    "hasHeadersToggle": "الملف يحتوي على عناوين أعمدة بالصف الأول (سيتم تجاهله)",
+    "uploadBtnTxt": "اختر أو اسحب ملف (Excel / CSV) هنا",
+    "uploadHint": "يجب أن تكون الصيغة مطابقة للتعليمات أعلاه",
+    "foundValidRooms": "تم العثور على {count} غرفة صالحة في الملف.",
+    "otherRoomsCount": "... {count} غرف أخرى ...",
+    "importRoomTypeLabel": "اختر نوع الغرف المستوردة",
+    "confirmImportBtn": "تأكيد الاستيراد",
+    "deleteAllTitle": "تأكيد حذف جميع الغرف",
+    "deleteAllDesc1": "هل أنت متأكد أنك تريد حذف جميع الغرف الخاصة بهذا الفندق؟",
+    "deleteAllDesc2": "سيتم تعطيل وحذف مسار جميع الغرف وأكواد الـ QR الخاصة بها ولن يمكنك التراجع عن هذه الخطوة أبدًا.",
+    "yesDeleteAll": "نعم، احذف الكل",
+    "allDuplicatesOrInvalid": "جميع الغرف إما مكررة أو غير صالحة"
   },
   "employees": {
     "title": "الموظفين",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "يرجى اختيار سبب الإلغاء",
     "selectCancelReason": "اختر سبب الإلغاء:",
-    "otherReason": "✏️ أخرى (اكتب السبب)",
+    "otherReason": "أخرى",
     "typeReasonPlaceholder": "اكتب سبب الإلغاء...",
-    "presets": [
-      "الضيف غيّر رأيه وقرر إلغاء الطلب",
-      "العنصر المطلوب غير متوفر حالياً",
-      "طال وقت الانتظار واعتذر الضيف",
-      "تم الطلب بالخطأ",
-      "الضيف غادر الغرفة"
-    ]
+    "presets": {
+      "changedMind": "الضيف غيّر رأيه وقرر إلغاء الطلب",
+      "itemUnavailable": "العنصر المطلوب غير متوفر حالياً",
+      "longWait": "طال وقت الانتظار واعتذر الضيف",
+      "mistake": "تم الطلب بالخطأ",
+      "leftRoom": "الضيف غادر الغرفة",
+      "removedAllItems": "تم إزالة جميع الأصناف"
+    },
+    "modificationPresets": {
+      "unavailable": "بعض الأصناف غير متوفرة",
+      "guestRequest": "تم التعديل بناءً على طلب العميل",
+      "alternative": "تم توفير صنف بديل"
+    }
   },
   "help": {
     "title": "مركز المساعدة",

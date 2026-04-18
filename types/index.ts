@@ -120,7 +120,7 @@ export interface Order {
   order_items: OrderItem[]
   total_amount: number
   currency_code: string
-  status: 'new' | 'in_progress' | 'completed' | 'cancelled'
+  status: 'new' | 'under_modification' | 'in_progress' | 'completed' | 'cancelled'
   created_at: string
   accepted_at: string | null
   completed_at: string | null
@@ -131,6 +131,7 @@ export interface Order {
   actual_time: number | null
   handled_by: string | null
   notes: string | null
+  modification_reason: string | null
 }
 
 export interface RoomQRMapping {

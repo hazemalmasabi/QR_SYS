@@ -411,7 +411,27 @@
     "orderCreated": "訂單已創建",
     "orderAccepted": "訂單已接單",
     "orderCompleted": "訂單已完成",
-    "orderCancelled": "訂單已取消"
+    "orderCancelled": "訂單已取消",
+    "underModification": "修改中",
+    "editOrder": "更改訂單",
+    "saveChanges": "儲存",
+    "cancelEdit": "取消",
+    "modificationReason": "修改原因",
+    "modificationReasonRequired": "一定要有原因",
+    "modificationReasonPlaceholder": "輸入原因...",
+    "forceUnlock": "強制解鎖",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "請確認訂單修改：",
+    "itemRemoved": "已移除",
+    "itemAdded": "已新增",
+    "was": "原本",
+    "became": "變成",
+    "emptyOrderWarning": "訂單宜家係空嘅，會取消。要繼續？",
+    "continueEdit": "繼續編輯",
+    "autoCancelledTimeout": "自動取消：逾時",
+    "guestCancelled": "賓客已取消",
+    "modifiedByGuest": "賓客已修改",
+    "cancelledSuccess": "訂單取消成功"
   },
   "services": {
     "title": "主要服務",
@@ -495,14 +515,35 @@
     "noRooms": "搵唔到房間",
     "notes": "備註",
     "roomLabel": "房間",
-    "exportAllPdf": "全部匯出 (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR 匯出尺寸寬度",
     "sizeHelpText": "調整匯出嘅 QR 尺寸（厘米），以配合你嘅列印佈局、亞克力企牌或門牌範本。",
     "cm": "厘米",
     "downloadPdf": "下載 PDF",
     "bulkDownloadInfo": "你即將匯出 {count} 間房嘅 QR 碼。",
     "previewingFirstRoom": "預覽第一間房",
-    "printWarning": "重要：為咗準確嘅尺寸，請確保喺瀏覽器（例如 Chrome）嘅列印對話框中選擇咗「符合紙張大小」。如果列印尺寸唔啱，試下用 Microsoft Edge 啦。"
+    "printWarning": "重要：為咗準確嘅尺寸，請確保喺瀏覽器（例如 Chrome）嘅列印對話框中選擇咗「符合紙張大小」。如果列印尺寸唔啱，試下用 Microsoft Edge 啦。",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "職員管理",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "請選擇取消原因",
     "selectCancelReason": "選擇原因：",
-    "otherReason": "✏️ 其他 (手動輸入)",
+    "otherReason": "其他",
     "typeReasonPlaceholder": "喺呢度輸入原因...",
-    "presets": [
-      "住客改變主意",
-      "項目暫時缺貨",
-      "等候時間太長",
-      "落錯單",
-      "住客已經退房 (Checked-out)"
-    ]
+    "presets": {
+      "changedMind": "住客改變主意",
+      "itemUnavailable": "項目暫時缺貨",
+      "longWait": "等候時間太長",
+      "mistake": "落錯單",
+      "leftRoom": "住客已經退房 (Checked-out)",
+      "removedAllItems": "移除了所有項目"
+    },
+    "modificationPresets": {
+      "unavailable": "部分商品缺貨",
+      "guestRequest": "應客人要求修改",
+      "alternative": "提供咗代替品"
+    }
   },
   "help": {
     "title": "幫助中心",

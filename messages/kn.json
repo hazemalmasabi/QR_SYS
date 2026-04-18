@@ -411,7 +411,27 @@
     "orderCreated": "ಆರ್ಡರ್ ರಚಿಸಲಾಗಿದೆ",
     "orderAccepted": "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ",
     "orderCompleted": "ಆರ್ಡರ್ ಪೂರ್ಣಗೊಂಡಿದೆ",
-    "orderCancelled": "ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ"
+    "orderCancelled": "ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
+    "underModification": "ಬದಲಾವಣೆಯಲ್ಲಿದೆ",
+    "editOrder": "ಆರ್ಡರ್ ಎಡಿಟ್ ಮಾಡಿ",
+    "saveChanges": "ಉಳಿಸಿ",
+    "cancelEdit": "ರದ್ದುಗೊಳಿಸಿ",
+    "modificationReason": "ಬದಲಾವಣೆಯ ಕಾರಣ",
+    "modificationReasonRequired": "ಕಾರಣ ಅಗತ್ಯವಿದೆ",
+    "modificationReasonPlaceholder": "ಕಾರಣ ನಮೂದಿಸಿ...",
+    "forceUnlock": "ಅನ್ಲಾಕ್ ಮಾಡಿ",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "ದಯವಿಟ್ಟು ಬದಲಾವಣೆಗಳನ್ನು ಖಚಿತಪಡಿಸಿ:",
+    "itemRemoved": "ತೆಗೆದುಹಾಕಲಾಗಿದೆ",
+    "itemAdded": "ಸೇರಿಸಲಾಗಿದೆ",
+    "was": "ಇತ್ತು",
+    "became": "ಆಯಿತು",
+    "emptyOrderWarning": "ಆರ್ಡರ್ ಖಾಲಿಯಾಗಿದೆ ಮತ್ತು ರದ್ದುಗೊಳ್ಳುತ್ತದೆ. ಮುಂದುವರಿಯಬೇಕೇ?",
+    "continueEdit": "ಸಂಪಾದನೆಯನ್ನು ಮುಂದುವರಿಸಿ",
+    "autoCancelledTimeout": "ಸ್ವಯಂಚಾಲಿತ ರದ್ದತಿ: ಸಮಯ ಮೀರಿದೆ",
+    "guestCancelled": "ಅತಿಥಿಯಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
+    "modifiedByGuest": "ಅತಿಥಿಯಿಂದ ಮಾರ್ಪಡಿಸಲಾಗಿದೆ",
+    "cancelledSuccess": "ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ರದ್ದಾಗಿದೆ"
   },
   "services": {
     "title": "ಮುಖ್ಯ ಸೇವೆಗಳು",
@@ -495,14 +515,35 @@
     "noRooms": "ಯಾವುದೇ ಕೊಠಡಿಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
     "notes": "ಟಿಪ್ಪಣಿಗಳು",
     "roomLabel": "ಕೊಠಡಿ",
-    "exportAllPdf": "ಎಲ್ಲವನ್ನೂ ರಫ್ತು ಮಾಡಿ (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR ರಫ್ತು ಗಾತ್ರ ಅಗಲ",
     "sizeHelpText": "ನಿಮ್ಮ ಮುದ್ರಣ ವಿನ್ಯಾಸಗಳು, ಅಕ್ರಿಲಿಕ್ ಸ್ಟ್ಯಾಂಡ್‌ಗಳು ಅಥವಾ ಬಾಗಿಲಿನ ಟೆಂಪ್ಲೇಟ್‌ಗಳಿಗೆ ಸರಿಹೊಂದಿಸಲು ರಫ್ತು ಮಾಡಿದ QR ಗಾತ್ರವನ್ನು ಸೆಂಟಿಮೀಟರ್‌ಗಳಲ್ಲಿ ಹೊಂದಿಸಿ.",
     "cm": "ಸೆಂ",
     "downloadPdf": "PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
     "bulkDownloadInfo": "ನೀವು {count} ಕೊಠಡಿಗಳಿಗೆ QR ಕೋಡ್‌ಗಳನ್ನು ರಫ್ತು ಮಾಡಲಿದ್ದೀರಿ.",
     "previewingFirstRoom": "ಮೊದಲ ಕೋಣೆಯ ಪೂರ್ವವೀಕ್ಷಣೆ",
-    "printWarning": "ಪ್ರಮುಖ: ನಿಖರವಾದ ಗಾತ್ರಕ್ಕಾಗಿ, ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ (ಉದಾಹರಣೆಗೆ ಕ್ರೋಮ್) ಪ್ರಿಂಟ್ ಡೈಲಾಗ್‌ನಲ್ಲಿ 'Fit to paper' ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆಯೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. ಗಾತ್ರಗಳು ತಪ್ಪಾಗಿದ್ದರೆ, ಮೈಕ್ರೋಸಾಫ್ಟ್ ಎಡ್ಜ್ ಅಥವಾ ಆಕ್ರೊಬ್ಯಾಟ್ ಮೂಲಕ ಮುದ್ರಿಸಲು ಪ್ರಯತ್ನಿಸಿ."
+    "printWarning": "ಪ್ರಮುಖ: ನಿಖರವಾದ ಗಾತ್ರಕ್ಕಾಗಿ, ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ (ಉದಾಹರಣೆಗೆ ಕ್ರೋಮ್) ಪ್ರಿಂಟ್ ಡೈಲಾಗ್‌ನಲ್ಲಿ 'Fit to paper' ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆಯೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ. ಗಾತ್ರಗಳು ತಪ್ಪಾಗಿದ್ದರೆ, ಮೈಕ್ರೋಸಾಫ್ಟ್ ಎಡ್ಜ್ ಅಥವಾ ಆಕ್ರೊಬ್ಯಾಟ್ ಮೂಲಕ ಮುದ್ರಿಸಲು ಪ್ರಯತ್ನಿಸಿ.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "ಉದ್ಯೋಗಿಗಳು",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "ದಯವಿಟ್ಟು ರದ್ದತಿಗೆ ಕಾರಣವನ್ನು ಆರಿಸಿ",
     "selectCancelReason": "ರದ್ದತಿಗೆ ಕಾರಣವನ್ನು ಆರಿಸಿ:",
-    "otherReason": "✏️ ಇತರ (ಕಾರಣವನ್ನು ಟೈಪ್ ಮಾಡಿ)",
+    "otherReason": "ಇತರೆ",
     "typeReasonPlaceholder": "ರದ್ದತಿಗೆ ಕಾರಣವನ್ನು ಟೈಪ್ ಮಾಡಿ...",
-    "presets": [
-      "ಅತಿಥಿ ಮನಸ್ಸು ಬದಲಿಸಿ ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ",
-      "ಕೋರಿದ ಐಟಂ ಪ್ರಸ್ತುತ ಲಭ್ಯವಿಲ್ಲ",
-      "ದೀರ್ಘ ಕಾಯುವಿಕೆಯಿಂದಾಗಿ ಅತಿಥಿ ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ",
-      "ತಪ್ಪಾಗಿ ಆರ್ಡರ್ ಮಾಡಲಾಗಿದೆ",
-      "ಅತಿಥಿ ಕೊಠಡಿಯಿಂದ ನಿರ್ಗಮಿಸಿದ್ದಾರೆ"
-    ]
+    "presets": {
+      "changedMind": "ಅತಿಥಿ ಮನಸ್ಸು ಬದಲಿಸಿ ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ",
+      "itemUnavailable": "ಕೋರಿದ ಐಟಂ ಪ್ರಸ್ತುತ ಲಭ್ಯವಿಲ್ಲ",
+      "longWait": "ದೀರ್ಘ ಕಾಯುವಿಕೆಯಿಂದಾಗಿ ಅತಿಥಿ ರದ್ದುಗೊಳಿಸಿದ್ದಾರೆ",
+      "mistake": "ತಪ್ಪಾಗಿ ಆರ್ಡರ್ ಮಾಡಲಾಗಿದೆ",
+      "leftRoom": "ಅತಿಥಿ ಕೊಠಡಿಯಿಂದ ನಿರ್ಗಮಿಸಿದ್ದಾರೆ",
+      "removedAllItems": "ಎಲ್ಲಾ ವಸ್ತುಗಳನ್ನು ತೆಗೆದುಹಾಕಲಾಗಿದೆ"
+    },
+    "modificationPresets": {
+      "unavailable": "ಕೆಲವು ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ",
+      "guestRequest": "ಅತಿಥಿಯ ವಿನಂತಿಯಂತೆ ಬದಲಾಯಿಸಲಾಗಿದೆ",
+      "alternative": "ಪರ್ಯಾಯ ವಸ್ತು ನೀಡಲಾಗಿದೆ"
+    }
   },
   "help": {
     "title": "ಸಹಾಯ ಕೇಂದ್ರ",

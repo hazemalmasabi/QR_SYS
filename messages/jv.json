@@ -411,7 +411,27 @@
     "orderCreated": "Pesenan Digawe",
     "orderAccepted": "Pesenan Ditampa",
     "orderCompleted": "Pesenan Rampung",
-    "orderCancelled": "Pesenan Dibatalake"
+    "orderCancelled": "Pesenan Dibatalake",
+    "underModification": "Lagi Diowahi",
+    "editOrder": "Ganti Pesenan",
+    "saveChanges": "Simpen",
+    "cancelEdit": "Batal",
+    "modificationReason": "Alasan Ngowahi",
+    "modificationReasonRequired": "Alasan kudu ana",
+    "modificationReasonPlaceholder": "Tulis alasan...",
+    "forceUnlock": "Peksa Bukak",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Tolong konfirmasi owahan iki:",
+    "itemRemoved": "Dibusak",
+    "itemAdded": "Ditambah",
+    "was": "biyèné",
+    "became": "dadi",
+    "emptyOrderWarning": "Pesenan saiki kothong lan arep dibatalake. Terus?",
+    "continueEdit": "Terusake ngowahi",
+    "autoCancelledTimeout": "Batal otomatis: Wektu entek",
+    "guestCancelled": "Dibatalake tamu",
+    "modifiedByGuest": "Diobahi dening Tamu",
+    "cancelledSuccess": "Pesanan kasil dibatalke"
   },
   "services": {
     "title": "Layanan Utama",
@@ -495,14 +515,35 @@
     "noRooms": "Ora ana kamar sing ditemokake",
     "notes": "Cathetan",
     "roomLabel": "Kamar",
-    "exportAllPdf": "Ekspor Kabeh (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "Jembar Ukuran Ekspor QR",
     "sizeHelpText": "Selarasake ukuran QR sing diekspor ing sentimeter supaya cocog karo cithakan tata letak, cithakan akrilik, utawa cithakan lawang.",
     "cm": "cm",
     "downloadPdf": "Unduh PDF",
     "bulkDownloadInfo": "Sampeyan arep ngekspor kode QR kanggo {count} kamar.",
     "previewingFirstRoom": "Ndeleng pratinjau kamar pisanan",
-    "printWarning": "Penting: Kanggo ukuran akurat, priksa manawa opsi 'Fit to paper' dipilih ing dialog cetak browser sampeyan. Yen ukurane salah, cobanen nyithak saka browser liyane kayata Microsoft Edge."
+    "printWarning": "Penting: Kanggo ukuran akurat, priksa manawa opsi 'Fit to paper' dipilih ing dialog cetak browser sampeyan. Yen ukurane salah, cobanen nyithak saka browser liyane kayata Microsoft Edge.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "Karyawan",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Mangga pilih alesan kanggo mbatalake",
     "selectCancelReason": "Pilih alesan:",
-    "otherReason": "✏️ Liyane (Isi alesan)",
+    "otherReason": "Liyane",
     "typeReasonPlaceholder": "Isi alesan batal...",
-    "presets": [
-      "Tamu ngganti pikiran lan mbatalake",
-      "Item sing dijaluk ora kasedhiya saiki",
-      "Tamu mbatalake amarga wektu nunggu sing lama",
-      "Pesenan ora sengaja digawe",
-      "Tamu wis checkout"
-    ]
+    "presets": {
+      "changedMind": "Tamu ngganti pikiran lan mbatalake",
+      "itemUnavailable": "Item sing dijaluk ora kasedhiya saiki",
+      "longWait": "Tamu mbatalake amarga wektu nunggu sing lama",
+      "mistake": "Pesenan ora sengaja digawe",
+      "leftRoom": "Tamu wis checkout",
+      "removedAllItems": "Kabeh barang dibusak"
+    },
+    "modificationPresets": {
+      "unavailable": "Sawetara barang ora ana",
+      "guestRequest": "Disesuaikan panjaluk tamu",
+      "alternative": "Barang ganti disediakake"
+    }
   },
   "help": {
     "title": "Pusat Bantuan",

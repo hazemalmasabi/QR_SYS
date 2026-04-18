@@ -411,7 +411,27 @@
     "orderCreated": "Order Created",
     "orderAccepted": "Order Accepted",
     "orderCompleted": "Order Completed",
-    "orderCancelled": "Order Cancelled"
+    "orderCancelled": "Order Cancelled",
+    "underModification": "Under Modification",
+    "editOrder": "Edit Order",
+    "saveChanges": "Save Changes",
+    "cancelEdit": "Cancel Edit",
+    "modificationReason": "Modification Reason",
+    "modificationReasonRequired": "Modification reason is required",
+    "modificationReasonPlaceholder": "Enter the reason for modification...",
+    "forceUnlock": "Force Unlock",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Please confirm the following changes to your order:",
+    "itemRemoved": "Removed",
+    "itemAdded": "Added",
+    "was": "was",
+    "became": "became",
+    "emptyOrderWarning": "The order is now empty. This will cancel the order completely. Continue?",
+    "continueEdit": "Continue Editing",
+    "autoCancelledTimeout": "Auto-cancelled: Modification timeout",
+    "guestCancelled": "Cancelled by Guest",
+    "modifiedByGuest": "Modified by Guest",
+    "cancelledSuccess": "Order cancelled successfully"
   },
   "services": {
     "title": "Main Services",
@@ -495,14 +515,35 @@
     "noRooms": "No rooms found",
     "notes": "Notes",
     "roomLabel": "Room",
-    "exportAllPdf": "Export All (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR Export Size Width",
     "sizeHelpText": "Adjust the exported QR size in centimeters to fit your print layouts, acrylic stands, or door templates.",
     "cm": "cm",
     "downloadPdf": "Download PDF",
     "bulkDownloadInfo": "You are about to export QR codes for {count} rooms.",
     "previewingFirstRoom": "Previewing first room",
-    "printWarning": "Important: For accurate sizing, ensure 'Fit to printable area' or 'Fit to paper' scaling is selected in your browser's print dialog (e.g. Chrome). If sizes print incorrectly, try printing the PDF via Microsoft Edge or Acrobat."
+    "printWarning": "Important: For accurate sizing, ensure 'Fit to printable area' or 'Fit to paper' scaling is selected in your browser's print dialog (e.g. Chrome). If sizes print incorrectly, try printing the PDF via Microsoft Edge or Acrobat.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "Employees",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Please select a cancellation reason",
     "selectCancelReason": "Select a cancellation reason:",
-    "otherReason": "✏️ Other (type reason)",
+    "otherReason": "Other",
     "typeReasonPlaceholder": "Type cancellation reason...",
-    "presets": [
-      "Guest changed their mind and cancelled",
-      "Requested item is currently unavailable",
-      "Guest cancelled due to long wait time",
-      "Order placed by mistake",
-      "Guest has left the room"
-    ]
+    "presets": {
+      "changedMind": "Guest changed their mind and cancelled",
+      "itemUnavailable": "Requested item is currently unavailable",
+      "longWait": "Guest cancelled due to long wait time",
+      "mistake": "Order placed by mistake",
+      "leftRoom": "Guest has left the room",
+      "removedAllItems": "Removed all items"
+    },
+    "modificationPresets": {
+      "unavailable": "Some items are unavailable",
+      "guestRequest": "Adjusted per guest request",
+      "alternative": "Alternative item provided"
+    }
   },
   "help": {
     "title": "Help Center",

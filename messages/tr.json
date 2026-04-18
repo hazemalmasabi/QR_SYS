@@ -411,7 +411,27 @@
     "orderCreated": "Sipariş Oluşturuldu",
     "orderAccepted": "Sipariş Kabul Edildi",
     "orderCompleted": "Sipariş Tamamlandı",
-    "orderCancelled": "Sipariş İptal Edildi"
+    "orderCancelled": "Sipariş İptal Edildi",
+    "underModification": "Değişiklik Aşamasında",
+    "editOrder": "Siparişi Düzenle",
+    "saveChanges": "Kaydet",
+    "cancelEdit": "İptal",
+    "modificationReason": "Değişiklik Nedeni",
+    "modificationReasonRequired": "Neden gerekli",
+    "modificationReasonPlaceholder": "Nedeni girin...",
+    "forceUnlock": "Zorla Aç",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Değişiklikleri onaylayın:",
+    "itemRemoved": "Kaldırıldı",
+    "itemAdded": "Eklendi",
+    "was": "önceki",
+    "became": "sonraki",
+    "emptyOrderWarning": "Sipariş boş ve iptal edilecek. Devam edilsin mi?",
+    "continueEdit": "Düzenlemeye devam et",
+    "autoCancelledTimeout": "Oto-iptal: Zaman aşımı",
+    "guestCancelled": "Misafir iptal etti",
+    "modifiedByGuest": "Misafir tarafından düzeltildi",
+    "cancelledSuccess": "Sipariş başarıyla iptal edildi"
   },
   "services": {
     "title": "Ana Hizmetler",
@@ -495,14 +515,35 @@
     "noRooms": "Oda bulunamadı",
     "notes": "Notlar",
     "roomLabel": "Oda",
-    "exportAllPdf": "Tümünü Dışa Aktar (PDF)",
+    "exportAllPdf": "Tüm QR Kodlarını Dışa Aktar",
     "qrExportSize": "QR Dışa Aktarma Boyutu Genişliği",
     "sizeHelpText": "Dışa aktarılan QR boyutunu baskı düzenlerinize, akrilik stantlarınıza veya kapı şablonlarına uyacak şekilde santimetre cinsinden ayarlayın.",
     "cm": "cm",
     "downloadPdf": "PDF İndir",
     "bulkDownloadInfo": "{count} oda için QR kodlarını dışa aktarmak üzeresiniz.",
     "previewingFirstRoom": "İlk oda önizleniyor",
-    "printWarning": "Önemli: Doğru boyutlandırma için, tarayıcınızın yazdırma iletişim kutusunda (ör. Chrome) 'Sayfaya sığdır' ölçekleme seçeneğinin seçili olduğundan emin olun. Boyutlar yanlışsa Microsoft Edge üzerinden yazdırmayı deneyin."
+    "printWarning": "Önemli: Doğru boyutlandırma için, tarayıcınızın yazdırma iletişim kutusunda (ör. Chrome) 'Sayfaya sığdır' ölçekleme seçeneğinin seçili olduğundan emin olun. Boyutlar yanlışsa Microsoft Edge üzerinden yazdırmayı deneyin.",
+    "deleteAllBtn": "Tümünü Sil",
+    "importRoomsBtn": "Odaları İçe Aktar",
+    "importTitle1": "Dosyadan Odaları İçe Aktar",
+    "importTitle2": "İncele ve Onayla ({count} oda)",
+    "importFormatInstTitle": "Dosya Formatı Talimatları (Excel / CSV)",
+    "importFormatInstDesc": "Dosya aşağıdaki sütunları sırasıyla içermelidir (A, B, C):",
+    "importCol1": "Birinci Sütun (A): Oda numarası veya adı (zorunlu).",
+    "importCol2": "İkinci Sütun (B): Kat numarası (isteğe bağlı, yalnızca sayılar).",
+    "importCol3": "Üçüncü Sütun (C): Ek notlar (isteğe bağlı).",
+    "hasHeadersToggle": "Dosya başlık satırı içeriyor (yok sayılacak)",
+    "uploadBtnTxt": "Dosyayı (Excel / CSV) seçin veya sürükleyin",
+    "uploadHint": "Format yukarıdaki talimatlara uymalıdır",
+    "foundValidRooms": "Dosyada {count} geçerli oda bulundu.",
+    "otherRoomsCount": "... {count} diğer oda ...",
+    "importRoomTypeLabel": "İçe aktarılan oda türünü seçin",
+    "confirmImportBtn": "İçe Aktarmayı Onayla",
+    "deleteAllTitle": "Tüm Odaların Silinmesini Onayla",
+    "deleteAllDesc1": "Bu otel için tüm odaları silmek istediğinizden emin misiniz?",
+    "deleteAllDesc2": "Tüm oda QR rotaları devre dışı bırakılacak ve silinecek. Bu işlem geri alınamaz.",
+    "yesDeleteAll": "Evet, Tümünü Sil",
+    "allDuplicatesOrInvalid": "Tüm odalar ya kopya ya da geçersiz"
   },
   "employees": {
     "title": "Personel",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Lütfen bir iptal nedeni seçin",
     "selectCancelReason": "Neden seçin:",
-    "otherReason": "✏️ Diğer (Kendiniz Yazın)",
+    "otherReason": "Diğer",
     "typeReasonPlaceholder": "Nedeni buraya yazın...",
-    "presets": [
-      "Misafir kararını değiştirdi",
-      "Talep edilen ürün mevcut değil",
-      "Bekleme süresi çok uzun",
-      "Sipariş yanlışlıkla verildi",
-      "Misafir otelden ayrıldı (Checked-out)"
-    ]
+    "presets": {
+      "changedMind": "Misafir kararını değiştirdi",
+      "itemUnavailable": "Talep edilen ürün mevcut değil",
+      "longWait": "Bekleme süresi çok uzun",
+      "mistake": "Sipariş yanlışlıkla verildi",
+      "leftRoom": "Misafir otelden ayrıldı (Checked-out)",
+      "removedAllItems": "Tüm ürünler çıkarıldı"
+    },
+    "modificationPresets": {
+      "unavailable": "Bazı ürünler yok",
+      "guestRequest": "Misafir isteğine göre uyarlandı",
+      "alternative": "Alternatif sağlandı"
+    }
   },
   "help": {
     "title": "Yardım Merkezi",

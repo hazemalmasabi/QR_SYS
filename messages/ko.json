@@ -411,7 +411,27 @@
     "orderCreated": "주문 생성됨",
     "orderAccepted": "주문 접수됨",
     "orderCompleted": "주문 완료됨",
-    "orderCancelled": "주문 취소됨"
+    "orderCancelled": "주문 취소됨",
+    "underModification": "수정 중",
+    "editOrder": "주문 수정",
+    "saveChanges": "저장",
+    "cancelEdit": "취소",
+    "modificationReason": "수정 이유",
+    "modificationReasonRequired": "이유 필수",
+    "modificationReasonPlaceholder": "이유 입력...",
+    "forceUnlock": "강제 잠금 해제",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "다음 변경 사항을 확인하십시오:",
+    "itemRemoved": "제거됨",
+    "itemAdded": "추가됨",
+    "was": "이전",
+    "became": "이후",
+    "emptyOrderWarning": "주문이 비어 취소됩니다. 진행하시겠습니까?",
+    "continueEdit": "계속 편집하기",
+    "autoCancelledTimeout": "자동 취소: 수정 시간 초과",
+    "guestCancelled": "투숙객이 취소함",
+    "modifiedByGuest": "고객에 의해 수정됨",
+    "cancelledSuccess": "주문이 성공적으로 취소되었습니다"
   },
   "services": {
     "title": "주요 서비스",
@@ -495,14 +515,35 @@
     "noRooms": "객실을 찾을 수 없습니다",
     "notes": "메모",
     "roomLabel": "객실",
-    "exportAllPdf": "모두 내보내기 (PDF)",
+    "exportAllPdf": "모든 QR 코드 내보내기",
     "qrExportSize": "QR 내보내기 크기 너비",
     "sizeHelpText": "인쇄 레이아웃, 아크릴 스탠드 또는 도어 템플릿에 맞게 내보낼 QR 크기를 센티미터 단위로 조정하세요.",
     "cm": "cm",
     "downloadPdf": "PDF 다운로드",
     "bulkDownloadInfo": "{count}개 객실의 QR 코드를 내보내려고 합니다.",
     "previewingFirstRoom": "첫 번째 객실 미리보기",
-    "printWarning": "중요: 정확한 크기를 위해 브라우저의 인쇄 대화 상자(예: Chrome)에서 '용지에 맞춤'이 선택되어 있는지 확인하세요. 크기가 잘못 출력되면 Microsoft Edge나 Acrobat을 통해 인쇄해 보세요."
+    "printWarning": "중요: 정확한 크기를 위해 브라우저의 인쇄 대화 상자(예: Chrome)에서 '용지에 맞춤'이 선택되어 있는지 확인하세요. 크기가 잘못 출력되면 Microsoft Edge나 Acrobat을 통해 인쇄해 보세요.",
+    "deleteAllBtn": "모두 삭제",
+    "importRoomsBtn": "객실 가져오기",
+    "importTitle1": "파일에서 객실 가져오기",
+    "importTitle2": "확인 및 검토 ({count} 개 객실)",
+    "importFormatInstTitle": "파일 형식 요구 사항 (Excel / CSV)",
+    "importFormatInstDesc": "파일은 다음 열을 순서대로 포함해야 합니다 (A, B, C):",
+    "importCol1": "첫 번째 열 (A): 객실 번호 또는 이름 (필수).",
+    "importCol2": "두 번째 열 (B): 층수 (선택, 숫자만).",
+    "importCol3": "세 번째 열 (C): 추가 참고 (선택).",
+    "hasHeadersToggle": "파일에 헤더 행이 포함되어 있습니다 (무시됨)",
+    "uploadBtnTxt": "파일(Excel / CSV) 선택 또는 드래그",
+    "uploadHint": "형식은 요구 사항과 일치해야 합니다",
+    "foundValidRooms": "{count} 개의 요효한 객실을 찾았습니다.",
+    "otherRoomsCount": "... 외 {count} 객실 ...",
+    "importRoomTypeLabel": "가져올 객실 유형 선택",
+    "confirmImportBtn": "가져오기 확인",
+    "deleteAllTitle": "모든 객실 삭제 확인",
+    "deleteAllDesc1": "이 호텔의 모든 객실을 삭제하시겠습니까?",
+    "deleteAllDesc2": "모든 객실의 QR 경로는 비활성화되고 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+    "yesDeleteAll": "네, 모두 삭제합니다",
+    "allDuplicatesOrInvalid": "모든 객실이 중복되었거나 유효하지 않습니다"
   },
   "employees": {
     "title": "직원",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "취소 사유를 선택해 주세요",
     "selectCancelReason": "사유 선택:",
-    "otherReason": "✏️ 기타(직접 입력)",
+    "otherReason": "기타",
     "typeReasonPlaceholder": "취소 사유 입력...",
-    "presets": [
-      "게스트가 변심하여 취소함",
-      "요청한 품목이 현재 준비되지 않음",
-      "게스트가 대기 시간이 길어 취소함",
-      "실수로 주문함",
-      "게스트가 이미 체크아웃함"
-    ]
+    "presets": {
+      "changedMind": "게스트가 변심하여 취소함",
+      "itemUnavailable": "요청한 품목이 현재 준비되지 않음",
+      "longWait": "게스트가 대기 시간이 길어 취소함",
+      "mistake": "실수로 주문함",
+      "leftRoom": "게스트가 이미 체크아웃함",
+      "removedAllItems": "모든 항목이 삭제되었습니다"
+    },
+    "modificationPresets": {
+      "unavailable": "일부 품목 부족",
+      "guestRequest": "고객 요청에 따라 변경됨",
+      "alternative": "대체 품목 제공됨"
+    }
   },
   "help": {
     "title": "도움말 센터",

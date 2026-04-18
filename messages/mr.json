@@ -411,7 +411,27 @@
     "orderCreated": "ऑर्डर तयार केली",
     "orderAccepted": "ऑर्डर स्वीकारली",
     "orderCompleted": "ऑर्डर पूर्ण झाली",
-    "orderCancelled": "ऑर्डर रद्द केली"
+    "orderCancelled": "ऑर्डर रद्द केली",
+    "underModification": "बदल होत आहेत",
+    "editOrder": "ऑर्डर संपादित करा",
+    "saveChanges": "जतन करा",
+    "cancelEdit": "रद्द करा",
+    "modificationReason": "बदलाचे कारण",
+    "modificationReasonRequired": "कारण आवश्यक आहे",
+    "modificationReasonPlaceholder": "कारण प्रविष्ट करा...",
+    "forceUnlock": "सक्तीचे अनलॉक करा",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "कृपया बदलांची पुष्टी करा:",
+    "itemRemoved": "काढले",
+    "itemAdded": "जोडले",
+    "was": "होते",
+    "became": "झाले",
+    "emptyOrderWarning": "ऑर्डर रिकामी आहे आणि ती रद्द होईल. पुढे जायचे?",
+    "continueEdit": "संपादन चालू ठेवा",
+    "autoCancelledTimeout": "स्वयंचलित रद्द: वेळ संपली",
+    "guestCancelled": "अतिथीने रद्द केले",
+    "modifiedByGuest": "पाहुण्याद्वारे सुधारित",
+    "cancelledSuccess": "ऑर्डर यशस्वीरित्या रद्द केली"
   },
   "services": {
     "title": "मुख्य सेवा",
@@ -495,14 +515,35 @@
     "noRooms": "खोल्या सापडल्या नाहीत",
     "notes": "टीपा",
     "roomLabel": "खोली",
-    "exportAllPdf": "सर्व एक्सपोर्ट करा (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR एक्सपोर्ट आकार रुंदी",
     "sizeHelpText": "तुमचे प्रिंट लेआउट, ॲक्रेलिक स्टँड किंवा दरवाजाच्या टेम्प्लेटमध्ये बसण्यासाठी एक्सपोर्ट केलेल्या QR चा आकार सेंटीमीटरमध्ये समायोजित करा.",
     "cm": "सेमी",
     "downloadPdf": "PDF डाउनलोड करा",
     "bulkDownloadInfo": "तुम्ही {count} खोल्यांसाठी QR कोड एक्सपोर्ट करणार आहात.",
     "previewingFirstRoom": "पहिल्या खोलीचे पूर्वावलोकन करत आहे",
-    "printWarning": "महत्त्वाचे: अचूक आकारासाठी, तुमच्या ब्राउझरच्या (उदा. क्रोम) प्रिंट डायलॉगमध्ये 'Fit to paper' निवडल्याची खात्री करा. आकार चुकीचे असल्यास, Microsoft Edge किंवा Acrobat द्वारे मुद्रित करण्याचा प्रयत्न करा."
+    "printWarning": "महत्त्वाचे: अचूक आकारासाठी, तुमच्या ब्राउझरच्या (उदा. क्रोम) प्रिंट डायलॉगमध्ये 'Fit to paper' निवडल्याची खात्री करा. आकार चुकीचे असल्यास, Microsoft Edge किंवा Acrobat द्वारे मुद्रित करण्याचा प्रयत्न करा.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "कर्मचारी",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "कृपया रद्द करण्याचे एक कारण निवडा",
     "selectCancelReason": "कारण निवडा:",
-    "otherReason": "✏️ इतर (स्वतः लिहा)",
+    "otherReason": "इतर",
     "typeReasonPlaceholder": "कारणाचे नाव लिहा...",
-    "presets": [
-      "पाहुण्याने मन बदलले आणि ऑर्डर रद्द केली",
-      "विचालेली वस्तू सध्या उपलब्ध नाही",
-      "प्रतीक्षा वेळ जास्त असल्यामुळे रद्द केली",
-      "ऑर्डर चुकून दिली गेली",
-      "पाहुण्याने आधीच हॉटेल सोडले (Check-out)"
-    ]
+    "presets": {
+      "changedMind": "पाहुण्याने मन बदलले आणि ऑर्डर रद्द केली",
+      "itemUnavailable": "विचालेली वस्तू सध्या उपलब्ध नाही",
+      "longWait": "प्रतीक्षा वेळ जास्त असल्यामुळे रद्द केली",
+      "mistake": "ऑर्डर चुकून दिली गेली",
+      "leftRoom": "पाहुण्याने आधीच हॉटेल सोडले (Check-out)",
+      "removedAllItems": "सर्व आयटम काढून टाकले"
+    },
+    "modificationPresets": {
+      "unavailable": "काही वस्तू उपलब्ध नाहीत",
+      "guestRequest": "अतिथीच्या विनंतीनुसार समायोजित केले",
+      "alternative": "पर्यायी वस्तू दिली"
+    }
   },
   "help": {
     "title": "मदत केंद्र",

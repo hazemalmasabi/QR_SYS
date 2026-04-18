@@ -411,7 +411,27 @@
     "orderCreated": "Commande Créée",
     "orderAccepted": "Commande Acceptée",
     "orderCompleted": "Commande Terminée",
-    "orderCancelled": "Commande Annulée"
+    "orderCancelled": "Commande Annulée",
+    "underModification": "En cours de modification",
+    "editOrder": "Modifier la commande",
+    "saveChanges": "Enregistrer les modifications",
+    "cancelEdit": "Annuler",
+    "modificationReason": "Motif de modification",
+    "modificationReasonRequired": "Le motif de modification est requis",
+    "modificationReasonPlaceholder": "Entrez le motif...",
+    "forceUnlock": "Forcer le déverrouillage",
+    "confirmDeleteZero": "La quantité de l'article est zéro. Cela le supprimera. Continuer ?",
+    "confirmModificationChanges": "Veuillez confirmer les modifications :",
+    "itemRemoved": "Supprimé",
+    "itemAdded": "Ajouté",
+    "was": "était",
+    "became": "est devenu",
+    "emptyOrderWarning": "La commande est vide, elle sera annulée. Continuer ?",
+    "continueEdit": "Continuer la modification",
+    "autoCancelledTimeout": "Annulé : délai dépassé",
+    "guestCancelled": "Annulé par le client",
+    "modifiedByGuest": "Modifié par le client",
+    "cancelledSuccess": "Commande annulée avec succès"
   },
   "services": {
     "title": "Services Principaux",
@@ -495,14 +515,35 @@
     "noRooms": "Aucune chambre trouvée",
     "notes": "Notes",
     "roomLabel": "Chambre",
-    "exportAllPdf": "Tout exporter (PDF)",
+    "exportAllPdf": "Exporter tous les codes QR",
     "qrExportSize": "Largeur de taille d'exportation QR",
     "sizeHelpText": "Ajustez la taille du code QR exporté en centimètres pour l'adapter à vos maquettes d'impression, présentoirs en acrylique ou modèles de porte.",
     "cm": "cm",
     "downloadPdf": "Télécharger PDF",
     "bulkDownloadInfo": "Vous êtes sur le point d'exporter des codes QR pour {count} chambres.",
     "previewingFirstRoom": "Aperçu de la première chambre",
-    "printWarning": "Important: Pour un dimensionnement précis, assurez-vous que l'option 'Ajuster au papier' est sélectionnée dans la boîte de dialogue d'impression de votre navigateur. Si les tailles sont incorrectes, essayez d'imprimer via Microsoft Edge."
+    "printWarning": "Important: Pour un dimensionnement précis, assurez-vous que l'option 'Ajuster au papier' est sélectionnée dans la boîte de dialogue d'impression de votre navigateur. Si les tailles sont incorrectes, essayez d'imprimer via Microsoft Edge.",
+    "deleteAllBtn": "Tout supprimer",
+    "importRoomsBtn": "Importer des chambres",
+    "importTitle1": "Importer des chambres à partir d'un fichier",
+    "importTitle2": "Vérifier et confirmer ({count} chambres)",
+    "importFormatInstTitle": "Instructions de format (Excel / CSV)",
+    "importFormatInstDesc": "Le fichier doit contenir les colonnes suivantes dans l'ordre (A, B, C):",
+    "importCol1": "Première colonne (A): Numéro ou nom (requis).",
+    "importCol2": "Deuxième colonne (B): Étage (optionnel, chiffres uniquement).",
+    "importCol3": "Troisième colonne (C): Notes supplémentaires (optionnel).",
+    "hasHeadersToggle": "Le fichier contient des en-têtes (sera ignoré)",
+    "uploadBtnTxt": "Sélectionnez ou glissez un fichier (Excel/CSV)",
+    "uploadHint": "Le format doit correspondre aux instructions",
+    "foundValidRooms": "Trouvé {count} chambres valides.",
+    "otherRoomsCount": "... {count} autres chambres ...",
+    "importRoomTypeLabel": "Sélectionner le type de chambre importé",
+    "confirmImportBtn": "Confirmer l'importation",
+    "deleteAllTitle": "Confirmer la suppression de toutes les chambres",
+    "deleteAllDesc1": "Êtes-vous sûr de vouloir supprimer toutes les chambres de cet hôtel ?",
+    "deleteAllDesc2": "Tous les QR codes des chambres seront désactivés et supprimés. Cette action est irréversible.",
+    "yesDeleteAll": "Oui, tout supprimer",
+    "allDuplicatesOrInvalid": "Toutes les chambres sont en double ou invalides"
   },
   "employees": {
     "title": "Employés",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Veuillez sélectionner un motif d'annulation",
     "selectCancelReason": "Sélectionnez un motif d'annulation:",
-    "otherReason": "✏️ Autre (saisir le motif)",
+    "otherReason": "Autre",
     "typeReasonPlaceholder": "Saisissez le motif d'annulation...",
-    "presets": [
-      "Le client a changé d'avis et a annulé",
-      "L'article demandé est actuellement indisponible",
-      "Le client a annulé en raison d'un long temps d'attente",
-      "Commande passée par erreur",
-      "Le client a quitté la chambre"
-    ]
+    "presets": {
+      "changedMind": "Le client a changé d'avis et a annulé",
+      "itemUnavailable": "L'article demandé est actuellement indisponible",
+      "longWait": "Le client a annulé en raison d'un long temps d'attente",
+      "mistake": "Commande passée par erreur",
+      "leftRoom": "Le client a quitté la chambre",
+      "removedAllItems": "Tous les articles supprimés"
+    },
+    "modificationPresets": {
+      "unavailable": "Certains articles indisponibles",
+      "guestRequest": "Ajusté à la demande du client",
+      "alternative": "Article de remplacement fourni"
+    }
   },
   "help": {
     "title": "Centre d'Aide",

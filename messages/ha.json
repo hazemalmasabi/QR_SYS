@@ -411,7 +411,27 @@
     "orderCreated": "An ƙirƙiri Oda",
     "orderAccepted": "An karɓi Oda",
     "orderCompleted": "An kammala Oda",
-    "orderCancelled": "An soke Oda"
+    "orderCancelled": "An soke Oda",
+    "underModification": "Ana Gyarawa",
+    "editOrder": "Shirya Oda",
+    "saveChanges": "Ajiye Canje-canje",
+    "cancelEdit": "Cancel Edit",
+    "modificationReason": "Dalilin Gyarawa",
+    "modificationReasonRequired": "Ana buƙatar dalili",
+    "modificationReasonPlaceholder": "Shigar da dalili...",
+    "forceUnlock": "Bude Katanga",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Da fatan za a tabbatar da canje-canje:",
+    "itemRemoved": "An cire",
+    "itemAdded": "An ƙara",
+    "was": "ya kasance",
+    "became": "ya zama",
+    "emptyOrderWarning": "Oda fanko ce sannan za a soke ta. Ci gaba?",
+    "continueEdit": "Ci gaba da gyara",
+    "autoCancelledTimeout": "Soke ta kansa: Lokaci ya ƙare",
+    "guestCancelled": "Bako ya soke",
+    "modifiedByGuest": "Bako ya canza",
+    "cancelledSuccess": "An soke oda cikin nasara"
   },
   "services": {
     "title": "Babban Sabis",
@@ -495,14 +515,35 @@
     "noRooms": "Ba a sami ɗakuna ba",
     "notes": "Bayani",
     "roomLabel": "Daki",
-    "exportAllPdf": "Fitarwa Gaba ɗaya (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "Fadin Girman Fitarwar QR",
     "cm": "cm",
     "downloadPdf": "Sauke PDF",
     "bulkDownloadInfo": "Kuna gab da fitarwa da lambobin QR na ɗakuna {count}.",
     "previewingFirstRoom": "Yin samfoti na ɗakin farko",
     "sizeHelpText": "Canzawa girman QR da aka fitarwa a santimita don dacewa da kwafin bugunku, tsayawar acrylic, ko alamomin ƙofa.",
-    "printWarning": "Muhimmi: Domin samun girman daidai, tabbatar an zabi tsarin 'Fit to paper' a wajen bugun takarda a Chrome. Idan bai yi daidai ba, yi kokarin amfani da Microsoft Edge."
+    "printWarning": "Muhimmi: Domin samun girman daidai, tabbatar an zabi tsarin 'Fit to paper' a wajen bugun takarda a Chrome. Idan bai yi daidai ba, yi kokarin amfani da Microsoft Edge.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "Ma'aikata",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Da fatan za a zaɓi dalilin sokewa",
     "selectCancelReason": "Zaɓi dalili:",
-    "otherReason": "✏️ Wasu (Rubuta shi)",
+    "otherReason": "Wani abu kuma",
     "typeReasonPlaceholder": "Rubuta dalili a nan...",
-    "presets": [
-      "Bako ya canza shawara",
-      "Abun da aka nema babu shi",
-      "Lokacin jira yayi yawa",
-      "An yi oda bisa kuskure",
-      "Bako ya riga ya fita daga otal (Checked-out)"
-    ]
+    "presets": {
+      "changedMind": "Bako ya canza shawara",
+      "itemUnavailable": "Abun da aka nema babu shi",
+      "longWait": "Lokacin jira yayi yawa",
+      "mistake": "An yi oda bisa kuskure",
+      "leftRoom": "Bako ya riga ya fita daga otal (Checked-out)",
+      "removedAllItems": "An cire duk abubuwa"
+    },
+    "modificationPresets": {
+      "unavailable": "Wasu abubuwa ba sa nan",
+      "guestRequest": "An daidaita kamar yadda bako ya nema",
+      "alternative": "An bayar da madadin abu"
+    }
   },
   "help": {
     "title": "Cibiyar Taimako",

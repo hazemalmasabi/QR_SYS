@@ -411,7 +411,27 @@
     "orderCreated": "ఆర్డర్ సృష్టించబడింది",
     "orderAccepted": "ఆర్డర్ అంగీకరించబడింది",
     "orderCompleted": "ఆర్డర్ పూర్తయింది",
-    "orderCancelled": "ఆర్డర్ రద్దు చేయబడింది"
+    "orderCancelled": "ఆర్డర్ రద్దు చేయబడింది",
+    "underModification": "సవరణలో ఉంది",
+    "editOrder": "ఆర్డర్ ఎడిట్ చేయండి",
+    "saveChanges": "సేవ్ చేయండి",
+    "cancelEdit": "రద్దు చేయండి",
+    "modificationReason": "కారణం",
+    "modificationReasonRequired": "కారణం అవసరం",
+    "modificationReasonPlaceholder": "కారణం ఎంటర్ చేయండి...",
+    "forceUnlock": "విప్పండి",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "దయచేసి సవరణలను ధృవీకరించండి:",
+    "itemRemoved": "తొలగించబడింది",
+    "itemAdded": "జోడించబడింది",
+    "was": "ఉంది",
+    "became": "అయింది",
+    "emptyOrderWarning": "ఆర్డర్ ఖాళీగా ఉంది, రద్దు చేయబడుతుంది. కొనసాగించాలా?",
+    "continueEdit": "సవరణను కొనసాగించండి",
+    "autoCancelledTimeout": "స్వయంచాలక రద్దు: సమయం ముగిసింది",
+    "guestCancelled": "అతిథి రద్దు చేశారు",
+    "modifiedByGuest": "అతిథి ద్వారా సవరించబడింది",
+    "cancelledSuccess": "ఆర్డర్ విజయవంతంగా రద్దు చేయబడింది"
   },
   "services": {
     "title": "ప్రధాన సేవలు",
@@ -495,14 +515,35 @@
     "noRooms": "గదులేవీ కనుగొనబడలేదు",
     "notes": "గమనికలు",
     "roomLabel": "గది",
-    "exportAllPdf": "అన్నీ ఎగుమతి చేయి (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR ఎగుమతి పరిమాణం వెడల్పు",
     "sizeHelpText": "మీ ప్రింట్ లేఅవుట్‌లు, యాక్రిలిక్ స్టాండ్‌లు లేదా డోర్ టెంప్లేట్‌లకు సరిపోయేలా ఎగుమతి చేసిన QR పరిమాణాన్ని సెంటీమీటర్లలో సర్దుబాటు చేయండి.",
     "cm": "సెం.మీ",
     "downloadPdf": "PDF డౌన్‌లోడ్ చేయి",
     "bulkDownloadInfo": "మీరు {count} గదుల కోసం QR కోడ్‌లను ఎగుమతి చేయబోతున్నారు.",
     "previewingFirstRoom": "మొదటి గదిని ప్రివ్యూ పరుస్తోంది",
-    "printWarning": "ముఖ్యమైనది: ఖచ్చితమైన పరిమాణాల కోసం దయచేసి Chrome వంటి బ్రౌజర్‌లో 'Fit to paper' అని ఎంచుకోండి. ఒకవేళ ప్రింట్ సరిగ్గా రాకుంటే, Microsoft Edge లేదా Acrobat ద్వారా ప్రయత్నించండి."
+    "printWarning": "ముఖ్యమైనది: ఖచ్చితమైన పరిమాణాల కోసం దయచేసి Chrome వంటి బ్రౌజర్‌లో 'Fit to paper' అని ఎంచుకోండి. ఒకవేళ ప్రింట్ సరిగ్గా రాకుంటే, Microsoft Edge లేదా Acrobat ద్వారా ప్రయత్నించండి.",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "ఉద్యోగులు",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "దయచేసి రద్దు చేయడానికి ఒక కారణాన్ని ఎంచుకోండి",
     "selectCancelReason": "కారణాన్ని ఎంచుకోండి:",
-    "otherReason": "✏️ ఇతర (కారణం నమోదు చేయండి)",
+    "otherReason": "ఇతర",
     "typeReasonPlaceholder": "రద్దు కారణం నమోదు చేయండి...",
-    "presets": [
-      "అతిథి తన మనసు మార్చుకుని రద్దు చేశారు",
-      "అడిగిన వస్తువు ప్రస్తుతం అందుబాటులో లేదు",
-      "వేచి ఉండే సమయం ఎక్కువైనందున అతిథి రద్దు చేశారు",
-      "ఆర్డర్ పొరపాటున ఇవ్వబడింది",
-      "అతిథి ఇప్పటికే చెక్ అవుట్ చేశారు"
-    ]
+    "presets": {
+      "changedMind": "అతిథి తన మనసు మార్చుకుని రద్దు చేశారు",
+      "itemUnavailable": "అడిగిన వస్తువు ప్రస్తుతం అందుబాటులో లేదు",
+      "longWait": "వేచి ఉండే సమయం ఎక్కువైనందున అతిథి రద్దు చేశారు",
+      "mistake": "ఆర్డర్ పొరపాటున ఇవ్వబడింది",
+      "leftRoom": "అతిథి ఇప్పటికే చెక్ అవుట్ చేశారు",
+      "removedAllItems": "అన్ని అంశాలు తొలగించబడ్డాయి"
+    },
+    "modificationPresets": {
+      "unavailable": "కొన్ని వస్తువులు అందుబాటులో లేవు",
+      "guestRequest": "లాడ్జిలోని వారి అభ్యర్థన మేరకు సవరించబడింది",
+      "alternative": "ప్రత్యామ్నాయం అందించబడింది"
+    }
   },
   "help": {
     "title": "సహాయ కేంద్రం",

@@ -209,13 +209,30 @@ export async function GET(
       )
     }
 
-    // Fetch active orders (new, in_progress)
+    // Passive cleanup: cancel orders stuck in 'under_modification' for > 10 mins
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString()
+    try {
+      await supabaseAdmin
+        .from('orders')
+        .update({ 
+          status: 'cancelled', 
+          cancellation_reason: 'autoCancelledTimeout',
+          cancelled_at: new Date().toISOString()
+        })
+        .eq('status', 'under_modification')
+        .lt('updated_at', tenMinutesAgo)
+    } catch (cleanupError) {
+      console.error('Passive cleanup error:', cleanupError)
+      // We continue even if cleanup fails to avoid blocking the guest
+    }
+
+    // Fetch active orders (new, in_progress, under_modification)
     const { data: activeOrders, error: activeError } = await supabaseAdmin
       .from('orders')
       .select('*, main_services(service_name)')
       .eq('room_id', mapping.room_id)
       .eq('hotel_id', mapping.hotel_id)
-      .in('status', ['new', 'in_progress'])
+      .in('status', ['new', 'in_progress', 'under_modification'])
       .order('created_at', { ascending: false })
 
     if (activeError) {

@@ -24,7 +24,7 @@ interface OrderRow {
   order_items: { item_id: string; item_name: { ar: string; en: string }; quantity: number; unit_price: number; total: number }[]
   total_amount: number
   currency_code: string
-  status: 'new' | 'in_progress' | 'completed' | 'cancelled'
+  status: 'new' | 'under_modification' | 'in_progress' | 'completed' | 'cancelled'
   created_at: string
   rooms: { room_number: string }
   main_services: { service_name: { ar: string; en: string } }
@@ -35,10 +35,11 @@ interface ServiceOption {
   service_name: { ar: string; en: string }
 }
 
-const STATUS_TABS = ['all', 'new', 'in_progress', 'completed', 'cancelled'] as const
+const STATUS_TABS = ['all', 'new', 'under_modification', 'in_progress', 'completed', 'cancelled'] as const
 
 const BADGE_CLASS: Record<string, string> = {
   new: 'badge-new',
+  under_modification: 'badge-under-modification',
   in_progress: 'badge-progress',
   completed: 'badge-completed',
   cancelled: 'badge-cancelled',
@@ -46,6 +47,7 @@ const BADGE_CLASS: Record<string, string> = {
 
 const STATUS_LABEL_KEY: Record<string, string> = {
   new: 'new',
+  under_modification: 'underModification',
   in_progress: 'inProgress',
   completed: 'completed',
   cancelled: 'cancelled',

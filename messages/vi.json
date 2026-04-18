@@ -411,7 +411,27 @@
     "orderCreated": "Đơn hàng đã được tạo",
     "orderAccepted": "Đơn hàng đã được tiếp nhận",
     "orderCompleted": "Đơn hàng đã hoàn thành",
-    "orderCancelled": "Đơn hàng đã bị hủy"
+    "orderCancelled": "Đơn hàng đã bị hủy",
+    "underModification": "Đang sửa đổi",
+    "editOrder": "Sửa Đơn",
+    "saveChanges": "Lưu",
+    "cancelEdit": "Hủy",
+    "modificationReason": "Lý do Sửa Đổi",
+    "modificationReasonRequired": "Bắt buộc nhập lý do",
+    "modificationReasonPlaceholder": "Nhập lý do...",
+    "forceUnlock": "Mở khóa bắt buộc",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "Vui lòng xác nhận những thay đổi này:",
+    "itemRemoved": "Đã xóa",
+    "itemAdded": "Đã thêm",
+    "was": "là",
+    "became": "đã thành",
+    "emptyOrderWarning": "Đơn hàng trống. Sẽ bị hủy. Tiếp tục?",
+    "continueEdit": "Tiếp tục chỉnh sửa",
+    "autoCancelledTimeout": "Tự động hủy: Hết thời gian",
+    "guestCancelled": "Khách đã hủy",
+    "modifiedByGuest": "Đã được chỉnh sửa bởi khách",
+    "cancelledSuccess": "Đã hủy đơn hàng thành công"
   },
   "services": {
     "title": "Dịch vụ chính",
@@ -495,14 +515,35 @@
     "noRooms": "Không tìm thấy phòng nào",
     "notes": "Ghi chú",
     "roomLabel": "Phòng",
-    "exportAllPdf": "Xuất tất cả (PDF)",
+    "exportAllPdf": "Xuất tất cả mã QR",
     "qrExportSize": "Chiều rộng kích thước xuất QR",
     "sizeHelpText": "Điều chỉnh kích thước QR đã xuất bằng centimet để vừa với bố cục in, giá đỡ bằng acrylic hoặc mẫu cửa.",
     "cm": "cm",
     "downloadPdf": "Tải xuống PDF",
     "bulkDownloadInfo": "Bạn sắp xuất mã QR cho {count} phòng.",
     "previewingFirstRoom": "Đang xem trước phòng đầu tiên",
-    "printWarning": "Quan trọng: Để có kích thước chính xác, hãy đảm bảo chọn tùy chọn 'Vừa với giấy' trong hộp thoại in của trình duyệt (ví dụ Chrome). Nếu kích thước in không đúng, hãy thử với Microsoft Edge."
+    "printWarning": "Quan trọng: Để có kích thước chính xác, hãy đảm bảo chọn tùy chọn 'Vừa với giấy' trong hộp thoại in của trình duyệt (ví dụ Chrome). Nếu kích thước in không đúng, hãy thử với Microsoft Edge.",
+    "deleteAllBtn": "Xóa Tất Cả",
+    "importRoomsBtn": "Nhập Phòng",
+    "importTitle1": "Nhập Phòng từ Tệp",
+    "importTitle2": "Đánh Giá và Xác Nhận ({count} phòng)",
+    "importFormatInstTitle": "Hướng Dẫn Định Dạng Tệp (Excel / CSV)",
+    "importFormatInstDesc": "Tệp phải chứa các cột sau theo thứ tự (A, B, C):",
+    "importCol1": "Cột Đầu (A): Số hoặc tên phòng (bắt buộc).",
+    "importCol2": "Cột Hai (B): Số tầng (tùy chọn, chỉ số).",
+    "importCol3": "Cột Ba (C): Ghi chú thêm (tùy chọn).",
+    "hasHeadersToggle": "Tệp có dòng tiêu đề (sẽ bị bỏ qua)",
+    "uploadBtnTxt": "Chọn hoặc kéo tệp (Excel / CSV) vào đây",
+    "uploadHint": "Định dạng phải khớp với hướng dẫn",
+    "foundValidRooms": "Tìm thấy {count} phòng hợp lệ trong tệp.",
+    "otherRoomsCount": "... {count} phòng khác ...",
+    "importRoomTypeLabel": "Chọn loại phòng nhập",
+    "confirmImportBtn": "Xác Nhận Nhập",
+    "deleteAllTitle": "Xác Nhận Xóa Tất Cả Phòng",
+    "deleteAllDesc1": "Bạn có chắc chắn muốn xóa tất cả phòng của khách sạn này?",
+    "deleteAllDesc2": "Tất cả mã QR của phòng sẽ bị vô hiệu hóa và xóa. Bạn không thể hoàn tác thao tác này.",
+    "yesDeleteAll": "Có, Xóa Tất Cả",
+    "allDuplicatesOrInvalid": "Tất cả phòng đều trùng lặp hoặc không hợp lệ"
   },
   "employees": {
     "title": "Nhân viên",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Vui lòng chọn một lý do để hủy",
     "selectCancelReason": "Chọn lý do:",
-    "otherReason": "✏️ Lý do khác (Nhập lý do)",
+    "otherReason": "Khác",
     "typeReasonPlaceholder": "Nhập lý do hủy...",
-    "presets": [
-      "Khách đã đổi ý và hủy",
-      "Mục được yêu cầu hiện không có sẵn",
-      "Khách đã hủy vì thời gian chờ đợi quá lâu",
-      "Đơn hàng được đặt do nhầm lẫn",
-      "Khách đã trả phòng"
-    ]
+    "presets": {
+      "changedMind": "Khách đã đổi ý và hủy",
+      "itemUnavailable": "Mục được yêu cầu hiện không có sẵn",
+      "longWait": "Khách đã hủy vì thời gian chờ đợi quá lâu",
+      "mistake": "Đơn hàng được đặt do nhầm lẫn",
+      "leftRoom": "Khách đã trả phòng",
+      "removedAllItems": "Đã xóa tất cả các mặt hàng"
+    },
+    "modificationPresets": {
+      "unavailable": "Một số mặt hàng đã hết",
+      "guestRequest": "Thay đổi theo yêu cầu của khách",
+      "alternative": "Đã cung cấp hàng thay thế"
+    }
   },
   "help": {
     "title": "Trung tâm Trợ giúp",

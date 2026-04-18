@@ -411,7 +411,27 @@
     "orderCreated": "单子下勒",
     "orderAccepted": "单子接勒",
     "orderCompleted": "单子好勒",
-    "orderCancelled": "单子撤勒"
+    "orderCancelled": "单子撤勒",
+    "underModification": "修改中",
+    "editOrder": "修改订单",
+    "saveChanges": "保存",
+    "cancelEdit": "取消",
+    "modificationReason": "修改原因",
+    "modificationReasonRequired": "必须填原因",
+    "modificationReasonPlaceholder": "输入原因...",
+    "forceUnlock": "强制解锁",
+    "confirmDeleteZero": "Item quantity is zero. This will remove the item. Continue?",
+    "confirmModificationChanges": "确认以下修改：",
+    "itemRemoved": "被移除",
+    "itemAdded": "被加",
+    "was": "原先",
+    "became": "后来",
+    "emptyOrderWarning": "订单空了，会被取消。继续哇？",
+    "continueEdit": "继续编辑",
+    "autoCancelledTimeout": "自动取消：超时",
+    "guestCancelled": "客人取消了",
+    "modifiedByGuest": "宾客已修改",
+    "cancelledSuccess": "订单取消成功"
   },
   "services": {
     "title": "主服务",
@@ -495,14 +515,35 @@
     "noRooms": "找弗房间",
     "notes": "备注词",
     "roomLabel": "房间",
-    "exportAllPdf": "全部导出 (PDF)",
+    "exportAllPdf": "Export All QR Codes",
     "qrExportSize": "QR 导出尺寸宽度",
     "sizeHelpText": "调整导出个 QR 尺寸以厘米为单位，来配侬个打印布局、亚克力架子或者门模版。",
     "cm": "厘米",
     "downloadPdf": "下载 PDF",
     "bulkDownloadInfo": "侬准备导出 {count} 个房间个 QR 码。",
     "previewingFirstRoom": "预览头一个房间",
-    "printWarning": "重要：为着正确个尺寸，要确认浏览器里向打印个辰光选好了‘适配纸张’。如果尺寸勿灵，麻烦试试用 Microsoft Edge 来打印。"
+    "printWarning": "重要：为着正确个尺寸，要确认浏览器里向打印个辰光选好了‘适配纸张’。如果尺寸勿灵，麻烦试试用 Microsoft Edge 来打印。",
+    "deleteAllBtn": "Delete All",
+    "importRoomsBtn": "Import Rooms",
+    "importTitle1": "Import Rooms from File",
+    "importTitle2": "Review and Confirm ({count} rooms)",
+    "importFormatInstTitle": "File Format Instructions (Excel / CSV)",
+    "importFormatInstDesc": "The file must contain the following columns in order (A, B, C):",
+    "importCol1": "First Column (A): Room number or name (required).",
+    "importCol2": "Second Column (B): Floor number (optional, numbers only).",
+    "importCol3": "Third Column (C): Additional notes (optional).",
+    "hasHeadersToggle": "File contains header row (will be ignored)",
+    "uploadBtnTxt": "Select or drag file (Excel / CSV) here",
+    "uploadHint": "Format must match instructions above",
+    "foundValidRooms": "Found {count} valid rooms in file.",
+    "otherRoomsCount": "... {count} other rooms ...",
+    "importRoomTypeLabel": "Select imported room type",
+    "confirmImportBtn": "Confirm Import",
+    "deleteAllTitle": "Confirm Deletion of All Rooms",
+    "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
+    "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
+    "yesDeleteAll": "Yes, Delete All",
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
   },
   "employees": {
     "title": "员工",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "请选个撤单理由",
     "selectCancelReason": "选个理由：",
-    "otherReason": "✏️ 旁个 (自家写)",
+    "otherReason": "别的",
     "typeReasonPlaceholder": "写写因头...",
-    "presets": [
-      "客人改主意勒",
-      "呒没货勒",
-      "等勒忒长时门勒",
-      "下单错脱勒",
-      "客人退房勒"
-    ]
+    "presets": {
+      "changedMind": "客人改主意勒",
+      "itemUnavailable": "呒没货勒",
+      "longWait": "等勒忒长时门勒",
+      "mistake": "下单错脱勒",
+      "leftRoom": "客人退房勒",
+      "removedAllItems": "移除了所有项目"
+    },
+    "modificationPresets": {
+      "unavailable": "有些东西呒没了",
+      "guestRequest": "客人要求改额",
+      "alternative": "换了别额东西"
+    }
   },
   "help": {
     "title": "帮助中心",

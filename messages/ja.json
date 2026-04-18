@@ -411,7 +411,27 @@
     "orderCreated": "注文作成",
     "orderAccepted": "注文受付",
     "orderCompleted": "注文完了",
-    "orderCancelled": "キャンセル"
+    "orderCancelled": "キャンセル",
+    "underModification": "変更中",
+    "editOrder": "注文を編集",
+    "saveChanges": "変更を保存",
+    "cancelEdit": "キャンセル",
+    "modificationReason": "変更理由",
+    "modificationReasonRequired": "理由は必須です",
+    "modificationReasonPlaceholder": "理由を入力...",
+    "forceUnlock": "強制ロック解除",
+    "confirmDeleteZero": "数量がゼロです。このアイテムは削除されます。続行しますか？",
+    "confirmModificationChanges": "以下の変更を確認してください：",
+    "itemRemoved": "削除",
+    "itemAdded": "追加",
+    "was": "前",
+    "became": "後",
+    "emptyOrderWarning": "注文が空になりました。キャンセルされます。続行しますか？",
+    "continueEdit": "編集を続ける",
+    "autoCancelledTimeout": "自動キャンセル：タイムアウト",
+    "guestCancelled": "お客様によるキャンセル",
+    "modifiedByGuest": "宾客が変更しました",
+    "cancelledSuccess": "注文が正常にキャンセルされました"
   },
   "services": {
     "title": "メインサービス",
@@ -495,14 +515,35 @@
     "noRooms": "客室が見つかりません",
     "notes": "備考",
     "roomLabel": "客室",
-    "exportAllPdf": "すべてエクスポート (PDF)",
+    "exportAllPdf": "すべてのQRコードをエクスポート",
     "qrExportSize": "QRエクスポートサイズの幅",
     "sizeHelpText": "印刷レイアウト、アクリルスタンド、またはドアのテンプレートに合わせて、エクスポートされるQRサイズをセンチメートル単位で調整します。",
     "cm": "cm",
     "downloadPdf": "PDFをダウンロード",
     "bulkDownloadInfo": "{count} 部屋のQRコードをエクスポートしようとしています。",
     "previewingFirstRoom": "最初の部屋のプレビュー",
-    "printWarning": "重要: 正確なサイズを得るには、ブラウザの印刷ダイアログで「用紙に合わせる」が選択されていることを確認してください。サイズが正しくない場合は、Microsoft EdgeやAcrobatから印刷をお試しください。"
+    "printWarning": "重要: 正確なサイズを得るには、ブラウザの印刷ダイアログで「用紙に合わせる」が選択されていることを確認してください。サイズが正しくない場合は、Microsoft EdgeやAcrobatから印刷をお試しください。",
+    "deleteAllBtn": "すべて削除",
+    "importRoomsBtn": "部屋をインポート",
+    "importTitle1": "ファイルから部屋をインポート",
+    "importTitle2": "確認 ({count} 部屋)",
+    "importFormatInstTitle": "ファイルフォーマットの要件 (Excel / CSV)",
+    "importFormatInstDesc": "ファイルには順番に次の列を含める必要があります (A, B, C):",
+    "importCol1": "1列目 (A): 部屋番号または名前 (必須)。",
+    "importCol2": "2列目 (B): 階数 (任意、数字のみ)。",
+    "importCol3": "3列目 (C): 追加のメモ (任意)。",
+    "hasHeadersToggle": "ファイルにヘッダー行が含まれています (無視されます)",
+    "uploadBtnTxt": "ファイルを選択またはドラッグ (Excel / CSV)",
+    "uploadHint": "フォーマットは要件に一致する必要があります",
+    "foundValidRooms": "{count} 個の有効な部屋が見つかりました。",
+    "otherRoomsCount": "... 他 {count} 部屋 ...",
+    "importRoomTypeLabel": "インポートする部屋タイプを選択",
+    "confirmImportBtn": "インポートの確認",
+    "deleteAllTitle": "すべての部屋の削除の確認",
+    "deleteAllDesc1": "このホテルのすべての部屋を削除してもよろしいですか？",
+    "deleteAllDesc2": "部屋のすべてのQRルートが無効化され削除されます。この操作は元に戻せません。",
+    "yesDeleteAll": "はい、すべて削除します",
+    "allDuplicatesOrInvalid": "すべての部屋が重複しているか無効です"
   },
   "employees": {
     "title": "スタッフ管理",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "キャンセル理由を選択してください",
     "selectCancelReason": "理由を選択：",
-    "otherReason": "✏️ その他（理由を入力）",
+    "otherReason": "その他",
     "typeReasonPlaceholder": "理由を入力...",
-    "presets": [
-      "ゲストの都合によるキャンセル",
-      "品切れ・提供不可のため",
-      "待ち時間が長いためゲストがキャンセル",
-      "注文ミスによるキャンセル",
-      "チェックアウト済のため"
-    ]
+    "presets": {
+      "changedMind": "ゲストの都合によるキャンセル",
+      "itemUnavailable": "品切れ・提供不可のため",
+      "longWait": "待ち時間が長いためゲストがキャンセル",
+      "mistake": "注文ミスによるキャンセル",
+      "leftRoom": "チェックアウト済のため",
+      "removedAllItems": "すべてのアイテムが削除されました"
+    },
+    "modificationPresets": {
+      "unavailable": "一部のアイテムは利用できません",
+      "guestRequest": "ゲストのリクエストにより調整",
+      "alternative": "代替アイテムを提供しました"
+    }
   },
   "help": {
     "title": "ヘルプセンター",

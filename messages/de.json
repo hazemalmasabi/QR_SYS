@@ -411,7 +411,27 @@
     "orderCreated": "Bestellung erstellt",
     "orderAccepted": "Bestellung angenommen",
     "orderCompleted": "Bestellung abgeschlossen",
-    "orderCancelled": "Bestellung storniert"
+    "orderCancelled": "Bestellung storniert",
+    "underModification": "In Bearbeitung",
+    "editOrder": "Bestellung bearbeiten",
+    "saveChanges": "Speichern",
+    "cancelEdit": "Abbrechen",
+    "modificationReason": "Änderungsgrund",
+    "modificationReasonRequired": "Grund erforderlich",
+    "modificationReasonPlaceholder": "Grund eingeben...",
+    "forceUnlock": "Entsperren erzwingen",
+    "confirmDeleteZero": "Artikelmenge ist Null. Dies entfernt den Artikel. Fortfahren?",
+    "confirmModificationChanges": "Bestätigen Sie die Änderungen:",
+    "itemRemoved": "Entfernt",
+    "itemAdded": "Hinzugefügt",
+    "was": "war",
+    "became": "wurde",
+    "emptyOrderWarning": "Bestellung stornieren, da leer. Fortfahren?",
+    "continueEdit": "Bearbeitung fortsetzen",
+    "autoCancelledTimeout": "Auto-storniert: Zeitüberschreitung",
+    "guestCancelled": "Vom Gast storniert",
+    "modifiedByGuest": "Vom Gast geändert",
+    "cancelledSuccess": "Bestellung erfolgreich storniert"
   },
   "services": {
     "title": "Hauptservices",
@@ -495,14 +515,35 @@
     "noRooms": "Keine Zimmer gefunden",
     "notes": "Notizen",
     "roomLabel": "Zimmer",
-    "exportAllPdf": "Alle exportieren (PDF)",
+    "exportAllPdf": "Alle QR-Codes exportieren",
     "qrExportSize": "QR-Exportgröße Breite",
     "sizeHelpText": "Passen Sie die exportierte QR-Größe in Zentimetern an Ihre Drucklayouts, Acrylständer oder Türvorlagen an.",
     "cm": "cm",
     "downloadPdf": "PDF herunterladen",
     "bulkDownloadInfo": "Sie sind dabei, QR-Codes für {count} Zimmer zu exportieren.",
     "previewingFirstRoom": "Vorschau des ersten Zimmers",
-    "printWarning": "Wichtig: Stellen Sie für die genaue Größe sicher, dass 'An Papier anpassen' im Druckdialogfeld Ihres Browsers (z. B. Chrome) ausgewählt ist. Wenn die Druckgrößen falsch sind, versuchen Sie, über Microsoft Edge oder Acrobat zu drucken."
+    "printWarning": "Wichtig: Stellen Sie für die genaue Größe sicher, dass 'An Papier anpassen' im Druckdialogfeld Ihres Browsers (z. B. Chrome) ausgewählt ist. Wenn die Druckgrößen falsch sind, versuchen Sie, über Microsoft Edge oder Acrobat zu drucken.",
+    "deleteAllBtn": "Alles löschen",
+    "importRoomsBtn": "Zimmer importieren",
+    "importTitle1": "Zimmer aus Datei importieren",
+    "importTitle2": "Überprüfen und bestätigen ({count} Zimmer)",
+    "importFormatInstTitle": "Formatierungsanweisungen (Excel / CSV)",
+    "importFormatInstDesc": "Die Datei muss die folgenden Spalten der Reihe nach enthalten (A, B, C):",
+    "importCol1": "Erste Spalte (A): Zimmernummer oder -name (erforderlich).",
+    "importCol2": "Zweite Spalte (B): Etage (optional, nur Zahlen).",
+    "importCol3": "Dritte Spalte (C): Zusätzliche Notizen (optional).",
+    "hasHeadersToggle": "Die Datei enthält Überschriften (wird ignoriert)",
+    "uploadBtnTxt": "Datei hier auswählen oder reinziehen (Excel/CSV)",
+    "uploadHint": "Das Format muss den obigen Anweisungen entsprechen",
+    "foundValidRooms": "{count} gültige Zimmer gefunden.",
+    "otherRoomsCount": "... {count} weitere Zimmer ...",
+    "importRoomTypeLabel": "Zimmertyp für Import auswählen",
+    "confirmImportBtn": "Import bestätigen",
+    "deleteAllTitle": "Löschen aller Zimmer bestätigen",
+    "deleteAllDesc1": "Sind Sie sicher, dass Sie alle Zimmer für dieses Hotel löschen möchten?",
+    "deleteAllDesc2": "Alle QR-Routen für Zimmer werden deaktiviert und gelöscht. Dies kann nicht rückgängig gemacht werden.",
+    "yesDeleteAll": "Ja, alles löschen",
+    "allDuplicatesOrInvalid": "Alle Zimmer sind entweder Duplikate oder ungültig"
   },
   "employees": {
     "title": "Mitarbeiter",
@@ -748,15 +789,21 @@
   "ordersDetails": {
     "cancelReasonRequired": "Bitte wählen Sie einen Stornierungsgrund",
     "selectCancelReason": "Grund auswählen:",
-    "otherReason": "✏️ Anderer Grund (Text eingeben)",
+    "otherReason": "Andere",
     "typeReasonPlaceholder": "Stornierungsgrund eingeben...",
-    "presets": [
-      "Der Gast hat es sich anders überlegt und storniert",
-      "Der angeforderte Artikel ist derzeit nicht verfügbar",
-      "Der Gast hat wegen langer Wartezeit storniert",
-      "Bestellung versehentlich aufgegeben",
-      "Der Gast ist bereits ausgecheckt"
-    ]
+    "presets": {
+      "changedMind": "Der Gast hat es sich anders überlegt und storniert",
+      "itemUnavailable": "Der angeforderte Artikel ist derzeit nicht verfügbar",
+      "longWait": "Der Gast hat wegen langer Wartezeit storniert",
+      "mistake": "Bestellung versehentlich aufgegeben",
+      "leftRoom": "Der Gast ist bereits ausgecheckt",
+      "removedAllItems": "Alle Artikel entfernt"
+    },
+    "modificationPresets": {
+      "unavailable": "Einige Artikel fehlen",
+      "guestRequest": "Auf Wunsch angepasst",
+      "alternative": "Alternative bereitgestellt"
+    }
   },
   "help": {
     "title": "Hilfecenter",

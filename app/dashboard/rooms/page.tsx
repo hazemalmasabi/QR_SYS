@@ -24,6 +24,7 @@ import type { Room, RoomType } from '@/types'
 import RoomFormModal from './RoomFormModal'
 import QRCode from 'qrcode'
 import { jsPDF } from 'jspdf'
+import BulkImportModal from './BulkImportModal'
 
 export default function RoomsPage() {
   const t = useTranslations('rooms')
@@ -47,6 +48,10 @@ export default function RoomsPage() {
   const [qrLoading, setQrLoading] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
+  const [bulkImportOpen, setBulkImportOpen] = useState(false)
+  const [deleteAllConfirmOpen, setDeleteAllConfirmOpen] = useState(false)
+  const [isPrimarySupervisor, setIsPrimarySupervisor] = useState(false)
+  const [deletingAll, setDeletingAll] = useState(false)
 
   // QR Export Settings
   const [qrSizeCm, setQrSizeCm] = useState<number>(5)
@@ -87,6 +92,18 @@ export default function RoomsPage() {
   const [barcodeTextTranslations, setBarcodeTextTranslations] = useState<Record<string, string>>({})
   const [languageSecondary, setLanguageSecondary] = useState<string>('none')
   const [qrLanguage, setQrLanguage] = useState<string>(locale === 'en' ? 'en' : 'en') // will be updated in fetch
+
+  useEffect(() => {
+    fetch('/api/auth/session')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.session) {
+          setIsPrimarySupervisor(!!data.session.isPrimarySupervisor)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
   const fetchRooms = useCallback(async () => {
     setLoading(true)
     try {
@@ -202,6 +219,25 @@ export default function RoomsPage() {
       toast.error(tc('error'))
     } finally {
       setDeletingId(null)
+    }
+  }
+
+  const handleDeleteAll = async () => {
+    setDeletingAll(true)
+    try {
+      const res = await fetch(`/api/rooms/delete-all`, { method: 'DELETE' })
+      const data = await res.json()
+      if (data.success) {
+        toast.success(tc('success'))
+        fetchRooms()
+        setDeleteAllConfirmOpen(false)
+      } else {
+        toast.error(tc('error'))
+      }
+    } catch {
+      toast.error(tc('error'))
+    } finally {
+      setDeletingAll(false)
     }
   }
 
@@ -478,6 +514,23 @@ export default function RoomsPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
         <div className="flex items-center gap-3">
+          {isPrimarySupervisor && (
+            <button
+              onClick={() => setDeleteAllConfirmOpen(true)}
+              disabled={rooms.length === 0}
+              className="btn-ghost text-red-600 border border-red-200 hover:bg-red-50 gap-2"
+            >
+              <Trash2 className="h-4 w-4" />
+              {t('deleteAllBtn')}
+            </button>
+          )}
+          <button 
+            onClick={() => setBulkImportOpen(true)} 
+            className="btn-secondary gap-2"
+          >
+            <Download className="h-4 w-4 rotate-180" />
+            {t('importRoomsBtn')}
+          </button>
           <button 
             onClick={openBulkQRModal} 
             disabled={bulkQrLoading || rooms.length === 0}
@@ -940,6 +993,54 @@ export default function RoomsPage() {
                   className="flex-1 bg-red-600 text-white rounded-xl py-2.5 font-medium hover:bg-red-700 focus:ring-2 focus:ring-red-600 transition-all shadow-sm"
                 >
                   {tc('delete')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Import Modal */}
+      <BulkImportModal
+        isOpen={bulkImportOpen}
+        onClose={() => setBulkImportOpen(false)}
+        onSuccess={fetchRooms}
+        roomTypes={roomTypes}
+      />
+
+       {/* Delete All Confirmation Modal */}
+       {deleteAllConfirmOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="p-6">
+              <div className="flex flex-col items-center justify-center text-center">
+                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4 text-red-600">
+                  <Trash2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  {t('deleteAllTitle')}
+                </h3>
+                <p className="text-sm text-red-600 font-medium mb-1">
+                  {t('deleteAllDesc1')}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {t('deleteAllDesc2')}
+                </p>
+              </div>
+              <div className="mt-6 flex gap-3 w-full">
+                <button
+                  onClick={() => setDeleteAllConfirmOpen(false)}
+                  disabled={deletingAll}
+                  className="flex-1 btn-secondary py-2.5 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 transition-all"
+                >
+                  {tc('cancel')}
+                </button>
+                <button
+                  onClick={handleDeleteAll}
+                  disabled={deletingAll}
+                  className="flex-1 bg-red-600 text-white rounded-xl py-2.5 font-medium hover:bg-red-700 focus:ring-2 focus:ring-red-600 transition-all shadow-sm flex items-center justify-center"
+                >
+                  {deletingAll ? <Loader2 className="h-5 w-5 animate-spin" /> : t('yesDeleteAll')}
                 </button>
               </div>
             </div>
