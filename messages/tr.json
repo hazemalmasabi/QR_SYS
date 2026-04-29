@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Kaldır",
-    "room": "Oda"
+    "room": "Oda",
+    "notes": "Notlar",
+    "clearFilters": "Filtreleri Temizle",
+    "ok": "Tamam",
+    "invalidAmount": "Geçersiz tutar",
+    "id": "ID",
+    "rooms": "Odalar"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Ortalama Süre",
       "avgAcceptanceTime": "Ort. Kabul Süresi",
       "avgExecutionTime": "Ort. Tamamlama Süresi",
-      "minutes": "dk"
+      "minutes": "dk",
+      "paid": "Toplam Ödenen",
+      "remaining": "Toplam Kalan"
     },
     "filters": {
       "today": "Bugün",
@@ -366,7 +374,8 @@
     "reports": "Raporlar",
     "settings": "Ayarlar",
     "help": "Yardım",
-    "logout": "Çıkış Yap"
+    "logout": "Çıkış Yap",
+    "payments": "Ödemeler"
   },
   "orders": {
     "title": "Siparişler",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Oto-iptal: Zaman aşımı",
     "guestCancelled": "Misafir iptal etti",
     "modifiedByGuest": "Misafir tarafından düzeltildi",
-    "cancelledSuccess": "Sipariş başarıyla iptal edildi"
+    "cancelledSuccess": "Sipariş başarıyla iptal edildi",
+    "paymentStatus": "Ödeme Durumu",
+    "paid_in_full": "Tamamı Ödendi",
+    "partial_paid": "Kısmi Ödeme",
+    "unpaid": "Ödenmedi",
+    "in_progressSuccess": "Sipariş kabul edildi ve devam ediyor",
+    "completedSuccess": "Sipariş tamamlandı olarak işaretlendi"
   },
   "services": {
     "title": "Ana Hizmetler",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Bu otel için tüm odaları silmek istediğinizden emin misiniz?",
     "deleteAllDesc2": "Tüm oda QR rotaları devre dışı bırakılacak ve silinecek. Bu işlem geri alınamaz.",
     "yesDeleteAll": "Evet, Tümünü Sil",
-    "allDuplicatesOrInvalid": "Tüm odalar ya kopya ya da geçersiz"
+    "allDuplicatesOrInvalid": "Tüm odalar ya kopya ya da geçersiz",
+    "checkIn": "Giriş (Check-In)",
+    "checkOut": "Çıkış (Check-Out)",
+    "checkInSuccess": "Giriş Başarılı",
+    "checkInSuccessDesc": "Oda artık aktif ve misafir taleplerini almaya hazır.",
+    "checkOutSuccess": "Çıkış Başarılı",
+    "checkOutSuccessDesc": "Misafir hesabı kapatıldı ve oturum sonlandırıldı.",
+    "hasUnpaidBalance": "Çıkış yapılamıyor. Bu odada ödenmemiş bakiye var.",
+    "hasPendingOrders": "Çıkış yapılamıyor. Bu odada bekleyen siparişler var.",
+    "sessionActive": "Dolu",
+    "sessionCheckedOut": "Boş",
+    "sessionStatus": "Oturum Durumu",
+    "session": "Oturum",
+    "sessionRecords": "Bakiye / Geçmiş",
+    "remainingBalance": "Kalan Bakiye",
+    "paidBalance": "Ödenen Bakiye",
+    "orders": "Siparişler",
+    "checkActions": "Giriş/Çıkış",
+    "confirmCheckOut": "Çıkışı Onayla",
+    "confirmCheckOutDesc": "Oturumu sonlandırmak misafir hesabını kapatacaktır. Bu işlem geri alınamaz.",
+    "confirmCancelPendingOrders": "Bekleyen siparişler var. Bunları iptal edip çıkış yapmak istiyor musunuz?",
+    "completePendingPaidOrdersDesc": "Bekleyen ancak ödenmiş siparişler var. Bunlar 'Tamamlandı' olarak işaretlenecektir.",
+    "completeAndCheckOut": "Tamamla ve Çıkış Yap",
+    "cancelPendingThenCheckOut": "Siparişleri İptal Et ve Çıkış Yap",
+    "service": "Servis",
+    "selectService": "Servis Seç",
+    "balance": "Bakiye",
+    "roomsWithBalance": "Bakiyesi olan odalar",
+    "unpaidOnly": "Sadece ödenmemiş",
+    "empty": "Boş",
+    "rooms": "Odalar",
+    "roomExists": "Oda numarası zaten mevcut"
   },
   "employees": {
     "title": "Personel",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "Otel Google Haritalar URL'si",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Google Haritalar'da otelinizi açın ve adres çubuğundaki URL'yi kopyalayın. Misafir konum doğrulaması için otel koordinatlarını çıkarmak amacıyla kullanılır.",
-    "invalidGoogleMapsUrl": "Lütfen geçerli bir Google Haritalar URL'si girin"
+    "invalidGoogleMapsUrl": "Lütfen geçerli bir Google Haritalar URL'si girin",
+    "defaultRoomTypeName": "Standart"
   },
   "reports": {
     "title": "Raporlar",
@@ -691,7 +738,8 @@
     "selectDateRange": "Raporu görmek için tarih aralığı seçin",
     "summary": "Özet",
     "details": "Detaylar",
-    "chart": "Grafik"
+    "chart": "Grafik",
+    "topCancellationReasons": "En yaygın iptal nedenleri"
   },
   "guest": {
     "welcome": "Hoş Geldiniz",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Otelin içinde olmadığınız görünüyor. Lütfen otel binasının içinde olduğunuzdan emin olun ve tekrar deneyin.",
     "locationTryAgain": "Tekrar Dene",
     "locationCoordsError": "Konum doğrulanamadı",
-    "locationCoordsErrorDesc": "Otel koordinatları çıkarılırken bir hata oluştu. Lütfen otel ile iletişime geçin."
+    "locationCoordsErrorDesc": "Otel koordinatları çıkarılırken bir hata oluştu. Lütfen otel ile iletişime geçin.",
+    "totalBalance": "Toplam",
+    "paidBalance": "Ödenen",
+    "remainingBalance": "Bakiye",
+    "noActiveSession": "Sipariş servisi aktif değil",
+    "noActiveSessionDesc": "Odanızın sipariş servisini aktif hale getirmek için lütfen resepsiyonla iletişime geçin.",
+    "contactReception": "Resepsiyonla İletişime Geç"
   },
   "validation": {
     "required": "Bu alan gereklidir",
@@ -803,7 +857,18 @@
       "unavailable": "Bazı ürünler yok",
       "guestRequest": "Misafir isteğine göre uyarlandı",
       "alternative": "Alternatif sağlandı"
-    }
+    },
+    "remainingBalance": "Kalan Bakiye",
+    "paymentDetails": "Ödeme Detayları",
+    "paymentStatusLabel": "Ödeme Durumu",
+    "paidAmountLabel": "Ödenen Tutar",
+    "paymentMethodLabel": "Ödeme Yöntemi",
+    "notesLabel": "Ödeme Notları (Opsiyonel)",
+    "payInFull": "Tamamı Ödendi",
+    "payPartial": "Kısmi Ödeme",
+    "payOnCheckout": "Çıkışta Öde",
+    "cash": "Nakit",
+    "card": "Kart"
   },
   "help": {
     "title": "Yardım Merkezi",
@@ -817,7 +882,8 @@
       "settings": "Yapılandırma",
       "guestExperience": "Misafir Deneyimi",
       "qrPlacements": "QR Yerleşimleri",
-      "hierarchy": "Roller ve Hiyerarşi"
+      "hierarchy": "Roller ve Hiyerarşi",
+      "billing": "Ödemeler ve Faturalandırma"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Misafir Konum Doğrulaması",
         "content": "Bu özellik, misafirlerin hizmetlere göz atabilmeleri için otelin 500 metrelik yarıçapı içinde fiziksel olarak bulunmasını gerektirir.\n\nNasıl kullanılır:\n1. Ayarlar panelinden 'Konum Doğrulaması' seçeneğini etkinleştirin.\n2. Otelinizin Google Haritalar URL'sini girin.\n\nURL Notu:\nUzun URL'yi doğrudan tarayıcınızın adres çubuğundan kopyalayabilir veya kısa bir bağlantı (maps.app.goo.gl gibi) kullanabilirsiniz. Sistem, yüksek doğruluk sağlamak amacıyla kısa bağlantıları otomatik olarak çözecek ve kesin koordinatları alacaktır."
+      },
+      "sessions": {
+        "title": "Misafir Oturumları ve Gizlilik",
+        "content": "Güvenlik için aktif bir oturum gereklidir."
+      },
+      "payments": {
+        "title": "Ödeme ve Bakiye Yönetimi",
+        "content": "Sistem, borç tutarlarının hassas bir şekilde takibine olanak tanır."
+      },
+      "invoicing": {
+        "title": "Faturalandırma ve Misafir Ekstreleri",
+        "content": "Konaklama süresince sağlanan tüm hizmetleri içeren detaylı ekstreler oluşturabilirsiniz."
       }
-    }
+    },
+    "noResultsFound": "Sonuç bulunamadı",
+    "searchNoResults": "Aramanızla eşleşen bir konu bulunamadı."
+  },
+  "payments": {
+    "title": "Ödemeler ve Tahsilatlar",
+    "subtitle": "Tüm finansal işlemleri takip edin ve oda faturalarını tahsil edin",
+    "totalPaid": "Toplam Ödenen",
+    "service": "Servis",
+    "activeRoomsOnly": "Sadece Aktif Oturumlar",
+    "date": "Tarih",
+    "amount": "Tutar",
+    "type": "Tür",
+    "method": "Yöntem",
+    "recipient": "Alıcı",
+    "receivedBy": "Teslim Alan",
+    "reference": "Referans",
+    "noPayments": "Kayıtlı ödeme bulunamadı",
+    "settleRoomInvoice": "Oda Faturasını Tahsil Et",
+    "selectRoom": "Oda Seç",
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "cash": "Nakit",
+    "card": "Kart",
+    "transfer": "Banka Havalesi",
+    "payment": "Ödeme",
+    "refund": "İade",
+    "transferType": "Departman Transferi",
+    "manual": "Manuel",
+    "addManualPayment": "Manuel Dosya / Makbuz Ekle",
+    "settleAmount": "Tahsilat Tutarı",
+    "confirmPayment": "Ödemeyi Onayla",
+    "amountExceedsBalance": "Tutar kalan bakiyeyi aşıyor",
+    "notesPlaceholder": "Ek notlar (Opsiyonel)...",
+    "unpaid": "Ödenmedi",
+    "partial": "Kısmi Ödeme",
+    "paid": "Tamamı Ödendi",
+    "invalidAmount": "Geçersiz tutar"
   }
 }

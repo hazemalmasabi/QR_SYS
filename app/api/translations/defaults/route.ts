@@ -7,7 +7,7 @@ export async function GET() {
     const messagesDir = path.join(process.cwd(), 'messages');
     const files = fs.readdirSync(messagesDir).filter(f => f.endsWith('.json'));
 
-    const defaults: Record<string, { barcode: string; room: string }> = {};
+    const defaults: Record<string, { barcode: string; room: string; roomType: string }> = {};
 
     for (const file of files) {
       const code = file.replace('.json', '');
@@ -17,7 +17,8 @@ export async function GET() {
         
         defaults[code] = {
           barcode: data?.settings?.defaultBarcodeText || '',
-          room: data?.common?.room || 'Room'
+          room: data?.common?.room || 'Room',
+          roomType: data?.settings?.defaultRoomTypeName || 'Standard'
         };
       } catch (err) {
         console.error(`Failed to read or parse translation file ${file}:`, err);
@@ -28,7 +29,8 @@ export async function GET() {
     if (!defaults['en']) {
         defaults['en'] = {
           barcode: 'Scan to view our services',
-          room: 'Room'
+          room: 'Room',
+          roomType: 'Standard'
         };
     }
 

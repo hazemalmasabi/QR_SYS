@@ -12,6 +12,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { Clock } from '@/components/Clock'
 
 interface GuestInfo {
+  hasActiveSession: boolean
   room: { room_id: string; room_number: string; room_type: string }
   hotel: {
     hotel_id: string
@@ -133,39 +134,41 @@ export default function GuestLayout({
         {children}
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white/95 backdrop-blur-sm safe-area-bottom">
-        <div className="mx-auto flex max-w-lg items-center justify-around px-2 py-2">
-          {navItems.map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'relative flex flex-col items-center gap-0.5 rounded-xl px-4 py-2 text-xs font-medium transition-colors',
-                  item.isActive
-                    ? 'text-primary-600'
-                    : 'text-gray-500 hover:text-gray-700'
-                )}
-              >
-                <div className="relative">
-                  <Icon className="h-5 w-5" />
-                  {item.badge && (
-                    <span className="absolute -end-2.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-600 px-1 text-[10px] font-bold text-white">
-                      {item.badge}
-                    </span>
+      {/* Bottom Navigation — only if session is active */}
+      {guestInfo?.hasActiveSession && (
+        <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white/95 backdrop-blur-sm safe-area-bottom">
+          <div className="mx-auto flex max-w-lg items-center justify-around px-2 py-2">
+            {navItems.map((item) => {
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'relative flex flex-col items-center gap-0.5 rounded-xl px-4 py-2 text-xs font-medium transition-colors',
+                    item.isActive
+                      ? 'text-primary-600'
+                      : 'text-gray-500 hover:text-gray-700'
                   )}
-                </div>
-                <span>{item.label}</span>
-                {item.isActive && (
-                  <span className="absolute -bottom-2 h-0.5 w-6 rounded-full bg-primary-600" />
-                )}
-              </Link>
-            )
-          })}
-        </div>
-      </nav>
+                >
+                  <div className="relative">
+                    <Icon className="h-5 w-5" />
+                    {item.badge && (
+                      <span className="absolute -end-2.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary-600 px-1 text-[10px] font-bold text-white">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                  <span>{item.label}</span>
+                  {item.isActive && (
+                    <span className="absolute -bottom-2 h-0.5 w-6 rounded-full bg-primary-600" />
+                  )}
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+      )}
     </div>
   )
 }

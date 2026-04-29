@@ -78,6 +78,7 @@ export default function GuestOrdersPage({
   const [activeOrders, setActiveOrders] = useState<OrderWithService[]>([])
   const [recentOrders, setRecentOrders] = useState<OrderWithService[]>([])
   const [guestInfo, setGuestInfo] = useState<GuestInfo | null>(null)
+  const [sessionSummary, setSessionSummary] = useState<{total: number, paid: number, remaining: number} | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [editingOrder, setEditingOrder] = useState<OrderWithService | null>(null)
@@ -96,6 +97,9 @@ export default function GuestOrdersPage({
       if (data.success) {
         setActiveOrders(data.activeOrders)
         setRecentOrders(data.recentOrders)
+        if (data.sessionSummary !== undefined) {
+          setSessionSummary(data.sessionSummary)
+        }
       }
     } catch (err) {
       console.error('Failed to fetch orders:', err)
@@ -457,6 +461,28 @@ export default function GuestOrdersPage({
           <RefreshCw className={cn('h-4 w-4', refreshing && 'animate-spin')} />
         </button>
       </div>
+
+      {/* Session Summary Sticky Bar */}
+      {sessionSummary && hasOrders && (
+        <div className="sticky top-4 z-10 mx-[-1rem] px-4 md:mx-0 md:px-0">
+          <div className="bg-white shadow-lg shadow-black/5 rounded-2xl p-4 border border-gray-100 flex items-center justify-between">
+            <div className="flex flex-col">
+               <span className="text-xs text-gray-500 font-medium">{t('totalBalance')}</span>
+               <span className="font-semibold text-gray-900">{formatCurrency(sessionSummary.total, '', currencySymbol)}</span>
+            </div>
+            <div className="w-px h-8 bg-gray-200"></div>
+            <div className="flex flex-col">
+               <span className="text-xs text-gray-500 font-medium">{t('paidBalance')}</span>
+               <span className="font-semibold text-green-600">{formatCurrency(sessionSummary.paid, '', currencySymbol)}</span>
+            </div>
+            <div className="w-px h-8 bg-gray-200"></div>
+            <div className="flex flex-col">
+               <span className="text-xs text-gray-500 font-medium">{t('remainingBalance')}</span>
+               <span className="font-bold text-red-600">{formatCurrency(sessionSummary.remaining, '', currencySymbol)}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {!hasOrders ? (
         <div className="flex min-h-[50vh] flex-col items-center justify-center">

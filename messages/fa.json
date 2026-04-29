@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "حذف",
-    "room": "اتاق"
+    "room": "اتاق",
+    "notes": "یادداشت‌ها",
+    "clearFilters": "پاک کردن فیلترها",
+    "ok": "تایید",
+    "invalidAmount": "مبلغ نامعتبر",
+    "id": "شناسه",
+    "rooms": "اتاق‌ها"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "میانگین زمان",
       "avgAcceptanceTime": "میانگین زمان تایید",
       "avgExecutionTime": "میانگین زمان انجام",
-      "minutes": "دقیقه"
+      "minutes": "دقیقه",
+      "paid": "کل پرداخت شده",
+      "remaining": "کل باقی‌مانده"
     },
     "filters": {
       "today": "امروز",
@@ -366,7 +374,8 @@
     "reports": "گزارش‌ها",
     "settings": "تنظیمات",
     "help": "راهنما",
-    "logout": "خروج"
+    "logout": "خروج",
+    "payments": "پرداخت‌ها"
   },
   "orders": {
     "title": "سفارش‌ها",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "لغو خودکار: زمان ویرایش پایان یافت",
     "guestCancelled": "لغو شده توسط مهمان",
     "modifiedByGuest": "توسط مهمان ویرایش شد",
-    "cancelledSuccess": "سفارش با موفقیت لغو شد"
+    "cancelledSuccess": "سفارش با موفقیت لغو شد",
+    "paymentStatus": "وضعیت پرداخت",
+    "paid_in_full": "تسویه کامل",
+    "partial_paid": "پرداخت جزئی",
+    "unpaid": "پرداخت نشده",
+    "in_progressSuccess": "سفارش پذیرفته شد و در حال انجام است",
+    "completedSuccess": "سفارش به عنوان تکمیل شده ثبت شد"
   },
   "services": {
     "title": "خدمات اصلی",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "آیا مطمئن هستید که می‌خواهید همه اتاق‌های این هتل را حذف کنید؟",
     "deleteAllDesc2": "همه مسیرهای QR اتاق‌ها غیرفعال و پاک می‌شوند. این عمل قابل بازگشت نیست.",
     "yesDeleteAll": "بله، همه را حذف کن",
-    "allDuplicatesOrInvalid": "تمامی اتاق‌ها تکراری یا نامعتبر هستند"
+    "allDuplicatesOrInvalid": "تمامی اتاق‌ها تکراری یا نامعتبر هستند",
+    "checkIn": "ورود (Check-In)",
+    "checkOut": "خروج (Check-Out)",
+    "checkInSuccess": "ورود با موفقیت انجام شد",
+    "checkInSuccessDesc": "اتاق اکنون فعال و آماده دریافت درخواست‌های مهمان است.",
+    "checkOutSuccess": "خروج با موفقیت انجام شد",
+    "checkOutSuccessDesc": "حساب مهمان بسته شد و جلسه به پایان رسید.",
+    "hasUnpaidBalance": "امکان خروج وجود ندارد. این اتاق بدهی پرداخت نشده دارد.",
+    "hasPendingOrders": "امکان خروج وجود ندارد. سفارش‌های در جریان برای این اتاق وجود دارد.",
+    "sessionActive": "اشغال شده",
+    "sessionCheckedOut": "خالی",
+    "sessionStatus": "وضعیت جلسه",
+    "session": "جلسه",
+    "sessionRecords": "مانده / سوابق",
+    "remainingBalance": "مانده باقی‌مانده",
+    "paidBalance": "مبلغ پرداخت شده",
+    "orders": "سفارش‌ها",
+    "checkActions": "ورود/خروج",
+    "confirmCheckOut": "تایید خروج",
+    "confirmCheckOutDesc": "پایان دادن به جلسه باعث بستن حساب فعلی مهمان می‌شود. این عمل نهایی است.",
+    "confirmCancelPendingOrders": "سفارش‌های در جریان وجود دارد. آیا می‌خواهید آن‌ها را لغو کرده و خارج شوید؟",
+    "completePendingPaidOrdersDesc": "سفارش‌های در جریان وجود دارد اما پرداخت شده‌اند. این سفارش‌ها تکمیل شده ثبت می‌شوند.",
+    "completeAndCheckOut": "تکمیل و خروج",
+    "cancelPendingThenCheckOut": "لغو سفارش‌ها و خروج",
+    "service": "سرویس",
+    "selectService": "انتخاب سرویس",
+    "balance": "مانده",
+    "roomsWithBalance": "اتاق‌های دارای مانده",
+    "unpaidOnly": "فقط پرداخت نشده‌ها",
+    "empty": "خالی",
+    "rooms": "اتاق‌ها",
+    "roomExists": "شماره اتاق در حال حاضر وجود دارد"
   },
   "employees": {
     "title": "کارکنان",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "آدرس گوگل مپ هتل",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "هتل خود را در گوگل مپ باز کنید و آدرس را از نوار آدرس کپی کنید. برای استخراج مختصات هتل جهت تأیید موقعیت مهمان استفاده می‌شود.",
-    "invalidGoogleMapsUrl": "لطفاً یک آدرس معتبر گوگل مپ وارد کنید"
+    "invalidGoogleMapsUrl": "لطفاً یک آدرس معتبر گوگل مپ وارد کنید",
+    "defaultRoomTypeName": "استاندارد"
   },
   "reports": {
     "title": "گزارش‌ها",
@@ -691,7 +738,8 @@
     "selectDateRange": "بازه زمانی را برای مشاهده گزارش انتخاب کنید",
     "summary": "خلاصه",
     "details": "جزئیات",
-    "chart": "نمودار"
+    "chart": "نمودار",
+    "topCancellationReasons": "دلایل اصلی لغو"
   },
   "guest": {
     "welcome": "خوش آمدید",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "به نظر می‌رسد شما در داخل هتل نیستید. لطفاً مطمئن شوید که در داخل ساختمان هتل هستید و دوباره تلاش کنید.",
     "locationTryAgain": "تلاش مجدد",
     "locationCoordsError": "امکان تأیید موقعیت مکانی وجود ندارد",
-    "locationCoordsErrorDesc": "خطایی هنگام بررسی مختصات هتل رخ داد. لطفاً با پذیرش تماس بگیرید."
+    "locationCoordsErrorDesc": "خطایی هنگام بررسی مختصات هتل رخ داد. لطفاً با پذیرش تماس بگیرید.",
+    "totalBalance": "کل",
+    "paidBalance": "پرداخت شده",
+    "remainingBalance": "مانده",
+    "noActiveSession": "سرویس سفارش فعال نیست",
+    "noActiveSessionDesc": "لطفاً برای فعال‌سازی سرویس سفارش اتاق خود با پذیرش تماس بگیرید.",
+    "contactReception": "تماس با پذیرش"
   },
   "validation": {
     "required": "این مورد الزامی است",
@@ -803,7 +857,18 @@
       "unavailable": "موجودی کافی نیست",
       "guestRequest": "بنا به درخواست مهمان ویرایش شد",
       "alternative": "کالای جایگزین ارائه شد"
-    }
+    },
+    "remainingBalance": "مانده باقی‌مانده",
+    "paymentDetails": "جزئیات پرداخت",
+    "paymentStatusLabel": "وضعیت پرداخت",
+    "paidAmountLabel": "مبلغ پرداخت شده",
+    "paymentMethodLabel": "روش پرداخت",
+    "notesLabel": "یادداشت‌های پرداخت (اختیاری)",
+    "payInFull": "تسویه کامل",
+    "payPartial": "پرداخت جزئی",
+    "payOnCheckout": "پرداخت هنگام خروج",
+    "cash": "نقدی",
+    "card": "کارت"
   },
   "help": {
     "title": "مرکز کمک",
@@ -817,7 +882,8 @@
       "settings": "پیکربندی",
       "guestExperience": "تجربه مهمان",
       "qrPlacements": "مکان‌های QR",
-      "hierarchy": "نقش‌ها و سلسله مراتب"
+      "hierarchy": "نقش‌ها و سلسله مراتب",
+      "billing": "پرداخت‌ها و صورت‌حساب"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "تأیید موقعیت مکانی مهمان",
         "content": "این ویژگی مهمانان را ملزم می‌کند که برای مشاهده خدمات، از نظر فیزیکی در شعاع ۵۰۰ متری هتل حضور داشته باشند.\n\nنحوه استفاده:\n۱. از داشبورد تنظیمات، گزینه 'تأیید موقعیت مکانی' را فعال کنید.\n۲. آدرس گوگل مپ هتل خود را وارد کنید.\n\nنکته درباره آدرس هتل:\nشما می‌توانید آدرس طولانی را مستقیماً از نوار آدرس مرورگر خود کپی کنید یا از یک لینک کوتاه (مانند maps.app.goo.gl) استفاده کنید. سیستم به طور خودکار لینک‌های کوتاه را برای استخراج مختصات دقیق بررسی و رمزگشایی می‌کند تا حداکثر دقت تضمین شود."
+      },
+      "sessions": {
+        "title": "جلسات مهمان و حریم خصوصی",
+        "content": "برای امنیت مهمان، نیاز به جلسه فعال است."
+      },
+      "payments": {
+        "title": "مدیریت پرداخت‌ها و مانده‌ها",
+        "content": "سیستم امکان پیگیری دقیق مبالغ بدهی را فراهم می‌کند."
+      },
+      "invoicing": {
+        "title": "صورت‌حساب و صورت‌وضعیت مهمان",
+        "content": "می‌توانید صورت‌وضعیت دقیق اقامت را صادر کنید."
       }
-    }
+    },
+    "noResultsFound": "نتیجه‌ای یافت نشد",
+    "searchNoResults": "موضوعی متناسب با جستجوی شما یافت نشد."
+  },
+  "payments": {
+    "title": "پرداخت‌ها و تسویه حساب‌ها",
+    "subtitle": "پیگیری تراکنش‌های مالی و تسویه فاکتورهای اتاق",
+    "totalPaid": "کل پرداخت شده",
+    "service": "سرویس",
+    "activeRoomsOnly": "فقط جلسات فعال",
+    "date": "تاریخ",
+    "amount": "مبلغ",
+    "type": "نوع",
+    "method": "روش",
+    "recipient": "دریافت کننده",
+    "receivedBy": "دریافت شده توسط",
+    "reference": "مرجع",
+    "noPayments": "هیچ پرداختی ثبت نشده است",
+    "settleRoomInvoice": "تسویه فاکتور اتاق",
+    "selectRoom": "انتخاب اتاق",
+    "startDate": "تاریخ شروع",
+    "endDate": "تاریخ پایان",
+    "cash": "نقدی",
+    "card": "کارت",
+    "transfer": "حواله بانکی",
+    "payment": "پرداخت",
+    "refund": "استرداد",
+    "transferType": "انتقال بخشی",
+    "manual": "دستی",
+    "addManualPayment": "افزودن فایل/رسید دستی",
+    "settleAmount": "مبلغ تسویه",
+    "confirmPayment": "تایید پرداخت",
+    "amountExceedsBalance": "مبلغ از مانده باقی‌مانده بیشتر است",
+    "notesPlaceholder": "یادداشت‌های اضافی (اختیاری)...",
+    "unpaid": "پرداخت نشده",
+    "partial": "پرداخت جزئی",
+    "paid": "تسویه کامل",
+    "invalidAmount": "مبلغ نامعتبر"
   }
 }

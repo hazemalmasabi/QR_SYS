@@ -55,10 +55,12 @@ export default function CartPage({
       .then((data) => {
         if (data.success) {
           setGuestInfo(data)
+        } else if (data.message === 'noActiveSession') {
+          router.push(`/guest/${qrCode}`)
         }
       })
       .catch(console.error)
-  }, [qrCode])
+  }, [qrCode, router])
 
   const total = getTotal()
   const currencySymbol = guestInfo?.hotel.currency_symbol || ''
@@ -108,17 +110,22 @@ export default function CartPage({
 
       const data = await res.json()
 
-      if (data.success) {
-        // Save order IDs so only this device gets notifications for these orders
-        if (data.orders && Array.isArray(data.orders)) {
-          saveMyOrderIds(data.orders.map((o: { order_id: string }) => o.order_id))
+        if (data.success) {
+          // Save order IDs so only this device gets notifications for these orders
+          if (data.orders && Array.isArray(data.orders)) {
+            saveMyOrderIds(data.orders.map((o: { order_id: string }) => o.order_id))
+          }
+          clearCart()
+          toast.success(t('orderPlaced'))
+          router.push(`/guest/${qrCode}/orders`)
+        } else {
+          // If no session, the API returns noActiveSession. Try to translate it.
+          const errorMsg = data.message ? (t.has(data.message as any) ? t(data.message as any) : data.message) : t('orderError')
+          toast.error(errorMsg)
+          if (data.message === 'noActiveSession') {
+            router.push(`/guest/${qrCode}`)
+          }
         }
-        clearCart()
-        toast.success(t('orderPlaced'))
-        router.push(`/guest/${qrCode}/orders`)
-      } else {
-        toast.error(data.message || t('orderError'))
-      }
     } catch {
       toast.error(t('orderError'))
     } finally {

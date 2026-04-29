@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Mbusak",
-    "room": "Kamar"
+    "room": "Kamar",
+    "notes": "Cathetan",
+    "clearFilters": "Hapus Filter",
+    "ok": "OK",
+    "invalidAmount": "Jumlah ora valid",
+    "id": "ID",
+    "rooms": "Kamar"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Rata-rata Wektu Rampung",
       "avgAcceptanceTime": "Rata-rata Wektu Ditampa",
       "avgExecutionTime": "Rata-rata Wektu Dikerjakake",
-      "minutes": "menit"
+      "minutes": "menit",
+      "paid": "Total Dibayar",
+      "remaining": "Sisa Total"
     },
     "filters": {
       "today": "Dina iki",
@@ -366,7 +374,8 @@
     "reports": "Laporan",
     "settings": "Setelan",
     "help": "Bantuan",
-    "logout": "Metu"
+    "logout": "Metu",
+    "payments": "Pembayaran"
   },
   "orders": {
     "title": "Pesenan",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Batal otomatis: Wektu entek",
     "guestCancelled": "Dibatalake tamu",
     "modifiedByGuest": "Diobahi dening Tamu",
-    "cancelledSuccess": "Pesanan kasil dibatalke"
+    "cancelledSuccess": "Pesanan kasil dibatalke",
+    "paymentStatus": "Status Pembayaran",
+    "paid_in_full": "Lunas",
+    "partial_paid": "Bayar Sebagian",
+    "unpaid": "Durung Bayar",
+    "in_progressSuccess": "Pesanan ditampa lan diproses",
+    "completedSuccess": "Pesanan rampung"
   },
   "services": {
     "title": "Layanan Utama",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "Check-In",
+    "checkOut": "Check-Out",
+    "checkInSuccess": "Check-in Berhasil",
+    "checkInSuccessDesc": "Kamar saiki aktif lan siap nampa panjaluk tamu.",
+    "checkOutSuccess": "Check-out Berhasil",
+    "checkOutSuccessDesc": "Akun tamu ditutup lan sesi rampung.",
+    "hasUnpaidBalance": "Ora bisa check-out. Ana saldo sing durung dibayar.",
+    "hasPendingOrders": "Ora bisa check-out. Ana pesanan sing isih proses.",
+    "sessionActive": "Isi",
+    "sessionCheckedOut": "Kosong",
+    "sessionStatus": "Status Sesi",
+    "session": "Sesi",
+    "sessionRecords": "Saldo / Riwayat",
+    "remainingBalance": "Sisa Saldo",
+    "paidBalance": "Saldo Dibayar",
+    "orders": "Pesanan",
+    "checkActions": "Mlebu/Metu",
+    "confirmCheckOut": "Konfirmasi Check-out",
+    "confirmCheckOutDesc": "Mungkasi sesi bakal nutup akun tamu saiki. Tindakan iki final.",
+    "confirmCancelPendingOrders": "Ana pesanan isih proses. Apa sampeyan pengin mbatalake lan lanjut check-out?",
+    "completePendingPaidOrdersDesc": "Ana pesanan isih proses nanging wis dibayar. Bakal ditandai 'Rampung'.",
+    "completeAndCheckOut": "Rampung & Check-out",
+    "cancelPendingThenCheckOut": "Batal & Check-out",
+    "service": "Layanan",
+    "selectService": "Pilih Layanan",
+    "balance": "Saldo",
+    "roomsWithBalance": "Kamar sing duwe saldo",
+    "unpaidOnly": "Sing durung bayar tok",
+    "empty": "Kosong",
+    "rooms": "Kamar",
+    "roomExists": "Nomer kamar wis ana"
   },
   "employees": {
     "title": "Karyawan",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL Google Maps Hotel",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Bukak hotel sampeyan ing Google Maps lan salin URL saka bilah alamat. Digunakake kanggo ngekstrak koordinat hotel kanggo verifikasi lokasi tamu.",
-    "invalidGoogleMapsUrl": "Monggo ketik URL Google Maps sing sah"
+    "invalidGoogleMapsUrl": "Monggo ketik URL Google Maps sing sah",
+    "defaultRoomTypeName": "Standar"
   },
   "reports": {
     "title": "Laporan",
@@ -691,7 +738,8 @@
     "selectDateRange": "Pilih rentang tanggal kanggo ndelok laporan",
     "summary": "Ringkesan",
     "details": "Detail",
-    "chart": "Grafik"
+    "chart": "Grafik",
+    "topCancellationReasons": "Alesan pembatalan utama"
   },
   "guest": {
     "welcome": "Sugeng Rawuh",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Ketoke sampeyan ora ana ing hotel. Priksa manawa sampeyan ana ing jero bangunan hotel lan cobanen maneh.",
     "locationTryAgain": "Coba Maneh",
     "locationCoordsError": "Ora bisa mverifikasi lokasi",
-    "locationCoordsErrorDesc": "Ana kesalahan nalika ngethok koordinat hotel. Monggo hubungi hotel."
+    "locationCoordsErrorDesc": "Ana kesalahan nalika ngethok koordinat hotel. Monggo hubungi hotel.",
+    "totalBalance": "Total",
+    "paidBalance": "Dibayar",
+    "remainingBalance": "Sisa",
+    "noActiveSession": "Layanan pesanan ora aktif",
+    "noActiveSessionDesc": "Hubungi resepsionis kanggo ngaktifake layanan pesanan kamar.",
+    "contactReception": "Hubungi Resepsionis"
   },
   "validation": {
     "required": "Iki kolom sing wajib diisi",
@@ -803,7 +857,18 @@
       "unavailable": "Sawetara barang ora ana",
       "guestRequest": "Disesuaikan panjaluk tamu",
       "alternative": "Barang ganti disediakake"
-    }
+    },
+    "remainingBalance": "Sisa Saldo",
+    "paymentDetails": "Detail Pembayaran",
+    "paymentStatusLabel": "Status Pembayaran",
+    "paidAmountLabel": "Jumlah Dibayar",
+    "paymentMethodLabel": "Metode Pembayaran",
+    "notesLabel": "Cathetan Pembayaran (Opsional)",
+    "payInFull": "Lunas",
+    "payPartial": "Bayar Sebagian",
+    "payOnCheckout": "Bayar pas Check-out",
+    "cash": "Tunai",
+    "card": "Kartu"
   },
   "help": {
     "title": "Pusat Bantuan",
@@ -817,7 +882,8 @@
       "settings": "Konfigurasi",
       "guestExperience": "Pengalaman Tamu",
       "qrPlacements": "Panggonan QR",
-      "hierarchy": "Tingkatan"
+      "hierarchy": "Tingkatan",
+      "billing": "Pembayaran & Penagihan"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Verifikasi Lokasi Tamu",
         "content": "Fitur iki ngidini tamu kudu ana sacara fisik ing radius 500 meter saka hotel kanggo njelajah layanan.\n\nCara panggunaan:\n1. Saka dasbor Pengaturan, aktifake opsi 'Verifikasi Lokasi'.\n2. Lebokake URL Google Maps hotel sampeyan.\n\nCathetan URL:\nSampeyan bisa nyalin URL dawa langsung saka garis alamat browser utawa nggunakake link cendhak (kayata maps.app.goo.gl). Sistem bakal dekode tautan cendhak kanthi otomatis lan ngekstrak koordinat sing bener kanggo mesthekake kabeh mau presisi maksimal."
+      },
+      "sessions": {
+        "title": "Sesi Tamu & Privasi",
+        "content": "Kanggo keamanan, dibutuhake sesi aktif."
+      },
+      "payments": {
+        "title": "Manajemen Pembayaran & Saldo",
+        "content": "Sistem ngidini nelusuri akurat jumlah utang."
+      },
+      "invoicing": {
+        "title": "Penagihan & Laporan Tamu",
+        "content": "Sampeyan bisa ngetokake laporan detail sajrone nginep."
       }
-    }
+    },
+    "noResultsFound": "Ora ana hasil",
+    "searchNoResults": "Ora ana topik sing cocog karo pencarian sampeyan."
+  },
+  "payments": {
+    "title": "Pembayaran & Penyelesaian",
+    "subtitle": "Lacak transaksi keuangan lan rampungake invoice kamar",
+    "totalPaid": "Total Dibayar",
+    "service": "Layanan",
+    "activeRoomsOnly": "Sesi Aktif Tok",
+    "date": "Tanggal",
+    "amount": "Jumlah",
+    "type": "Tipe",
+    "method": "Metode",
+    "recipient": "Penerima",
+    "receivedBy": "Ditampa Dening",
+    "reference": "Referensi",
+    "noPayments": "Ora ana cathetan pembayaran",
+    "settleRoomInvoice": "Rampungake Invoice Kamar",
+    "selectRoom": "Pilih Kamar",
+    "startDate": "Tanggal Mulai",
+    "endDate": "Tanggal Rampung",
+    "cash": "Tunai",
+    "card": "Kartu",
+    "transfer": "Transfer Bank",
+    "payment": "Pembayaran",
+    "refund": "Pengembalian Dana",
+    "transferType": "Transfer Departemen",
+    "manual": "Manual",
+    "addManualPayment": "Tambah File/Kuitansi Manual",
+    "settleAmount": "Jumlah Penyelesaian",
+    "confirmPayment": "Konfirmasi Pembayaran",
+    "amountExceedsBalance": "Jumlah ngluwihi sisa saldo",
+    "notesPlaceholder": "Cathetan tambahan (Opsional)...",
+    "unpaid": "Durung Bayar",
+    "partial": "Bayar Sebagian",
+    "paid": "Lunas",
+    "invalidAmount": "Jumlah ora sah"
   }
 }

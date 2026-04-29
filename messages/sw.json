@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Ondoa",
-    "room": "Chumba"
+    "room": "Chumba",
+    "notes": "Maelezo",
+    "clearFilters": "Futa vichujio",
+    "ok": "Sawa",
+    "invalidAmount": "Kiasi si sahihi",
+    "id": "ID",
+    "rooms": "Vyumba"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Muda wa Wastani",
       "avgAcceptanceTime": "Muda wa Kukubali",
       "avgExecutionTime": "Muda wa Kukamilisha",
-      "minutes": "dak"
+      "minutes": "dak",
+      "paid": "Jumla Iliyolipwa",
+      "remaining": "Jumla Iliyobaki"
     },
     "filters": {
       "today": "Leo",
@@ -366,7 +374,8 @@
     "reports": "Ripoti",
     "settings": "Mipangilio",
     "help": "Msaada",
-    "logout": "Ondoka"
+    "logout": "Ondoka",
+    "payments": "Malipo"
   },
   "orders": {
     "title": "Maagizo",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Kughairiwa kiotomatiki: Muda umeisha",
     "guestCancelled": "Imeghairiwa na mgeni",
     "modifiedByGuest": "Imebadilishwa na Mgeni",
-    "cancelledSuccess": "Agizo limeghairiwa kwa mafanikio"
+    "cancelledSuccess": "Agizo limeghairiwa kwa mafanikio",
+    "paymentStatus": "Hali ya malipo",
+    "paid_in_full": "Imelipwa kikamilifu",
+    "partial_paid": "Malipo ya sehemu",
+    "unpaid": "Haijalipwa",
+    "in_progressSuccess": "Agizo limekubaliwa na linatekelezwa",
+    "completedSuccess": "Agizo limewekwa alama kama limekamilika"
   },
   "services": {
     "title": "Huduma Kuu",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "Ingia (Check-In)",
+    "checkOut": "Ondoka (Check-Out)",
+    "checkInSuccess": "Kuingia kumefanikiwa",
+    "checkInSuccessDesc": "Chumba kiko hai sasa na kiko tayari kupokea maombi ya wageni.",
+    "checkOutSuccess": "Kuondoka kumefanikiwa",
+    "checkOutSuccessDesc": "Akaunti ya mgeni imefungwa na kipindi kimeisha.",
+    "hasUnpaidBalance": "Huwezi kuondoka. Kuna salio ambalo halijalipwa kwa chumba hiki.",
+    "hasPendingOrders": "Huwezi kuondoka. Kuna maagizo yanayosubiri kwa chumba hiki.",
+    "sessionActive": "Kimechukuliwa",
+    "sessionCheckedOut": "Wazi",
+    "sessionStatus": "Hali ya kipindi",
+    "session": "Kipindi",
+    "sessionRecords": "Salio / Historia",
+    "remainingBalance": "Salio lililobaki",
+    "paidBalance": "Salio lililolipwa",
+    "orders": "Maagizo",
+    "checkActions": "Ingia/Ondoka",
+    "confirmCheckOut": "Thibitisha Kuondoka",
+    "confirmCheckOutDesc": "Kumaliza kipindi kutafunga akaunti ya sasa ya mgeni. Kitendo hiki ni cha mwisho.",
+    "confirmCancelPendingOrders": "Kuna maagizo yanayosubiri. Je, unataka kuyaghairi na kuendelea na kuondoka?",
+    "completePendingPaidOrdersDesc": "Kuna maagizo yanayosubiri lakini yamelipwa tayari. Yatawekwa alama kama 'Yamekamilika'.",
+    "completeAndCheckOut": "Kamilisha & Ondoka",
+    "cancelPendingThenCheckOut": "Ghairi Maagizo & Ondoka",
+    "service": "Huduma",
+    "selectService": "Chagua huduma",
+    "balance": "Salio",
+    "roomsWithBalance": "Vyumba vyenye salio",
+    "unpaidOnly": "Zisizolipwa tu",
+    "empty": "Wazi",
+    "rooms": "Vyumba",
+    "roomExists": "Namba ya chumba tayari ipo"
   },
   "employees": {
     "title": "Wafanyakazi",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL ya Ramani za Google ya Hoteli",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Fungua hoteli yako kwenye Ramani za Google na unakili URL kutoka sehemu ya anwani. Inatumika kwa kutoa kuratibu za hoteli ili kuthibitisha mahali mgeni alipo.",
-    "invalidGoogleMapsUrl": "Tafadhali weka URL halali ya Ramani za Google"
+    "invalidGoogleMapsUrl": "Tafadhali weka URL halali ya Ramani za Google",
+    "defaultRoomTypeName": "Standard"
   },
   "reports": {
     "title": "Ripoti",
@@ -691,7 +738,8 @@
     "selectDateRange": "Chagua kipindi cha tarehe ili kuona ripoti",
     "summary": "Muhtasari",
     "details": "Maelezo",
-    "chart": "Chati"
+    "chart": "Chati",
+    "topCancellationReasons": "Sababu kuu za kughairi"
   },
   "guest": {
     "welcome": "Karibu",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Inaonekana uko nje ya hoteli. Tafadhali hakikisha uko ndani ya jengo na ujaribu tena.",
     "locationTryAgain": "Jaribu Tena",
     "locationCoordsError": "Kushindwa kuthibitisha eneo",
-    "locationCoordsErrorDesc": "Tatizo limetokea wakati wa kutoa kuratibu za hoteli. Tafadhali wasiliana na hoteli."
+    "locationCoordsErrorDesc": "Tatizo limetokea wakati wa kutoa kuratibu za hoteli. Tafadhali wasiliana na hoteli.",
+    "totalBalance": "Jumla",
+    "paidBalance": "Iliyolipwa",
+    "remainingBalance": "Salio",
+    "noActiveSession": "Huduma ya agizo haijawashwa",
+    "noActiveSessionDesc": "Tafadhali wasiliana na mapokezi ili kuwasha huduma ya agizo kwa chumba chako.",
+    "contactReception": "Wasiliana na Mapokezi"
   },
   "validation": {
     "required": "Hii ni lazima",
@@ -803,7 +857,18 @@
       "unavailable": "Baadhi ya bidhaa hazipo",
       "guestRequest": "Imerekebishwa kulingana na mgeni",
       "alternative": "Bidhaa mbadala imetolewa"
-    }
+    },
+    "remainingBalance": "Salio lililobaki",
+    "paymentDetails": "Maelezo ya malipo",
+    "paymentStatusLabel": "Hali ya malipo",
+    "paidAmountLabel": "Kiasi kilicholipwa",
+    "paymentMethodLabel": "Njia ya malipo",
+    "notesLabel": "Maelezo ya malipo (Hiari)",
+    "payInFull": "Imelipwa kikamilifu",
+    "payPartial": "Malipo ya sehemu",
+    "payOnCheckout": "Lipa wakati wa kuondoka",
+    "cash": "Pesa taslimu",
+    "card": "Kadi"
   },
   "help": {
     "title": "Kituo cha Msaada",
@@ -817,7 +882,8 @@
       "settings": "Usanidi",
       "guestExperience": "Uzoefu wa Mgeni",
       "qrPlacements": "Maeneo ya QR",
-      "hierarchy": "Majukumu"
+      "hierarchy": "Majukumu",
+      "billing": "Malipo na Ankara"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Uthibitishaji wa Eneo la Mgeni",
         "content": "Kipengele hiki kinahitaji wageni kuwepo kimwili ndani ya rasi ya mita 500 ya hoteli ili kuangalia huduma zilizopo.\n\nJinsi ya kutumia:\n1. Kutoka kwenye dashibodi ya Mipangilio, wezesha chaguo la 'Uthibitishaji wa Mahali'.\n2. Ingiza URL yako ya Ramani za Google ya hoteli hiyo.\n\nKumbuka juu ya URL:\nUnaweza kunakili URL ndefu moja kwa moja kutoka kwenye upau wa anwani wako au kutumia kiungo kifupi (kama vile maps.app.goo.gl). Mfumo utashughulikia viungo vifupi kiotomatiki na kutoa kuratibu halisi ili kuhakikisha usahihi wa kiwango cha juu."
+      },
+      "sessions": {
+        "title": "Vipindi vya Wageni na Faragha",
+        "content": "Kwa usalama, kipindi hai kinahitajika."
+      },
+      "payments": {
+        "title": "Usimamizi wa Malipo na Salio",
+        "content": "Mfumo unaruhusu ufuatiliaji sahihi wa madeni."
+      },
+      "invoicing": {
+        "title": "Ankara na Taarifa za Wageni",
+        "content": "Unaweza kutoa taarifa za kina za malazi."
       }
-    }
+    },
+    "noResultsFound": "Hakuna matokeo yaliyopatikana",
+    "searchNoResults": "Hakuna mada yanayolingana na utafutaji wako."
+  },
+  "payments": {
+    "title": "Malipo na Makubaliano",
+    "subtitle": "Fuatilia miamala ya kifedha na kamilisha ankara za vyumba",
+    "totalPaid": "Jumla Iliyolipwa",
+    "service": "Huduma",
+    "activeRoomsOnly": "Vipindi hai tu",
+    "date": "Tarehe",
+    "amount": "Kiasi",
+    "type": "Aina",
+    "method": "Njia",
+    "recipient": "Mpokeaji",
+    "receivedBy": "Imepokelewa na",
+    "reference": "Rejea",
+    "noPayments": "Hakuna malipo yaliyorekodiwa",
+    "settleRoomInvoice": "Kamilisha ankara ya chumba",
+    "selectRoom": "Chagua chumba",
+    "startDate": "Tarehe ya kuanza",
+    "endDate": "Tarehe ya kumaliza",
+    "cash": "Pesa taslimu",
+    "card": "Kadi",
+    "transfer": "Hamisho la benki",
+    "payment": "Malipo",
+    "refund": "Urejeshaji",
+    "transferType": "Hamisho la idara",
+    "manual": "Kwa mkono",
+    "addManualPayment": "Ongeza faili / risiti",
+    "settleAmount": "Kiasi cha kukamilisha",
+    "confirmPayment": "Thibitisha malipo",
+    "amountExceedsBalance": "Kiasi kinazidi salio lililobaki",
+    "notesPlaceholder": "Maelezo ya ziada (Hiari)...",
+    "unpaid": "Haijalipwa",
+    "partial": "Malipo ya sehemu",
+    "paid": "Imelipwa kikamilifu",
+    "invalidAmount": "Kiasi batili"
   }
 }

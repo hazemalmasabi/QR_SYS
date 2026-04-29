@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "ہٹائیں",
-    "room": "کمرہ"
+    "room": "کمرہ",
+    "notes": "نوٹس",
+    "clearFilters": "فلٹرز صاف کریں",
+    "ok": "ٹھیک ہے",
+    "invalidAmount": "غلط رقم",
+    "id": "آئی ڈی",
+    "rooms": "کمرے"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "اوسط وقت",
       "avgAcceptanceTime": "اوسط منظوری کا وقت",
       "avgExecutionTime": "اوسط تکمیل کا وقت",
-      "minutes": "منٹ"
+      "minutes": "منٹ",
+      "paid": "کل ادا شدہ",
+      "remaining": "کل باقی"
     },
     "filters": {
       "today": "آج",
@@ -366,7 +374,8 @@
     "reports": "رپورٹس",
     "settings": "سیٹنگز",
     "help": "مدد",
-    "logout": "لاگ آؤٹ"
+    "logout": "لاگ آؤٹ",
+    "payments": "ادائیگیاں"
   },
   "orders": {
     "title": "آرڈرز",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "خودکار منسوخی: وقت ختم",
     "guestCancelled": "مہمان کی طرف سے منسوخ",
     "modifiedByGuest": "مہمان کی طرف سے ترمیم شدہ",
-    "cancelledSuccess": "آرڈر کامیابی سے منسوخ ہو گیا"
+    "cancelledSuccess": "آرڈر کامیابی سے منسوخ ہو گیا",
+    "paymentStatus": "ادائیگی کی صورتحال",
+    "paid_in_full": "مکمل ادائیگی",
+    "partial_paid": "جزوی ادائیگی",
+    "unpaid": "غیر ادا شدہ",
+    "in_progressSuccess": "آرڈر قبول کر لیا گیا ہے اور جاری ہے",
+    "completedSuccess": "آرڈر مکمل نشان زد کر دیا گیا ہے"
   },
   "services": {
     "title": "بنیادی خدمات",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "کیا واقعی اس ہوٹل کے سب کمروں کو حذف کرنا چاہتے ہیں؟",
     "deleteAllDesc2": "کمروں کے تمام کیو آر کوڈز منسوخ ہو کر مِٹ جائیں گے۔ یہ عمل واپس نہیں آ سکتا۔",
     "yesDeleteAll": "جی ہاں، سب حذف کریں",
-    "allDuplicatesOrInvalid": "تمام کمرے یا تو نقل ہیں یا غلط ہیں"
+    "allDuplicatesOrInvalid": "تمام کمرے یا تو نقل ہیں یا غلط ہیں",
+    "checkIn": "چیک ان",
+    "checkOut": "چیک آؤٹ",
+    "checkInSuccess": "چیک ان کامیاب",
+    "checkInSuccessDesc": "کمرہ اب فعال ہے اور مہمانوں کی درخواستیں وصول کرنے کے لیے تیار ہے۔",
+    "checkOutSuccess": "چیک آؤٹ کامیاب",
+    "checkOutSuccessDesc": "مہمان کا اکاؤنٹ بند کر دیا گیا ہے اور سیشن ختم ہو گیا ہے۔",
+    "hasUnpaidBalance": "چیک آؤٹ نہیں کیا جا سکتا۔ اس کمرے میں غیر ادا شدہ رقم باقی ہے۔",
+    "hasPendingOrders": "چیک آؤٹ نہیں کیا جا سکتا۔ اس کمرے میں التواء والے آرڈر ہیں۔",
+    "sessionActive": "مصروف",
+    "sessionCheckedOut": "خالی",
+    "sessionStatus": "سیشن کی صورتحال",
+    "session": "سیشن",
+    "sessionRecords": "باقی / تاریخ",
+    "remainingBalance": "باقی رقم",
+    "paidBalance": "ادا شدہ رقم",
+    "orders": "آرڈرز",
+    "checkActions": "داخلہ/اخراج",
+    "confirmCheckOut": "چیک آؤٹ کی تصدیق کریں",
+    "confirmCheckOutDesc": "سیشن ختم کرنے سے موجودہ مہمان کا اکاؤنٹ بند ہو جائے گا۔ یہ عمل حتمی ہے۔",
+    "confirmCancelPendingOrders": "التواء والے آرڈر ہیں۔ کیا آپ انہیں منسوخ کر کے چیک آؤٹ کرنا چاہتے ہیں؟",
+    "completePendingPaidOrdersDesc": "التواء والے آرڈر ہیں لیکن ادائیگی ہو چکی ہے۔ انہیں 'مکمل' سمجھا جائے گا۔",
+    "completeAndCheckOut": "مکمل کریں اور چیک آؤٹ کریں",
+    "cancelPendingThenCheckOut": "آرڈر منسوخ کریں اور چیک آؤٹ کریں",
+    "service": "سروس",
+    "selectService": "سروس منتخب کریں",
+    "balance": "باقی",
+    "roomsWithBalance": "باقی رقم والے کمرے",
+    "unpaidOnly": "صرف غیر ادا شدہ",
+    "empty": "خالی",
+    "rooms": "کمرے",
+    "roomExists": "کمرہ نمبر پہلے ہی موجود ہے"
   },
   "employees": {
     "title": "ملازمین",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "ہوٹل کا گوگل میپس URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "گوگل میپس پر اپنا ہوٹل کھولیں اور ایڈریس بار سے URL کاپی کریں۔ اسے مہمانوں کی مقام کی توثیق کے لیے ہوٹل کے نقاط نکالنے کے لیے استعمال کیا جاتا ہے۔",
-    "invalidGoogleMapsUrl": "براہ کرم ایک درست گوگل میپس URL درج کریں"
+    "invalidGoogleMapsUrl": "براہ کرم ایک درست گوگل میپس URL درج کریں",
+    "defaultRoomTypeName": "سٹینڈرڈ"
   },
   "reports": {
     "title": "رپورٹس",
@@ -691,7 +738,8 @@
     "selectDateRange": "رپورٹ دیکھنے کے لیے تاریخ منتخب کریں",
     "summary": "خلاصہ",
     "details": "تفصیلات",
-    "chart": "چارٹ"
+    "chart": "چارٹ",
+    "topCancellationReasons": "منسوخی کی بڑی وجوہات"
   },
   "guest": {
     "welcome": "خوش آمدید",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "ایسا لگتا ہے کہ آپ ہوٹل کے اندر نہیں ہیں۔ براہ کرم یقینی بنائیں کہ آپ ہوٹل کی عمارت کے اندر موجود ہیں اور دوبارہ کوشش کریں۔",
     "locationTryAgain": "دوبارہ کوشش کریں",
     "locationCoordsError": "مقام کی تصدیق نہیں کی جا سکی",
-    "locationCoordsErrorDesc": "ہوٹل کے نقاط معلوم کرنے میں کوئی خرابی پیش آ گئی ہے۔ براہ کرم ہوٹل سے رابطہ کریں۔"
+    "locationCoordsErrorDesc": "ہوٹل کے نقاط معلوم کرنے میں کوئی خرابی پیش آ گئی ہے۔ براہ کرم ہوٹل سے رابطہ کریں۔",
+    "totalBalance": "کل",
+    "paidBalance": "ادا شدہ",
+    "remainingBalance": "باقی",
+    "noActiveSession": "آرڈر سروس فعال نہیں ہے",
+    "noActiveSessionDesc": "اپنے کمرے کے لیے آرڈر سروس فعال کرنے کے لیے براہ کرم ریسپشن سے رابطہ کریں۔",
+    "contactReception": "ریسپشن سے رابطہ کریں"
   },
   "validation": {
     "required": "یہ ضروری ہے",
@@ -803,7 +857,18 @@
       "unavailable": "آئٹمز دستیاب نہیں",
       "guestRequest": "مہمان کی فرمائش پر تبدیل شدہ",
       "alternative": "متبادل مہیا کر دیا گیا"
-    }
+    },
+    "remainingBalance": "باقی رقم",
+    "paymentDetails": "ادائیگی کی تفصیلات",
+    "paymentStatusLabel": "ادائیگی کی صورتحال",
+    "paidAmountLabel": "ادا شدہ رقم",
+    "paymentMethodLabel": "ادائیگی کا طریقہ",
+    "notesLabel": "ادائیگی نوٹس (اختیاری)",
+    "payInFull": "مکمل ادائیگی",
+    "payPartial": "جزوی ادائیگی",
+    "payOnCheckout": "چیک آؤٹ پر ادائیگی",
+    "cash": "نقد",
+    "card": "کارڈ"
   },
   "help": {
     "title": "مدد مرکز",
@@ -817,7 +882,8 @@
       "settings": "ترتیبات",
       "guestExperience": "مہمان کا تجربہ",
       "qrPlacements": "کیو آر پلیسمنٹس",
-      "hierarchy": "کردار اور درجہ بندی"
+      "hierarchy": "کردار اور درجہ بندی",
+      "billing": "ادائیگی اور بلنگ"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "مہمان کے مقام کی تصدیق",
         "content": "اس فیچر کے لیے ضروری ہے کہ مہمان خدمات کو براؤز کرنے کے لیے ہوٹل کے 500 میٹر کے دائرے میں جسمانی طور پر موجود ہوں۔\n\nاستعمال کا طریقہ:\n1. سیٹنگز ڈیش بورڈ سے، 'مقام کی توثیق' کا اختیار فعال کریں۔\n2. اپنے ہوٹل کا گوگل میپس URL درج کریں۔\n\nURL پر اہم نوٹ:\nآپ اپنے براؤزر کے ایڈریس بار سے براہ راست سیدھا لمبا URL بھی کاپی کر سکتے ہیں یا شارٹ لنک (جیسے maps.app.goo.gl) بھی استعمال کر سکتے ہیں۔ سسٹم خود بخود شارٹ لنکس کو ڈی کوڈ کر لے گا اور انتہائی درستگی کو یقینی بنانے کے لیے درست نقاط نکال لے گا۔"
+      },
+      "sessions": {
+        "title": "مہمان سیشن اور پرائیویسی",
+        "content": "حفاظت کے لیے، فعال سیشن ضروری ہے۔"
+      },
+      "payments": {
+        "title": "ادائیگی اور بیلنس کا انتظام",
+        "content": "سسٹم باقی رقم کی درست ٹریکنگ کی اجازت دیتا ہے۔"
+      },
+      "invoicing": {
+        "title": "انوینسنگ اور مہمان کے گوشوارے",
+        "content": "قیام کے تفصیلی گوشوارے جاری کیے جا سکتے ہیں۔"
       }
-    }
+    },
+    "noResultsFound": "کوئی نتیجہ نہیں ملا",
+    "searchNoResults": "آپ کی تلاش سے ملتا جلتا کوئی موضوع نہیں ملا۔"
+  },
+  "payments": {
+    "title": "ادائیگی اور تصفیہ",
+    "subtitle": "مالی لین دین کو ٹریک کریں اور کمرے کے بلوں کو سیٹل کریں",
+    "totalPaid": "کل ادا شدہ",
+    "service": "سروس",
+    "activeRoomsOnly": "صرف فعال سیشن",
+    "date": "تاریخ",
+    "amount": "رقم",
+    "type": "قسم",
+    "method": "طریقہ",
+    "recipient": "وصول کنندہ",
+    "receivedBy": "وصول کنندہ",
+    "reference": "حوالہ",
+    "noPayments": "کوئی ادائیگی ریکارڈ نہیں ہے",
+    "settleRoomInvoice": "کمرے کا بل سیٹل کریں",
+    "selectRoom": "کمرہ منتخب کریں",
+    "startDate": "شروع کی تاریخ",
+    "endDate": "آخری تاریخ",
+    "cash": "نقد",
+    "card": "کارڈ",
+    "transfer": "بینک ٹرانسفر",
+    "payment": "ادائیگی",
+    "refund": "واپسی",
+    "transferType": "محکمانہ منتقلی",
+    "manual": "دستی",
+    "addManualPayment": "دستی فائل / رسید شامل کریں",
+    "settleAmount": "تصفیہ کی رقم",
+    "confirmPayment": "ادائیگی کی تصدیق کریں",
+    "amountExceedsBalance": "رقم باقی رقم سے زیادہ ہے",
+    "notesPlaceholder": "اضافی نوٹس (اختیاری)...",
+    "unpaid": "غیر ادا شدہ",
+    "partial": "جزوی ادائیگی",
+    "paid": "مکمل ادائیگی",
+    "invalidAmount": "غلط رقم"
   }
 }

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import {
   Search,
   Filter,
+  FilterX,
   ChevronLeft,
   ChevronRight,
   Eye,
@@ -25,6 +26,7 @@ interface OrderRow {
   total_amount: number
   currency_code: string
   status: 'new' | 'under_modification' | 'in_progress' | 'completed' | 'cancelled'
+  payment_status: 'unpaid' | 'partial_paid' | 'paid_in_full'
   created_at: string
   rooms: { room_number: string }
   main_services: { service_name: { ar: string; en: string } }
@@ -108,6 +110,13 @@ export default function OrdersPage() {
     loadServices()
     fetchServices()
   }, [])
+
+  const clearFilters = () => {
+    setSearch('')
+    setDateFrom('')
+    setDateTo('')
+    setServiceFilter('')
+  }
 
   const fetchOrders = useCallback(async () => {
     setLoading(true)
@@ -238,31 +247,7 @@ export default function OrdersPage() {
           />
         </div>
 
-        {/* Date From */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateFrom')}</span>
-          <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
-          <input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            className="input max-w-[140px] py-1.5 text-sm"
-          />
-        </div>
-
-        {/* Date To */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateTo')}</span>
-          <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
-          <input
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className="input max-w-[140px] py-1.5 text-sm"
-          />
-        </div>
-
-        {/* Service Filter (for supervisors) */}
+        {/* Service Filter (moved before dates) */}
         {services.length > 0 && (
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-gray-400 shrink-0" />
@@ -279,6 +264,43 @@ export default function OrdersPage() {
               ))}
             </select>
           </div>
+        )}
+
+        {/* Date From */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateFrom')}</span>
+          <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
+          <input
+            type="date"
+            value={dateFrom}
+            max={dateTo || undefined}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="input max-w-[140px] py-1.5 text-sm"
+          />
+        </div>
+
+        {/* Date To */}
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-gray-600 whitespace-nowrap">{t('dateTo')}</span>
+          <Calendar className="h-4 w-4 text-gray-400 shrink-0" />
+          <input
+            type="date"
+            value={dateTo}
+            min={dateFrom || undefined}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="input max-w-[140px] py-1.5 text-sm"
+          />
+        </div>
+
+        {/* Clear Filters Button */}
+        {(search || serviceFilter || dateFrom || dateTo) && (
+          <button
+            onClick={clearFilters}
+            className="btn-ghost py-1.5 px-3 text-sm flex items-center gap-2 text-red-500 hover:bg-red-50"
+          >
+            <FilterX className="h-4 w-4" />
+            <span>{tc('clearFilters') || 'Clear'}</span>
+          </button>
         )}
       </div>
 
@@ -304,6 +326,7 @@ export default function OrdersPage() {
                   <th>{t('items')}</th>
                   <th>{t('total')}</th>
                   <th>{t('status')}</th>
+                  <th>{t('paymentStatus')}</th>
                   <th>{t('dateTime')}</th>
                   <th>{tc('actions')}</th>
                 </tr>
@@ -328,6 +351,20 @@ export default function OrdersPage() {
                       <span className={BADGE_CLASS[order.status]}>
                         {t(STATUS_LABEL_KEY[order.status])}
                       </span>
+                    </td>
+                    <td>
+                      {order.status !== 'cancelled' && order.total_amount > 0 ? (
+                        <span className={cn(
+                          "text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap",
+                          order.payment_status === 'paid_in_full' ? "bg-green-50 text-green-600" :
+                          order.payment_status === 'partial_paid' ? "bg-yellow-50 text-yellow-600" :
+                          "bg-red-50 text-red-600"
+                        )}>
+                          {t(order.payment_status || 'unpaid')}
+                        </span>
+                      ) : (
+                        <span className="text-gray-300">-</span>
+                      )}
                     </td>
                     <td className="text-gray-500">
                       <div className="text-sm">{formatDate(order.created_at, timezone, locale)}</div>

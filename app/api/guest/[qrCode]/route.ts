@@ -51,16 +51,17 @@ export async function GET(
     const room = mapping.rooms as unknown as Record<string, unknown>
     const hotel = mapping.hotels as unknown as Record<string, unknown>
 
-    // Check if room is active
-    if (room.status !== 'active') {
-      return NextResponse.json(
-        { success: false, message: 'roomInactive' },
-        { status: 404 }
-      )
-    }
+    // Check for active session
+    const { data: session } = await supabaseAdmin
+      .from('guest_sessions')
+      .select('session_id')
+      .eq('room_id', room.room_id)
+      .eq('status', 'active')
+      .maybeSingle()
 
     return NextResponse.json({
       success: true,
+      hasActiveSession: !!session,
       room: {
         room_id: room.room_id,
         room_number: room.room_number,

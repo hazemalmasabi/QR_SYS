@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     // Build query — filter by role
     let query = supabaseAdmin
       .from('orders')
-      .select('order_id, status, total_amount, actual_time, created_at, accepted_at, completed_at, cancelled_at')
+      .select('order_id, status, total_amount, paid_amount, actual_time, created_at, accepted_at, completed_at, cancelled_at')
       .eq('hotel_id', session.hotelId)
       .gte('created_at', startDate.toISOString())
       .lte('created_at', endDate.toISOString())
@@ -90,7 +90,14 @@ export async function GET(request: NextRequest) {
       .filter((o) => o.status !== 'cancelled')
       .reduce((sum, o) => sum + (o.total_amount || 0), 0)
 
+    const totalPaid = ordersList
+      .filter((o) => o.status !== 'cancelled')
+      .reduce((sum, o) => sum + (o.paid_amount || 0), 0)
+
+    const totalRemaining = totalRevenue - totalPaid
+
     const acceptedOrders = ordersList.filter((o) => o.accepted_at != null && o.created_at != null)
+
     let totalAcceptanceTime = 0
     acceptedOrders.forEach((o) => {
       const diff = new Date(o.accepted_at).getTime() - new Date(o.created_at).getTime()
@@ -178,6 +185,8 @@ export async function GET(request: NextRequest) {
         completed,
         cancelled,
         totalRevenue,
+        totalPaid,
+        totalRemaining,
         avgAcceptanceTime,
         avgExecutionTime,
         currencySymbol: hotel?.currency_symbol || '$',

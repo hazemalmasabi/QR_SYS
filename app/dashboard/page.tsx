@@ -40,6 +40,8 @@ interface DashboardStats {
   completed: number
   cancelled: number
   totalRevenue: number
+  totalPaid: number
+  totalRemaining: number
   avgAcceptanceTime: number | null
   avgExecutionTime: number | null
   currencySymbol: string
@@ -75,9 +77,9 @@ export default function DashboardPage() {
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
 
-  const fetchStats = useCallback(async () => {
+  const fetchStats = useCallback(async (silent = false) => {
     if (period === 'custom' && (!customFrom || !customTo)) return
-    setLoading(true)
+    if (!silent) setLoading(true)
     try {
       const params = new URLSearchParams({ period })
       if (period === 'custom') {
@@ -92,7 +94,7 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Failed to fetch stats:', error)
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }, [period, customFrom, customTo])
 
@@ -100,16 +102,22 @@ export default function DashboardPage() {
     fetchStats()
   }, [fetchStats])
 
-  // ── Supabase Realtime: Refresh stats if any order changes/added ──
+  // ── Supabase Realtime: Refresh stats if any order or payment changes ──
   useEffect(() => {
     const channel = supabase
-      .channel('dashboard-stats-refresh')
+      .channel('dashboard-realtime')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'orders' },
         () => {
-          // Whenever an order is created or updated, refresh the stats
-          fetchStats()
+          fetchStats(true) // Silent refresh
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'payments' },
+        () => {
+          fetchStats(true) // Silent refresh
         }
       )
       .subscribe()
@@ -161,42 +169,7 @@ export default function DashboardPage() {
       },
     ] : []
 
-  const otherCards = stats
-    ? [
-      {
-        label: t('stats.totalOrders'),
-        value: stats.totalOrders,
-        icon: ClipboardList,
-        color: 'text-blue-600',
-        bg: 'bg-blue-50',
-      },
-      {
-        label: t('stats.totalRevenue'),
-        value: formatCurrency(stats.totalRevenue, '', stats.currencySymbol),
-        icon: Banknote,
-        color: 'text-emerald-600',
-        bg: 'bg-emerald-50',
-      },
-      {
-        label: t('stats.avgAcceptanceTime') || 'متوسط وقت القبول',
-        value: stats.avgAcceptanceTime !== null
-          ? `${Math.round(stats.avgAcceptanceTime)} ${t('stats.minutes')}`
-          : '—',
-        icon: Timer,
-        color: 'text-amber-600',
-        bg: 'bg-amber-50',
-      },
-      {
-        label: t('stats.avgExecutionTime') || 'متوسط وقت التنفيذ',
-        value: stats.avgExecutionTime !== null
-          ? `${Math.round(stats.avgExecutionTime)} ${t('stats.minutes')}`
-          : '—',
-        icon: Timer,
-        color: 'text-blue-600',
-        bg: 'bg-blue-50',
-      },
-    ]
-    : []
+
 
   if (loading && !stats) {
     return (
@@ -278,44 +251,40 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-6">
+      <div className="flex flex-wrap xl:flex-nowrap gap-3 sm:gap-4">
 
-        {/* Total Orders (First Card) */}
-        {otherCards.length > 0 && (() => {
-          const card = otherCards[0]
-          const Icon = card.icon
-          return (
-            <div className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow bg-white rounded-2xl border border-gray-100 shadow-sm">
-              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words w-full px-1 mb-2 h-10 flex items-center justify-center">
-                {card.label}
-              </p>
-              <div className={cn('rounded-full p-2.5 mb-2', card.bg)}>
-                <Icon className={cn('h-5 w-5', card.color)} />
-              </div>
-              <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={card.value.toString()}>
-                {card.value}
-              </h3>
-            </div>
-          )
-        })()}
-
-        {/* Grouped Status Cards (Spans 2 columns) */}
+        {/* Total Orders */}
         {stats && (
-          <div className="stat-card p-3 sm:p-4 hover:shadow-md transition-shadow col-span-2 flex flex-col justify-center h-full bg-white border border-gray-100 rounded-2xl shadow-sm">
-            <div className="grid grid-cols-2 gap-x-2 gap-y-3 w-full">
+          <div className="stat-card flex-[0.85] min-w-[120px] flex flex-col items-center justify-center text-center p-4 hover:shadow-md transition-all bg-white rounded-2xl border border-gray-100 shadow-sm group">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 group-hover:text-primary-600 transition-colors">
+              {t('stats.totalOrders')}
+            </p>
+            <div className="rounded-full p-2.5 mb-3 bg-blue-50 group-hover:scale-110 transition-transform">
+              <ClipboardList className="h-5 w-5 text-blue-600" />
+            </div>
+            <h3 className="text-xl font-black text-gray-900 leading-none">
+              {stats.totalOrders}
+            </h3>
+          </div>
+        )}
+
+        {/* Status Breakdown */}
+        {stats && (
+          <div className="stat-card flex-[2.2] min-w-[320px] p-3 sm:p-4 hover:shadow-md transition-all bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col justify-center">
+             <div className="grid grid-cols-2 gap-2 sm:gap-3 h-full">
               {statusCards.map((card, idx) => {
                 const Icon = card.icon
                 return (
-                  <div key={idx} className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50 border border-gray-100/50 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <div className={cn('rounded-full p-1.5 shrink-0', card.bg)}>
-                        <Icon className={cn('h-4 w-4', card.color)} />
+                  <div key={idx} className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl bg-gray-50/50 border border-gray-100/50 hover:bg-white hover:border-gray-200 transition-all group/item">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className={cn('rounded-full p-1.5 sm:p-2 shrink-0 transition-transform group-hover/item:scale-110', card.bg)}>
+                        <Icon className={cn('h-3.5 w-3.5 sm:h-4 w-4', card.color)} />
                       </div>
-                      <p className="text-[10px] sm:text-xs font-semibold text-gray-600 leading-tight">
+                      <p className="text-[10px] sm:text-[11px] font-bold text-gray-500 uppercase tracking-tight truncate">
                         {card.label}
                       </p>
                     </div>
-                    <h3 className="text-base font-bold text-gray-900" title={card.value.toString()}>
+                    <h3 className="text-base sm:text-lg font-black text-gray-900 ml-2">
                       {card.value}
                     </h3>
                   </div>
@@ -325,23 +294,68 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Regular Metric Cards */}
-        {otherCards.slice(1).map((card, idx) => {
-          const Icon = card.icon
-          return (
-            <div key={idx} className="stat-card flex flex-col items-center justify-center text-center p-3 sm:p-4 hover:shadow-md transition-shadow bg-white rounded-2xl border border-gray-100 shadow-sm">
-              <p className="text-[11px] sm:text-xs font-semibold text-gray-700 leading-snug break-words w-full px-1 mb-2 h-10 flex items-center justify-center">
-                {card.label}
-              </p>
-              <div className={cn('rounded-full p-2.5 mb-2', card.bg)}>
-                <Icon className={cn('h-5 w-5', card.color)} />
-              </div>
-              <h3 className="text-[17px] sm:text-lg font-bold text-gray-900 leading-none w-full truncate" title={card.value.toString()}>
-                {card.value}
-              </h3>
+        {/* Total Revenue */}
+        {stats && (
+          <div className="stat-card flex-[0.85] min-w-[120px] flex flex-col items-center justify-center text-center p-4 hover:shadow-md transition-all bg-white rounded-2xl border border-gray-100 shadow-sm group">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 group-hover:text-emerald-600 transition-colors">
+              {t('stats.totalRevenue')}
+            </p>
+            <div className="rounded-full p-2.5 mb-3 bg-emerald-50 group-hover:scale-110 transition-transform">
+              <Banknote className="h-5 w-5 text-emerald-600" />
             </div>
-          )
-        })}
+            <h3 className="text-xl font-black text-emerald-700 leading-none">
+              {formatCurrency(stats.totalRevenue, '', stats.currencySymbol)}
+            </h3>
+          </div>
+        )}
+
+        {/* Paid & Remaining */}
+        {stats && (
+          <div className="stat-card flex-[1.2] min-w-[180px] p-3 hover:shadow-md transition-all bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-2 justify-center">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-green-50/40 border border-green-100/50 hover:bg-green-50 transition-colors group">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-green-600 uppercase tracking-widest mb-1">{t('stats.paid')}</span>
+                <span className="text-base sm:text-lg font-black text-green-700">{formatCurrency(stats.totalPaid, '', stats.currencySymbol)}</span>
+              </div>
+              <CheckCircle2 className="h-5 w-5 text-green-500 opacity-60 group-hover:scale-110 transition-transform" />
+            </div>
+            <div className="flex items-center justify-between p-3 rounded-xl bg-amber-50/40 border border-amber-100/50 hover:bg-amber-50 transition-colors group">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest mb-1">{t('stats.remaining')}</span>
+                <span className="text-base sm:text-lg font-black text-amber-700">{formatCurrency(stats.totalRemaining, '', stats.currencySymbol)}</span>
+              </div>
+              <Clock className="h-5 w-5 text-amber-500 opacity-60 group-hover:scale-110 transition-transform" />
+            </div>
+          </div>
+        )}
+
+        {/* Time Metrics */}
+        {stats && (
+          <div className="stat-card flex-[1.2] min-w-[180px] p-3 hover:shadow-md transition-all bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-2 justify-center">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-amber-50/40 border border-amber-100/50 hover:bg-amber-50 transition-colors group">
+              <div className="rounded-full p-2 bg-white shadow-sm group-hover:scale-110 transition-transform">
+                <Timer className="h-5 w-5 text-amber-600" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-amber-600 uppercase tracking-widest mb-0.5">{t('stats.avgAcceptanceTime')}</span>
+                <span className="text-base sm:text-lg font-black text-gray-900 leading-none">
+                  {stats.avgAcceptanceTime !== null ? `${Math.round(stats.avgAcceptanceTime)} ${t('stats.minutes')}` : '—'}
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-blue-50/40 border border-blue-100/50 hover:bg-blue-50 transition-colors group">
+              <div className="rounded-full p-2 bg-white shadow-sm group-hover:scale-110 transition-transform">
+                <Clock className="h-5 w-5 text-blue-600" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold text-blue-600 uppercase tracking-widest mb-0.5">{t('stats.avgExecutionTime')}</span>
+                <span className="text-lg font-black text-gray-900 leading-none">
+                  {stats.avgExecutionTime !== null ? `${Math.round(stats.avgExecutionTime)} ${t('stats.minutes')}` : '—'}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Recent Orders */}

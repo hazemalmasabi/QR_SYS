@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Remover",
-    "room": "Quarto"
+    "room": "Quarto",
+    "notes": "Notas",
+    "clearFilters": "Limpar filtros",
+    "ok": "OK",
+    "invalidAmount": "Valor inválido",
+    "id": "ID",
+    "rooms": "Quartos"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Tempo Médio de Conclusão",
       "avgAcceptanceTime": "Tempo Médio de Aceitação",
       "avgExecutionTime": "Tempo Médio de Execução",
-      "minutes": "minutos"
+      "minutes": "minutos",
+      "paid": "Total Pago",
+      "remaining": "Total Restante"
     },
     "filters": {
       "today": "Hoje",
@@ -366,7 +374,8 @@
     "reports": "Relatórios",
     "settings": "Configurações",
     "help": "Ajuda",
-    "logout": "Sair"
+    "logout": "Sair",
+    "payments": "Pagamentos"
   },
   "orders": {
     "title": "Pedidos",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Cancelado automaticamente: tempo expirado",
     "guestCancelled": "Cancelado pelo hóspede",
     "modifiedByGuest": "Modificado pelo hóspede",
-    "cancelledSuccess": "Pedido cancelado com sucesso"
+    "cancelledSuccess": "Pedido cancelado com sucesso",
+    "paymentStatus": "Status do pagamento",
+    "paid_in_full": "Pago integralmente",
+    "partial_paid": "Pagamento parcial",
+    "unpaid": "Não pago",
+    "in_progressSuccess": "Pedido aceito e em andamento",
+    "completedSuccess": "Pedido marcado como concluído"
   },
   "services": {
     "title": "Serviços Principais",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Tem certeza que deseja apagar todos os quartos deste hotel?",
     "deleteAllDesc2": "Todas as rotas QR dos quartos serão desativadas e apagadas. Isso não pode ser desfeito.",
     "yesDeleteAll": "Sim, apagar tudo",
-    "allDuplicatesOrInvalid": "Todos os quartos são duplicados ou inválidos"
+    "allDuplicatesOrInvalid": "Todos os quartos são duplicados ou inválidos",
+    "checkIn": "Check-In",
+    "checkOut": "Check-Out",
+    "checkInSuccess": "Check-in realizado com sucesso",
+    "checkInSuccessDesc": "O quarto está ativo e pronto para receber solicitações de hóspedes.",
+    "checkOutSuccess": "Check-out realizado com sucesso",
+    "checkOutSuccessDesc": "A conta do hóspede foi fechada e a sessão encerrada.",
+    "hasUnpaidBalance": "Não é possível fazer check-out. Há um saldo não pago neste quarto.",
+    "hasPendingOrders": "Não é possível fazer check-out. Há pedidos pendentes neste quarto.",
+    "sessionActive": "Ocupado",
+    "sessionCheckedOut": "Vazio",
+    "sessionStatus": "Status da sessão",
+    "session": "Sessão",
+    "sessionRecords": "Saldo / Histórico",
+    "remainingBalance": "Saldo restante",
+    "paidBalance": "Saldo pago",
+    "orders": "Pedidos",
+    "checkActions": "Entrada/Saída",
+    "confirmCheckOut": "Confirmar Check-out",
+    "confirmCheckOutDesc": "Encerrar a sessão fechará a conta atual do hóspede. Esta ação é definitiva.",
+    "confirmCancelPendingOrders": "Há pedidos pendentes. Deseja cancelá-los e prosseguir com o check-out?",
+    "completePendingPaidOrdersDesc": "Há pedidos pendentes, mas já estão pagos. Serão marcados como 'Concluídos'.",
+    "completeAndCheckOut": "Concluir e Sair",
+    "cancelPendingThenCheckOut": "Cancelar e Sair",
+    "service": "Serviço",
+    "selectService": "Selecionar serviço",
+    "balance": "Saldo",
+    "roomsWithBalance": "Quartos com saldo",
+    "unpaidOnly": "Apenas não pagos",
+    "empty": "Vazio",
+    "rooms": "Quartos",
+    "roomExists": "Número do quarto já existe"
   },
   "employees": {
     "title": "Funcionários",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL do Google Maps do hotel",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Abra o seu hotel no Google Maps e copie o URL da barra de endereços. Utilizado para extrair as coordenadas do hotel para a verificação da localização do hóspede.",
-    "invalidGoogleMapsUrl": "Por favor, introduza um URL válido do Google Maps"
+    "invalidGoogleMapsUrl": "Por favor, introduza um URL válido do Google Maps",
+    "defaultRoomTypeName": "Padrão"
   },
   "reports": {
     "title": "Relatórios",
@@ -691,7 +738,8 @@
     "selectDateRange": "Selecione um período para visualizar os relatórios",
     "summary": "Resumo",
     "details": "Detalhes",
-    "chart": "Gráfico"
+    "chart": "Gráfico",
+    "topCancellationReasons": "Principais motivos de cancelamento"
   },
   "guest": {
     "welcome": "Bem-vindo",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Parece que não está no interior do hotel. Certifique-se de que está dentro do edifício e tente novamente.",
     "locationTryAgain": "Tentar novamente",
     "locationCoordsError": "Não foi possível verificar a localização",
-    "locationCoordsErrorDesc": "Ocorreu um erro ao extrair as coordenadas do hotel. Por favor, contacte o hotel."
+    "locationCoordsErrorDesc": "Ocorreu um erro ao extrair as coordenadas do hotel. Por favor, contacte o hotel.",
+    "totalBalance": "Total",
+    "paidBalance": "Pago",
+    "remainingBalance": "Saldo",
+    "noActiveSession": "Serviço de pedidos não ativo",
+    "noActiveSessionDesc": "Entre em contato com a recepção para ativar o serviço de pedidos no seu quarto.",
+    "contactReception": "Contatar Recepção"
   },
   "validation": {
     "required": "Este campo é obrigatório",
@@ -803,7 +857,18 @@
       "unavailable": "Alguns itens indisponíveis",
       "guestRequest": "Ajustado conforme pedido do cliente",
       "alternative": "Item alternativo fornecido"
-    }
+    },
+    "remainingBalance": "Saldo restante",
+    "paymentDetails": "Detalhes do pagamento",
+    "paymentStatusLabel": "Status do pagamento",
+    "paidAmountLabel": "Valor pago",
+    "paymentMethodLabel": "Método de pagamento",
+    "notesLabel": "Notas de pagamento (Opcional)",
+    "payInFull": "Pago integralmente",
+    "payPartial": "Pagamento parcial",
+    "payOnCheckout": "Pagar no check-out",
+    "cash": "Dinheiro",
+    "card": "Cartão"
   },
   "help": {
     "title": "Central de Ajuda",
@@ -817,7 +882,8 @@
       "settings": "Configurações",
       "guestExperience": "Jornada do Hóspede",
       "qrPlacements": "Posicionamentos QR",
-      "hierarchy": "Cargos e Hierarquia"
+      "hierarchy": "Cargos e Hierarquia",
+      "billing": "Pagamentos e Faturamento"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Verificação de Localização de Hóspedes",
         "content": "Esta funcionalidade exige que os hóspedes estejam fisicamente presentes num raio de 500 metros do hotel para poderem navegar nos serviços.\n\nComo utilizar:\n1. A partir do painel de Configurações, ative a opção 'Verificação de Localização'.\n2. Insira o URL do Google Maps do seu hotel.\n\nNota sobre a URL:\nPode copiar o URL longo diretamente da barra de endereços do seu navegador ou usar um URL curto (como maps.app.goo.gl). O sistema irá decodificar automaticamente os links curtos e extrair as coordenadas exatas para garantir a máxima precisão."
+      },
+      "sessions": {
+        "title": "Sessões de Hóspedes e Privacidade",
+        "content": "Para segurança e privacidade, é necessária uma sessão ativa."
+      },
+      "payments": {
+        "title": "Gestão de Pagamentos e Saldos",
+        "content": "O sistema permite o rastreamento preciso dos valores devidos."
+      },
+      "invoicing": {
+        "title": "Faturamento e Extratos de Hóspedes",
+        "content": "Você pode emitir extratos detalhados da estadia."
       }
-    }
+    },
+    "noResultsFound": "Nenhum resultado encontrado",
+    "searchNoResults": "Não encontramos tópicos correspondentes à sua pesquisa."
+  },
+  "payments": {
+    "title": "Pagamentos e Liquidações",
+    "subtitle": "Rastreie transações financeiras e liquide faturas de quartos",
+    "totalPaid": "Total Pago",
+    "service": "Serviço",
+    "activeRoomsOnly": "Apenas sessões ativas",
+    "date": "Data",
+    "amount": "Valor",
+    "type": "Tipo",
+    "method": "Método",
+    "recipient": "Destinatário",
+    "receivedBy": "Recebido por",
+    "reference": "Referência",
+    "noPayments": "Nenhum pagamento registrado",
+    "settleRoomInvoice": "Liquidar fatura do quarto",
+    "selectRoom": "Selecionar quarto",
+    "startDate": "Data de início",
+    "endDate": "Data de fim",
+    "cash": "Dinheiro",
+    "card": "Cartão",
+    "transfer": "Transferência bancária",
+    "payment": "Pagamento",
+    "refund": "Reembolso",
+    "transferType": "Transferência de departamento",
+    "manual": "Manual",
+    "addManualPayment": "Adicionar arquivo/recibo manual",
+    "settleAmount": "Valor a liquidar",
+    "confirmPayment": "Confirmar pagamento",
+    "amountExceedsBalance": "O valor excede o saldo restante",
+    "notesPlaceholder": "Notas adicionais (Opcional)...",
+    "unpaid": "Não pago",
+    "partial": "Pagamento parcial",
+    "paid": "Pago integralmente",
+    "invalidAmount": "Valor inválido"
   }
 }

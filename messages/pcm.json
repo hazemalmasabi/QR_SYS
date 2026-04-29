@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Comot",
-    "room": "Room"
+    "room": "Room",
+    "notes": "Notes",
+    "clearFilters": "Comot filters",
+    "ok": "OK",
+    "invalidAmount": "Invalid amount",
+    "id": "ID",
+    "rooms": "Rooms"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Average Time",
       "avgAcceptanceTime": "Avg Acceptance Time",
       "avgExecutionTime": "Avg Execution Time",
-      "minutes": "mins"
+      "minutes": "mins",
+      "paid": "Total Money Paid",
+      "remaining": "Money remain"
     },
     "filters": {
       "today": "Today",
@@ -366,7 +374,8 @@
     "reports": "Reports",
     "settings": "Settings",
     "help": "Help",
-    "logout": "Log out"
+    "logout": "Log out",
+    "payments": "Payments"
   },
   "orders": {
     "title": "Orders",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Auto-cancel: Time don finish",
     "guestCancelled": "Guest cancel am",
     "modifiedByGuest": "Guest don change am",
-    "cancelledSuccess": "Your order don cancel well well"
+    "cancelledSuccess": "Your order don cancel well well",
+    "paymentStatus": "Payment Status",
+    "paid_in_full": "Pay all",
+    "partial_paid": "Pay some",
+    "unpaid": "Never pay",
+    "in_progressSuccess": "Order don start",
+    "completedSuccess": "Order don finish"
   },
   "services": {
     "title": "Main Services",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "checkInSuccess": "Check-in don pass",
+    "checkInSuccessDesc": "The room don open and ready to receive guest requests.",
+    "checkOutSuccess": "Check-out don finish",
+    "checkOutSuccessDesc": "The guest account don close and the session don end.",
+    "hasUnpaidBalance": "You no fit check-out. Money remain wey you never pay.",
+    "hasPendingOrders": "You no fit check-out. Some orders still dey progress.",
+    "sessionActive": "Occupied",
+    "sessionCheckedOut": "Empty",
+    "sessionStatus": "Session Status",
+    "session": "Session",
+    "sessionRecords": "Money / History",
+    "remainingBalance": "Money wey remain",
+    "paidBalance": "Money wey dem pay",
+    "orders": "Orders",
+    "checkActions": "In/Out",
+    "confirmCheckOut": "Confirm Check-out",
+    "confirmCheckOutDesc": "Ending the session go close the current guest account. This thing na final.",
+    "confirmCancelPendingOrders": "Orders still dey progress. You wan cancel dem and check-out?",
+    "completePendingPaidOrdersDesc": "Orders dey progress but dem don pay already. We go mark dem as 'Finish'.",
+    "completeAndCheckOut": "Finish & Check-out",
+    "cancelPendingThenCheckOut": "Cancel Orders & Check-out",
+    "service": "Service",
+    "selectService": "Select Service",
+    "balance": "Money remain",
+    "roomsWithBalance": "Rooms wey still get money for head",
+    "unpaidOnly": "Only those wey never pay",
+    "empty": "Empty",
+    "rooms": "Rooms",
+    "roomExists": "Room number dey already"
   },
   "employees": {
     "title": "Employees",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "Hotel Google Maps URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Open your hotel for Google Maps and copy di URL from di address bar. E dey help bring out di hotel coords for location check.",
-    "invalidGoogleMapsUrl": "Abeg put correct Google Maps URL"
+    "invalidGoogleMapsUrl": "Abeg put correct Google Maps URL",
+    "defaultRoomTypeName": "Standard"
   },
   "reports": {
     "title": "Reports",
@@ -691,7 +738,8 @@
     "selectDateRange": "Pick date range to see report",
     "summary": "Summary",
     "details": "Details",
-    "chart": "Chart"
+    "chart": "Chart",
+    "topCancellationReasons": "Top reasons why dem cancel"
   },
   "guest": {
     "welcome": "Welcome",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "E be like say you no dey inside di hotel. Abeg make sure say you dey inside di building den try again.",
     "locationTryAgain": "Try Again",
     "locationCoordsError": "Could not verify location",
-    "locationCoordsErrorDesc": "One error happen to find di hotel position. Abeg contact di hotel."
+    "locationCoordsErrorDesc": "One error happen to find di hotel position. Abeg contact di hotel.",
+    "totalBalance": "Total",
+    "paidBalance": "Paid",
+    "remainingBalance": "Remain",
+    "noActiveSession": "Order service no dey active",
+    "noActiveSessionDesc": "Abeg call reception make dem open the order service for your room.",
+    "contactReception": "Call Reception"
   },
   "validation": {
     "required": "This one na must",
@@ -803,7 +857,18 @@
       "unavailable": "Some item no dey",
       "guestRequest": "Adjust as guest talk",
       "alternative": "Change to anoda item"
-    }
+    },
+    "remainingBalance": "Money wey remain",
+    "paymentDetails": "Payment Details",
+    "paymentStatusLabel": "Payment Status",
+    "paidAmountLabel": "Paid Amount",
+    "paymentMethodLabel": "How dem pay",
+    "notesLabel": "Payment Notes (Optional)",
+    "payInFull": "Pay all",
+    "payPartial": "Pay some",
+    "payOnCheckout": "Pay for Check-out",
+    "cash": "Cash",
+    "card": "Card"
   },
   "help": {
     "title": "Help Center",
@@ -817,7 +882,8 @@
       "settings": "Configuration",
       "guestExperience": "Guest Waka",
       "qrPlacements": "Where QR Dey",
-      "hierarchy": "Who be Who"
+      "hierarchy": "Who be Who",
+      "billing": "Payments & Billing"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Guest Location Verification",
         "content": "Dis feature dey make sure say guests suppose physically show face within 500-meter radius of di hotel before dem fit see wetin unna dey offer.\n\nHow to use am:\n1. For your Settings dashboard, enable di 'Location Verification' option.\n2. Put your hotel Google Maps URL.\n\nURL Note:\nYou fit copy the long URL straight from your browser address bar or use short link (like maps.app.goo.gl). Di system go automatically decode di short link and find di exact point wey di hotel dey to make sure dere is no mistake."
+      },
+      "sessions": {
+        "title": "Guest Sessions & Privacy",
+        "content": "For security, we need active session."
+      },
+      "payments": {
+        "title": "Payment Management",
+        "content": "The system dey track money very well."
+      },
+      "invoicing": {
+        "title": "Invoicing & Guest Statements",
+        "content": "You fit get the full record of your stay."
       }
-    }
+    },
+    "noResultsFound": "No results",
+    "searchNoResults": "We no see wetin you dey look for."
+  },
+  "payments": {
+    "title": "Payments & Settlements",
+    "subtitle": "Track all money and finish room bills",
+    "totalPaid": "Total Money Paid",
+    "service": "Service",
+    "activeRoomsOnly": "Rooms wey open only",
+    "date": "Date",
+    "amount": "Amount",
+    "type": "Type",
+    "method": "How to pay",
+    "recipient": "Who receive am",
+    "receivedBy": "Received By",
+    "reference": "Reference",
+    "noPayments": "No payment record",
+    "settleRoomInvoice": "Finish room bill",
+    "selectRoom": "Choose Room",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "cash": "Cash",
+    "card": "Card",
+    "transfer": "Bank Transfer",
+    "payment": "Payment",
+    "refund": "Refund",
+    "transferType": "Department Transfer",
+    "manual": "Manual",
+    "addManualPayment": "Add Manual File / Receipt",
+    "settleAmount": "Money to finish",
+    "confirmPayment": "Confirm Payment",
+    "amountExceedsBalance": "The money pass wetin remain",
+    "notesPlaceholder": "Other things (Optional)...",
+    "unpaid": "Never pay",
+    "partial": "Pay some",
+    "paid": "Pay all",
+    "invalidAmount": "Invalid amount"
   }
 }

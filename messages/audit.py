@@ -38,16 +38,19 @@ def audit_translations():
                 target_data = json.load(f)
             
             lang_code = filename.replace('.json', '')
-            missing = find_missing_keys(en, target_data)
+            missing_keys = find_missing_keys(en, target_data)
             
-            if missing:
-                found_issues = True
-                print(f"❌ Language: {lang_code.upper()} ({filename})")
-                print(f"   Missing Keys: {len(missing)}")
-                for key in missing:
-                    print(f"     - {key}")
+            if not missing_keys:
+                print(f"DONE Language: {lang_code.upper()} ({filename}) - Fully Synchronized")
             else:
-                print(f"✅ Language: {lang_code.upper()} ({filename}) - Fully Synchronized")
+                found_issues = True
+                print(f"MISSING Language: {lang_code.upper()} ({filename})")
+                print(f"   Missing Keys: {len(missing_keys)}")
+                for key in missing_keys[:10]:
+                    print(f"     - {key}")
+                if len(missing_keys) > 10:
+                    print(f"     - ... and {len(missing_keys) - 10} more")
+                print("-" * 40)
     
     if not found_issues:
         print("-" * 40)

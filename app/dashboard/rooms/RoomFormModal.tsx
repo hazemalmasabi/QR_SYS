@@ -22,8 +22,8 @@ interface FormData {
 }
 
 interface FormErrors {
-  roomNumber?: boolean
-  roomType?: boolean
+  roomNumber?: string | null
+  roomType?: string | null
 }
 
 export default function RoomFormModal({
@@ -64,10 +64,10 @@ export default function RoomFormModal({
   const validate = (): boolean => {
     const newErrors: FormErrors = {}
     if (!form.roomNumber.trim()) {
-      newErrors.roomNumber = true
+      newErrors.roomNumber = 'required'
     }
     if (!form.roomType) {
-      newErrors.roomType = true
+      newErrors.roomType = 'required'
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -101,7 +101,7 @@ export default function RoomFormModal({
         onSuccess()
         onClose()
       } else if (data.message === 'duplicateRoom') {
-        setErrors({ roomNumber: true })
+        setErrors({ roomNumber: 'roomExists' })
       }
     } catch {
       console.error('Room save error')
@@ -135,13 +135,15 @@ export default function RoomFormModal({
               value={form.roomNumber}
               onChange={(e) => {
                 setForm({ ...form, roomNumber: e.target.value })
-                if (errors.roomNumber) setErrors({ ...errors, roomNumber: false })
+                if (errors.roomNumber) setErrors({ ...errors, roomNumber: '' })
               }}
               className={cn('input', errors.roomNumber && 'input-error')}
               maxLength={20}
             />
             {errors.roomNumber && (
-              <p className="mt-1 text-xs text-red-500">{tv('required')}</p>
+              <p className="mt-1 text-xs text-red-500">
+                {errors.roomNumber === 'required' ? tv('required') : t('roomExists')}
+              </p>
             )}
           </div>
 
@@ -168,7 +170,7 @@ export default function RoomFormModal({
               value={form.roomType}
               onChange={(e) => {
                 setForm({ ...form, roomType: e.target.value })
-                if (errors.roomType) setErrors({ ...errors, roomType: false })
+                if (errors.roomType) setErrors({ ...errors, roomType: '' })
               }}
               className={cn('input', errors.roomType && 'input-error')}
             >

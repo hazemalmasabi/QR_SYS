@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Xóa",
-    "room": "Phòng"
+    "room": "Phòng",
+    "notes": "Ghi chú",
+    "clearFilters": "Xóa bộ lọc",
+    "ok": "OK",
+    "invalidAmount": "Số tiền không hợp lệ",
+    "id": "ID",
+    "rooms": "Phòng"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Thời gian hoàn thành trung bình",
       "avgAcceptanceTime": "Thời gian tiếp nhận trung bình",
       "avgExecutionTime": "Thời gian xử lý trung bình",
-      "minutes": "phút"
+      "minutes": "phút",
+      "paid": "Tổng đã thanh toán",
+      "remaining": "Tổng còn lại"
     },
     "filters": {
       "today": "Hôm nay",
@@ -366,7 +374,8 @@
     "reports": "Báo cáo",
     "settings": "Cài đặt",
     "help": "Trợ giúp",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "payments": "Thanh toán"
   },
   "orders": {
     "title": "Đơn hàng",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Tự động hủy: Hết thời gian",
     "guestCancelled": "Khách đã hủy",
     "modifiedByGuest": "Đã được chỉnh sửa bởi khách",
-    "cancelledSuccess": "Đã hủy đơn hàng thành công"
+    "cancelledSuccess": "Đã hủy đơn hàng thành công",
+    "paymentStatus": "Trạng thái thanh toán",
+    "paid_in_full": "Đã thanh toán hết",
+    "partial_paid": "Thanh toán một phần",
+    "unpaid": "Chưa thanh toán",
+    "in_progressSuccess": "Đơn hàng đã được chấp nhận và đang xử lý",
+    "completedSuccess": "Đơn hàng đã được đánh dấu là hoàn thành"
   },
   "services": {
     "title": "Dịch vụ chính",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Bạn có chắc chắn muốn xóa tất cả phòng của khách sạn này?",
     "deleteAllDesc2": "Tất cả mã QR của phòng sẽ bị vô hiệu hóa và xóa. Bạn không thể hoàn tác thao tác này.",
     "yesDeleteAll": "Có, Xóa Tất Cả",
-    "allDuplicatesOrInvalid": "Tất cả phòng đều trùng lặp hoặc không hợp lệ"
+    "allDuplicatesOrInvalid": "Tất cả phòng đều trùng lặp hoặc không hợp lệ",
+    "checkIn": "Check-In",
+    "checkOut": "Check-Out",
+    "checkInSuccess": "Check-in thành công",
+    "checkInSuccessDesc": "Phòng hiện đang hoạt động và sẵn sàng nhận yêu cầu từ khách.",
+    "checkOutSuccess": "Check-out thành công",
+    "checkOutSuccessDesc": "Tài khoản khách đã được đóng và phiên đã kết thúc.",
+    "hasUnpaidBalance": "Không thể check-out. Có số dư chưa thanh toán cho phòng này.",
+    "hasPendingOrders": "Không thể check-out. Có đơn hàng đang chờ xử lý cho phòng này.",
+    "sessionActive": "Đã có khách",
+    "sessionCheckedOut": "Trống",
+    "sessionStatus": "Trạng thái phiên",
+    "session": "Phiên",
+    "sessionRecords": "Số dư / Lịch sử",
+    "remainingBalance": "Số dư còn lại",
+    "paidBalance": "Số dư đã thanh toán",
+    "orders": "Đơn hàng",
+    "checkActions": "Vào/Ra",
+    "confirmCheckOut": "Xác nhận Check-out",
+    "confirmCheckOutDesc": "Kết thúc phiên sẽ đóng tài khoản khách hiện tại. Hành động này là cuối cùng.",
+    "confirmCancelPendingOrders": "Có đơn hàng đang chờ xử lý. Bạn có muốn hủy chúng và tiếp tục check-out không?",
+    "completePendingPaidOrdersDesc": "Có đơn hàng đang chờ xử lý nhưng đã được thanh toán. Chúng sẽ được đánh dấu là 'Hoàn thành'.",
+    "completeAndCheckOut": "Hoàn thành & Check-out",
+    "cancelPendingThenCheckOut": "Hủy đơn hàng & Check-out",
+    "service": "Dịch vụ",
+    "selectService": "Chọn dịch vụ",
+    "balance": "Số dư",
+    "roomsWithBalance": "Các phòng có số dư",
+    "unpaidOnly": "Chỉ chưa thanh toán",
+    "empty": "Trống",
+    "rooms": "Phòng",
+    "roomExists": "Số phòng đã tồn tại"
   },
   "employees": {
     "title": "Nhân viên",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL Google Maps của khách sạn",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Mở khách sạn của bạn trên Google Maps và sao chép URL từ thanh địa chỉ. Được sử dụng để trích xuất tọa độ khách sạn nhằm xác minh vị trí của khách.",
-    "invalidGoogleMapsUrl": "Vui lòng nhập URL Google Maps hợp lệ"
+    "invalidGoogleMapsUrl": "Vui lòng nhập URL Google Maps hợp lệ",
+    "defaultRoomTypeName": "Tiêu chuẩn"
   },
   "reports": {
     "title": "Báo cáo",
@@ -691,7 +738,8 @@
     "selectDateRange": "Chọn một khoảng thời gian để xem báo cáo",
     "summary": "Tổng hợp",
     "details": "Chi tiết",
-    "chart": "Biểu đồ"
+    "chart": "Biểu đồ",
+    "topCancellationReasons": "Lý do hủy đơn hàng hàng đầu"
   },
   "guest": {
     "welcome": "Chào mừng",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Có vẻ như bạn không ở trong khách sạn. Vui lòng đảm bảo bạn đang ở trong tòa nhà khách sạn và thử lại.",
     "locationTryAgain": "Thử lại",
     "locationCoordsError": "Không thể xác minh vị trí",
-    "locationCoordsErrorDesc": "Đã xảy ra lỗi khi trích xuất tọa độ của khách sạn. Vui lòng liên hệ với quầy tiếp tân."
+    "locationCoordsErrorDesc": "Đã xảy ra lỗi khi trích xuất tọa độ của khách sạn. Vui lòng liên hệ với quầy tiếp tân.",
+    "totalBalance": "Tổng",
+    "paidBalance": "Đã trả",
+    "remainingBalance": "Số dư",
+    "noActiveSession": "Dịch vụ đặt hàng chưa được kích hoạt",
+    "noActiveSessionDesc": "Vui lòng liên hệ với quầy lễ tân để kích hoạt dịch vụ đặt hàng cho phòng của bạn.",
+    "contactReception": "Liên hệ Lễ tân"
   },
   "validation": {
     "required": "Trường này là bắt buộc",
@@ -803,7 +857,18 @@
       "unavailable": "Một số mặt hàng đã hết",
       "guestRequest": "Thay đổi theo yêu cầu của khách",
       "alternative": "Đã cung cấp hàng thay thế"
-    }
+    },
+    "remainingBalance": "Số dư còn lại",
+    "paymentDetails": "Chi tiết thanh toán",
+    "paymentStatusLabel": "Trạng thái thanh toán",
+    "paidAmountLabel": "Số tiền đã trả",
+    "paymentMethodLabel": "Phương thức thanh toán",
+    "notesLabel": "Ghi chú thanh toán (Tùy chọn)",
+    "payInFull": "Đã thanh toán hết",
+    "payPartial": "Thanh toán một phần",
+    "payOnCheckout": "Thanh toán khi check-out",
+    "cash": "Tiền mặt",
+    "card": "Thẻ"
   },
   "help": {
     "title": "Trung tâm Trợ giúp",
@@ -817,7 +882,8 @@
       "settings": "Cấu hình",
       "guestExperience": "Trải nghiệm Khách",
       "qrPlacements": "Vị trí đặt QR",
-      "hierarchy": "Phân cấp & Vai trò"
+      "hierarchy": "Phân cấp & Vai trò",
+      "billing": "Thanh toán & Hóa đơn"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Xác minh vị trí truy cập của khách",
         "content": "Tính năng này yêu cầu khách hàng phải có mặt trong bán kính 500 mét xung quanh khách sạn để có thể duyệt các dịch vụ.\n\nCách sử dụng:\n1. Từ trang Cài đặt, bật tùy chọn 'Xác minh vị trí'.\n2. Nhập URL Google Maps của khách sạn.\n\nLưu ý về URL:\nBạn có thể sao chép trực tiếp URL dài từ thanh địa chỉ trên trình duyệt hoặc sử dụng liên kết ngắn (như maps.app.goo.gl). Hệ thống sẽ tự động giải mã các liên kết ngắn và trích xuất tọa độ chính xác để đảm bảo độ tin cậy được cao nhất."
+      },
+      "sessions": {
+        "title": "Phiên làm việc của khách & Quyền riêng tư",
+        "content": "Để bảo mật, cần có một phiên hoạt động."
+      },
+      "payments": {
+        "title": "Quản lý thanh toán & số dư",
+        "content": "Hệ thống cho phép theo dõi chính xác các khoản nợ."
+      },
+      "invoicing": {
+        "title": "Hóa đơn & Sao kê của khách",
+        "content": "Bạn có thể xuất sao kê chi tiết về thời gian lưu trú."
       }
-    }
+    },
+    "noResultsFound": "Không tìm thấy kết quả",
+    "searchNoResults": "Không tìm thấy chủ đề nào khớp với tìm kiếm của bạn."
+  },
+  "payments": {
+    "title": "Thanh toán & Quyết toán",
+    "subtitle": "Theo dõi các giao dịch tài chính và quyết toán hóa đơn phòng",
+    "totalPaid": "Tổng đã thanh toán",
+    "service": "Dịch vụ",
+    "activeRoomsOnly": "Chỉ các phiên hoạt động",
+    "date": "Ngày",
+    "amount": "Số tiền",
+    "type": "Loại",
+    "method": "Phương thức",
+    "recipient": "Người nhận",
+    "receivedBy": "Người tiếp nhận",
+    "reference": "Tham chiếu",
+    "noPayments": "Không có hồ sơ thanh toán",
+    "settleRoomInvoice": "Quyết toán hóa đơn phòng",
+    "selectRoom": "Chọn phòng",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "cash": "Tiền mặt",
+    "card": "Thẻ",
+    "transfer": "Chuyển khoản ngân hàng",
+    "payment": "Thanh toán",
+    "refund": "Hoàn tiền",
+    "transferType": "Chuyển giao bộ phận",
+    "manual": "Thủ công",
+    "addManualPayment": "Thêm tệp/biên lai thủ công",
+    "settleAmount": "Số tiền quyết toán",
+    "confirmPayment": "Xác nhận thanh toán",
+    "amountExceedsBalance": "Số tiền vượt quá số dư còn lại",
+    "notesPlaceholder": "Ghi chú bổ sung (Tùy chọn)...",
+    "unpaid": "Chưa thanh toán",
+    "partial": "Thanh toán một phần",
+    "paid": "Đã thanh toán hết",
+    "invalidAmount": "Số tiền không hợp lệ"
   }
 }

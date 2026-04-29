@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "తీసివేయండి",
-    "room": "గది"
+    "room": "గది",
+    "notes": "గమనికలు",
+    "clearFilters": "ఫిల్టర్లను క్లియర్ చేయండి",
+    "ok": "సరే",
+    "invalidAmount": "చెల్లని మొత్తం",
+    "id": "ID",
+    "rooms": "గదులు"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "సగటు పూర్తి సమయం",
       "avgAcceptanceTime": "సగటు అంగీకార సమయం",
       "avgExecutionTime": "సగటు అమలు సమయం",
-      "minutes": "నిమిషాలు"
+      "minutes": "నిమిషాలు",
+      "paid": "మొత్తం చెల్లించినవి",
+      "remaining": "మొత్తం మిగిలినవి"
     },
     "filters": {
       "today": "ఈరోజు",
@@ -366,7 +374,8 @@
     "reports": "నివేదికలు",
     "settings": "సెట్టింగ్‌లు",
     "help": "సహాయం",
-    "logout": "లాగ్ అవుట్"
+    "logout": "లాగ్ అవుట్",
+    "payments": "చెల్లింపులు"
   },
   "orders": {
     "title": "ఆర్డర్లు",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "స్వయంచాలక రద్దు: సమయం ముగిసింది",
     "guestCancelled": "అతిథి రద్దు చేశారు",
     "modifiedByGuest": "అతిథి ద్వారా సవరించబడింది",
-    "cancelledSuccess": "ఆర్డర్ విజయవంతంగా రద్దు చేయబడింది"
+    "cancelledSuccess": "ఆర్డర్ విజయవంతంగా రద్దు చేయబడింది",
+    "paymentStatus": "చెల్లింపు స్థితి",
+    "paid_in_full": "పూర్తిగా చెల్లించినవి",
+    "partial_paid": "పాక్షిక చెల్లింపు",
+    "unpaid": "చెల్లించనివి",
+    "in_progressSuccess": "ఆర్డర్ ఆమోదించబడింది మరియు ప్రాసెస్‌లో ఉంది",
+    "completedSuccess": "ఆర్డర్ పూర్తయినట్లు గుర్తించబడింది"
   },
   "services": {
     "title": "ప్రధాన సేవలు",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "చెక్-ఇన్",
+    "checkOut": "చెక్-అవుట్",
+    "checkInSuccess": "చెక్-ఇన్ విజయవంతమైంది",
+    "checkInSuccessDesc": "గది ఇప్పుడు యాక్టివ్‌గా ఉంది మరియు అతిథి అభ్యర్థనలను స్వీకరించడానికి సిద్ధంగా ఉంది.",
+    "checkOutSuccess": "చెక్-అవుట్ విజయవంతమైంది",
+    "checkOutSuccessDesc": "అతిథి ఖాతా మూసివేయబడింది మరియు సెషన్ ముగిసింది.",
+    "hasUnpaidBalance": "చెక్-అవుట్ చేయడం సాధ్యం కాదు. ఈ గదిలో చెల్లించని బ్యాలెన్స్ ఉంది.",
+    "hasPendingOrders": "చెక్-అవుట్ చేయడం సాధ్యం కాదు. ఈ గదిలో పెండింగ్ ఆర్డర్లు ఉన్నాయి.",
+    "sessionActive": "ఆక్రమిత",
+    "sessionCheckedOut": "ఖాళీ",
+    "sessionStatus": "సెషన్ స్థితి",
+    "session": "సెషన్",
+    "sessionRecords": "బ్యాలెన్స్ / హిస్టరీ",
+    "remainingBalance": "మిగిలిన బ్యాలెన్స్",
+    "paidBalance": "చెల్లించిన బ్యాలెన్స్",
+    "orders": "ఆర్డర్లు",
+    "checkActions": "ప్రవేశం/నిష్క్రమణ",
+    "confirmCheckOut": "చెక్-అవుట్‌ను నిర్ధారించండి",
+    "confirmCheckOutDesc": "సెషన్‌ను ముగించడం వల్ల ప్రస్తుత అతిథి ఖాతా మూసివేయబడుతుంది. ఈ చర్య తుదిమైనది.",
+    "confirmCancelPendingOrders": "పెండింగ్ ఆర్డర్లు ఉన్నాయి. మీరు వాటిని రద్దు చేసి చెక్-అవుట్ చేయాలనుకుంటున్నారా?",
+    "completePendingPaidOrdersDesc": "పెండింగ్ ఆర్డర్లు ఉన్నాయి కానీ ఇప్పటికే చెల్లించబడ్డాయి. ఇవి 'పూర్తి'గా గుర్తించబడతాయి.",
+    "completeAndCheckOut": "పూర్తి చేసి చెక్-అవుట్ చేయండి",
+    "cancelPendingThenCheckOut": "ఆర్డర్లను రద్దు చేసి చెక్-అవుట్ చేయండి",
+    "service": "సేవ",
+    "selectService": "సేవను ఎంచుకోండి",
+    "balance": "బ్యాలెన్స్",
+    "roomsWithBalance": "బ్యాలెన్స్ ఉన్న గదులు",
+    "unpaidOnly": "చెల్లించనివి మాత్రమే",
+    "empty": "ఖాళీ",
+    "rooms": "గదులు",
+    "roomExists": "గది సంఖ్య ఇప్పటికే ఉంది"
   },
   "employees": {
     "title": "ఉద్యోగులు",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "హోటల్ Google Maps URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Google Maps లో మీ హోటల్‌ను తెరిచి, అడ్రస్ బార్ నుండి URL ని కాపీ చేయండి. అతిథి స్థాన నిర్ధారణ కోసం హోటల్ కోఆర్డినేట్‌లను సంగ్రహించడానికి ఇది ఉపయోగించబడుతుంది.",
-    "invalidGoogleMapsUrl": "దయచేసి చెల్లుబాటు అయ్యే Google Maps URL ని నమోదు చేయండి"
+    "invalidGoogleMapsUrl": "దయచేసి చెల్లుబాటు అయ్యే Google Maps URL ని నమోదు చేయండి",
+    "defaultRoomTypeName": "స్టాండర్డ్"
   },
   "reports": {
     "title": "నివేదికలు",
@@ -691,7 +738,8 @@
     "selectDateRange": "నివేదికను చూడటానికి తేదీ పరిధిని ఎంచుకోండి",
     "summary": "సారాంశం",
     "details": "వివరాలు",
-    "chart": "చార్ట్"
+    "chart": "చార్ట్",
+    "topCancellationReasons": "ప్రధాన రద్దు కారణాలు"
   },
   "guest": {
     "welcome": "స్వాగతం",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "మీరు హోటల్ లోపల లేనట్లుంది. దయచేసి మీరు హోటల్ భవనం లోపలే ఉన్నారని నిర్ధారించుకుని మళ్లీ ప్రయత్నించండి.",
     "locationTryAgain": "మళ్లీ ప్రయత్నించండి",
     "locationCoordsError": "స్థానాన్ని ధృవీకరించలేకపోయాము",
-    "locationCoordsErrorDesc": "హోటల్ కోఆర్డినేట్‌లను సంగ్రహించేటప్పుడు ఒక పొరపాటు జరిగింది. దయచేసి హోటల్‌ను సంప్రదించండి."
+    "locationCoordsErrorDesc": "హోటల్ కోఆర్డినేట్‌లను సంగ్రహించేటప్పుడు ఒక పొరపాటు జరిగింది. దయచేసి హోటల్‌ను సంప్రదించండి.",
+    "totalBalance": "మొత్తం",
+    "paidBalance": "చెల్లించినవి",
+    "remainingBalance": "బ్యాలెన్స్",
+    "noActiveSession": "ఆర్డర్ సేవ అందుబాటులో లేదు",
+    "noActiveSessionDesc": "మీ గది కోసం ఆర్డర్ సేవను ప్రారంభించడానికి దయచేసి రిసెప్షన్‌ను సంప్రదించండి.",
+    "contactReception": "రిసెప్షన్‌ను సంప్రదించండి"
   },
   "validation": {
     "required": "ఈ ఫీల్డ్ తప్పనిసరి",
@@ -803,7 +857,18 @@
       "unavailable": "కొన్ని వస్తువులు అందుబాటులో లేవు",
       "guestRequest": "లాడ్జిలోని వారి అభ్యర్థన మేరకు సవరించబడింది",
       "alternative": "ప్రత్యామ్నాయం అందించబడింది"
-    }
+    },
+    "remainingBalance": "మిగిలిన బ్యాలెన్స్",
+    "paymentDetails": "చెల్లింపు వివరాలు",
+    "paymentStatusLabel": "చెల్లింపు స్థితి",
+    "paidAmountLabel": "చెల్లించిన మొత్తం",
+    "paymentMethodLabel": "చెల్లింపు పద్ధతి",
+    "notesLabel": "చెల్లింపు గమనికలు (ఐచ్ఛికం)",
+    "payInFull": "పూర్తిగా చెల్లించినవి",
+    "payPartial": "పాక్షిక చెల్లింపు",
+    "payOnCheckout": "చెక్-అవుట్ వద్ద చెల్లించండి",
+    "cash": "నగదు",
+    "card": "కార్డ్"
   },
   "help": {
     "title": "సహాయ కేంద్రం",
@@ -817,7 +882,8 @@
       "settings": "కాన్ఫిగరేషన్",
       "guestExperience": "అతిథి అనుభవం",
       "qrPlacements": "QR స్థానాలు",
-      "hierarchy": "పాత్రలు"
+      "hierarchy": "పాత్రలు",
+      "billing": "చెల్లింపులు మరియు బిల్లింగ్"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "అతిథి స్థాన ధృవీకరణ",
         "content": "ఈ ఫీచర్‌కు సేవల కోసం కస్టమర్లు గరిష్టంగా హోటల్ యొక్క 500-మీటర్ల పరిధిలోని భౌతికంగా ఉండాలి.\n\nఎలా ఉపయోగించాలి:\n1. సెట్టింగ్‌ల డాష్‌బోర్డ్ నుండి, 'స్థాన ధృవీకరణ' ఎంపికను ప్రారంభించండి.\n2. మీ హోటల్-యొక్క Google Maps URL ని నమోదు చేయండి.\n\nURL గమనిక:\nమీరు మీ బ్రౌజర్ అడ్రస్ బార్ నుండి నేరుగా పొడవైన URL ని కాపీ చేయవచ్చు లేదా షార్ట్ లింక్‌ను (maps.app.goo.gl వంటివి) ఉపయోగించవచ్చు. గరిష్ట ఖచ్చితత్వాన్ని భరోసా ఇవ్వడానికి సిస్టమ్ ఆటోమేటిక్‌గా చిన్న లింక్‌లను డీకోడ్ చేస్తుంది మరియు ఖచ్చితమైన నిర్దేశకాలను బయటకు తీస్తుంది."
+      },
+      "sessions": {
+        "title": "అతిథి సెషన్‌లు మరియు గోప్యత",
+        "content": "భద్రత కోసం, యాక్టివ్ సెషన్ అవసరం."
+      },
+      "payments": {
+        "title": "చెల్లింపు మరియు బ్యాలెన్స్ నిర్వహణ",
+        "content": "సిస్టమ్ బకాయి మొత్తాలను ఖచ్చితంగా ట్రాక్ చేయడానికి అనుమతిస్తుంది."
+      },
+      "invoicing": {
+        "title": "ఇన్‌వాయిస్ మరియు అతిథి స్టేట్‌మెంట్‌లు",
+        "content": "స్టే యొక్క వివరణాత్మక స్టేట్‌మెంట్‌ను జారీ చేయవచ్చు."
       }
-    }
+    },
+    "noResultsFound": "ఫలితాలేవీ లభించలేదు",
+    "searchNoResults": "మీ శోధనకు సరిపోయే అంశాలేవీ కనుగొనబడలేదు."
+  },
+  "payments": {
+    "title": "చెల్లింపులు మరియు సెటిల్‌మెంట్",
+    "subtitle": "ఆర్థిక లావాదేవీలను ట్రాక్ చేయండి మరియు రూమ్ ఇన్‌వాయిస్‌లను సెటిల్ చేయండి",
+    "totalPaid": "మొత్తం చెల్లించినవి",
+    "service": "సేవ",
+    "activeRoomsOnly": "యాక్టివ్ సెషన్‌లు మాత్రమే",
+    "date": "తేదీ",
+    "amount": "మొత్తం",
+    "type": "రకం",
+    "method": "పద్ధతి",
+    "recipient": "స్వీకర్త",
+    "receivedBy": "స్వీకరించిన వారు",
+    "reference": "రిఫరెన్స్",
+    "noPayments": "చెల్లింపు రికార్డులు లేవు",
+    "settleRoomInvoice": "రూమ్ ఇన్‌వాయిస్‌ను సెటిల్ చేయండి",
+    "selectRoom": "గదిని ఎంచుకోండి",
+    "startDate": "ప్రారంభ తేదీ",
+    "endDate": "ముగింపు తేదీ",
+    "cash": "నగదు",
+    "card": "కార్డ్",
+    "transfer": "బ్యాంక్ బదిలీ",
+    "payment": "చెల్లింపు",
+    "refund": "రీఫండ్",
+    "transferType": "డిపార్ట్‌మెంటల్ బదిలీ",
+    "manual": "మాన్యువల్",
+    "addManualPayment": "మాన్యువల్ ఫైల్ / రశీదును జోడించండి",
+    "settleAmount": "సెటిల్ చేయాల్సిన మొత్తం",
+    "confirmPayment": "చెల్లింపును నిర్ధారించండి",
+    "amountExceedsBalance": "మొత్తం మిగిలిన బ్యాలెన్స్ కంటే ఎక్కువగా ఉంది",
+    "notesPlaceholder": "అదనపు గమనికలు (ఐచ్ఛికం)...",
+    "unpaid": "చెల్లించనివి",
+    "partial": "పాక్షిక చెల్లింపు",
+    "paid": "పూర్తిగా చెల్లించినవి",
+    "invalidAmount": "చెల్లని మొత్తం"
   }
 }

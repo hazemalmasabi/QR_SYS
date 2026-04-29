@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Cire",
-    "room": "Daki"
+    "room": "Daki",
+    "notes": "Bayani",
+    "clearFilters": "Share tace",
+    "ok": "Ok",
+    "invalidAmount": "Adadin bai da kyau",
+    "id": "ID",
+    "rooms": "Dakuna"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Matsakaicin Lokaci",
       "avgAcceptanceTime": "Lokacin Karɓa",
       "avgExecutionTime": "Lokacin Kammalawa",
-      "minutes": "minti"
+      "minutes": "minti",
+      "paid": "Adadin da aka biya",
+      "remaining": "Adadin da ya rage"
     },
     "filters": {
       "today": "Yau",
@@ -366,7 +374,8 @@
     "reports": "Rahotanni",
     "settings": "Saituna",
     "help": "Taimako",
-    "logout": "Fita"
+    "logout": "Fita",
+    "payments": "Biya"
   },
   "orders": {
     "title": "Ododi",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Soke ta kansa: Lokaci ya ƙare",
     "guestCancelled": "Bako ya soke",
     "modifiedByGuest": "Bako ya canza",
-    "cancelledSuccess": "An soke oda cikin nasara"
+    "cancelledSuccess": "An soke oda cikin nasara",
+    "paymentStatus": "Matsayin biya",
+    "paid_in_full": "An biya duka",
+    "partial_paid": "Biyan rabi",
+    "unpaid": "Ba a biya ba",
+    "in_progressSuccess": "An karbi oda kuma ana kan aiki",
+    "completedSuccess": "An kammala oda"
   },
   "services": {
     "title": "Babban Sabis",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "Shiga",
+    "checkOut": "Fita",
+    "checkInSuccess": "An shiga lafiya",
+    "checkInSuccessDesc": "Dakin yanzu yana aiki kuma a shirye yake don karbar bukatun bako.",
+    "checkOutSuccess": "An fita lafiya",
+    "checkOutSuccessDesc": "An rufe asusun bako kuma zaman ya kare.",
+    "hasUnpaidBalance": "Ba za a iya fita ba. Akwai sauran kudin da ba a biya ba.",
+    "hasPendingOrders": "Ba za a iya fita ba. Akwai ododi da ake kan yi.",
+    "sessionActive": "Akwai mutane",
+    "sessionCheckedOut": "Babu kowa",
+    "sessionStatus": "Matsayin zaman",
+    "session": "Zama",
+    "sessionRecords": "Sauran kudi / Tarihi",
+    "remainingBalance": "Sauran da ya rage",
+    "paidBalance": "Adadin da aka biya",
+    "orders": "Ododi",
+    "checkActions": "Shiga/Fita",
+    "confirmCheckOut": "Tabbatar da fita",
+    "confirmCheckOutDesc": "Kammala zaman zai rufe asusun bako. Wannan matakin karshe ne.",
+    "confirmCancelPendingOrders": "Akwai ododi da ake kan yi. Kana so ka soke su ka fita?",
+    "completePendingPaidOrdersDesc": "Akwai ododi da ake kan yi amma an biya su. Za a sanya su a matsayin 'Kammala'.",
+    "completeAndCheckOut": "Kammala & Fita",
+    "cancelPendingThenCheckOut": "Soke Oda & Fita",
+    "service": "Sabis",
+    "selectService": "Zabi sabis",
+    "balance": "Sauran kudi",
+    "roomsWithBalance": "Dakunan da ke da sauran kudi",
+    "unpaidOnly": "Wanda ba a biya ba kawai",
+    "empty": "Babu kowa",
+    "rooms": "Dakuna",
+    "roomExists": "Lambar dakin ta riga ta kasance"
   },
   "employees": {
     "title": "Ma'aikata",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "Otal ɗin Google Maps URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Bude otal ɗin ku akan Google Maps kuma kuyi kwafin URL daga mashigin adireshin. Ana amfani dashi don cire haɗin kai na otal don tabbatar da wurin baƙi.",
-    "invalidGoogleMapsUrl": "Da fatan za a shigar da ingantaccen URL na Google Maps"
+    "invalidGoogleMapsUrl": "Da fatan za a shigar da ingantaccen URL na Google Maps",
+    "defaultRoomTypeName": "Standard"
   },
   "reports": {
     "title": "Rahotanni",
@@ -691,7 +738,8 @@
     "selectDateRange": "Zaɓi lokaci don ganin rahoto",
     "summary": "Taƙaitawa",
     "details": "Bayanai",
-    "chart": "Taswira"
+    "chart": "Taswira",
+    "topCancellationReasons": "Manyan dalilan soke oda"
   },
   "guest": {
     "welcome": "Barka da zuwa",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Da alama ba ku cikin otal ba. Don Allah a tabbata kuna cikin ginin otal ɗin a sake gwadawa.",
     "locationTryAgain": "Sake Gwada",
     "locationCoordsError": "Ba a iya tabbatar da wuri ba",
-    "locationCoordsErrorDesc": "An sami wani kuskure yayin gano adireshin otal. Don Allah tuntuɓi otal ɗin."
+    "locationCoordsErrorDesc": "An sami wani kuskure yayin gano adireshin otal. Don Allah tuntuɓi otal ɗin.",
+    "totalBalance": "Duka",
+    "paidBalance": "An biya",
+    "remainingBalance": "Sauran kudi",
+    "noActiveSession": "Sabis na oda bai fara ba",
+    "noActiveSessionDesc": "Tuntuɓi wurin karɓar baƙi don fara sabis ɗin oda na ɗakin ku.",
+    "contactReception": "Tuntuɓi Wurin Karɓar Baƙi"
   },
   "validation": {
     "required": "Wannan ya zama dole",
@@ -803,7 +857,18 @@
       "unavailable": "Wasu abubuwa ba sa nan",
       "guestRequest": "An daidaita kamar yadda bako ya nema",
       "alternative": "An bayar da madadin abu"
-    }
+    },
+    "remainingBalance": "Sauran kudi",
+    "paymentDetails": "Bayanin biya",
+    "paymentStatusLabel": "Matsayin biya",
+    "paidAmountLabel": "Adadin da aka biya",
+    "paymentMethodLabel": "Hanyar biya",
+    "notesLabel": "Bayanin biya (Idan akwai)",
+    "payInFull": "An biya duka",
+    "payPartial": "Biyan rabi",
+    "payOnCheckout": "Biya lokacin fita",
+    "cash": "Tsabar kudi",
+    "card": "Kati"
   },
   "help": {
     "title": "Cibiyar Taimako",
@@ -817,7 +882,8 @@
       "settings": "Saituna",
       "guestExperience": "Kwarewar Bako",
       "qrPlacements": "Wuraren QR",
-      "hierarchy": "Mukamai"
+      "hierarchy": "Mukamai",
+      "billing": "Biya da Lissafi"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Tabbatar da Wurin Baƙo",
         "content": "Wannan fasalin na buƙatar baƙi su kasance a zahiri tsakanin radiyo na mita 500 na otal don duba ayyuka.\n\nYadda ake amfani da:\n1. Daga dashboard ɗin Saituna, kunna zaɓin 'Tabbatar da Wuri'.\n2. Shigar da URL na Google Maps na otal ɗinku.\n\nLura Game da URL:\nKuna iya kwafin dogon URL ɗin kai tsaye daga maɓallin adreshin bincikenku ko amfani da gajeren mahaɗi (kamar maps.app.goo.gl). Tsarin zai fasakh gajerun hanyoyin mahaɗi don cire ainihin haɗin gwiwar don tabbatar da daidaiton daƙiƙa."
+      },
+      "sessions": {
+        "title": "Zaman Bako da Sirri",
+        "content": "Don tsaro, ana bukatar zaman da ke aiki."
+      },
+      "payments": {
+        "title": "Gudanar da Biya da Sauran Kudi",
+        "content": "Tsarin yana ba da damar bibiyar adadin da ake bako bashi."
+      },
+      "invoicing": {
+        "title": "Lissafin Kudi da Bayanan Bako",
+        "content": "Kuna iya bayar da takardar bayanin kudin zaman bako."
       }
-    }
+    },
+    "noResultsFound": "Ba a sami komai ba",
+    "searchNoResults": "Ba mu sami abin da kake nema ba."
+  },
+  "payments": {
+    "title": "Biya da Daidaitawa",
+    "subtitle": "Bibiyar hada-hadar kudi da daidaita lissafin dakuna",
+    "totalPaid": "Adadin da aka biya",
+    "service": "Sabis",
+    "activeRoomsOnly": "Zaman da ke aiki kawai",
+    "date": "Kwanan wata",
+    "amount": "Adadi",
+    "type": "Nau'i",
+    "method": "Hanya",
+    "recipient": "Mai karba",
+    "receivedBy": "Wanda ya karba",
+    "reference": "Nuni",
+    "noPayments": "Babu bayanan biya",
+    "settleRoomInvoice": "Daidaita lissafin daki",
+    "selectRoom": "Zabi daki",
+    "startDate": "Ranar farawa",
+    "endDate": "Ranar karshe",
+    "cash": "Tsabar kudi",
+    "card": "Kati",
+    "transfer": "Tura kudi ta banki",
+    "payment": "Biya",
+    "refund": "Maida kudi",
+    "transferType": "Tura kudi tsakanin sashe",
+    "manual": "Da hannu",
+    "addManualPayment": "Kara fayil/rasit na hannu",
+    "settleAmount": "Adadin da za a daidaita",
+    "confirmPayment": "Tabbatar da biya",
+    "amountExceedsBalance": "Adadin ya wuce sauran da ke kasa",
+    "notesPlaceholder": "Karin bayani (Idan akwai)...",
+    "unpaid": "Ba a biya ba",
+    "partial": "Biyan rabin kudi",
+    "paid": "An biya duka",
+    "invalidAmount": "Adadin da ba daidai ba"
   }
 }

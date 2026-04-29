@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Supprimer",
-    "room": "Chambre"
+    "room": "Chambre",
+    "notes": "Notes",
+    "clearFilters": "Effacer les filtres",
+    "ok": "OK",
+    "invalidAmount": "Montant invalide",
+    "id": "ID",
+    "rooms": "Chambres"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Temps Moy. d'Achèvement",
       "avgAcceptanceTime": "Temps Moy. d'Acceptation",
       "avgExecutionTime": "Temps Moy. d'Exécution",
-      "minutes": "min"
+      "minutes": "min",
+      "paid": "Total Payé",
+      "remaining": "Reste à payer"
     },
     "filters": {
       "today": "Aujourd'hui",
@@ -366,7 +374,8 @@
     "reports": "Rapports",
     "settings": "Paramètres",
     "help": "Aide",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "payments": "Paiements"
   },
   "orders": {
     "title": "Commandes",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Annulé : délai dépassé",
     "guestCancelled": "Annulé par le client",
     "modifiedByGuest": "Modifié par le client",
-    "cancelledSuccess": "Commande annulée avec succès"
+    "cancelledSuccess": "Commande annulée avec succès",
+    "paymentStatus": "Statut de paiement",
+    "paid_in_full": "Payé intégralement",
+    "partial_paid": "Paiement partiel",
+    "unpaid": "Non payé",
+    "in_progressSuccess": "Commande acceptée et en cours",
+    "completedSuccess": "Commande marquée comme terminée"
   },
   "services": {
     "title": "Services Principaux",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Êtes-vous sûr de vouloir supprimer toutes les chambres de cet hôtel ?",
     "deleteAllDesc2": "Tous les QR codes des chambres seront désactivés et supprimés. Cette action est irréversible.",
     "yesDeleteAll": "Oui, tout supprimer",
-    "allDuplicatesOrInvalid": "Toutes les chambres sont en double ou invalides"
+    "allDuplicatesOrInvalid": "Toutes les chambres sont en double ou invalides",
+    "checkIn": "Check-In",
+    "checkOut": "Check-Out",
+    "checkInSuccess": "Check-In réussi",
+    "checkInSuccessDesc": "La chambre est active et prête à recevoir des demandes.",
+    "checkOutSuccess": "Check-Out réussi",
+    "checkOutSuccessDesc": "Le compte client est clos et la session terminée.",
+    "hasUnpaidBalance": "Check-out impossible. Solde impayé présent.",
+    "hasPendingOrders": "Check-out impossible. Commandes en cours présentes.",
+    "sessionActive": "Occupée",
+    "sessionCheckedOut": "Vide",
+    "sessionStatus": "Statut de session",
+    "session": "Session",
+    "sessionRecords": "Solde / Historique",
+    "remainingBalance": "Solde restant",
+    "paidBalance": "Solde payé",
+    "orders": "Commandes",
+    "checkActions": "Entrée/Sortie",
+    "confirmCheckOut": "Confirmer le départ",
+    "confirmCheckOutDesc": "Terminer la session clora le compte client. Cette action est définitive.",
+    "confirmCancelPendingOrders": "Des commandes sont en cours. Voulez-vous les annuler et procéder au départ ?",
+    "completePendingPaidOrdersDesc": "Des commandes sont en cours mais déjà payées. Elles seront marquées 'Terminées'.",
+    "completeAndCheckOut": "Terminer & Partir",
+    "cancelPendingThenCheckOut": "Annuler & Partir",
+    "service": "Service",
+    "selectService": "Choisir un service",
+    "balance": "Solde",
+    "roomsWithBalance": "Chambres avec solde",
+    "unpaidOnly": "Impayés uniquement",
+    "empty": "Vide",
+    "rooms": "Chambres",
+    "roomExists": "Ce numéro de chambre existe déjà"
   },
   "employees": {
     "title": "Employés",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL Google Maps de l'Hôtel",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Ouvrez votre hôtel sur Google Maps et copiez l'URL de la barre d'adresse. Elle est utilisée pour extraire les coordonnées de l'hôtel et vérifier l'emplacement du client.",
-    "invalidGoogleMapsUrl": "Veuillez entrer une URL Google Maps valide"
+    "invalidGoogleMapsUrl": "Veuillez entrer une URL Google Maps valide",
+    "defaultRoomTypeName": "Standard"
   },
   "reports": {
     "title": "Rapports",
@@ -691,7 +738,8 @@
     "selectDateRange": "Sélectionnez une plage de dates pour voir le rapport",
     "summary": "Résumé",
     "details": "Détails",
-    "chart": "Graphique"
+    "chart": "Graphique",
+    "topCancellationReasons": "Principaux motifs d'annulation"
   },
   "guest": {
     "welcome": "Bienvenue",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Il semble que vous ne soyez pas à l'intérieur de l'hôtel. Assurez-vous d'être à l'intérieur du bâtiment de l'hôtel et réessayez.",
     "locationTryAgain": "Réessayer",
     "locationCoordsError": "Impossible de vérifier l'emplacement",
-    "locationCoordsErrorDesc": "Une erreur s'est produite lors de l'extraction des coordonnées de l'hôtel. Veuillez contacter la réception."
+    "locationCoordsErrorDesc": "Une erreur s'est produite lors de l'extraction des coordonnées de l'hôtel. Veuillez contacter la réception.",
+    "totalBalance": "Total",
+    "paidBalance": "Payé",
+    "remainingBalance": "Solde",
+    "noActiveSession": "Service de commande inactif",
+    "noActiveSessionDesc": "Veuillez contacter la réception pour activer le service de commande.",
+    "contactReception": "Contacter la réception"
   },
   "validation": {
     "required": "Ce champ est obligatoire",
@@ -803,7 +857,18 @@
       "unavailable": "Certains articles indisponibles",
       "guestRequest": "Ajusté à la demande du client",
       "alternative": "Article de remplacement fourni"
-    }
+    },
+    "remainingBalance": "Solde restant",
+    "paymentDetails": "Détails du paiement",
+    "paymentStatusLabel": "Statut du paiement",
+    "paidAmountLabel": "Montant payé",
+    "paymentMethodLabel": "Méthode de paiement",
+    "notesLabel": "Notes de paiement (Optionnel)",
+    "payInFull": "Payé intégralement",
+    "payPartial": "Paiement partiel",
+    "payOnCheckout": "Payer au départ",
+    "cash": "Espèces",
+    "card": "Carte"
   },
   "help": {
     "title": "Centre d'Aide",
@@ -817,7 +882,8 @@
       "settings": "Configurations",
       "guestExperience": "Parcours Client",
       "qrPlacements": "Emplacements QR",
-      "hierarchy": "Rôles et Hiérarchie"
+      "hierarchy": "Rôles et Hiérarchie",
+      "billing": "Paiements & Facturation"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Vérification de l'emplacement du client",
         "content": "Cette fonctionnalité exige que les clients soient physiquement présents dans un rayon de 500 mètres de l'hôtel pour consulter les services.\n\nComment l'utiliser :\n1. Dans le tableau de bord des paramètres, activez l'option 'Vérification de l'emplacement'.\n2. Saisissez l'URL Google Maps de votre hôtel.\n\nRemarque concernant l'URL :\nVous pouvez copier l'URL longue directement à partir de la barre d'adresse de votre navigateur ou utiliser un lien court (comme maps.app.goo.gl). Le système décodera automatiquement les liens courts et extraira les coordonnées exactes pour garantir une précision maximale."
+      },
+      "sessions": {
+        "title": "Sessions Clients & Confidentialité",
+        "content": "Pour la sécurité, une session active est requise."
+      },
+      "payments": {
+        "title": "Gestion des Paiements & Soldes",
+        "content": "Le système permet un suivi précis des montants dus."
+      },
+      "invoicing": {
+        "title": "Facturation & Relevés Clients",
+        "content": "Vous pouvez émettre des relevés détaillés du séjour."
       }
-    }
+    },
+    "noResultsFound": "Aucun résultat trouvé",
+    "searchNoResults": "Aucun sujet ne correspond à votre recherche."
+  },
+  "payments": {
+    "title": "Paiements & Règlements",
+    "subtitle": "Suivi des transactions financières et règlement des factures",
+    "totalPaid": "Total Payé",
+    "service": "Service",
+    "activeRoomsOnly": "Sessions actives uniquement",
+    "date": "Date",
+    "amount": "Montant",
+    "type": "Type",
+    "method": "Méthode",
+    "recipient": "Destinataire",
+    "receivedBy": "Reçu par",
+    "reference": "Référence",
+    "noPayments": "Aucun paiement enregistré",
+    "settleRoomInvoice": "Régler la facture",
+    "selectRoom": "Choisir une chambre",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "cash": "Espèces",
+    "card": "Carte",
+    "transfer": "Virement bancaire",
+    "payment": "Paiement",
+    "refund": "Remboursement",
+    "transferType": "Transfert inter-services",
+    "manual": "Manuel",
+    "addManualPayment": "Ajouter un fichier / reçu manuel",
+    "settleAmount": "Montant à régler",
+    "confirmPayment": "Confirmer le paiement",
+    "amountExceedsBalance": "Le montant dépasse le solde restant",
+    "notesPlaceholder": "Notes additionnelles (Optionnel)...",
+    "unpaid": "Non payé",
+    "partial": "Paiement partiel",
+    "paid": "Payé intégralement",
+    "invalidAmount": "Montant invalide"
   }
 }

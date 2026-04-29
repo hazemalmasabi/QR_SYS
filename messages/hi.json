@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "निकालें",
-    "room": "कमरा"
+    "room": "कमरा",
+    "notes": "टिप्पणियाँ",
+    "clearFilters": "फ़िल्टर साफ़ करें",
+    "ok": "ठीक है",
+    "invalidAmount": "अमान्य राशि",
+    "id": "आईडी",
+    "rooms": "कमरे"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "औसत पूरा होने का समय",
       "avgAcceptanceTime": "औसत स्वीकृति समय",
       "avgExecutionTime": "औसत निष्पादन समय",
-      "minutes": "मिनट"
+      "minutes": "मिनट",
+      "paid": "कुल भुगतान",
+      "remaining": "कुल शेष"
     },
     "filters": {
       "today": "आज",
@@ -366,7 +374,8 @@
     "reports": "रिपोर्ट",
     "settings": "सेटिंग्स",
     "help": "सहायता",
-    "logout": "लॉगआउट"
+    "logout": "लॉगआउट",
+    "payments": "भुगतान"
   },
   "orders": {
     "title": "ऑर्डर",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "स्वचालित रद्द: समय समाप्त",
     "guestCancelled": "अतिथि द्वारा रद्द",
     "modifiedByGuest": "अतिथि द्वारा संशोधित",
-    "cancelledSuccess": "ऑर्डर सफलतापूर्वक रद्द कर दिया गया"
+    "cancelledSuccess": "ऑर्डर सफलतापूर्वक रद्द कर दिया गया",
+    "paymentStatus": "भुगतान की स्थिति",
+    "paid_in_full": "पूर्ण भुगतान",
+    "partial_paid": "आंशिक भुगतान",
+    "unpaid": "अवैतनिक",
+    "in_progressSuccess": "ऑर्डर स्वीकार किया गया और प्रगति पर है",
+    "completedSuccess": "ऑर्डर पूरा हुआ"
   },
   "services": {
     "title": "मुख्य सेवाएँ",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "क्या आप वाकई इस होटल के सभी कमरों को हटाना चाहते हैं?",
     "deleteAllDesc2": "सभी कमरों के QR मार्ग अक्षम और हटा दिए जाएंगे। इसे पूर्ववत नहीं किया जा सकता।",
     "yesDeleteAll": "हां, सभी हटाएँ",
-    "allDuplicatesOrInvalid": "सभी कमरे या तो डुप्लिकेट हैं या अमान्य हैं"
+    "allDuplicatesOrInvalid": "सभी कमरे या तो डुप्लिकेट हैं या अमान्य हैं",
+    "checkIn": "चेक-इन",
+    "checkOut": "चेक-आउट",
+    "checkInSuccess": "चेक-इन सफल",
+    "checkInSuccessDesc": "कमरा अब सक्रिय है और अतिथि अनुरोध प्राप्त करने के लिए तैयार है।",
+    "checkOutSuccess": "चेक-आउट सफल",
+    "checkOutSuccessDesc": "अतिथि खाता बंद कर दिया गया है और सत्र समाप्त हो गया है।",
+    "hasUnpaidBalance": "चेक-आउट नहीं किया जा सकता। इस कमरे में शेष भुगतान बकाया है।",
+    "hasPendingOrders": "चेक-आउट नहीं किया जा सकता। इस कमरे में लंबित ऑर्डर हैं।",
+    "sessionActive": "अधिकृत",
+    "sessionCheckedOut": "खाली",
+    "sessionStatus": "सत्र की स्थिति",
+    "session": "सत्र",
+    "sessionRecords": "शेष / इतिहास",
+    "remainingBalance": "शेष राशि",
+    "paidBalance": "भुगतान की गई राशि",
+    "orders": "ऑर्डर",
+    "checkActions": "प्रवेश/निकास",
+    "confirmCheckOut": "चेक-आउट की पुष्टि करें",
+    "confirmCheckOutDesc": "सत्र समाप्त करने से वर्तमान अतिथि खाता बंद हो जाएगा। यह क्रिया अंतिम है।",
+    "confirmCancelPendingOrders": "लंबित ऑर्डर हैं। क्या आप उन्हें रद्द करके चेक-आउट करना चाहते हैं?",
+    "completePendingPaidOrdersDesc": "लंबित ऑर्डर हैं लेकिन भुगतान हो चुका है। इन्हें 'पूरा' माना जाएगा।",
+    "completeAndCheckOut": "पूरा करें और चेक-आउट करें",
+    "cancelPendingThenCheckOut": "ऑर्डर रद्द करें और चेक-आउट करें",
+    "service": "सेवा",
+    "selectService": "सेवा चुनें",
+    "balance": "शेष",
+    "roomsWithBalance": "बकाया राशि वाले कमरे",
+    "unpaidOnly": "केवल अवैतनिक",
+    "empty": "खाली",
+    "rooms": "कमरे",
+    "roomExists": "कमरा नंबर पहले से मौजूद है"
   },
   "employees": {
     "title": "कर्मचारी",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "होटल का गूगल मैप्स URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "गूगल मैप्स पर अपना होटल खोलें और एड्रेस बार से URL कॉपी करें। इसका उपयोग अतिथि स्थान सत्यापन के लिए होटल के निर्देशांक निकालने हेतु किया जाता है।",
-    "invalidGoogleMapsUrl": "कृपया एक मान्य गूगल मैप्स URL दर्ज करें"
+    "invalidGoogleMapsUrl": "कृपया एक मान्य गूगल मैप्स URL दर्ज करें",
+    "defaultRoomTypeName": "मानक"
   },
   "reports": {
     "title": "रिपोर्ट",
@@ -691,7 +738,8 @@
     "selectDateRange": "रिपोर्ट देखने के लिए एक तिथि सीमा चुनें",
     "summary": "सारांश",
     "details": "विवरण",
-    "chart": "चार्ट"
+    "chart": "चार्ट",
+    "topCancellationReasons": "शीर्ष रद्दीकरण कारण"
   },
   "guest": {
     "welcome": "स्वागत है",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "प्रतीत होता है कि आप होटल के अंदर नहीं हैं। कृपया सुनिश्चित करें कि आप होटल की इमारत के अंदर हैं और फिर से प्रयास करें।",
     "locationTryAgain": "पुनः प्रयास करें",
     "locationCoordsError": "स्थान सत्यापित नहीं किया जा सका",
-    "locationCoordsErrorDesc": "होटल के निर्देशांक निकालते समय एक त्रुटि हुई। कृपया होटल से संपर्क करें।"
+    "locationCoordsErrorDesc": "होटल के निर्देशांक निकालते समय एक त्रुटि हुई। कृपया होटल से संपर्क करें।",
+    "totalBalance": "कुल",
+    "paidBalance": "भुगतान किया",
+    "remainingBalance": "शेष",
+    "noActiveSession": "ऑर्डर सेवा सक्रिय नहीं है",
+    "noActiveSessionDesc": "अपने कमरे के लिए ऑर्डर सेवा सक्रिय करने के लिए कृपया रिसेप्शन से संपर्क करें।",
+    "contactReception": "रिसेप्शन से संपर्क करें"
   },
   "validation": {
     "required": "यह फ़ील्ड अनिवार्य है",
@@ -803,7 +857,18 @@
       "unavailable": "कुछ वस्तुएं अनुपलब्ध हैं",
       "guestRequest": "अतिथि के अनुरोध पर बदला गया",
       "alternative": "वैकल्पिक आइटम प्रदान किया गया"
-    }
+    },
+    "remainingBalance": "शेष राशि",
+    "paymentDetails": "भुगतान विवरण",
+    "paymentStatusLabel": "भुगतान की स्थिति",
+    "paidAmountLabel": "भुगतान की गई राशि",
+    "paymentMethodLabel": "भुगतान विधि",
+    "notesLabel": "भुगतान टिप्पणियाँ (वैकल्पिक)",
+    "payInFull": "पूर्ण भुगतान",
+    "payPartial": "आंशिक भुगतान",
+    "payOnCheckout": "चेक-आउट पर भुगतान",
+    "cash": "नकद",
+    "card": "कार्ड"
   },
   "help": {
     "title": "सहायता केंद्र",
@@ -817,7 +882,8 @@
       "settings": "कॉन्फ़िगरेशन",
       "guestExperience": "अतिथि अनुभव",
       "qrPlacements": "क्यूआर प्लेसमेंट",
-      "hierarchy": "भूमिकाएं और पदानुक्रम"
+      "hierarchy": "भूमिकाएं और पदानुक्रम",
+      "billing": "भुगतान और बिलिंग"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "अतिथि स्थान सत्यापन",
         "content": "इस सुविधा के तहत सेवाओं को ब्राउज़ करने के लिए मेहमानों को होटल के ५०० मीटर के दायरे में शारीरिक रूप से मौजूद होना आवश्यक है।\n\nइस्तेमाल कैसे करें:\n१. सेटिंग्स डैशबोर्ड से, 'स्थान सत्यापन' विकल्प को सक्षम करें।\n२. अपने होटल का गूगल मैप्स URL डालें।\n\nURL से संबंधित ध्यान दें:\nआप सीधे अपने ब्राउज़र के एड्रेस बार से लंबा URL कॉपी कर सकते हैं या एक छोटे लिंक (जैसे maps.app.goo.gl) का उपयोग कर सकते हैं। अधिकतम सटीकता सुनिश्चित करने के लिए प्रणाली स्वचालित रूप से छोटे लिंक को डीकोड करेगी और सटीक निर्देशांक निकालेगी।"
+      },
+      "sessions": {
+        "title": "अतिथि सत्र और गोपनीयता",
+        "content": "सुरक्षा के लिए, एक सक्रिय सत्र आवश्यक है।"
+      },
+      "payments": {
+        "title": "भुगतान और शेष प्रबंधन",
+        "content": "सिस्टम बकाया राशि की सटीक ट्रैकिंग की अनुमति देता है।"
+      },
+      "invoicing": {
+        "title": "चालान और अतिथि विवरण",
+        "content": "आप स्टे का विस्तृत विवरण जारी कर सकते हैं।"
       }
-    }
+    },
+    "noResultsFound": "कोई परिणाम नहीं मिला",
+    "searchNoResults": "आपकी खोज से मेल खाता कोई विषय नहीं मिला।"
+  },
+  "payments": {
+    "title": "भुगतान और निपटान",
+    "subtitle": "वित्तीय लेनदेन ट्रैक करें और कमरे के चालान का निपटान करें",
+    "totalPaid": "कुल भुगतान",
+    "service": "सेवा",
+    "activeRoomsOnly": "केवल सक्रिय सत्र",
+    "date": "तारीख",
+    "amount": "राशि",
+    "type": "प्रकार",
+    "method": "तरीका",
+    "recipient": "प्राप्तकर्ता",
+    "receivedBy": "प्राप्त किया",
+    "reference": "संदर्भ",
+    "noPayments": "कोई भुगतान रिकॉर्ड नहीं",
+    "settleRoomInvoice": "कमरे के चालान का निपटान करें",
+    "selectRoom": "कमरा चुनें",
+    "startDate": "प्रारंभ तिथि",
+    "endDate": "अंतिम तिथि",
+    "cash": "नकद",
+    "card": "कार्ड",
+    "transfer": "बैंक ट्रांसफर",
+    "payment": "भुगतान",
+    "refund": "धनवापसी",
+    "transferType": "विभागीय स्थानांतरण",
+    "manual": "मैन्युअल",
+    "addManualPayment": "मैन्युअल फ़ाइल / रसीद जोड़ें",
+    "settleAmount": "निपटान राशि",
+    "confirmPayment": "भुगतान की पुष्टि करें",
+    "amountExceedsBalance": "राशि शेष राशि से अधिक है",
+    "notesPlaceholder": "अतिरिक्त टिप्पणियाँ (वैकल्पिक)...",
+    "unpaid": "अवैतनिक",
+    "partial": "आंशिक भुगतान",
+    "paid": "पूर्ण भुगतान",
+    "invalidAmount": "अमान्य राशि"
   }
 }

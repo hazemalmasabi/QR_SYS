@@ -159,10 +159,11 @@ export default function SettingsPage() {
         setHotelLogoUrl(data.settings.hotel_logo_url || '')
         // Fetch default barcode texts from localization files
         let defaultBarcodeText: Record<string, string> = {}
+        let defaultsData: any = {}
         try {
           const defaultsRes = await fetch('/api/translations/defaults')
           if (defaultsRes.ok) {
-            const defaultsData = await defaultsRes.json()
+            defaultsData = await defaultsRes.json()
             setAllDefaults(defaultsData)
             Object.keys(defaultsData).forEach(lang => {
               defaultBarcodeText[lang] = defaultsData[lang].barcode
@@ -203,7 +204,21 @@ export default function SettingsPage() {
         setCurrencyCode(data.settings.currency_code)
         setLocationVerificationEnabled(!!data.settings.location_verification_enabled)
         setHotelGoogleMapsUrl(data.settings.hotel_google_maps_url || '')
-        setRoomTypes(data.settings.room_types || [])
+        const backendRoomTypes = data.settings.room_types || []
+        const mergedRoomTypes = backendRoomTypes.map((rt: any) => {
+          if (rt.code === 'STD') {
+            const newName = { ...(rt.name || {}) }
+            Object.keys(defaultsData).forEach(lang => {
+              if (!newName[lang] || newName[lang].trim() === '') {
+                newName[lang] = defaultsData[lang].roomType
+              }
+            })
+            return { ...rt, name: newName }
+          }
+          return rt
+        })
+
+        setRoomTypes(mergedRoomTypes)
         refreshCounts()
 
         // Sync preview language once loaded

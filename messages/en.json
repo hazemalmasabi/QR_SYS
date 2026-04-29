@@ -1,5 +1,6 @@
 {
   "common": {
+    "notes": "Notes",
     "appName": "Hotel Services Management System",
     "changeLanguage": "Change Language",
     "home": "Home",
@@ -12,6 +13,7 @@
     "add": "Add",
     "search": "Search",
     "filter": "Filter",
+    "clearFilters": "Clear Filters",
     "export": "Export",
     "back": "Back",
     "next": "Next",
@@ -25,6 +27,7 @@
     "noResultsFound": "No results found",
     "searchNoResults": "We couldn't find anything matching your search.",
     "close": "Close",
+    "ok": "OK",
     "yes": "Yes",
     "no": "No",
     "all": "All",
@@ -40,6 +43,8 @@
     "noData": "No data available",
     "error": "An error occurred",
     "success": "Operation completed successfully",
+    "invalidAmount": "Invalid amount",
+    "id": "ID",
     "required": "This field is required",
     "optional": "Optional",
     "acceptedFormats": "Accepted formats",
@@ -64,6 +69,7 @@
     "showMissingTranslations": "Show Missing Translations",
     "missingTranslationTooltip": "Needs translation to {language} (English shown to guests)",
     "email": "Email",
+    "rooms": "Rooms",
     "note": "Note",
     "standard": "Standard",
     "passwordMinLength": "At least 8 characters",
@@ -329,6 +335,8 @@
       "avgTime": "Avg. Completion Time",
       "avgAcceptanceTime": "Avg. Acceptance Time",
       "avgExecutionTime": "Avg. Execution Time",
+      "paid": "Total Paid",
+      "remaining": "Total Remaining",
       "minutes": "min"
     },
     "filters": {
@@ -358,6 +366,7 @@
     "serviceEmployee": "Service Employee",
     "dashboard": "Dashboard",
     "orders": "Orders",
+    "payments": "Payments",
     "services": "Services",
     "subServices": "Sub Services",
     "items": "Items",
@@ -368,6 +377,41 @@
     "help": "Help",
     "logout": "Logout"
   },
+  "payments": {
+    "title": "Payments & Settlements",
+    "subtitle": "Track all financial transactions and settle room invoices",
+    "totalPaid": "Total Paid",
+    "service": "Service",
+    "activeRoomsOnly": "Active Sessions Only",
+    "date": "Date",
+    "amount": "Amount",
+    "type": "Type",
+    "method": "Method",
+    "recipient": "Recipient",
+    "receivedBy": "Received By",
+    "reference": "Reference",
+    "noPayments": "No payments recorded",
+    "settleRoomInvoice": "Settle Room Invoice",
+    "selectRoom": "Select Room",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "cash": "Cash",
+    "card": "Card",
+    "transfer": "Bank Transfer",
+    "payment": "Payment",
+    "refund": "Refund",
+    "transferType": "Department Transfer",
+    "manual": "Manual",
+    "invalidAmount": "Invalid amount",
+    "addManualPayment": "Add Manual File / Receipt",
+    "settleAmount": "Settle Amount",
+    "confirmPayment": "Confirm Payment",
+    "amountExceedsBalance": "Amount exceeds remaining balance",
+    "notesPlaceholder": "Additional notes (Optional)...",
+    "unpaid": "Unpaid",
+    "partial": "Partial Payment",
+    "paid": "Paid in Full"
+  },
   "orders": {
     "title": "Orders",
     "orderNumber": "Order Number",
@@ -376,6 +420,10 @@
     "items": "Items",
     "total": "Total",
     "status": "Status",
+    "paymentStatus": "Payment Status",
+    "paid_in_full": "Paid in Full",
+    "partial_paid": "Partial Payment",
+    "unpaid": "Unpaid",
     "date": "Date",
     "time": "Time",
     "dateTime": "Date / Time",
@@ -431,7 +479,9 @@
     "autoCancelledTimeout": "Auto-cancelled: Modification timeout",
     "guestCancelled": "Cancelled by Guest",
     "modifiedByGuest": "Modified by Guest",
-    "cancelledSuccess": "Order cancelled successfully"
+    "cancelledSuccess": "Order cancelled successfully",
+    "in_progressSuccess": "Order accepted and in progress",
+    "completedSuccess": "Order marked as completed"
   },
   "services": {
     "title": "Main Services",
@@ -543,7 +593,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "checkInSuccess": "Check-in Successful",
+    "checkInSuccessDesc": "The room is now active and ready to receive guest requests.",
+    "checkOutSuccess": "Check-out Successful",
+    "checkOutSuccessDesc": "The guest account has been closed and the session is ended.",
+    "hasUnpaidBalance": "Cannot checkout. There is an unpaid balance on this room.",
+    "hasPendingOrders": "Cannot checkout. There are pending orders for this room.",
+    "sessionActive": "Occupied",
+    "sessionCheckedOut": "Empty",
+    "sessionStatus": "Session Status",
+    "session": "Session",
+    "sessionRecords": "Balance / History",
+    "remainingBalance": "Remaining Balance",
+    "paidBalance": "Paid Balance",
+    "orders": "Orders",
+    "checkActions": "Entry/Exit",
+    "confirmCheckOut": "Confirm Check-out",
+    "confirmCheckOutDesc": "Ending the session will close the current guest account. This action is final.",
+    "confirmCancelPendingOrders": "There are pending orders (New / In Progress). Do you want to cancel them and proceed with Check-out?",
+    "completePendingPaidOrdersDesc": "There are pending orders, but they are already paid. These orders will be marked as 'Completed' and the room will be checked out.",
+    "completeAndCheckOut": "Complete & Check-out",
+    "cancelPendingThenCheckOut": "Cancel Orders & Check-out",
+    "service": "Service",
+    "selectService": "Select Service",
+    "balance": "Balance",
+    "roomsWithBalance": "Rooms with balance",
+    "unpaidOnly": "Unpaid only",
+    "empty": "Empty",
+    "rooms": "Rooms",
+    "roomExists": "Room number already exists"
   },
   "employees": {
     "title": "Employees",
@@ -632,6 +713,7 @@
     "mustKeepOneRoomType": "The hotel must have at least one room type",
     "mustSelectReplacement": "You must select a replacement room type before deleting",
     "defaultBarcodeText": "Scan to view our services",
+    "defaultRoomTypeName": "Standard",
     "locationVerification": "Enable Location Verification",
     "locationVerificationDesc": "When enabled, guests will be required to share their location when scanning the QR code to confirm they are inside the hotel.",
     "googleMapsUrl": "Hotel Google Maps URL",
@@ -671,6 +753,7 @@
     "ordersByMonth": "Orders by Month",
     "peakHours": "Peak Hours",
     "cancellationRateByService": "Cancellation Rate by Service",
+    "topCancellationReasons": "Top Cancellation Reasons",
     "revenueByWeek": "Revenue by Week",
     "revenueByMonth": "Revenue by Month",
     "topServicesByRevenue": "Top Services by Revenue",
@@ -696,6 +779,9 @@
   "guest": {
     "welcome": "Welcome",
     "room": "Room",
+    "totalBalance": "Total",
+    "paidBalance": "Paid",
+    "remainingBalance": "Remaining",
     "selectService": "Select Service",
     "browseServices": "Browse available services",
     "services": "Services",
@@ -724,6 +810,9 @@
     "noOrders": "No Orders",
     "noOrdersDesc": "You haven't placed any orders yet",
     "orderStatus": "Order Status",
+    "noActiveSession": "Order service is not active",
+    "noActiveSessionDesc": "Please contact reception to activate order services for your room.",
+    "contactReception": "Contact Reception",
     "estimatedTime": "Estimated Time",
     "invalidQR": "Invalid QR Code",
     "roomInactive": "Room is currently inactive",
@@ -803,21 +892,35 @@
       "unavailable": "Some items are unavailable",
       "guestRequest": "Adjusted per guest request",
       "alternative": "Alternative item provided"
-    }
+    },
+    "remainingBalance": "Remaining Balance",
+    "paymentDetails": "Order Payment Details",
+    "paymentStatusLabel": "Payment Status",
+    "paidAmountLabel": "Paid Amount",
+    "paymentMethodLabel": "Payment Method",
+    "notesLabel": "Payment Notes (Optional)",
+    "payInFull": "Paid in Full",
+    "payPartial": "Partial Payment",
+    "payOnCheckout": "Pay on Checkout",
+    "cash": "Cash",
+    "card": "Card"
   },
   "help": {
     "title": "Help Center",
     "subtitle": "Everything you need to know about QR SYS",
     "searchPlaceholder": "Search for help topics...",
+    "noResultsFound": "No results found",
+    "searchNoResults": "We couldn't find any topics matching your search. Try using different keywords.",
     "categories": {
       "all": "All Topics",
       "general": "General Info",
       "auth": "Account & Security",
       "dashboard": "System Guide",
       "settings": "Configurations",
-      "guestExperience": "Guest Journey",
+      "guestExperience": "Guest Experience",
       "qrPlacements": "QR Code Placements",
-      "hierarchy": "Roles & Hierarchy"
+      "hierarchy": "Roles & Hierarchy",
+      "billing": "Payments & Billing"
     },
     "sections": {
       "scanQr": {
@@ -911,6 +1014,18 @@
       "locationVerification": {
         "title": "Guest Location Verification",
         "content": "This feature requires guests to be physically present within a 500-meter radius of the hotel to browse services.\n\nHow to use:\n1. From the Settings dashboard, enable the 'Location Verification' option.\n2. Enter your hotel's Google Maps URL.\n\nURL Note:\nYou can copy the long URL directly from your browser's address bar or use a short link (like maps.app.goo.gl). The system will automatically decode short links and extract the exact coordinates to ensure maximum accuracy."
+      },
+      "sessions": {
+        "title": "Guest Sessions (Check-in) & Privacy",
+        "content": "To ensure guest security and privacy, the system requires an 'Active Session' for a room before a guest can order services. A session is activated when a guest arrives (Check-in) via the Rooms page. When the guest departs (Check-out), the session is closed, and their order history is immediately hidden from the guest interface, ensuring the next guest sees a clean, private interface."
+      },
+      "payments": {
+        "title": "Payments & Balances Management",
+        "content": "The system allows precise tracking of amounts owed by each room. Staff can record payments as 'Full Payment,' 'Partial Payment,' or 'Pay on Checkout.' Multiple payment methods like Cash and Card are supported. You can always see the remaining balance for a room in the Rooms and Orders dashboards to ensure correct collection before guest departure."
+      },
+      "invoicing": {
+        "title": "Invoicing & Guest Statements",
+        "content": "When a guest wishes to settle their account, you can issue a detailed statement containing all orders and services provided during their stay. The statement includes item details, prices, and any prepayments made."
       }
     }
   }

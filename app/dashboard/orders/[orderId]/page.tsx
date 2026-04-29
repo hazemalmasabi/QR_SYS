@@ -34,6 +34,8 @@ interface OrderDetail {
     total: number
   }[]
   total_amount: number
+  paid_amount: number
+  payment_status: 'unpaid' | 'partial_paid' | 'paid_in_full' | 'pay_on_checkout'
   currency_code: string
   status: 'new' | 'in_progress' | 'completed' | 'cancelled' | 'under_modification'
   created_at: string
@@ -86,6 +88,14 @@ export default function OrderDetailPage() {
   const [cancelError, setCancelError] = useState('')
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
+  
+  // Payment Modal States
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [paymentStatus, setPaymentStatus] = useState('pay_on_checkout') // paid_in_full, partial_paid, pay_on_checkout
+  const [paidAmount, setPaidAmount] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('cash')
+  const [paymentNotes, setPaymentNotes] = useState('')
+  const [paymentError, setPaymentError] = useState('')
 
   const CANCEL_PRESETS = tm.raw('presets') as Record<string, string>
 
@@ -168,8 +178,79 @@ export default function OrderDetailPage() {
   }
 
   const handleAccept = () => handleStatusUpdate('in_progress')
-  const handleComplete = () => handleStatusUpdate('completed')
   
+  const handleComplete = () => {
+    if (!order) return
+    const currentPaid = order.paid_amount || 0
+    const total = order.total_amount
+    const balance = total - currentPaid
+
+    if (total === 0 || balance <= 0) {
+      handleStatusUpdate('completed')
+    } else {
+      setShowPaymentModal(true)
+      setPaymentStatus('paid_in_full')
+      setPaidAmount(balance.toString())
+      setPaymentMethod('cash')
+      setPaymentNotes('')
+      setPaymentError('')
+    }
+  }
+
+  const handlePaymentSubmit = () => {
+    if (!order) return
+    const currentPaid = order.paid_amount || 0
+    const total = order.total_amount
+    const balance = total - currentPaid
+
+    if (paymentStatus === 'partial_paid') {
+      const amount = Number(paidAmount)
+      if (isNaN(amount) || amount <= 0 || amount > balance) {
+        setPaymentError(tc('invalidAmount') || 'Invalid amount')
+        return
+      }
+    }
+    
+    let submitAmount = 0
+    let finalPaymentStatus = paymentStatus
+    
+    if (paymentStatus === 'paid_in_full') {
+      submitAmount = balance
+      finalPaymentStatus = 'paid_in_full'
+    } else if (paymentStatus === 'partial_paid') {
+      submitAmount = Number(paidAmount)
+      if (currentPaid + submitAmount >= total) {
+        finalPaymentStatus = 'paid_in_full'
+      }
+    } else {
+      submitAmount = 0
+    }
+
+    setActionLoading(true)
+    fetch(`/api/orders/${orderId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        status: 'completed',
+        payment_status: finalPaymentStatus,
+        paid_amount: submitAmount,
+        payment_method: paymentMethod,
+        payment_notes: paymentNotes
+      }),
+    })
+    .then(async res => {
+      const data = await res.json()
+      if (data.success) {
+        toast.success(t('completedSuccess') + ' ✅')
+        fetchOrder()
+        setShowPaymentModal(false)
+      } else {
+        toast.error(data.message || t('error'))
+      }
+    })
+    .catch(() => toast.error(t('error')))
+    .finally(() => setActionLoading(false))
+  }
 
   const handleCancelSubmit = () => {
     const finalReason = selectedPreset === 'other' ? cancelReason : (selectedPreset || cancelReason)
@@ -504,6 +585,134 @@ export default function OrderDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && order && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-bold text-gray-900">
+                {tm('paymentDetails')}
+              </h3>
+              <button onClick={() => setShowPaymentModal(false)} className="btn-ghost p-1" disabled={actionLoading}>
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="px-6 py-4 space-y-4">
+              {(() => {
+                const currentPaid = order.paid_amount || 0
+                const total = order.total_amount
+                const balance = total - currentPaid
+                
+                return (
+                  <>
+                    <div className="rounded-xl bg-primary-50 p-3 flex justify-between items-center">
+                      <span className="text-sm text-primary-700 font-medium">{tm('remainingBalance') || 'Remaining Balance'}</span>
+                      <span className="text-lg font-bold text-primary-800">{formatCurrency(balance, '', order.currency_code)}</span>
+                    </div>
+
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">{tm('paymentStatusLabel')}</label>
+                      <select
+                        value={paymentStatus}
+                        onChange={(e) => {
+                          setPaymentStatus(e.target.value)
+                          if (e.target.value === 'paid_in_full') setPaidAmount(balance.toString())
+                          setPaymentError('')
+                        }}
+                        className="input"
+                      >
+                        <option value="paid_in_full">{tm('payInFull')} ({formatCurrency(balance, '', order.currency_code)})</option>
+                        <option value="partial_paid">{tm('payPartial')}</option>
+                        {/* pay_on_checkout is only allowed if balance is already 0, but modal wouldn't open then */}
+                      </select>
+                    </div>
+
+                    {paymentStatus === 'partial_paid' && (
+                      <div>
+                        <label className="mb-1 block text-sm font-medium text-gray-700">{tm('paidAmountLabel')} ({order.currency_code})</label>
+                        <input
+                          type="text"
+                          value={paidAmount}
+                          onChange={(e) => {
+                            const v = e.target.value
+                              .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d).toString())
+                              .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d).toString())
+                            
+                            const cleaned = v.replace(/[^0-9.]/g, '')
+                            const final = cleaned.indexOf('.') !== cleaned.lastIndexOf('.') 
+                              ? cleaned.substring(0, cleaned.lastIndexOf('.')) 
+                              : cleaned
+                            
+                            const num = Number(final)
+                            if (num > balance) {
+                               setPaidAmount(balance.toString())
+                               setPaymentError(tc('maxAmountReached') || 'Cannot exceed remaining balance')
+                            } else {
+                               setPaidAmount(final)
+                               setPaymentError('')
+                            }
+                          }}
+                          className={cn("input", paymentError && "border-red-500")}
+                          placeholder={`Max: ${balance}`}
+                          inputMode="decimal"
+                        />
+                        {paymentError && <p className="mt-1 text-xs text-red-500">{paymentError}</p>}
+                      </div>
+                    )}
+                  </>
+                )
+              })()}
+
+              {(paymentStatus === 'paid_in_full' || paymentStatus === 'partial_paid') && (
+                <>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">{tm('paymentMethodLabel')}</label>
+                    <select
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                      className="input"
+                    >
+                      <option value="cash">{tm('cash')}</option>
+                      <option value="card">{tm('card')}</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">{tm('notesLabel')}</label>
+                    <textarea
+                      rows={2}
+                      value={paymentNotes}
+                      onChange={(e) => setPaymentNotes(e.target.value)}
+                      className="input resize-none"
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="flex justify-end gap-2 px-6 py-4 border-t border-gray-100 bg-gray-50">
+              <button 
+                onClick={() => setShowPaymentModal(false)} 
+                className="btn-secondary"
+                disabled={actionLoading}
+              >
+                {tc('cancel')}
+              </button>
+              <button
+                onClick={handlePaymentSubmit}
+                disabled={actionLoading || (paymentStatus === 'partial_paid' && !paidAmount)}
+                className="btn-primary"
+              >
+                {actionLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+                {tc('confirm')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cancel Modal */}
       {showCancelModal && (

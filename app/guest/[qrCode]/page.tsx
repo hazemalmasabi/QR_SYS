@@ -9,6 +9,7 @@ import { isWithinServiceHours } from '@/lib/utils'
 import type { MainService } from '@/types'
 
 interface GuestInfo {
+  hasActiveSession: boolean
   room: { room_id: string; room_number: string; room_type: string }
   hotel: {
     hotel_id: string
@@ -107,6 +108,14 @@ export default function GuestPage({
         }
 
         setGuestInfo(infoData)
+        
+        if (!infoData.hasActiveSession) {
+          setError('noActiveSession')
+          setLoading(false)
+          return
+        }
+
+        setGuestInfo(infoData)
         if (servicesData.success) {
           setServices(servicesData.services)
         }
@@ -180,13 +189,38 @@ export default function GuestPage({
   }
 
   if (error) {
+    const isNoSession = error === 'noActiveSession'
     return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <span className="text-2xl">⚠️</span>
+      <div className="flex min-h-[60vh] items-center justify-center p-4">
+        <div className="w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-8 shadow-xl text-center space-y-5">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-amber-50">
+            {isNoSession ? (
+              <Lock className="h-10 w-10 text-amber-500" />
+            ) : (
+              <AlertTriangle className="h-10 w-10 text-red-500" />
+            )}
           </div>
-          <h2 className="text-lg font-semibold text-gray-900">{error}</h2>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">
+              {isNoSession ? t('noActiveSession') : error}
+            </h2>
+            {isNoSession && (
+              <p className="mt-2 text-sm text-gray-500">
+                {t('noActiveSessionDesc')}
+              </p>
+            )}
+          </div>
+          {isNoSession && (
+            <div className="pt-2">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                {t('contactReception')}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     )

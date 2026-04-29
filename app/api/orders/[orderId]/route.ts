@@ -80,7 +80,7 @@ export async function PATCH(
 
     const { orderId } = await params
     const body = await request.json()
-    const { status: newStatus, cancellation_reason } = body
+    const { status: newStatus, cancellation_reason, payment_status, paid_amount, payment_method, payment_notes } = body
 
     if (!newStatus) {
       return NextResponse.json(
@@ -145,6 +145,11 @@ export async function PATCH(
       updateData.handled_by = session.employeeId
     } else if (newStatus === 'completed') {
       updateData.completed_at = now
+      if (payment_status) updateData.payment_status = payment_status
+      if (paid_amount !== undefined) {
+        updateData.paid_amount = (order.paid_amount || 0) + Number(paid_amount)
+      }
+      
       // Calculate actual time in minutes from accepted_at to now
       if (order.accepted_at) {
         const acceptedTime = new Date(order.accepted_at).getTime()
@@ -171,6 +176,35 @@ export async function PATCH(
         { success: false, message: 'updateError' },
         { status: 500 }
       )
+    }
+
+    // If there's a payment, insert into payments table
+    if (newStatus === 'completed' && Number(paid_amount) > 0) {
+      // If order lacks session_id, try to find current active session for the room
+      let sessionId = order.session_id
+      if (!sessionId) {
+        const { data: activeSession } = await supabaseAdmin
+          .from('guest_sessions')
+          .select('session_id')
+          .eq('room_id', order.room_id)
+          .eq('status', 'active')
+          .single()
+        if (activeSession) sessionId = activeSession.session_id
+      }
+
+      if (sessionId) {
+        await supabaseAdmin.from('payments').insert({
+          hotel_id: session.hotelId,
+          session_id: sessionId,
+          order_id: orderId,
+          amount: Number(paid_amount),
+          payment_method: payment_method || 'cash',
+          payment_type: 'payment',
+          received_by_employee_id: session.employeeId,
+          location_id: session.assignedServiceId || null,
+          notes: payment_notes || null
+        })
+      }
     }
 
     return NextResponse.json({ success: true, order: updatedOrder })

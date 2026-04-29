@@ -84,7 +84,7 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string, tim
   let query = supabaseAdmin
     .from('orders')
     .select(
-      'order_id, order_number, room_id, service_id, total_amount, status, created_at, accepted_at, completed_at, cancelled_at, actual_time, rooms!inner(room_number), main_services!inner(service_name)'
+      'order_id, order_number, room_id, service_id, total_amount, status, created_at, accepted_at, completed_at, cancelled_at, actual_time, cancellation_reason, rooms!inner(room_number), main_services!inner(service_name)'
     )
     .eq('hotel_id', filters.hotelId)
     .gte('created_at', filters.dateFrom)
@@ -165,7 +165,7 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string, tim
     a.date.localeCompare(b.date)
   )
 
-  // Peak hours: count orders per hour (0-23) in the target timezone
+  // Peak hours
   const hourCounts: number[] = Array(24).fill(0)
   for (const order of ordersList) {
     const hour = parseInt(new Date(order.created_at).toLocaleTimeString('en-US', {
@@ -179,6 +179,19 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string, tim
     hour: `${hour.toString().padStart(2, '0')}:00`,
     count,
   }))
+
+  // Cancellation reasons
+  const reasonCounts: Record<string, number> = {}
+  ordersList.forEach(o => {
+    if (o.status === 'cancelled' && o.cancellation_reason) {
+      const reason = o.cancellation_reason.trim()
+      reasonCounts[reason] = (reasonCounts[reason] || 0) + 1
+    }
+  })
+  const topCancellationReasons = Object.entries(reasonCounts)
+    .map(([reason, count]) => ({ reason, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5)
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   // Cancellation rate per service
@@ -223,6 +236,7 @@ async function getOrdersReport(filters: BaseFilters, currencySymbol: string, tim
     dailyData,
     peakHoursData,
     cancellationByService,
+    topCancellationReasons,
     orders: ordersList,
     currencySymbol,
     timezone

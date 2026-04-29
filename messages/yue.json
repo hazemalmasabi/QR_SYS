@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "移除",
-    "room": "房間"
+    "room": "房間",
+    "notes": "備註",
+    "clearFilters": "清除篩選",
+    "ok": "確定",
+    "invalidAmount": "無效金額",
+    "id": "ID",
+    "rooms": "客房"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "平均時間",
       "avgAcceptanceTime": "平均接單時間",
       "avgExecutionTime": "平均完成時間",
-      "minutes": "分鐘"
+      "minutes": "分鐘",
+      "paid": "已付總額",
+      "remaining": "待付總額"
     },
     "filters": {
       "today": "今日",
@@ -366,7 +374,8 @@
     "reports": "報告",
     "settings": "設定",
     "help": "幫助",
-    "logout": "登出"
+    "logout": "登出",
+    "payments": "財務結算"
   },
   "orders": {
     "title": "訂單",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "自動取消：逾時",
     "guestCancelled": "賓客已取消",
     "modifiedByGuest": "賓客已修改",
-    "cancelledSuccess": "訂單取消成功"
+    "cancelledSuccess": "訂單取消成功",
+    "paymentStatus": "支付狀態",
+    "paid_in_full": "已付清",
+    "partial_paid": "部分支付",
+    "unpaid": "未付",
+    "in_progressSuccess": "訂單已接受並處理中",
+    "completedSuccess": "訂單已標記為完成"
   },
   "services": {
     "title": "主要服務",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "入住",
+    "checkOut": "退房",
+    "checkInSuccess": "入住成功",
+    "checkInSuccessDesc": "該客房現已激活，準備接收客人的請求。",
+    "checkOutSuccess": "退房成功",
+    "checkOutSuccessDesc": "客人帳戶已關閉，會話已結束。",
+    "hasUnpaidBalance": "無法退房。該客房有未付餘額。",
+    "hasPendingOrders": "無法退房。該客房有待處理訂單。",
+    "sessionActive": "已佔用",
+    "sessionCheckedOut": "空閒",
+    "sessionStatus": "會話狀態",
+    "session": "會話",
+    "sessionRecords": "餘額 / 歷史",
+    "remainingBalance": "剩餘餘額",
+    "paidBalance": "已付餘額",
+    "orders": "訂單",
+    "checkActions": "入住/退房",
+    "confirmCheckOut": "確認退房",
+    "confirmCheckOutDesc": "結束會話將關閉當前客人帳戶。此操作不可撤銷。",
+    "confirmCancelPendingOrders": "有待處理的訂單。是否取消它們並繼續退房？",
+    "completePendingPaidOrdersDesc": "有待處理的訂單，但已支付。這些訂單將被標記為“完成”並辦理退房。",
+    "completeAndCheckOut": "完成並退房",
+    "cancelPendingThenCheckOut": "取消訂單並退房",
+    "service": "服務",
+    "selectService": "選擇服務",
+    "balance": "餘額",
+    "roomsWithBalance": "有餘額的客房",
+    "unpaidOnly": "僅顯示未付",
+    "empty": "空",
+    "rooms": "客房",
+    "roomExists": "房號已存在"
   },
   "employees": {
     "title": "職員管理",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "酒店 Google Maps 連結",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "喺 Google Maps 打開你間酒店，然後複製網址。呢個用嚟提取酒店坐標做客人位置驗證。",
-    "invalidGoogleMapsUrl": "請輸入有效嘅 Google Maps 連結"
+    "invalidGoogleMapsUrl": "請輸入有效嘅 Google Maps 連結",
+    "defaultRoomTypeName": "標準間"
   },
   "reports": {
     "title": "報告中心",
@@ -691,7 +738,8 @@
     "selectDateRange": "請選擇日期範圍以查看報告",
     "summary": "摘要",
     "details": "詳情",
-    "chart": "圖表"
+    "chart": "圖表",
+    "topCancellationReasons": "主要取消原因"
   },
   "guest": {
     "welcome": "歡迎光臨",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "睇嚟你唔喺酒店入面喎。請確保你喺酒店大樓入面再試多次啦。",
     "locationTryAgain": "再試多次",
     "locationCoordsError": "無法驗證位置",
-    "locationCoordsErrorDesc": "提取酒店坐標時發生錯誤，請聯絡酒店前台。"
+    "locationCoordsErrorDesc": "提取酒店坐標時發生錯誤，請聯絡酒店前台。",
+    "totalBalance": "總額",
+    "paidBalance": "已付",
+    "remainingBalance": "餘額",
+    "noActiveSession": "訂單服務未激活",
+    "noActiveSessionDesc": "請聯繫前台為您激活客房的訂單服務。",
+    "contactReception": "聯繫前台"
   },
   "validation": {
     "required": "呢個係必填嘅",
@@ -803,7 +857,18 @@
       "unavailable": "部分商品缺貨",
       "guestRequest": "應客人要求修改",
       "alternative": "提供咗代替品"
-    }
+    },
+    "remainingBalance": "剩餘餘額",
+    "paymentDetails": "支付詳情",
+    "paymentStatusLabel": "支付狀態",
+    "paidAmountLabel": "已付金額",
+    "paymentMethodLabel": "支付方式",
+    "notesLabel": "支付備註 (可選)",
+    "payInFull": "已付清",
+    "payPartial": "部分支付",
+    "payOnCheckout": "退房時支付",
+    "cash": "現金",
+    "card": "銀行卡"
   },
   "help": {
     "title": "幫助中心",
@@ -817,7 +882,8 @@
       "settings": "系統配置",
       "guestExperience": "客人體驗",
       "qrPlacements": "QR 放置位置",
-      "hierarchy": "角色和權限"
+      "hierarchy": "角色和權限",
+      "billing": "支付與帳單"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "客人位置驗證",
         "content": "呢項功能要求客人必須喺酒店 500 米半徑內身處，先至可以瀏覽各項服務。\n\n點樣用：\n1. 喺設定儀表板，啟用「位置驗證」選項。\n2. 輸入你酒店嘅 Google Maps URL 連結。\n\n關於 URL 嘅備註：\n你可以直接從瀏覽器嘅網址列複製長連結，或者用短連結（例如 maps.app.goo.gl）。系統會自動解碼呢啲短連結，提取準確座標以確保最大程度嘅準確性。"
+      },
+      "sessions": {
+        "title": "客人會話與隱私",
+        "content": "為確保客人安全和隱私，系統要求在客人訂購服務前激活客房的“活躍會話”。"
+      },
+      "payments": {
+        "title": "支付與餘額管理",
+        "content": "系統允許精確跟蹤每間客房欠下的金額。"
+      },
+      "invoicing": {
+        "title": "開票與客人對帳單",
+        "content": "當客人希望結算帳戶時，您可以簽發一份詳細的對帳單。"
       }
-    }
+    },
+    "noResultsFound": "未找到結果",
+    "searchNoResults": "未找到匹配項，請嘗試其他關鍵詞。"
+  },
+  "payments": {
+    "title": "支付與結算",
+    "subtitle": "跟蹤所有財務交易並結算客房帳單",
+    "totalPaid": "已付總額",
+    "service": "服務",
+    "activeRoomsOnly": "僅限活躍會話",
+    "date": "日期",
+    "amount": "金額",
+    "type": "類型",
+    "method": "支付方式",
+    "recipient": "收款人",
+    "receivedBy": "收款人",
+    "reference": "參考號",
+    "noPayments": "無支付記錄",
+    "settleRoomInvoice": "結算客房帳單",
+    "selectRoom": "選擇客房",
+    "startDate": "開始日期",
+    "endDate": "結束日期",
+    "cash": "現金",
+    "card": "銀行卡",
+    "transfer": "銀行轉帳",
+    "payment": "支付",
+    "refund": "退款",
+    "transferType": "部門轉帳",
+    "manual": "手動",
+    "addManualPayment": "添加手動記錄/收據",
+    "settleAmount": "結算金額",
+    "confirmPayment": "確認支付",
+    "amountExceedsBalance": "金額超過剩餘餘額",
+    "notesPlaceholder": "備註（可選）...",
+    "unpaid": "未付",
+    "partial": "部分支付",
+    "paid": "已付清",
+    "invalidAmount": "無效金額"
   }
 }

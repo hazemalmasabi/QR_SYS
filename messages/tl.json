@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "Alisin",
-    "room": "Kwarto"
+    "room": "Kwarto",
+    "notes": "Mga Tala",
+    "clearFilters": "I-clear ang mga Filter",
+    "ok": "OK",
+    "invalidAmount": "Maling Halaga",
+    "id": "ID",
+    "rooms": "Mga Kuwarto"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "Average na Oras",
       "avgAcceptanceTime": "Average na Oras ng Pagtanggap",
       "avgExecutionTime": "Average na Oras ng Pagsasagawa",
-      "minutes": "minuto"
+      "minutes": "minuto",
+      "paid": "Kabuuang Bayad",
+      "remaining": "Kabuuang Balance"
     },
     "filters": {
       "today": "Ngayong Araw",
@@ -366,7 +374,8 @@
     "reports": "Mga Ulat",
     "settings": "Mga Setting",
     "help": "Tulong",
-    "logout": "Mag-log out"
+    "logout": "Mag-log out",
+    "payments": "Mga Bayad"
   },
   "orders": {
     "title": "Mga Order",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "Auto-cancel: Nag-timeout",
     "guestCancelled": "Kinansela ng Bisita",
     "modifiedByGuest": "Binago ng Bisita",
-    "cancelledSuccess": "Matagumpay na nakansela ang order"
+    "cancelledSuccess": "Matagumpay na nakansela ang order",
+    "paymentStatus": "Status ng Bayad",
+    "paid_in_full": "Bayad na Lahat",
+    "partial_paid": "Bahagyang Bayad",
+    "unpaid": "Hindi pa Bayad",
+    "in_progressSuccess": "Tinanggap ang order at ginagawa na",
+    "completedSuccess": "Order ay tapos na"
   },
   "services": {
     "title": "Pangunahing Serbisyo",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Sigurado ka bang nais mong burahin ang lahat ng kuwarto para sa hotel na ito?",
     "deleteAllDesc2": "Lahat ng rutang QR ng kuwarto ay madi-disable at mabubura. Hindi ito maibabalik.",
     "yesDeleteAll": "Oo, Burahin Lahat",
-    "allDuplicatesOrInvalid": "Lahat ng kuwarto ay maaaring duplicate o hindi wasto"
+    "allDuplicatesOrInvalid": "Lahat ng kuwarto ay maaaring duplicate o hindi wasto",
+    "checkIn": "Check-In",
+    "checkOut": "Check-Out",
+    "checkInSuccess": "Tagumpay ang Check-in",
+    "checkInSuccessDesc": "Ang kuwarto ay aktibo na at handa nang tumanggap ng mga request ng bisita.",
+    "checkOutSuccess": "Tagumpay ang Check-out",
+    "checkOutSuccessDesc": "Ang account ng bisita ay sarado na at tapos na ang session.",
+    "hasUnpaidBalance": "Hindi pwedeng mag-check-out. May hindi pa bayad na balance sa kuwartong ito.",
+    "hasPendingOrders": "Hindi pwedeng mag-check-out. May mga pending na order sa kuwartong ito.",
+    "sessionActive": "May Tao",
+    "sessionCheckedOut": "Bakante",
+    "sessionStatus": "Status ng Session",
+    "session": "Session",
+    "sessionRecords": "Balance / History",
+    "remainingBalance": "Natitirang Balance",
+    "paidBalance": "Bayad na Balance",
+    "orders": "Mga Order",
+    "checkActions": "Pasok/Labas",
+    "confirmCheckOut": "Kumpirmahin ang Check-out",
+    "confirmCheckOutDesc": "Ang pagtatapos ng session ay magsasara sa account ng kasalukuyang bisita. Ito ay pinal.",
+    "confirmCancelPendingOrders": "May mga pending na order. Gusto mo bang i-cancel ang mga ito at ituloy ang check-out?",
+    "completePendingPaidOrdersDesc": "May mga pending na order pero bayad na. Ang mga ito ay ituturing na 'Tapos na'.",
+    "completeAndCheckOut": "Tapusin at Mag-Check-out",
+    "cancelPendingThenCheckOut": "I-cancel ang mga Order at Mag-Check-out",
+    "service": "Serbisyo",
+    "selectService": "Pumili ng Serbisyo",
+    "balance": "Balance",
+    "roomsWithBalance": "Mga kuwartong may balance",
+    "unpaidOnly": "Hindi pa bayad lang",
+    "empty": "Bakante",
+    "rooms": "Mga Kuwarto",
+    "roomExists": "Ang numero ng kuwarto ay mayroon na"
   },
   "employees": {
     "title": "Mga Empleyado",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "URL ng Hotel sa Google Maps",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Buksan ang iyong hotel sa Google Maps at kopyahin ang URL mula sa address bar. Ginagamit para makuha ang mga coordinate ng hotel para sa pag-verify sa lokasyon ng bisita.",
-    "invalidGoogleMapsUrl": "Mangyaring maglagay ng wastong Google Maps URL"
+    "invalidGoogleMapsUrl": "Mangyaring maglagay ng wastong Google Maps URL",
+    "defaultRoomTypeName": "Standard"
   },
   "reports": {
     "title": "Mga Ulat",
@@ -691,7 +738,8 @@
     "selectDateRange": "Pumili ng saklaw ng petsa para makita ang ulat",
     "summary": "Buod",
     "details": "Mga Detalye",
-    "chart": "Tsart"
+    "chart": "Tsart",
+    "topCancellationReasons": "Pangunahing dahilan ng pagkansela"
   },
   "guest": {
     "welcome": "Maligayang pagdating",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "Tila wala ka sa loob ng hotel. Tiyaking nasa loob ka ng gusali ng hotel at subukang muli.",
     "locationTryAgain": "Subukang Muli",
     "locationCoordsError": "Hindi ma-verify ang lokasyon",
-    "locationCoordsErrorDesc": "May naganap na error habang kinukuha ang mga coordinate ng hotel. Mangyaring makipag-ugnayan sa pamunuan ng hotel."
+    "locationCoordsErrorDesc": "May naganap na error habang kinukuha ang mga coordinate ng hotel. Mangyaring makipag-ugnayan sa pamunuan ng hotel.",
+    "totalBalance": "Kabuuan",
+    "paidBalance": "Bayad na",
+    "remainingBalance": "Balance",
+    "noActiveSession": "Hindi aktibo ang order service",
+    "noActiveSessionDesc": "Mangyaring makipag-ugnayan sa reception para i-activate ang order service para sa iyong kuwarto.",
+    "contactReception": "Makipag-ugnayan sa Reception"
   },
   "validation": {
     "required": "Ito ay kinakailangan",
@@ -803,7 +857,18 @@
       "unavailable": "Ang ilang item ay wala",
       "guestRequest": "Inayos batay sa hiling ng panauhin",
       "alternative": "Ibinigay ang alternatibo"
-    }
+    },
+    "remainingBalance": "Natitirang Balance",
+    "paymentDetails": "Detalye ng Bayad",
+    "paymentStatusLabel": "Status ng Bayad",
+    "paidAmountLabel": "Halagang Binayaran",
+    "paymentMethodLabel": "Paraan ng Pagbayad",
+    "notesLabel": "Mga Tala sa Pagbayad (Opsyonal)",
+    "payInFull": "Bayad na Lahat",
+    "payPartial": "Bahagyang Bayad",
+    "payOnCheckout": "Magbayad sa Check-out",
+    "cash": "Cash",
+    "card": "Card"
   },
   "help": {
     "title": "Help Center",
@@ -817,7 +882,8 @@
       "settings": "Konfigurasyon",
       "guestExperience": "Karanasan ng Bisita",
       "qrPlacements": "Mga Lugar ng QR",
-      "hierarchy": "Mga Papel"
+      "hierarchy": "Mga Papel",
+      "billing": "Mga Bayad at Billing"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "Pag-verify sa Lokasyon ng Bisita",
         "content": "Kinakailangan ng feature na ito na ang mga bisita ay pisikal na nasa loob ng 500-meter radius ng hotel bago sila mag-browse sa mga serbisyo.\n\nPaano gamitin:\n1. Mula sa Settings dashboard, i-enable ang 'Pag-verify ng Lokasyon' na opsyon.\n2. I-type ang Google Maps URL ng iyong hotel.\n\nNota sa URL:\nMaaari mong direktang kopyahin ang mahabang URL mula sa address bar ng iyong browser o gumamit ng maikling link (tulad ng maps.app.goo.gl). Awtomatikong ide-decode ng system ang mga maikling link at kukunin ang tumpak na coordinates para maseguro ang perpektong katumpakan."
+      },
+      "sessions": {
+        "title": "Session ng Bisita at Privacy",
+        "content": "Para sa seguridad, kailangan ng aktibong session."
+      },
+      "payments": {
+        "title": "Pamamahala ng Bayad at Balance",
+        "content": "Pinapayagan ng system ang tumpak na pag-track ng mga utang."
+      },
+      "invoicing": {
+        "title": "Invoicing at Guest Statement",
+        "content": "Maaari kang maglabas ng detalyadong statement para sa iyong paglagi."
       }
-    }
+    },
+    "noResultsFound": "Walang nahanap na resulta",
+    "searchNoResults": "Walang nahanap na paksa na tumutugma sa iyong paghahanap."
+  },
+  "payments": {
+    "title": "Mga Bayad at Settlement",
+    "subtitle": "I-track ang mga transaksyong pinansyal at ayusin ang mga bill ng kuwarto",
+    "totalPaid": "Kabuuang Bayad",
+    "service": "Serbisyo",
+    "activeRoomsOnly": "Mga Aktibong Session Lang",
+    "date": "Petsa",
+    "amount": "Halaga",
+    "type": "Uri",
+    "method": "Paraan",
+    "recipient": "Tagatanggap",
+    "receivedBy": "Tinanggap ni",
+    "reference": "Reference",
+    "noPayments": "Walang naitalang bayad",
+    "settleRoomInvoice": "Ayusin ang Bill ng Kuwarto",
+    "selectRoom": "Pumili ng Kuwarto",
+    "startDate": "Simulang Petsa",
+    "endDate": "Tapos na Petsa",
+    "cash": "Cash",
+    "card": "Card",
+    "transfer": "Bank Transfer",
+    "payment": "Bayad",
+    "refund": "Refund",
+    "transferType": "Department Transfer",
+    "manual": "Manual",
+    "addManualPayment": "Magdagdag ng Manual na File / Resibo",
+    "settleAmount": "Halagang Ayusin",
+    "confirmPayment": "Kumpirmahin ang Bayad",
+    "amountExceedsBalance": "Ang halaga ay sobra sa natitirang balance",
+    "notesPlaceholder": "Karagdagang mga tala (Opsyonal)...",
+    "unpaid": "Hindi pa Bayad",
+    "partial": "Bahagyang Bayad",
+    "paid": "Bayad na Lahat",
+    "invalidAmount": "Maling Halaga"
   }
 }

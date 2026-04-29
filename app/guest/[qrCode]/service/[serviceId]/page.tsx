@@ -4,6 +4,7 @@ import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { ArrowRight, ArrowLeft, Minus, Plus, HandPlatter, Loader2, ChevronDown, Clock, Lock, Package } from 'lucide-react'
 import { cn, formatCurrency, isWithinServiceHours } from '@/lib/utils'
 import { useCartStore } from '@/lib/stores/cart-store'
@@ -36,6 +37,7 @@ export default function ServiceMenuPage({
   const t = useTranslations('guest')
   const locale = useLocale()
   const isRTL = locale === 'ar'
+  const router = useRouter()
 
   const { items: cartItems, addItem, updateQuantity, getTotal, getItemCount } = useCartStore()
 
@@ -56,6 +58,8 @@ export default function ServiceMenuPage({
       .then(data => {
         if (data.success) {
           setGuestInfo(data)
+        } else if (data.message === 'noActiveSession') {
+          router.push(`/guest/${qrCode}`)
         }
       })
       .catch(console.error)
@@ -70,6 +74,8 @@ export default function ServiceMenuPage({
           if (data.timezone) setTimezone(data.timezone)
           // Expand all sections by default
           setExpandedSections(new Set(data.subServices.map((s: SubServiceWithItems) => s.sub_service_id)))
+        } else if (data.message === 'noActiveSession') {
+          router.push(`/guest/${qrCode}`)
         }
       } catch (err) {
         console.error('Failed to fetch service:', err)
@@ -79,7 +85,7 @@ export default function ServiceMenuPage({
     }
 
     fetchService()
-  }, [qrCode, serviceId])
+  }, [qrCode, serviceId, router])
 
   const toggleSection = (id: string) => {
     setExpandedSections((prev) => {

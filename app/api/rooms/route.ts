@@ -19,9 +19,16 @@ export async function GET(request: Request) {
     const floor = searchParams.get('floor')
     const roomType = searchParams.get('room_type')
     const status = searchParams.get('status')
+    const unpaidOnly = searchParams.get('unpaid_only') === 'true'
     const page = parseInt(searchParams.get('page') || '1', 10)
     const limit = parseInt(searchParams.get('limit') || '25', 10)
     const offset = (page - 1) * limit
+    
+    // Support service-specific balance
+    let serviceIdFilter = searchParams.get('service_id')
+    if (!serviceIdFilter && (session.role === 'service_supervisor' || session.role === 'service_employee')) {
+       serviceIdFilter = session.assignedServiceId || null
+    }
 
     let query = supabaseAdmin
       .from('rooms')
@@ -61,10 +68,84 @@ export async function GET(request: Request) {
       )
     }
 
+    const roomIds = rooms?.map(r => r.room_id) || []
+    let activeSessions: any[] = []
+    if (roomIds.length > 0) {
+      const { data: sessions, error: sessionsError } = await supabaseAdmin
+        .from('guest_sessions')
+        .select('*')
+        .in('room_id', roomIds)
+        .eq('status', 'active')
+      
+      if (!sessionsError && sessions) {
+        activeSessions = sessions
+      }
+    }
+
+    // Fetch current balance for each room
+    let roomBalances: Record<string, number> = {}
+    if (roomIds.length > 0) {
+      // Get all active session IDs to filter orders correctly
+      const activeSessionIds = activeSessions.map(s => s.session_id)
+
+      let ordersQuery = supabaseAdmin
+        .from('orders')
+        .select('room_id, total_amount, paid_amount, session_id, created_at')
+        .in('room_id', roomIds)
+        .neq('status', 'cancelled')
+        .gt('total_amount', 0)
+      
+      if (serviceIdFilter) {
+         ordersQuery = ordersQuery.eq('service_id', serviceIdFilter)
+      }
+
+      const { data: allUnpaidOrders } = await ordersQuery
+
+      if (allUnpaidOrders) {
+        allUnpaidOrders.forEach(order => {
+          // Rule: Only count orders if they are:
+          // 1. Orphan orders (no session_id) AND created after the session began (if session exists)
+          // 2. OR belong to an active session
+          const session = activeSessions.find(s => s.room_id === order.room_id)
+          const isActiveSessionOrder = order.session_id && activeSessionIds.includes(order.session_id)
+          
+          let isOrphanOrder = false
+          if (!order.session_id) {
+             // If there is an active session, orphan must be after check-in
+             if (session) {
+                isOrphanOrder = order.created_at >= session.check_in_time
+             } else {
+                isOrphanOrder = true 
+             }
+          }
+
+          if (isActiveSessionOrder || isOrphanOrder) {
+            const unpaid = Number(order.total_amount || 0) - Number(order.paid_amount || 0)
+            if (unpaid > 0) {
+              roomBalances[order.room_id] = (roomBalances[order.room_id] || 0) + unpaid
+            }
+          }
+        })
+      }
+    }
+
+    let filteredRooms = rooms?.map(room => ({
+      ...room,
+      current_session: activeSessions.find(s => s.room_id === room.room_id) || null,
+      balance: Number((roomBalances[room.room_id] || 0).toFixed(2))
+    })) || []
+
+    const totalBalance = Number(Object.values(roomBalances).reduce((a, b) => a + b, 0).toFixed(2))
+
+    if (unpaidOnly) {
+      filteredRooms = filteredRooms.filter(r => r.balance > 0)
+    }
+
     return NextResponse.json({
       success: true,
-      rooms: rooms || [],
-      total: count || 0,
+      rooms: filteredRooms,
+      total: unpaidOnly ? filteredRooms.length : (count || 0),
+      totalBalance,
       page,
       limit
     })

@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "削除",
-    "room": "部屋"
+    "room": "部屋",
+    "notes": "備考",
+    "clearFilters": "フィルターをクリア",
+    "ok": "OK",
+    "invalidAmount": "無効な金額",
+    "id": "ID",
+    "rooms": "客室"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "平均完了時間",
       "avgAcceptanceTime": "平均受付時間",
       "avgExecutionTime": "平均実施時間",
-      "minutes": "分"
+      "minutes": "分",
+      "paid": "支払い済み合計",
+      "remaining": "未払い合計"
     },
     "filters": {
       "today": "今日",
@@ -366,7 +374,8 @@
     "reports": "レポート",
     "settings": "設定",
     "help": "ヘルプ",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "payments": "支払い"
   },
   "orders": {
     "title": "注文一覧",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "自動キャンセル：タイムアウト",
     "guestCancelled": "お客様によるキャンセル",
     "modifiedByGuest": "宾客が変更しました",
-    "cancelledSuccess": "注文が正常にキャンセルされました"
+    "cancelledSuccess": "注文が正常にキャンセルされました",
+    "paymentStatus": "支払い状況",
+    "paid_in_full": "全額支払い済み",
+    "partial_paid": "一部支払い",
+    "unpaid": "未払い",
+    "in_progressSuccess": "注文が受理され、進行中です",
+    "completedSuccess": "注文が完了としてマークされました"
   },
   "services": {
     "title": "メインサービス",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "このホテルのすべての部屋を削除してもよろしいですか？",
     "deleteAllDesc2": "部屋のすべてのQRルートが無効化され削除されます。この操作は元に戻せません。",
     "yesDeleteAll": "はい、すべて削除します",
-    "allDuplicatesOrInvalid": "すべての部屋が重複しているか無効です"
+    "allDuplicatesOrInvalid": "すべての部屋が重複しているか無効です",
+    "checkIn": "チェックイン",
+    "checkOut": "チェックアウト",
+    "checkInSuccess": "チェックイン成功",
+    "checkInSuccessDesc": "客室がアクティブになり、ゲストのリクエストを受信できるようになりました。",
+    "checkOutSuccess": "チェックアウト成功",
+    "checkOutSuccessDesc": "ゲストアカウントが閉鎖され、セッションが終了しました。",
+    "hasUnpaidBalance": "チェックアウトできません。この客室には未払いの残高があります。",
+    "hasPendingOrders": "チェックアウトできません。この客室には保留中の注文があります。",
+    "sessionActive": "入室中",
+    "sessionCheckedOut": "空室",
+    "sessionStatus": "セッション状況",
+    "session": "セッション",
+    "sessionRecords": "残高 / 履歴",
+    "remainingBalance": "残り残高",
+    "paidBalance": "支払い済み残高",
+    "orders": "注文",
+    "checkActions": "入退室",
+    "confirmCheckOut": "チェックアウトを確認",
+    "confirmCheckOutDesc": "セッションを終了すると、現在のゲストアカウントが閉鎖されます。この操作は取り消せません。",
+    "confirmCancelPendingOrders": "保留中の注文があります。これらをキャンセルしてチェックアウトを続行しますか？",
+    "completePendingPaidOrdersDesc": "保留中の注文がありますが、すでに支払い済みです。これらは「完了」としてマークされます。",
+    "completeAndCheckOut": "完了してチェックアウト",
+    "cancelPendingThenCheckOut": "キャンセルしてチェックアウト",
+    "service": "サービス",
+    "selectService": "サービスを選択",
+    "balance": "残高",
+    "roomsWithBalance": "残高のある客室",
+    "unpaidOnly": "未払いのみ",
+    "empty": "空室",
+    "rooms": "客室",
+    "roomExists": "部屋番号は既に存在します"
   },
   "employees": {
     "title": "スタッフ管理",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "ホテルのGoogleマップURL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Googleマップでホテルを開き、アドレスバーからURLをコピーしてください。これは、ゲストの位置情報を確認するためにホテルの座標を抽出するために使用されます。",
-    "invalidGoogleMapsUrl": "有効なGoogleマップURLを入力してください"
+    "invalidGoogleMapsUrl": "有効なGoogleマップURLを入力してください",
+    "defaultRoomTypeName": "スタンダード"
   },
   "reports": {
     "title": "レポート",
@@ -691,7 +738,8 @@
     "selectDateRange": "表示するレポートの期間を選択してください",
     "summary": "概要",
     "details": "詳細",
-    "chart": "チャート"
+    "chart": "チャート",
+    "topCancellationReasons": "主なキャンセル理由"
   },
   "guest": {
     "welcome": "ようこそ",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "ホテル内にいないようです。ホテル建物内にいることを確認して、もう一度お試しください。",
     "locationTryAgain": "再試行",
     "locationCoordsError": "位置情報を確認できませんでした",
-    "locationCoordsErrorDesc": "ホテルの座標を抽出する際にエラーが発生しました。ホテルにお問い合わせください。"
+    "locationCoordsErrorDesc": "ホテルの座標を抽出する際にエラーが発生しました。ホテルにお問い合わせください。",
+    "totalBalance": "合計",
+    "paidBalance": "支払い済み",
+    "remainingBalance": "残高",
+    "noActiveSession": "注文サービスが有効ではありません",
+    "noActiveSessionDesc": "客室の注文サービスを有効にするには、フロントまでご連絡ください。",
+    "contactReception": "フロントに連絡する"
   },
   "validation": {
     "required": "この項目は必須です",
@@ -803,7 +857,18 @@
       "unavailable": "一部のアイテムは利用できません",
       "guestRequest": "ゲストのリクエストにより調整",
       "alternative": "代替アイテムを提供しました"
-    }
+    },
+    "remainingBalance": "残り残高",
+    "paymentDetails": "支払い詳細",
+    "paymentStatusLabel": "支払い状況",
+    "paidAmountLabel": "支払い金額",
+    "paymentMethodLabel": "支払い方法",
+    "notesLabel": "支払い備考（任意）",
+    "payInFull": "全額支払い済み",
+    "payPartial": "一部支払い",
+    "payOnCheckout": "チェックアウト時に支払い",
+    "cash": "現金",
+    "card": "カード"
   },
   "help": {
     "title": "ヘルプセンター",
@@ -817,7 +882,8 @@
       "settings": "各種設定",
       "guestExperience": "ゲストの旅",
       "qrPlacements": "QR配置",
-      "hierarchy": "役割と階層"
+      "hierarchy": "役割と階層",
+      "billing": "支払いと請求"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "ゲストの位置確認",
         "content": "この機能を利用するには、サービスを閲覧するためにゲストがホテルの半径500メートル以内に物理的に存在している必要があります。\n\n使用方法：\n1. 設定ダッシュボードから、「位置確認」オプションを有効にします。\n2. ホテルのGoogleマップURLを入力します。\n\nURLに関する注意事項：\nブラウザのアドレスバーから長いURLを直接コピーすることも、短いリンク（maps.app.goo.glなど）を使用することもできます。システムは短いリンクを自動的にデコードし、正確な座標を抽出して最大の精度を保証します。"
+      },
+      "sessions": {
+        "title": "ゲストセッションとプライバシー",
+        "content": "ゲストの安全とプライバシーのため、アクティブなセッションが必要です。"
+      },
+      "payments": {
+        "title": "支払いと残高管理",
+        "content": "システムにより、各客室の未払い額を正確に追跡できます。"
+      },
+      "invoicing": {
+        "title": "請求とゲスト明細",
+        "content": "滞在中のすべての注文とサービスを含む詳細な明細を発行できます。"
       }
-    }
+    },
+    "noResultsFound": "結果が見つかりませんでした",
+    "searchNoResults": "検索に一致するトピックは見つかりませんでした。"
+  },
+  "payments": {
+    "title": "支払いと決済",
+    "subtitle": "財務取引の追跡と客室請求の決済",
+    "totalPaid": "支払い済み合計",
+    "service": "サービス",
+    "activeRoomsOnly": "アクティブなセッションのみ",
+    "date": "日付",
+    "amount": "金額",
+    "type": "タイプ",
+    "method": "方法",
+    "recipient": "受取人",
+    "receivedBy": "受領者",
+    "reference": "参照",
+    "noPayments": "支払い記録はありません",
+    "settleRoomInvoice": "客室請求を決済する",
+    "selectRoom": "客室を選択",
+    "startDate": "開始日",
+    "endDate": "終了日",
+    "cash": "現金",
+    "card": "カード",
+    "transfer": "銀行振込",
+    "payment": "支払い",
+    "refund": "返金",
+    "transferType": "部署間転送",
+    "manual": "手動",
+    "addManualPayment": "手動ファイル/領収書を追加",
+    "settleAmount": "決済金額",
+    "confirmPayment": "支払いを確定する",
+    "amountExceedsBalance": "金額が残高を超えています",
+    "notesPlaceholder": "追加の備考（任意）...",
+    "unpaid": "未払い",
+    "partial": "一部支払い",
+    "paid": "全額支払い済み",
+    "invalidAmount": "無効な金額"
   }
 }

@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "ತೆಗೆದುಹಾಕಿ",
-    "room": "ಕೊಠಡಿ"
+    "room": "ಕೊಠಡಿ",
+    "notes": "ಟಿಪ್ಪಣಿಗಳು",
+    "clearFilters": "ಫಿಲ್ಟರ್‌ಗಳನ್ನು ಅಳಿಸಿ",
+    "ok": "ಸರಿ",
+    "invalidAmount": "ಅಮಾನ್ಯ ಮೊತ್ತ",
+    "id": "ID",
+    "rooms": "ಕೊಠಡಿಗಳು"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "ಸರಾಸರಿ ಸಮಯ",
       "avgAcceptanceTime": "ಸರಾಸರಿ ಸ್ವೀಕಾರ ಸಮಯ",
       "avgExecutionTime": "ಸರಾಸರಿ ಪೂರ್ಣಗೊಳಿಸುವ ಸಮಯ",
-      "minutes": "ನಿಮಿಷ"
+      "minutes": "ನಿಮಿಷ",
+      "paid": "ಒಟ್ಟು ಪಾವತಿಸಿದ",
+      "remaining": "ಒಟ್ಟು ಬಾಕಿ"
     },
     "filters": {
       "today": "ಇಂದು",
@@ -366,7 +374,8 @@
     "reports": "ವರದಿಗಳು",
     "settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
     "help": "ಸಹಾಯ",
-    "logout": "ಲಾಗ್ ಔಟ್"
+    "logout": "ಲಾಗ್ ಔಟ್",
+    "payments": "ಪಾವತಿಗಳು"
   },
   "orders": {
     "title": "ಆರ್ಡರ್‌ಗಳು",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "ಸ್ವಯಂಚಾಲಿತ ರದ್ದತಿ: ಸಮಯ ಮೀರಿದೆ",
     "guestCancelled": "ಅತಿಥಿಯಿಂದ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ",
     "modifiedByGuest": "ಅತಿಥಿಯಿಂದ ಮಾರ್ಪಡಿಸಲಾಗಿದೆ",
-    "cancelledSuccess": "ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ರದ್ದಾಗಿದೆ"
+    "cancelledSuccess": "ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ರದ್ದಾಗಿದೆ",
+    "paymentStatus": "ಪಾವತಿ ಸ್ಥಿತಿ",
+    "paid_in_full": "ಪೂರ್ಣ ಪಾವತಿಸಿದ",
+    "partial_paid": "ಭಾಗಶಃ ಪಾವತಿ",
+    "unpaid": "ಪಾವತಿಸದ",
+    "in_progressSuccess": "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ ಮತ್ತು ಪ್ರಗತಿಯಲ್ಲಿದೆ",
+    "completedSuccess": "ಆರ್ಡರ್ ಪೂರ್ಣಗೊಂಡಿದೆ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ"
   },
   "services": {
     "title": "ಮುಖ್ಯ ಸೇವೆಗಳು",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "ಚೆಕ್-ಇನ್",
+    "checkOut": "ಚೆಕ್-ಔಟ್",
+    "checkInSuccess": "ಚೆಕ್-ಇನ್ ಯಶಸ್ವಿಯಾಗಿದೆ",
+    "checkInSuccessDesc": "ಕೊಠಡಿಯು ಈಗ ಸಕ್ರಿಯವಾಗಿದೆ ಮತ್ತು ಅತಿಥಿ ವಿನಂತಿಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ಸಿದ್ಧವಾಗಿದೆ.",
+    "checkOutSuccess": "ಚೆಕ್-ಔಟ್ ಯಶಸ್ವಿಯಾಗಿದೆ",
+    "checkOutSuccessDesc": "ಅತಿಥಿ ಖಾತೆಯನ್ನು ಮುಚ್ಚಲಾಗಿದೆ ಮತ್ತು ಸೆಷನ್ ಕೊನೆಗೊಂಡಿದೆ.",
+    "hasUnpaidBalance": "ಚೆಕ್-ಔಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಈ ಕೊಠಡಿಯಲ್ಲಿ ಪಾವತಿಸದ ಬಾಕಿ ಹಣವಿದೆ.",
+    "hasPendingOrders": "ಚೆಕ್-ಔಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಈ ಕೊಠಡಿಯಲ್ಲಿ ಬಾಕಿ ಇರುವ ಆರ್ಡರ್‌ಗಳಿವೆ.",
+    "sessionActive": "ಆಕ್ರಮಿತ",
+    "sessionCheckedOut": "ಖಾಲಿ",
+    "sessionStatus": "ಸೆಷನ್ ಸ್ಥಿತಿ",
+    "session": "ಸೆಷನ್",
+    "sessionRecords": "ಬಾಕಿ / ಇತಿಹಾಸ",
+    "remainingBalance": "ಉಳಿದ ಬಾಕಿ",
+    "paidBalance": "ಪಾವತಿಸಿದ ಬಾಕಿ",
+    "orders": "ಆರ್ಡರ್‌ಗಳು",
+    "checkActions": "ಪ್ರವೇಶ/ನಿರ್ಗಮನ",
+    "confirmCheckOut": "ಚೆಕ್-ಔಟ್ ಖಚಿತಪಡಿಸಿ",
+    "confirmCheckOutDesc": "ಸೆಷನ್ ಮುಕ್ತಾಯಗೊಳಿಸುವುದರಿಂದ ಪ್ರಸ್ತುತ ಅತಿಥಿ ಖಾತೆ ಮುಚ್ಚಲ್ಪಡುತ್ತದೆ. ಈ ಕ್ರಮವು ಅಂತಿಮವಾಗಿದೆ.",
+    "confirmCancelPendingOrders": "ಬಾಕಿ ಇರುವ ಆರ್ಡರ್‌ಗಳಿವೆ. ಅವುಗಳನ್ನು ರದ್ದುಗೊಳಿಸಿ ಚೆಕ್-ಔಟ್ ಮಾಡಲು ಬಯಸುವಿರಾ?",
+    "completePendingPaidOrdersDesc": "ಬಾಕಿ ಇರುವ ಆರ್ಡರ್‌ಗಳಿವೆ ಆದರೆ ಪಾವತಿಸಲಾಗಿದೆ. ಇವುಗಳನ್ನು 'ಪೂರ್ಣಗೊಂಡಿದೆ' ಎಂದು ಗುರುತಿಸಲಾಗುತ್ತದೆ.",
+    "completeAndCheckOut": "ಪೂರ್ಣಗೊಳಿಸಿ ಮತ್ತು ಚೆಕ್-ಔಟ್ ಮಾಡಿ",
+    "cancelPendingThenCheckOut": "ಆರ್ಡರ್ ರದ್ದುಗೊಳಿಸಿ ಮತ್ತು ಚೆಕ್-ಔಟ್ ಮಾಡಿ",
+    "service": "ಸೇವೆ",
+    "selectService": "ಸೇವೆ ಆಯ್ಕೆಮಾಡಿ",
+    "balance": "ಬಾಕಿ",
+    "roomsWithBalance": "ಬಾಕಿ ಹಣವಿರುವ ಕೊಠಡಿಗಳು",
+    "unpaidOnly": "ಪಾವತಿಸದವುಗಳು ಮಾತ್ರ",
+    "empty": "ಖಾಲಿ",
+    "rooms": "ಕೊಠಡಿಗಳು",
+    "roomExists": "ಕೊಠಡಿ ಸಂಖ್ಯೆ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ"
   },
   "employees": {
     "title": "ಉದ್ಯೋಗಿಗಳು",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "ಹೋಟೆಲ್‌ನ Google Maps URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "Google Maps ನಲ್ಲಿ ನಿಮ್ಮ ಹೋಟೆಲ್ ಅನ್ನು ತೆರೆಯಿರಿ ಮತ್ತು ವಿಳಾಸದ ಬಾರ್‌ನಿಂದ URL ಅನ್ನು ನಕಲಿಸಿ. ಅತಿಥಿ ಸ್ಥಳ ಪರಿಶೀಲನೆಗಾಗಿ ಹೋಟೆಲ್ ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಅರಿಯಲು ಇದನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.",
-    "invalidGoogleMapsUrl": "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ Google Maps URL ನಮೂದಿಸಿ"
+    "invalidGoogleMapsUrl": "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ Google Maps URL ನಮೂದಿಸಿ",
+    "defaultRoomTypeName": "ಸ್ಟ್ಯಾಂಡರ್ಡ್"
   },
   "reports": {
     "title": "ವರದಿಗಳು",
@@ -691,7 +738,8 @@
     "selectDateRange": "ವರದಿ ನೋಡಲು ದಿನಾಂಕ ಶ್ರೇಣಿ ಆರಿಸಿ",
     "summary": "ಸಾರಾಂಶ",
     "details": "ವಿವರಗಳು",
-    "chart": "ಚಾರ್ಟ್"
+    "chart": "ಚಾರ್ಟ್",
+    "topCancellationReasons": "ಪ್ರಮುಖ ರದ್ದತಿ ಕಾರಣಗಳು"
   },
   "guest": {
     "welcome": "ಸ್ವಾಗತ",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "ನೀವು ಹೋಟೆಲ್ ಒಳಗೆ ಇಲ್ಲವೆಂದು ತೋರುತ್ತದೆ. ದಯವಿಟ್ಟು ನೀವು ಹೋಟೆಲ್ ಕಟ್ಟಡದ ಒಳಗಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಂಡು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     "locationTryAgain": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
     "locationCoordsError": "ಸ್ಥಳವನ್ನು ಪರಿಶೀಲಿಸಲಾಗಲಿಲ್ಲ",
-    "locationCoordsErrorDesc": "ಹೋಟೆಲ್ ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಪಡೆಯುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಹೋಟೆಲ್ ಸಿಬ್ಬಂದಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ."
+    "locationCoordsErrorDesc": "ಹೋಟೆಲ್ ನಿರ್ದೇಶಾಂಕಗಳನ್ನು ಪಡೆಯುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಹೋಟೆಲ್ ಸಿಬ್ಬಂದಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    "totalBalance": "ಒಟ್ಟು",
+    "paidBalance": "ಪಾವತಿಸಿದ",
+    "remainingBalance": "ಬಾಕಿ",
+    "noActiveSession": "ಆರ್ಡರ್ ಸೇವೆ ಸಕ್ರಿಯವಾಗಿಲ್ಲ",
+    "noActiveSessionDesc": "ನಿಮ್ಮ ಕೊಠಡಿಗೆ ಆರ್ಡರ್ ಸೇವೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ದಯವಿಟ್ಟು ರಿಸೆಪ್ಷನ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ.",
+    "contactReception": "ರಿಸೆಪ್ಷನ್ ಸಂಪರ್ಕಿಸಿ"
   },
   "validation": {
     "required": "ಇದು ಕಡ್ಡಾಯ",
@@ -803,7 +857,18 @@
       "unavailable": "ಕೆಲವು ವಸ್ತುಗಳು ಲಭ್ಯವಿಲ್ಲ",
       "guestRequest": "ಅತಿಥಿಯ ವಿನಂತಿಯಂತೆ ಬದಲಾಯಿಸಲಾಗಿದೆ",
       "alternative": "ಪರ್ಯಾಯ ವಸ್ತು ನೀಡಲಾಗಿದೆ"
-    }
+    },
+    "remainingBalance": "ಉಳಿದ ಬಾಕಿ",
+    "paymentDetails": "ಪಾವತಿ ವಿವರಗಳು",
+    "paymentStatusLabel": "ಪಾವತಿ ಸ್ಥಿತಿ",
+    "paidAmountLabel": "ಪಾವತಿಸಿದ ಮೊತ್ತ",
+    "paymentMethodLabel": "ಪಾವತಿ ವಿಧಾನ",
+    "notesLabel": "ಪಾವತಿ ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)",
+    "payInFull": "ಪೂರ್ಣ ಪಾವತಿಸಿದ",
+    "payPartial": "ಭಾಗಶಃ ಪಾವತಿ",
+    "payOnCheckout": "ಚೆಕ್-ಔಟ್ ಸಮಯದಲ್ಲಿ ಪಾವತಿಸಿ",
+    "cash": "ನಗದು",
+    "card": "ಕಾರ್ಡ್"
   },
   "help": {
     "title": "ಸಹಾಯ ಕೇಂದ್ರ",
@@ -817,7 +882,8 @@
       "settings": "ಸಂರಚನೆ (Configuration)",
       "guestExperience": "ಅತಿಥಿ ಅನುಭವ",
       "qrPlacements": "QR ಸ್ಥಳಗಳು",
-      "hierarchy": "ಪಾತ್ರಗಳು"
+      "hierarchy": "ಪಾತ್ರಗಳು",
+      "billing": "ಪಾವತಿ ಮತ್ತು ಬಿಲ್ಲಿಂಗ್"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "ಅತಿಥಿ ಸ್ಥಳ ಪರಿಶೀಲನೆ",
         "content": "ಸೇವೆಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಲು ಅತಿಥಿಗಳು ಹೋಟೆಲ್‌ನ 500-ಮೀಟರ್ ವ್ಯಾಪ್ತಿಯೊಳಗೆ ಭೌತಿಕವಾಗಿ ಹಾಜರಿರುವುದು ಈ ವೈಶಿಷ್ಟ್ಯಕ್ಕೆ ಅಗತ್ಯವಿದೆ.\n\nಬಳಸುವುದು ಹೇಗೆ:\n1. ಸೆಟ್ಟಿಂಗ್ಸ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್-ನಿಂದ, 'ಸ್ಥಳ ಪರಿಶೀಲನೆ' ಆಯ್ಕೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ.\n2. ನಿಮ್ಮ ಹೋಟೆಲ್‌ನ Google Maps URL ನಮೂದಿಸಿ.\n\nURL ಸೂಚನೆ:\nನಿಮ್ಮ ಬ್ರೌಸರ್‌ನ ವಿಳಾಸ ಪಟ್ಟಿಯಿಂದಲೇ ನೀವು ಉದ್ದದ URL ಅನ್ನು ನೇರವಾಗಿ ನಕಲಿಸಬಹುದು ಅಥವಾ ಚಿಕ್ಕಾದ ಲಿಂಕ್ (ಉದಾ. maps.app.goo.gl) ಅನ್ನು ಬಳಸಬಹುದು. ಗರಿಷ್ಠ ನಿಖರತೆಯನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಲು ಸಿಸ್ಟಮ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಚಿಕ್ಕ ಲಿಂಕ್‌ಗಳನ್ನು ಡಿಕೋಡ್ ಮಾಡುತ್ತದೆ ಮತ್ತು ನಿಖರವಾದ ಕೋಆರ್ಡಿನೇಟ್‌ಗಳನ್ನು ಹೊರತೆಗೆಯುತ್ತದೆ."
+      },
+      "sessions": {
+        "title": "ಅತಿಥಿ ಸೆಷನ್‌ಗಳು ಮತ್ತು ಗೌಪ್ಯತೆ",
+        "content": "ಸುರಕ್ಷತೆಗಾಗಿ, ಸಕ್ರಿಯ ಸೆಷನ್ ಅಗತ್ಯವಿದೆ."
+      },
+      "payments": {
+        "title": "ಪಾವತಿ ಮತ್ತು ಬಾಕಿ ನಿರ್ವಹಣೆ",
+        "content": "ಸಿಸ್ಟಮ್ ಬಾಕಿ ಇರುವ ಹಣದ ನಿಖರವಾದ ಟ್ರ್ಯಾಕಿಂಗ್ ಅನ್ನು ಅನುಮತಿಸುತ್ತದೆ."
+      },
+      "invoicing": {
+        "title": "ಇನ್ವಾಯ್ಸಿಂಗ್ ಮತ್ತು ಅತಿಥಿ ಹೇಳಿಕೆಗಳು",
+        "content": "ವಾಸ್ತವ್ಯದ ವಿವರವಾದ ಹೇಳಿಕೆಯನ್ನು ನೀಡಬಹುದು."
       }
-    }
+    },
+    "noResultsFound": "ಯಾವುದೇ ಫಲಿತಾಂಶ ಕಂಡುಬಂದಿಲ್ಲ",
+    "searchNoResults": "ನಿಮ್ಮ ಹುಡುಕಾಟಕ್ಕೆ ಹೊಂದಿಕೆಯಾಗುವ ಯಾವುದೇ ವಿಷಯಗಳು ಕಂಡುಬಂದಿಲ್ಲ."
+  },
+  "payments": {
+    "title": "ಪಾವತಿ ಮತ್ತು ಸೆಟಲ್‌ಮೆಂಟ್",
+    "subtitle": "ಹಣಕಾಸಿನ ವಹಿವಾಟುಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ ಮತ್ತು ಕೊಠಡಿಯ ಇನ್ವಾಯ್ಸ್‌ಗಳನ್ನು ಸೆಟಲ್ ಮಾಡಿ",
+    "totalPaid": "ಒಟ್ಟು ಪಾವತಿಸಿದ",
+    "service": "ಸೇವೆ",
+    "activeRoomsOnly": "ಸಕ್ರಿಯ ಸೆಷನ್‌ಗಳು ಮಾತ್ರ",
+    "date": "ದಿನಾಂಕ",
+    "amount": "ಮೊತ್ತ",
+    "type": "ಪ್ರಕಾರ",
+    "method": "ವಿಧಾನ",
+    "recipient": "ಸ್ವೀಕರಿಸುವವರು",
+    "receivedBy": "ಸ್ವೀಕರಿಸಿದವರು",
+    "reference": "ಉಲ್ಲೇಖ",
+    "noPayments": "ಯಾವುದೇ ಪಾವತಿ ದಾಖಲಾಗಿಲ್ಲ",
+    "settleRoomInvoice": "ಕೊಠಡಿ ಇನ್ವಾಯ್ಸ್ ಸೆಟಲ್ ಮಾಡಿ",
+    "selectRoom": "ಕೊಠಡಿ ಆಯ್ಕೆಮಾಡಿ",
+    "startDate": "ಪ್ರಾರಂಭ ದಿನಾಂಕ",
+    "endDate": "ಅಂತಿಮ ದಿನಾಂಕ",
+    "cash": "ನಗದು",
+    "card": "ಕಾರ್ಡ್",
+    "transfer": "ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ",
+    "payment": "ಪಾವತಿ",
+    "refund": "ಮರುಪಾವತಿ",
+    "transferType": "ಇಲಾಖಾ ವರ್ಗಾವಣೆ",
+    "manual": "ಮ್ಯಾನುಯಲ್",
+    "addManualPayment": "ಮ್ಯಾನುಯಲ್ ಫೈಲ್ / ರಶೀದಿ ಸೇರಿಸಿ",
+    "settleAmount": "ಸೆಟಲ್ ಮಾಡುವ ಮೊತ್ತ",
+    "confirmPayment": "ಪಾವತಿಯನ್ನು ಖಚಿತಪಡಿಸಿ",
+    "amountExceedsBalance": "ಮೊತ್ತವು ಬಾಕಿ ಇರುವ ಹಣಕ್ಕಿಂತ ಹೆಚ್ಚಾಗಿದೆ",
+    "notesPlaceholder": "ಹೆಚ್ಚುವರಿ ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)...",
+    "unpaid": "ಪಾವತಿಸದ",
+    "partial": "ಭಾಗಶಃ ಪಾವತಿ",
+    "paid": "ಪೂರ್ಣ ಪಾವತಿಸಿದ",
+    "invalidAmount": "ಅಮಾನ್ಯ ಮೊತ್ತ"
   }
 }

@@ -11,7 +11,7 @@ export async function GET(
     // Validate QR code
     const { data: mapping, error: mappingError } = await supabaseAdmin
       .from('room_qr_mappings')
-      .select('hotel_id, hotels!inner(timezone)')
+      .select('hotel_id, room_id, hotels!inner(timezone)')
       .eq('qr_code_id', qrCode)
       .eq('is_active', true)
       .single()
@@ -20,6 +20,21 @@ export async function GET(
       return NextResponse.json(
         { success: false, message: 'invalidQR' },
         { status: 404 }
+      )
+    }
+
+    // Check for active session
+    const { data: session } = await supabaseAdmin
+      .from('guest_sessions')
+      .select('session_id')
+      .eq('room_id', mapping.room_id)
+      .eq('status', 'active')
+      .maybeSingle()
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, message: 'noActiveSession' },
+        { status: 403 }
       )
     }
 

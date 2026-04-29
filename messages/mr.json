@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "काढून टाका",
-    "room": "खोली"
+    "room": "खोली",
+    "notes": "नोंदी",
+    "clearFilters": "फिल्टर्स साफ करा",
+    "ok": "ठीक आहे",
+    "invalidAmount": "अवैध रक्कम",
+    "id": "ID",
+    "rooms": "खोल्या"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "सरासरी वेळ",
       "avgAcceptanceTime": "सरासरी स्वीकार वेळ",
       "avgExecutionTime": "सरासरी पूर्ण वेळ",
-      "minutes": "मिनेट"
+      "minutes": "मिनेट",
+      "paid": "एकूण भरलेले",
+      "remaining": "एकूण बाकी"
     },
     "filters": {
       "today": "आज",
@@ -366,7 +374,8 @@
     "reports": "अहवाल",
     "settings": "सेटिंग्ज",
     "help": "मदत",
-    "logout": "लॉग आउट"
+    "logout": "लॉग आउट",
+    "payments": "पेमेंट्स"
   },
   "orders": {
     "title": "ऑर्डर्स",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "स्वयंचलित रद्द: वेळ संपली",
     "guestCancelled": "अतिथीने रद्द केले",
     "modifiedByGuest": "पाहुण्याद्वारे सुधारित",
-    "cancelledSuccess": "ऑर्डर यशस्वीरित्या रद्द केली"
+    "cancelledSuccess": "ऑर्डर यशस्वीरित्या रद्द केली",
+    "paymentStatus": "पेमेंट स्थिती",
+    "paid_in_full": "पूर्ण भरलेले",
+    "partial_paid": "अंशतः पेमेंट",
+    "unpaid": "न भरलेले",
+    "in_progressSuccess": "ऑर्डर स्वीकारली गेली आणि प्रगतीपथावर आहे",
+    "completedSuccess": "ऑर्डर पूर्ण म्हणून चिन्हांकित केली गेली"
   },
   "services": {
     "title": "मुख्य सेवा",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "चेक-इन",
+    "checkOut": "चेक-आउट",
+    "checkInSuccess": "चेक-इन यशस्वी",
+    "checkInSuccessDesc": "खोली आता सक्रिय आहे आणि अतिथी विनंत्या प्राप्त करण्यास तयार आहे.",
+    "checkOutSuccess": "चेक-आउट यशस्वी",
+    "checkOutSuccessDesc": "अतिथी खाते बंद केले गेले आहे आणि सेशन संपले आहे.",
+    "hasUnpaidBalance": "चेक-आउट करता येत नाही. या खोलीत न भरलेली बाकी रक्कम आहे.",
+    "hasPendingOrders": "चेक-आउट करता येत नाही. या खोलीत प्रलंबित ऑर्डर्स आहेत.",
+    "sessionActive": "व्याप्त",
+    "sessionCheckedOut": "रिकामी",
+    "sessionStatus": "सेशन स्थिती",
+    "session": "सेशन",
+    "sessionRecords": "शिल्लक / इतिहास",
+    "remainingBalance": "उर्वरित शिल्लक",
+    "paidBalance": "भरलेली शिल्लक",
+    "orders": "ऑर्डर्स",
+    "checkActions": "प्रवेश/निर्गमन",
+    "confirmCheckOut": "चेक-आउटची पुष्टी करा",
+    "confirmCheckOutDesc": "सेशन संपवल्यामुळे सध्याचे अतिथी खाते बंद होईल. ही क्रिया अंतिम आहे.",
+    "confirmCancelPendingOrders": "प्रलंबित ऑर्डर्स आहेत. तुम्हाला त्या रद्द करून चेक-आउट करायचे आहे का?",
+    "completePendingPaidOrdersDesc": "प्रलंबित ऑर्डर्स आहेत पण पैसे भरले गेले आहेत. या 'पूर्ण' मानल्या जातील.",
+    "completeAndCheckOut": "पूर्ण करा आणि चेक-आउट करा",
+    "cancelPendingThenCheckOut": "ऑर्डर रद्द करा आणि चेक-आउट करा",
+    "service": "सेवा",
+    "selectService": "सेवा निवडा",
+    "balance": "शिल्लक",
+    "roomsWithBalance": "शिल्लक असलेल्या खोल्या",
+    "unpaidOnly": "फक्त न भरलेले",
+    "empty": "रिकामी",
+    "rooms": "खोल्या",
+    "roomExists": "खोली क्रमांक आधीच अस्तित्वात आहे"
   },
   "employees": {
     "title": "कर्मचारी",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "हॉटेल गुगल मॅप्स URL",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "तुमचे हॉटेल गुगल मॅप्सवर उघडा आणि अॅड्रेस बारमधून URL कॉपी करा. अतिथी स्थान पडताळणीसाठी हॉटेलचे को-ऑर्डिनेट्स मिळवण्यासाठी हे वापरले जाते.",
-    "invalidGoogleMapsUrl": "कृपया एक वैध गुगल मॅप्स URL प्रविष्ट करा"
+    "invalidGoogleMapsUrl": "कृपया एक वैध गुगल मॅप्स URL प्रविष्ट करा",
+    "defaultRoomTypeName": "मानक"
   },
   "reports": {
     "title": "अहवाल",
@@ -691,7 +738,8 @@
     "selectDateRange": "अहवाल पाहण्यासाठी कालावधी निवडा",
     "summary": "सारांश",
     "details": "तपशील",
-    "chart": "आलेख (Chart)"
+    "chart": "आलेख (Chart)",
+    "topCancellationReasons": "प्रमुख रद्दीकरण कारणे"
   },
   "guest": {
     "welcome": "स्वागत आहे",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "असे वाटते की आपण हॉटेलच्या आत नाही. कृपया आपण हॉटेलच्या आत आहात याची पुष्टी करा आणि पुन्हा प्रयत्न करा.",
     "locationTryAgain": "पुन्हा प्रयत्न करा",
     "locationCoordsError": "स्थान पडताळता आले नाही",
-    "locationCoordsErrorDesc": "हॉटेलचे को-ऑर्डिनेट्स काढताना त्रुटी आली. कृपया हॉटेलशी संपर्क साधा."
+    "locationCoordsErrorDesc": "हॉटेलचे को-ऑर्डिनेट्स काढताना त्रुटी आली. कृपया हॉटेलशी संपर्क साधा.",
+    "totalBalance": "एकूण",
+    "paidBalance": "भरलेले",
+    "remainingBalance": "शिल्लक",
+    "noActiveSession": "ऑर्डर सेवा सक्रिय नाही",
+    "noActiveSessionDesc": "तुमच्या खोलीसाठी ऑर्डर सेवा सक्रिय करण्यासाठी कृपया रिसेप्शनशी संपर्क साधा.",
+    "contactReception": "रिसेप्शनशी संपर्क साधा"
   },
   "validation": {
     "required": "हे आवश्यक आहे",
@@ -803,7 +857,18 @@
       "unavailable": "काही वस्तू उपलब्ध नाहीत",
       "guestRequest": "अतिथीच्या विनंतीनुसार समायोजित केले",
       "alternative": "पर्यायी वस्तू दिली"
-    }
+    },
+    "remainingBalance": "उर्वरित शिल्लक",
+    "paymentDetails": "पेमेंट तपशील",
+    "paymentStatusLabel": "पेमेंट स्थिती",
+    "paidAmountLabel": "भरलेली रक्कम",
+    "paymentMethodLabel": "पेमेंट पद्धत",
+    "notesLabel": "पेमेंट नोंदी (पर्यायी)",
+    "payInFull": "पूर्ण भरलेले",
+    "payPartial": "अंशतः पेमेंट",
+    "payOnCheckout": "चेक-आउटच्या वेळी पैसे भरा",
+    "cash": "रोख",
+    "card": "कार्ड"
   },
   "help": {
     "title": "मदत केंद्र",
@@ -817,7 +882,8 @@
       "settings": "कॉन्फिगरेशन",
       "guestExperience": "अतिथीचा अनुभव",
       "qrPlacements": "QR स्थाने",
-      "hierarchy": "पदे आणि रचना"
+      "hierarchy": "पदे आणि रचना",
+      "billing": "पेमेंट आणि बिलिंग"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "अतिथी स्थान पडताळणी",
         "content": "या वैशिष्ट्यासाठी अतिथींना सेवा ब्राउझ करण्यासाठी हॉटेलच्या 500-मीटर परिघात प्रत्यक्ष उपस्थित राहण्याची आवश्यकता आहे.\n\nकसे वापरावे:\n1. सेटिंग्स डॅशबोर्डवरून, 'स्थान पडताळणी' पर्याय सक्षम करा.\n2. आपल्या हॉटेलची Google Maps URL प्रविष्ट करा.\n\nURL सूचना:\nआपण थेट आपल्या ब्राउझरच्या अ‍ॅड्रेस बारमधून मोठी URL कॉपी करू शकता किंवा शॉर्ट लिंक (उदा. maps.app.goo.gl) वापरू शकता. जास्तीत जास्त अचूकता सुनिश्चित करण्यासाठी प्रणाली स्वयंचलितपणे शॉर्ट लिंक्स डिकोड करेल आणि अचूक को-ऑर्डिनेट्स काढेल."
+      },
+      "sessions": {
+        "title": "अतिथी सेशन्स आणि गोपनीयता",
+        "content": "सुरक्षेसाठी, सक्रिय सेशन आवश्यक आहे."
+      },
+      "payments": {
+        "title": "पेमेंट आणि शिल्लक व्यवस्थापन",
+        "content": "सिस्टम थकीत रकमेचा अचूक मागोवा घेण्यास अनुमती देते."
+      },
+      "invoicing": {
+        "title": "इनव्हॉयसिंग आणि अतिथी विवरणे",
+        "content": "राहण्याच्या कालावधीचे तपशीलवार विवरण दिले जाऊ शकते."
       }
-    }
+    },
+    "noResultsFound": "निकाल सापडला नाही",
+    "searchNoResults": "तुमच्या शोधाशी जुळणारे कोणतेही विषय सापडले नाहीत."
+  },
+  "payments": {
+    "title": "पेमेंट आणि सेटलमेंट",
+    "subtitle": "आर्थिक व्यवहार ट्रॅक करा आणि खोल्यांची बिले सेटल करा",
+    "totalPaid": "एकूण भरलेले",
+    "service": "सेवा",
+    "activeRoomsOnly": "फक्त सक्रिय सेशन्स",
+    "date": "तारीख",
+    "amount": "रक्कम",
+    "type": "प्रकार",
+    "method": "पद्धत",
+    "recipient": "प्राप्तकर्ता",
+    "receivedBy": "स्वीकारले",
+    "reference": "संदर्भ",
+    "noPayments": "कोणत्याही पेमेंटची नोंद नाही",
+    "settleRoomInvoice": "खोलीचे बिल सेटल करा",
+    "selectRoom": "खोली निवडा",
+    "startDate": "सुरुवात तारीख",
+    "endDate": "अंतिम तारीख",
+    "cash": "रोख",
+    "card": "कार्ड",
+    "transfer": "बँक ट्रान्सफर",
+    "payment": "पेमेंट",
+    "refund": "परतावा",
+    "transferType": "विभागीय बदली",
+    "manual": "मॅन्युअल",
+    "addManualPayment": "मॅन्युअल फाईल / पावती जोडा",
+    "settleAmount": "सेटलमेंट रक्कम",
+    "confirmPayment": "पेमेंटची पुष्टी करा",
+    "amountExceedsBalance": "रक्कम उर्वरित शिलकीपेक्षा जास्त आहे",
+    "notesPlaceholder": "अतिरिक्त नोंदी (पर्यायी)...",
+    "unpaid": "न भरलेले",
+    "partial": "अंशतः पेमेंट",
+    "paid": "पूर्ण भरलेले",
+    "invalidAmount": "अवैध रक्कम"
   }
 }

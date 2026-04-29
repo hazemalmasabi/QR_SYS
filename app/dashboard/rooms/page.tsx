@@ -25,6 +25,9 @@ import RoomFormModal from './RoomFormModal'
 import QRCode from 'qrcode'
 import { jsPDF } from 'jspdf'
 import BulkImportModal from './BulkImportModal'
+import SessionRecordsModal from './SessionRecordsModal'
+import { formatCurrency } from '@/lib/utils'
+import { supabase } from '@/lib/supabase/client'
 
 export default function RoomsPage() {
   const t = useTranslations('rooms')
@@ -48,10 +51,21 @@ export default function RoomsPage() {
   const [qrLoading, setQrLoading] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
+  const [sessionLoading, setSessionLoading] = useState<string | null>(null)
   const [bulkImportOpen, setBulkImportOpen] = useState(false)
   const [deleteAllConfirmOpen, setDeleteAllConfirmOpen] = useState(false)
   const [isPrimarySupervisor, setIsPrimarySupervisor] = useState(false)
   const [deletingAll, setDeletingAll] = useState(false)
+  
+  const [sessionModalOpen, setSessionModalOpen] = useState(false)
+  const [selectedSessionRoom, setSelectedSessionRoom] = useState<Room | null>(null)
+  const [successAlert, setSuccessAlert] = useState<{ title: string; subtitle: string; roomNumber: string; type: 'checkin' | 'checkout' } | null>(null)
+  const [checkoutConfirm, setCheckoutConfirm] = useState<Room | null>(null)
+  const [pendingOrdersConfirm, setPendingOrdersConfirm] = useState<Room | null>(null)
+  const [unpaidOnly, setUnpaidOnly] = useState(false)
+  const [errorAlert, setErrorAlert] = useState<{ title: string; subtitle: string; roomNumber?: string } | null>(null)
+  const [refreshCounter, setRefreshCounter] = useState(0)
+  const [isRealtimeUpdating, setIsRealtimeUpdating] = useState(false)
 
   // QR Export Settings
   const [qrSizeCm, setQrSizeCm] = useState<number>(5)
@@ -111,10 +125,18 @@ export default function RoomsPage() {
       if (search.trim()) params.set('search', search.trim())
       if (floorFilter) params.set('floor', floorFilter)
       if (typeFilter) params.set('room_type', typeFilter)
+      if (unpaidOnly) params.set('unpaid_only', 'true')
       params.set('page', page.toString())
       params.set('limit', limit.toString())
+      params.set('_t', Date.now().toString()) // cache busting
 
-      const res = await fetch(`/api/rooms?${params.toString()}`)
+      const res = await fetch(`/api/rooms?${params.toString()}`, {
+        cache: 'no-store',
+        headers: {
+           'Pragma': 'no-cache',
+           'Cache-Control': 'no-cache'
+        }
+      })
       const data = await res.json()
       if (data.success) {
         setRooms(data.rooms)
@@ -125,7 +147,7 @@ export default function RoomsPage() {
     } finally {
       setLoading(false)
     }
-  }, [search, floorFilter, typeFilter, page, limit, tc])
+  }, [search, floorFilter, typeFilter, page, limit, unpaidOnly, tc])
 
   const fetchHotelRoomTypes = useCallback(async () => {
     try {
@@ -181,7 +203,37 @@ export default function RoomsPage() {
 
   useEffect(() => {
     fetchRooms()
-  }, [fetchRooms, page])
+  }, [fetchRooms, page, search, floorFilter, typeFilter, unpaidOnly, refreshCounter])
+
+  // Fallback Polling (Every 60 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRefreshCounter(c => c + 1)
+    }, 60000)
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const handleRealtimeChange = (payload: any) => {
+      console.log('Realtime change detected in RoomsPage:', payload.table)
+      setIsRealtimeUpdating(true)
+      setRefreshCounter(c => c + 1)
+      setTimeout(() => setIsRealtimeUpdating(false), 2000)
+    }
+
+    const channel = supabase.channel('rooms-page-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'rooms' }, handleRealtimeChange)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, handleRealtimeChange)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'payments' }, handleRealtimeChange)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'guest_sessions' }, handleRealtimeChange)
+      .subscribe((status) => {
+        console.log('Supabase Realtime Status (RoomsPage):', status)
+      })
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, []) // Empty deps to keep subscription stable
 
   useEffect(() => {
     const generateQR = async () => {
@@ -277,6 +329,69 @@ export default function RoomsPage() {
       toast.error(tc('error'))
     } finally {
       setQrLoading(null)
+    }
+  }
+
+  const handleCheckIn = async (roomId: string) => {
+    setSessionLoading(roomId)
+    try {
+      const res = await fetch(`/api/rooms/${roomId}/checkin`, { method: 'POST', body: JSON.stringify({}) })
+      const data = await res.json()
+      if (data.success) {
+        setSuccessAlert({
+          title: t('checkInSuccess'),
+          subtitle: t('checkInSuccessDesc') || '',
+          roomNumber: rooms.find(r => r.room_id === roomId)?.room_number || '',
+          type: 'checkin'
+        })
+        fetchRooms()
+      } else {
+        toast.error(data.message ? t(data.message as any) : tc('error'))
+      }
+    } catch {
+      toast.error(tc('error'))
+    } finally {
+      setSessionLoading(null)
+    }
+  }
+
+  const handleCheckOut = async (room: Room, forceCancel = false) => {
+    if (!forceCancel) {
+      setCheckoutConfirm(room)
+      return
+    }
+    setCheckoutConfirm(null) // Close the confirmation modal before proceeding
+    
+    setSessionLoading(room.room_id)
+    try {
+      const res = await fetch(`/api/rooms/${room.room_id}/checkout`, { 
+        method: 'POST', 
+        body: JSON.stringify({ cancelPendingOrders: forceCancel }) 
+      })
+      const data = await res.json()
+      if (data.success) {
+        setSuccessAlert({
+          title: t('checkOutSuccess'),
+          subtitle: t('checkOutSuccessDesc') || '',
+          roomNumber: room.room_number,
+          type: 'checkout'
+        })
+        fetchRooms()
+      } else if (data.message === 'hasPendingOrders') {
+        setPendingOrdersConfirm(room)
+      } else if (data.message === 'hasUnpaidBalance') {
+        setErrorAlert({
+           title: room.room_number + " - " + t('remainingBalance'),
+           subtitle: t('hasUnpaidBalance'),
+           roomNumber: room.room_number
+        })
+      } else {
+        toast.error(data.message ? t(data.message as any) : tc('error'))
+      }
+    } catch {
+      toast.error(tc('error'))
+    } finally {
+      setSessionLoading(null)
     }
   }
 
@@ -512,7 +627,15 @@ export default function RoomsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          {isRealtimeUpdating && (
+            <div className="flex items-center gap-1.5 bg-green-50 px-2 py-1 rounded-full animate-pulse border border-green-100">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+              <span className="text-[10px] font-bold text-green-600 uppercase tracking-tight">Realtime</span>
+            </div>
+          )}
+        </div>
         <div className="flex items-center gap-3">
           {isPrimarySupervisor && (
             <button
@@ -602,6 +725,22 @@ export default function RoomsPage() {
             ))}
           </select>
         </div>
+
+        {/* Unpaid Only Filter */}
+        <div className="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-lg border border-red-100 cursor-pointer hover:bg-red-100 transition-colors" onClick={() => {
+          setUnpaidOnly(!unpaidOnly)
+          setPage(1)
+        }}>
+          <input 
+            type="checkbox" 
+            checked={unpaidOnly} 
+            onChange={() => {}} // handled by div click
+            className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500" 
+          />
+          <span className="text-sm font-medium text-red-700 select-none">
+            {t('roomsWithBalance') || 'Rooms with balance'}
+          </span>
+        </div>
       </div>
 
       {/* Table */}
@@ -623,17 +762,17 @@ export default function RoomsPage() {
                 <th>{t('floor')}</th>
                 <th>{t('roomType')}</th>
                 <th>{tc('status')}</th>
-                <th>{t('qrCode')}</th>
-                <th>{t('notes')}</th>
+                <th>{t('sessionStatus')}</th>
+                <th>{t('checkActions')}</th>
+                <th>{t('balance')}</th>
                 <th>{tc('actions')}</th>
+                <th>{t('notes')}</th>
               </tr>
             </thead>
             <tbody>
               {rooms.map((room) => (
                 <tr key={room.room_id}>
-                  <td className="font-medium text-gray-900">
-                    {room.room_number}
-                  </td>
+                  <td className="font-bold">{room.room_number}</td>
                   <td>{room.floor_number ?? tc('none')}</td>
                   <td>{getRoomTypeName(room.room_type)}</td>
                   <td>
@@ -648,38 +787,81 @@ export default function RoomsPage() {
                     </span>
                   </td>
                   <td>
-                    {room.qr_code ? (
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleViewQR(room)}
-                          className="btn-ghost p-1 text-primary-600"
-                          title={t('viewQR')}
-                        >
-                          <QrCode className="h-5 w-5" />
-                        </button>
-                      </div>
+                    {room.current_session && room.current_session.status === 'active' ? (
+                      <span className="badge-active bg-red-100 text-red-800">{t('sessionActive')}</span>
                     ) : (
-                      <button
-                        onClick={() => handleGenerateQR(room.room_id)}
-                        className="btn-ghost p-1 text-xs text-primary-600"
-                        disabled={qrLoading === room.room_id}
-                      >
-                        {qrLoading === room.room_id ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <>
-                            <QrCode className="h-4 w-4" />
-                            <span>{t('generateQR')}</span>
-                          </>
-                        )}
-                      </button>
+                      <span className="badge-inactive">{t('sessionCheckedOut')}</span>
                     )}
-                  </td>
-                  <td className="max-w-[200px] truncate text-gray-500">
-                    {room.notes || tc('none')}
                   </td>
                   <td>
                     <div className="flex items-center gap-1">
+                      {room.current_session && room.current_session.status === 'active' ? (
+                        <>
+                          <button
+                            onClick={() => handleCheckOut(room)}
+                            disabled={sessionLoading === room.room_id}
+                            className="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1 rounded text-xs font-semibold whitespace-nowrap"
+                          >
+                             {sessionLoading === room.room_id ? tc('loading') : t('checkOut')}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedSessionRoom(room)
+                              setSessionModalOpen(true)
+                            }}
+                            className="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded text-xs font-semibold whitespace-nowrap"
+                          >
+                             {t('sessionRecords')}
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => handleCheckIn(room.room_id)}
+                          disabled={sessionLoading === room.room_id}
+                          className="bg-green-50 text-green-600 hover:bg-green-100 px-3 py-1 rounded text-xs font-semibold whitespace-nowrap"
+                        >
+                           {sessionLoading === room.room_id ? tc('loading') : t('checkIn')}
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                  <td className="font-bold text-center">
+                    {room.balance && room.balance > 0 ? (
+                      <span className="text-red-600 underline cursor-pointer" onClick={() => {
+                        setSelectedSessionRoom(room)
+                        setSessionModalOpen(true)
+                      }}>
+                        {formatCurrency(room.balance, '', 'SAR')}
+                      </span>
+                    ) : (
+                      <span className="text-green-600">0 SAR</span>
+                    )}
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap items-center gap-1">
+                      {room.qr_code ? (
+                        <button
+                          onClick={() => handleViewQR(room)}
+                          className="btn-ghost p-2 text-primary-600"
+                          title={t('viewQR')}
+                        >
+                          <QrCode className="h-4 w-4" />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleGenerateQR(room.room_id)}
+                          className="btn-ghost p-2 text-primary-600"
+                          disabled={qrLoading === room.room_id}
+                          title={t('generateQR')}
+                        >
+                          {qrLoading === room.room_id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <QrCode className="h-4 w-4" />
+                          )}
+                        </button>
+                      )}
+                      
                       <button
                         onClick={() => openEdit(room)}
                         className="btn-ghost p-2"
@@ -713,6 +895,9 @@ export default function RoomsPage() {
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
+                  </td>
+                  <td className="max-w-[200px] truncate text-gray-500 whitespace-normal">
+                    {room.notes || tc('none')}
                   </td>
                 </tr>
               ))}
@@ -1048,6 +1233,151 @@ export default function RoomsPage() {
         </div>
       )}
 
+      <SessionRecordsModal
+        isOpen={sessionModalOpen}
+        onClose={() => {
+          setSessionModalOpen(false)
+          setSelectedSessionRoom(null)
+          fetchRooms()
+        }}
+        roomId={selectedSessionRoom?.room_id || null}
+        roomNumber={selectedSessionRoom?.room_number}
+      />
+
+      {/* Success Alert Modal */}
+      {successAlert && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden text-center p-8 border border-gray-100" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+            <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${
+              successAlert.type === 'checkin' ? "bg-green-100 text-green-600" : "bg-blue-100 text-blue-600"
+            }`}>
+              {successAlert.type === 'checkin' ? <DoorOpen className="w-10 h-10" /> : <Info className="w-10 h-10" />}
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {successAlert.roomNumber} - {successAlert.title}
+            </h3>
+            <p className="text-gray-500 mb-8 leading-relaxed">
+              {successAlert.subtitle}
+            </p>
+            <button
+              onClick={() => setSuccessAlert(null)}
+              className="w-full btn-primary py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary-600/20"
+            >
+              {tc('ok') || 'OK'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Checkout Confirmation Modal */}
+      {checkoutConfirm && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-6">
+                <DoorOpen className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                {checkoutConfirm.room_number} - {t('confirmCheckOut')}
+              </h3>
+              <p className="text-gray-500 mb-8">
+                {t('confirmCheckOutDesc') || 'Are you sure you want to checkout this room?'}
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setCheckoutConfirm(null)}
+                  className="flex-1 btn-secondary py-3 rounded-xl font-medium border border-gray-200"
+                >
+                  {tc('cancel')}
+                </button>
+                <button
+                  onClick={() => handleCheckOut(checkoutConfirm, true)}
+                  className="flex-1 bg-red-600 text-white rounded-xl py-3 font-bold hover:bg-red-700 shadow-lg shadow-red-600/20"
+                >
+                  {t('checkOut')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pending Orders Confirmation Modal */}
+      {pendingOrdersConfirm && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mx-auto mb-6">
+                <Info className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                {pendingOrdersConfirm.room_number} - {t('hasPendingOrders')}
+              </h3>
+              <p className="text-gray-500 mb-8">
+                {pendingOrdersConfirm.balance === 0 
+                  ? t('completePendingPaidOrdersDesc') 
+                  : t('confirmCancelPendingOrders')}
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setPendingOrdersConfirm(null)}
+                  className="flex-1 btn-secondary py-3 rounded-xl font-medium border border-gray-200"
+                >
+                  {tc('cancel')}
+                </button>
+                <button
+                  onClick={() => {
+                    handleCheckOut(pendingOrdersConfirm, true)
+                    setPendingOrdersConfirm(null)
+                  }}
+                  className={`flex-1 text-white rounded-xl py-3 font-bold shadow-lg ${
+                    pendingOrdersConfirm.balance === 0 
+                    ? "bg-green-600 hover:bg-green-700 shadow-green-600/20" 
+                    : "bg-yellow-600 hover:bg-yellow-700 shadow-yellow-600/20"
+                  }`}
+                >
+                  {pendingOrdersConfirm.balance === 0 ? t('completeAndCheckOut') : t('cancelPendingThenCheckOut')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Alert Modal */}
+      {errorAlert && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden text-center p-8 border border-red-100" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="w-20 h-20 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-6">
+              <Info className="w-10 h-10" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {errorAlert.title}
+            </h3>
+            <p className="text-gray-500 mb-8 leading-relaxed">
+              {errorAlert.subtitle}
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setErrorAlert(null)
+                  // Optionally open session modal if it's a balance error
+                  if (errorAlert.subtitle === t('hasUnpaidBalance')) {
+                     const room = rooms.find(r => r.room_number === errorAlert.roomNumber)
+                     if (room) {
+                        setSelectedSessionRoom(room)
+                        setSessionModalOpen(true)
+                     }
+                  }
+                }}
+                className="w-full btn-primary py-3 rounded-xl font-bold text-lg shadow-lg shadow-primary-600/20"
+              >
+                {tc('ok') || 'OK'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

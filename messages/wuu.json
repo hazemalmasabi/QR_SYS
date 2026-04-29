@@ -102,7 +102,13 @@
     "language_pnb": "پنجابی",
     "language_kn": "ಕನ್ನಡ",
     "remove": "移脱",
-    "room": "房间"
+    "room": "房间",
+    "notes": "备注",
+    "clearFilters": "清除筛选",
+    "ok": "确定",
+    "invalidAmount": "无效金额",
+    "id": "ID",
+    "rooms": "客房"
   },
   "email": {
     "verify": {
@@ -329,7 +335,9 @@
       "avgTime": "平均用时",
       "avgAcceptanceTime": "平均接单",
       "avgExecutionTime": "平均做单",
-      "minutes": "分"
+      "minutes": "分",
+      "paid": "已付总额",
+      "remaining": "待付总额"
     },
     "filters": {
       "today": "今朝",
@@ -366,7 +374,8 @@
     "reports": "报告",
     "settings": "设置",
     "help": "帮助",
-    "logout": "退出"
+    "logout": "退出",
+    "payments": "财务结算"
   },
   "orders": {
     "title": "单子",
@@ -431,7 +440,13 @@
     "autoCancelledTimeout": "自动取消：超时",
     "guestCancelled": "客人取消了",
     "modifiedByGuest": "宾客已修改",
-    "cancelledSuccess": "订单取消成功"
+    "cancelledSuccess": "订单取消成功",
+    "paymentStatus": "支付状态",
+    "paid_in_full": "已付清",
+    "partial_paid": "部分支付",
+    "unpaid": "未付",
+    "in_progressSuccess": "订单已接受并处理中",
+    "completedSuccess": "订单已标记为完成"
   },
   "services": {
     "title": "主服务",
@@ -543,7 +558,38 @@
     "deleteAllDesc1": "Are you sure you want to delete all rooms for this hotel?",
     "deleteAllDesc2": "All room QR routes will be disabled and deleted. This action cannot be undone.",
     "yesDeleteAll": "Yes, Delete All",
-    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid"
+    "allDuplicatesOrInvalid": "All rooms are either duplicates or invalid",
+    "checkIn": "入住",
+    "checkOut": "退房",
+    "checkInSuccess": "入住成功",
+    "checkInSuccessDesc": "该客房现已激活，准备接收客人的请求。",
+    "checkOutSuccess": "退房成功",
+    "checkOutSuccessDesc": "客人账户已关闭，会话已结束。",
+    "hasUnpaidBalance": "无法退房。该客房有未付余额。",
+    "hasPendingOrders": "无法退房。该客房有待处理订单。",
+    "sessionActive": "已占用",
+    "sessionCheckedOut": "空闲",
+    "sessionStatus": "会话状态",
+    "session": "会话",
+    "sessionRecords": "余额 / 历史",
+    "remainingBalance": "剩余余额",
+    "paidBalance": "已付余额",
+    "orders": "订单",
+    "checkActions": "入住/退房",
+    "confirmCheckOut": "确认退房",
+    "confirmCheckOutDesc": "结束会话将关闭当前客人账户。此操作不可撤销。",
+    "confirmCancelPendingOrders": "有待处理的订单。是否取消它们并继续退房？",
+    "completePendingPaidOrdersDesc": "有待处理的订单，但已支付。这些订单将被标记为“完成”并办理退房。",
+    "completeAndCheckOut": "完成并退房",
+    "cancelPendingThenCheckOut": "取消订单并退房",
+    "service": "服务",
+    "selectService": "选择服务",
+    "balance": "余额",
+    "roomsWithBalance": "有余额的客房",
+    "unpaidOnly": "仅显示未付",
+    "empty": "空",
+    "rooms": "客房",
+    "roomExists": "房号已存在"
   },
   "employees": {
     "title": "员工",
@@ -637,7 +683,8 @@
     "googleMapsUrl": "酒店Google地图链接",
     "googleMapsUrlPlaceholder": "https://maps.google.com/?q=...",
     "googleMapsUrlHint": "垃Google地图浪打开酒店并复制地址栏链接。用来验证客人位置个酒店坐标。",
-    "invalidGoogleMapsUrl": "请输入有效个Google地图网址"
+    "invalidGoogleMapsUrl": "请输入有效个Google地图网址",
+    "defaultRoomTypeName": "标准间"
   },
   "reports": {
     "title": "报告",
@@ -691,7 +738,8 @@
     "selectDateRange": "选个时间看报告",
     "summary": "简述",
     "details": "详述",
-    "chart": "图画"
+    "chart": "图画",
+    "topCancellationReasons": "主要取消原因"
   },
   "guest": {
     "welcome": "欢侬来勒",
@@ -760,7 +808,13 @@
     "locationOutOfRangeDesc": "看样子侬勿拉酒店里向。请先确保进入酒店大楼，再试一趟。",
     "locationTryAgain": "重试",
     "locationCoordsError": "定位验证失败",
-    "locationCoordsErrorDesc": "提取酒店坐标个辰光出错了，请好去问前台。"
+    "locationCoordsErrorDesc": "提取酒店坐标个辰光出错了，请好去问前台。",
+    "totalBalance": "总额",
+    "paidBalance": "已付",
+    "remainingBalance": "余额",
+    "noActiveSession": "订单服务未激活",
+    "noActiveSessionDesc": "请联系前台为您激活客房的订单服务。",
+    "contactReception": "联系前台"
   },
   "validation": {
     "required": "必填个",
@@ -803,7 +857,18 @@
       "unavailable": "有些东西呒没了",
       "guestRequest": "客人要求改额",
       "alternative": "换了别额东西"
-    }
+    },
+    "remainingBalance": "剩余余额",
+    "paymentDetails": "支付详情",
+    "paymentStatusLabel": "支付状态",
+    "paidAmountLabel": "已付金额",
+    "paymentMethodLabel": "支付方式",
+    "notesLabel": "支付备注 (可选)",
+    "payInFull": "已付清",
+    "payPartial": "部分支付",
+    "payOnCheckout": "退房时支付",
+    "cash": "现金",
+    "card": "银行卡"
   },
   "help": {
     "title": "帮助中心",
@@ -817,7 +882,8 @@
       "settings": "配置设置",
       "guestExperience": "客人体验",
       "qrPlacements": "QR 放置位置",
-      "hierarchy": "角色和权限"
+      "hierarchy": "角色和权限",
+      "billing": "支付与账单"
     },
     "sections": {
       "philosophy": {
@@ -911,7 +977,56 @@
       "locationVerification": {
         "title": "客人位置验证",
         "content": "迭个功能要求客人必须辣距离酒店500米半径之内，才好浏览服务。\n\n点能浪使用：\n1. 勒设置面板里，打开“位置验证”。\n2. 输进您酒店个Google Maps链接。\n\n链接要求：\n您可以好直接从浏览器地址栏里向复制长链接，也可以好用短链接（比方说 maps.app.goo.gl）。系统会自家帮短链接翻译，再提拿精确个坐标，保证顶高个精准度。"
+      },
+      "sessions": {
+        "title": "客人会话与隐私",
+        "content": "为确保客人安全和隐私，系统要求在客人订购服务前激活客房的“活跃会话”。"
+      },
+      "payments": {
+        "title": "支付与余额管理",
+        "content": "系统允许精确跟踪每间客房欠下的金额。"
+      },
+      "invoicing": {
+        "title": "开票与客人对账单",
+        "content": "当客人希望结算账户时，您可以签发一份详细的对账单。"
       }
-    }
+    },
+    "noResultsFound": "未找到结果",
+    "searchNoResults": "未找到匹配项，请尝试其他关键词。"
+  },
+  "payments": {
+    "title": "支付与结算",
+    "subtitle": "跟踪所有财务交易并结算客房账单",
+    "totalPaid": "已付总额",
+    "service": "服务",
+    "activeRoomsOnly": "仅限活跃会话",
+    "date": "日期",
+    "amount": "金额",
+    "type": "类型",
+    "method": "支付方式",
+    "recipient": "收款人",
+    "receivedBy": "收款人",
+    "reference": "参考号",
+    "noPayments": "无支付记录",
+    "settleRoomInvoice": "结算客房账单",
+    "selectRoom": "选择客房",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "cash": "现金",
+    "card": "银行卡",
+    "transfer": "银行转账",
+    "payment": "支付",
+    "refund": "退款",
+    "transferType": "部门转账",
+    "manual": "手动",
+    "addManualPayment": "添加手动记录/收据",
+    "settleAmount": "结算金额",
+    "confirmPayment": "确认支付",
+    "amountExceedsBalance": "金额超过剩余余额",
+    "notesPlaceholder": "备注（可选）...",
+    "unpaid": "未付",
+    "partial": "部分支付",
+    "paid": "已付清",
+    "invalidAmount": "无效金额"
   }
 }

@@ -19,6 +19,7 @@ import {
   Shield,
   AlertTriangle,
   HelpCircle,
+  CreditCard,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSidebarStore } from '@/lib/stores/sidebar-store'
@@ -34,11 +35,12 @@ interface NavItem {
 
 const ALL_NAV_ITEMS: NavItem[] = [
   { key: 'dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { key: 'rooms', href: '/dashboard/rooms', icon: BedDouble },
   { key: 'orders', href: '/dashboard/orders', icon: ClipboardList },
+  { key: 'payments', href: '/dashboard/payments', icon: CreditCard },
   { key: 'services', href: '/dashboard/services', icon: Layers },
   { key: 'subServices', href: '/dashboard/sub-services', icon: ListTree },
   { key: 'items', href: '/dashboard/items', icon: Package },
-  { key: 'rooms', href: '/dashboard/rooms', icon: BedDouble },
   { key: 'employees', href: '/dashboard/employees', icon: Users },
   { key: 'reports', href: '/dashboard/reports', icon: BarChart3 },
   { key: 'settings', href: '/dashboard/settings', icon: Settings },
@@ -48,11 +50,12 @@ const ALL_NAV_ITEMS: NavItem[] = [
 const ROLE_NAV_KEYS: Record<SessionPayload['role'], string[]> = {
   hotel_supervisor: [
     'dashboard',
+    'rooms',
     'orders',
+    'payments',
     'services',
     'subServices',
     'items',
-    'rooms',
     'employees',
     'reports',
     'settings',
@@ -61,13 +64,14 @@ const ROLE_NAV_KEYS: Record<SessionPayload['role'], string[]> = {
   service_supervisor: [
     'dashboard',
     'orders',
+    'payments',
     'subServices',
     'items',
     'employees',
     'reports',
     'help',
   ],
-  service_employee: ['dashboard', 'orders', 'help'],
+  service_employee: ['dashboard', 'orders', 'payments', 'help'],
 }
 
 interface SidebarProps {

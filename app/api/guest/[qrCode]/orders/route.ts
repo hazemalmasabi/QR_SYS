@@ -136,6 +136,22 @@ export async function POST(
       }
     }
 
+    const { data: currentSession } = await supabaseAdmin
+      .from('guest_sessions')
+      .select('session_id')
+      .eq('room_id', mapping.room_id)
+      .eq('status', 'active')
+      .maybeSingle()
+
+    if (!currentSession) {
+      return NextResponse.json(
+        { success: false, message: 'noActiveSession' },
+        { status: 403 }
+      )
+    }
+    
+    const sessionId = currentSession.session_id
+
     const insertedOrders = []
 
     // Insert each grouped order independently
@@ -158,16 +174,13 @@ export async function POST(
           currency_code: hotel?.currency_code || 'SAR',
           status: 'new',
           notes: serviceNotes || null,
+          session_id: sessionId
         })
         .select()
         .single()
 
       if (orderError) {
         console.error('Order creation error for service', group.serviceId, ':', orderError)
-        // If an insert fails, we throw an error. In a more complete system we might use transactions,
-        // but Supabase JS doesn't support multiple inserts across tables natively as a transaction block easily without RPC.
-        // In our case we are just inserting multiple rows to the same table.
-        // We could use insert([...groups]), but we need sequential order numbers perfectly returned.
         throw new Error('Partial order creation failure')
       }
 
@@ -223,50 +236,69 @@ export async function GET(
         .lt('updated_at', tenMinutesAgo)
     } catch (cleanupError) {
       console.error('Passive cleanup error:', cleanupError)
-      // We continue even if cleanup fails to avoid blocking the guest
     }
 
-    // Fetch active orders (new, in_progress, under_modification)
-    const { data: activeOrders, error: activeError } = await supabaseAdmin
-      .from('orders')
-      .select('*, main_services(service_name)')
+    // Check for an active session
+    const { data: currentSession } = await supabaseAdmin
+      .from('guest_sessions')
+      .select('*')
       .eq('room_id', mapping.room_id)
-      .eq('hotel_id', mapping.hotel_id)
-      .in('status', ['new', 'in_progress', 'under_modification'])
-      .order('created_at', { ascending: false })
+      .eq('status', 'active')
+      .single()
 
-    if (activeError) {
-      console.error('Active orders fetch error:', activeError)
-      return NextResponse.json(
-        { success: false, message: 'fetchError' },
-        { status: 500 }
-      )
-    }
+    let activeOrders = []
+    let recentOrders = []
+    
+    // We will calculate balance here for simplicity
+    let totalAmount = 0
+    let paidAmount = 0
 
-    // Fetch completed/cancelled orders within last 1 hour
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+    if (currentSession) {
+      // Fetch orders matching the staff view: current session OR orphan OR unpaid for the room
+      const { data: sessionOrders, error: sessionOrdersError } = await supabaseAdmin
+        .from('orders')
+        .select('*, main_services(service_name)')
+        .eq('room_id', mapping.room_id)
+        .or(`session_id.eq.${currentSession.session_id},session_id.is.null`)
+        .order('created_at', { ascending: false })
 
-    const { data: recentOrders, error: recentError } = await supabaseAdmin
-      .from('orders')
-      .select('*, main_services(service_name)')
-      .eq('room_id', mapping.room_id)
-      .eq('hotel_id', mapping.hotel_id)
-      .in('status', ['completed', 'cancelled'])
-      .gte('updated_at', oneHourAgo)
-      .order('created_at', { ascending: false })
+      if (!sessionOrdersError && sessionOrders) {
+        // Filter: Include session orders OR orphans that were created AFTER the session began
+        const filteredOrders = sessionOrders.filter(o => {
+          if (o.session_id === currentSession.session_id) return true
+          if (!o.session_id && o.created_at >= currentSession.check_in_time) return true
+          return false
+        })
 
-    if (recentError) {
-      console.error('Recent orders fetch error:', recentError)
-      return NextResponse.json(
-        { success: false, message: 'fetchError' },
-        { status: 500 }
-      )
+        activeOrders = filteredOrders.filter(o => ['new', 'in_progress', 'under_modification'].includes(o.status))
+        recentOrders = filteredOrders.filter(o => ['completed', 'cancelled'].includes(o.status))
+        
+        filteredOrders.forEach(o => {
+          if (o.status !== 'cancelled') {
+            totalAmount += Number(o.total_amount || 0)
+            paidAmount += Number(o.paid_amount || 0)
+          }
+        })
+
+        // Round to 2 decimal places
+        totalAmount = Number(totalAmount.toFixed(2))
+        paidAmount = Number(paidAmount.toFixed(2))
+      }
+    } else {
+      // If no active session, return empty orders to protect privacy
+      activeOrders = []
+      recentOrders = []
     }
 
     return NextResponse.json({
       success: true,
       activeOrders: activeOrders || [],
       recentOrders: recentOrders || [],
+      sessionSummary: currentSession ? {
+        total: totalAmount,
+        paid: paidAmount,
+        remaining: Math.max(0, Number((totalAmount - paidAmount).toFixed(2)))
+      } : null
     })
   } catch (error) {
     console.error('Guest orders fetch error:', error)

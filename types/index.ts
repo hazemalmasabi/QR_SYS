@@ -50,6 +50,8 @@ export interface Room {
   deleted_at: string | null
   created_at: string
   updated_at: string
+  current_session?: GuestSession | null
+  balance?: number
 }
 
 export interface MainService {
@@ -121,6 +123,9 @@ export interface Order {
   total_amount: number
   currency_code: string
   status: 'new' | 'under_modification' | 'in_progress' | 'completed' | 'cancelled'
+  session_id?: string | null
+  payment_status?: 'unpaid' | 'paid_in_full' | 'partial_paid' | 'pay_on_checkout'
+  paid_amount?: number
   created_at: string
   accepted_at: string | null
   completed_at: string | null
@@ -159,4 +164,31 @@ export interface CartItem {
   serviceId?: string
   serviceName?: Record<string, string>
   serviceDisplayOrder?: number
+}
+
+export interface GuestSession {
+  session_id: string
+  hotel_id: string
+  room_id: string
+  status: 'active' | 'checked_out'
+  guest_name: string | null
+  check_in_time: string
+  check_out_time: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface Payment {
+  payment_id: string
+  hotel_id: string
+  session_id: string
+  order_id: string | null
+  amount: number
+  payment_method: 'cash' | 'card' | null
+  payment_type: 'payment' | 'transfer'
+  received_by_employee_id: string | null
+  location_id: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
 }

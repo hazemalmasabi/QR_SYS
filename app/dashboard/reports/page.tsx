@@ -129,6 +129,28 @@ export default function ReportsPage() {
   const t = useTranslations('reports')
   const td = useTranslations('dashboard')
   const tc = useTranslations('common')
+  const to = useTranslations('ordersDetails')
+  const tOrders = useTranslations('orders')
+
+  const translateReason = (reason: string) => {
+    // Try ordersDetails.presets first
+    const presetKey = `presets.${reason}`
+    // Since next-intl might throw or return key if missing, we can use a try-catch or just check known keys
+    // For simplicity, we'll try a few places
+    try {
+      // Check if it's a known preset
+      const translated = to(presetKey as any)
+      if (translated !== presetKey) return translated
+    } catch {}
+
+    try {
+      // Check if it's in orders namespace (e.g. autoCancelledTimeout)
+      const translated = tOrders(reason as any)
+      if (translated !== reason) return translated
+    } catch {}
+
+    return reason
+  }
   const locale = useLocale()
   const isRTL = locale === 'ar'
 
@@ -147,6 +169,7 @@ export default function ReportsPage() {
   const [dailyOrderData, setDailyOrderData] = useState<DailyOrderData[]>([])
   const [peakHoursData, setPeakHoursData] = useState<PeakHourData[]>([])
   const [cancellationByService, setCancellationByService] = useState<CancellationByService[]>([])
+  const [topCancellationReasons, setTopCancellationReasons] = useState<{ reason: string; count: number }[]>([])
   const [orderRows, setOrderRows] = useState<OrderRow[]>([])
 
   // Revenue
@@ -195,6 +218,7 @@ export default function ReportsPage() {
           setDailyOrderData(data.dailyData || [])
           setPeakHoursData(data.peakHoursData || [])
           setCancellationByService(data.cancellationByService || [])
+          setTopCancellationReasons(data.topCancellationReasons || [])
           setOrderRows(data.orders || [])
           break
         case 'revenue':
@@ -232,8 +256,11 @@ export default function ReportsPage() {
     return formatDateHelper(dateStr, timezone, locale)
   }
 
-  const getServiceName = (svc: { service_name: { ar: string; en: string } }) =>
-    svc.service_name[locale as 'ar' | 'en'] || svc.service_name.en
+  const getServiceName = (nameObj: any) => {
+    const obj = nameObj?.service_name || nameObj
+    if (!obj) return '—'
+    return obj[locale as 'ar' | 'en'] || obj.en || '—'
+  }
 
 
   const tabs: { key: ReportTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -371,6 +398,7 @@ export default function ReportsPage() {
               dailyData={dailyOrderData}
               peakHoursData={peakHoursData}
               cancellationByService={cancellationByService}
+              topCancellationReasons={topCancellationReasons}
               orders={orderRows}
               currencySymbol={currencySymbol}
               t={t}
@@ -378,7 +406,7 @@ export default function ReportsPage() {
               isRTL={isRTL}
               formatDate={formatDate}
               formatFullDate={formatFullDate}
-              getServiceName={getServiceName}
+              translateReason={translateReason}
               timezone={timezone}
               tc={tc}
             />
@@ -392,7 +420,6 @@ export default function ReportsPage() {
               currencySymbol={currencySymbol}
               t={t}
               locale={locale}
-              isRTL={isRTL}
               formatDate={formatDate}
               getServiceName={getServiceName}
               timezone={timezone}
@@ -414,6 +441,7 @@ interface OrdersReportProps {
   dailyData: DailyOrderData[]
   peakHoursData: PeakHourData[]
   cancellationByService: CancellationByService[]
+  topCancellationReasons: { reason: string; count: number }[]
   orders: OrderRow[]
   currencySymbol: string
   t: ReturnType<typeof useTranslations<'reports'>>
@@ -421,12 +449,12 @@ interface OrdersReportProps {
   isRTL: boolean
   formatDate: (d: string) => string
   formatFullDate: (d: string) => string
-  getServiceName: (svc: { service_name: { ar: string; en: string } }) => string
+  translateReason: (reason: string) => string
   timezone: string
   tc: ReturnType<typeof useTranslations<'common'>>
 }
 
-function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, t, locale, isRTL, formatDate, timezone, tc }: OrdersReportProps) {
+function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService, topCancellationReasons, t, locale, isRTL, formatDate, timezone, tc, translateReason }: OrdersReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Determine grouping based on number of days in dailyData
@@ -513,8 +541,6 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
                     <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" allowDecimals={false} />
                     <Tooltip labelFormatter={granularity === 'day' ? (val) => formatDate(val as string) : undefined} contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }} />
                     <Bar dataKey="completed" name={t('completed')} fill="#22c55e" radius={[3, 3, 0, 0]} />
-                    <Bar dataKey="newOrders" name={t('new')} fill="#3b82f6" radius={[3, 3, 0, 0]} />
-                    <Bar dataKey="inProgress" name={t('inProgress')} fill="#f59e0b" radius={[3, 3, 0, 0]} />
                     <Bar dataKey="cancelled" name={t('cancelled')} fill="#ef4444" radius={[3, 3, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -544,33 +570,61 @@ function OrdersReport({ summary, dailyData, peakHoursData, cancellationByService
         </div>
       )}
 
-      {/* Cancellation rate per service */}
-      {cancellationByService.filter(s => s.cancelled > 0).length > 0 && (
-        <div className="card">
-          <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
-            <AlertTriangle className="h-4 w-4 text-red-500" />
-            {t('cancellationRateByService')}
-          </h3>
-          <div className="space-y-2.5">
-            {cancellationByService.filter(s => s.cancelled > 0).slice(0, 5).map((s, i) => (
-              <div key={i}>
-                <div className="mb-1 flex items-center justify-between text-sm">
-                  <span className="font-medium text-gray-700">{isRTL ? s.serviceName.ar : s.serviceName.en}</span>
-                  <span className={cn('font-semibold', s.rate > 20 ? 'text-red-600' : 'text-amber-600')}>
-                    {s.rate}%
-                  </span>
+      {/* Cancellation Insights: Rate per service + Top reasons */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        {/* Cancellation rate per service */}
+        {cancellationByService.filter(s => s.cancelled > 0).length > 0 && (
+          <div className="card">
+            <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
+              <AlertTriangle className="h-4 w-4 text-red-500" />
+              {t('cancellationRateByService')}
+            </h3>
+            <div className="space-y-3">
+              {cancellationByService.filter(s => s.cancelled > 0).slice(0, 5).map((s, i) => (
+                <div key={i}>
+                  <div className="mb-1 flex items-center justify-between text-sm">
+                    <span className="font-medium text-gray-700">{isRTL ? s.serviceName.ar : s.serviceName.en}</span>
+                    <span className={cn('font-semibold', s.rate > 20 ? 'text-red-600' : 'text-amber-600')}>
+                      {s.rate}%
+                    </span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-gray-100">
+                    <div
+                      className={cn('h-2 rounded-full', s.rate > 20 ? 'bg-red-500' : 'bg-amber-400')}
+                      style={{ width: `${Math.min(s.rate, 100)}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-2 w-full rounded-full bg-gray-100">
-                  <div
-                    className={cn('h-2 rounded-full', s.rate > 20 ? 'bg-red-500' : 'bg-amber-400')}
-                    style={{ width: `${Math.min(s.rate, 100)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Top Cancellation Reasons */}
+        {topCancellationReasons.length > 0 && (
+          <div className="card">
+            <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-gray-900">
+              <XCircle className="h-4 w-4 text-red-500" />
+              {t('topCancellationReasons')}
+            </h3>
+            <div className="space-y-2">
+              {topCancellationReasons.map((r, i) => (
+                <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100 hover:bg-white transition-colors group">
+                  <span className="text-sm font-medium text-gray-700 truncate mr-2" title={translateReason(r.reason)}>
+                    {translateReason(r.reason)}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-tighter">{t('orders')}</span>
+                    <span className="px-2 py-0.5 rounded-lg bg-red-100 text-red-700 text-sm font-black">
+                      {r.count}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -587,14 +641,13 @@ interface RevenueReportProps {
   topRooms: TopRoom[]
   currencySymbol: string
   t: ReturnType<typeof useTranslations<'reports'>>
-  isRTL: boolean
   formatDate: (d: string) => string
-  getServiceName: (svc: { service_name: { ar: string; en: string } }) => string
+  getServiceName: (nameObj: any) => string
   timezone: string
   locale: string
 }
 
-function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isRTL, formatDate, timezone, locale }: RevenueReportProps) {
+function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, formatDate, timezone, locale, getServiceName }: RevenueReportProps) {
   if (!summary) return <EmptyState t={t} />
 
   // Dynamic grouping same as orders chart
@@ -662,14 +715,18 @@ function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isR
                 <LineChart data={aggregatedData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis dataKey={granularity === 'day' ? 'date' : 'label'} tickFormatter={granularity === 'day' ? formatDate : undefined} tick={{ fontSize: 10 }} stroke="#9ca3af" />
-                  <YAxis tick={{ fontSize: 10 }} stroke="#9ca3af" />
+                  <YAxis yAxisId="left" tick={{ fontSize: 10 }} stroke="#9ca3af" />
+                  <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} stroke="#9ca3af" allowDecimals={false} />
                   <Tooltip
                     labelFormatter={granularity === 'day' ? (val) => formatDate(val as string) : undefined}
-                    formatter={(value: number) => [formatCurrency(value, '', currencySymbol), t('revenue')]}
+                    formatter={(value: number, name: string) => [
+                      name === t('revenue') ? formatCurrency(value, '', currencySymbol) : value,
+                      name
+                    ]}
                     contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
                   />
-                  <Line type="monotone" dataKey="revenue" name={t('revenue')} stroke="#22c55e" strokeWidth={2} dot={{ fill: '#22c55e', r: 3 }} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="orders" name={t('orders')} stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6', r: 3 }} activeDot={{ r: 5 }} />
+                  <Line yAxisId="left" type="monotone" dataKey="revenue" name={t('revenue')} stroke="#22c55e" strokeWidth={2} dot={{ fill: '#22c55e', r: 3 }} activeDot={{ r: 5 }} />
+                  <Line yAxisId="right" type="monotone" dataKey="orders" name={t('orders')} stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6', r: 3 }} activeDot={{ r: 5 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -692,7 +749,10 @@ function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isR
                         <Cell key={index} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(v: number) => formatCurrency(v as number, '', currencySymbol)} />
+                    <Tooltip 
+                      formatter={(v: number, name: string) => [formatCurrency(v, '', currencySymbol), name]}
+                      contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb' }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -701,7 +761,7 @@ function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isR
                   <div key={i} className="flex items-center justify-between gap-2 text-sm">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
-                      <span className="text-gray-600 truncate">{isRTL ? s.serviceName.ar : s.serviceName.en}</span>
+                      <span className="text-gray-600 truncate">{getServiceName(s.serviceName)}</span>
                     </div>
                     <span className="shrink-0 font-semibold text-gray-900">{formatCurrency(s.revenue, '', currencySymbol)}</span>
                   </div>
@@ -711,6 +771,7 @@ function RevenueReport({ summary, dailyData, topServices, currencySymbol, t, isR
           </div>
         )}
       </div>
+
     </div>
   )
 }
